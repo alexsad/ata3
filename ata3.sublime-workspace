@@ -1,0 +1,868 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"const",
+				"constructor	keyword"
+			],
+			[
+				"on",
+				"onLoad"
+			],
+			[
+				"tempo",
+				"tempo"
+			],
+			[
+				"id",
+				"idReuniao"
+			],
+			[
+				"Lis",
+				"ListView"
+			],
+			[
+				"di",
+				"discursantes"
+			],
+			[
+				"it",
+				"itIdMembro"
+			],
+			[
+				"tm",
+				"tmL"
+			],
+			[
+				"itd",
+				"itDtaI"
+			],
+			[
+				"main",
+				"mainList"
+			],
+			[
+				"getM",
+				"getMainList"
+			],
+			[
+				"_mo",
+				"_modDiscursante	property"
+			],
+			[
+				"getmo",
+				"getModView	method"
+			],
+			[
+				"tmp",
+				"tmpDescPerfil	local var"
+			],
+			[
+				"ge",
+				"getDescFromServiceByValue	method"
+			],
+			[
+				"getm",
+				"getModView	method"
+			],
+			[
+				"Usua",
+				"UsuarioPerfil	alias"
+			],
+			[
+				"_",
+				"_menu	property"
+			],
+			[
+				"_i",
+				"_idPerfil	property"
+			],
+			[
+				"set",
+				"setDataProvider	method"
+			],
+			[
+				"ma",
+				"getMainList	method"
+			],
+			[
+				"get",
+				"getValue	method"
+			],
+			[
+				"getMod",
+				"getModView	method"
+			],
+			[
+				"und",
+				"Underas	alias"
+			],
+			[
+				"Parse",
+				"parseInt	function"
+			],
+			[
+				"Mod",
+				"ModWindow"
+			],
+			[
+				"Ime",
+				"IItemMenu	alias"
+			],
+			[
+				"I",
+				"ItemMenu"
+			],
+			[
+				"u",
+				"rootUrl	property"
+			],
+			[
+				"newdo",
+				"newdoc2	local var"
+			],
+			[
+				"Perfi",
+				"PerfilDAO	alias"
+			],
+			[
+				"IMenu",
+				"IItemMenu	alias"
+			],
+			[
+				"Usuar",
+				"UsuarioTeste	class"
+			],
+			[
+				"cla",
+				"className	parameter"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"trimes",
+				"TrimestreLancamento"
+			],
+			[
+				"umo",
+				"uModWindow	uModWindow"
+			],
+			[
+				"uber",
+				"uModWindowBeforeInsert	uModWindowBeforeInsert"
+			],
+			[
+				"itI",
+				"itIdMembro"
+			],
+			[
+				"umod",
+				"uModWindowBeforeInsert	uModWindowBeforeInsert"
+			],
+			[
+				"tb",
+				"mainTb"
+			],
+			[
+				"p_",
+				"p_idPerfil"
+			],
+			[
+				"p_fn",
+				"p_fnsuccess"
+			],
+			[
+				"getVa",
+				"getVarModule"
+			],
+			[
+				"err",
+				"error"
+			],
+			[
+				"ur",
+				"url"
+			],
+			[
+				"p",
+				"p_idGrupo"
+			],
+			[
+				"de",
+				"descricao"
+			],
+			[
+				"setV",
+				"setValue"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "deploy/Gruntfile.js",
+			"settings":
+			{
+				"buffer_size": 3689,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/br/ata/perfil/model/IPerfil.ts",
+			"settings":
+			{
+				"buffer_size": 659,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/br/ata/perfil/view/ItemMenu.ts",
+			"settings":
+			{
+				"buffer_size": 3663,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "src/br/ata/reuniao/view/ReuniaoPorPeriodo.ts",
+			"settings":
+			{
+				"buffer_size": 8845,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/br/ata/reuniao/model/IReuniao.ts",
+			"settings":
+			{
+				"buffer_size": 303,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/TypeScript/TypeScript.sublime-build",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 352.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: pa",
+				"Package Control: Install Package"
+			],
+			[
+				"pack",
+				"Preferences: Browse Packages"
+			],
+			[
+				"type",
+				"Set Syntax: TypeScript"
+			]
+		],
+		"width": 467.0
+	},
+	"console":
+	{
+		"height": 174.0,
+		"history":
+		[
+			"TypeScript",
+			"GoToDefinition",
+			"TypeScript: GoToDefinition",
+			"typescript_go_to_definition",
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/assets",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/certificado",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/certificado/controller",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/certificado/model",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/organizacao",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/organizacao/controller",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/organizacao/model",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/organizacao/view",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/controller",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/model",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/view",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/controller",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/model",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/view",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/trimestre",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/trimestre/controller",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/trimestre/model",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/trimestre/view",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/trimestre/view/assets",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/trimestre/view/assets/html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/controller",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/model",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/view",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/view/assets",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/view/assets/html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/lib"
+	],
+	"file_history":
+	[
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/view/UsuarioPerfil.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/model/IReuniao.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/model/IUsuario.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/controller/Perfil.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/view/Login.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/certificado/controller/Certificado.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/trimestre/view/TrimestreView.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/controller/Reuniao.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/view/ReuniaoPorPeriodo.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/trimestre/model/ITrimestre.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/certificado/model/ICertificado.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/organizacao/controller/Organizacao.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/lib/mongoose.d.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/organizacao/model/IOrganizacao.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/model/IPerfil.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/tsconfig.json",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/controller/Usuario.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/view/FastMembro.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/view/ItemMenu.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/organizacao/model/organizacao.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/view/Perfil.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/js/app.js",
+		"/root/.config/sublime-text-3/Packages/User/TypeScriptView.sublime-build",
+		"/root/.config/sublime-text-3/Packages/User/TypeScript15.sublime-build",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/trimestre/models/ITrimestre.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/assets/modulo.json",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/trimestre/view/assets/html/trimesteview.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/view/Convite.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/model/reuniao.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/js/br/ata/br/ata/certificado/view/Certificado.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/Gruntfile.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/js/br/ata/certificado/view/Certificado.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/node_modules/grunt-typescript/tasks/modules/option.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/view/assets/html/discursante.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/view/assets/html/reuniaoporperiodo.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/view/Usuario.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/lib/jquery2.d.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/lib/controller.d.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/view/assets/html/discursante.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/lib/container.d.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/dev.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/lib/jqueryui.d.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/view/Reuniao.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/certificado/view/Certificado.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/certificado/view/assets/html/certificado.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/view/Discursante.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/view/assets/html/membro.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/config/express.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/organizacao/view/Organizacao.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/view/Menu.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/view/assets/html/usuarioperfil.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/app/lib/decorator.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/js/lib/controller.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/js/br/ata/usuario/view/assets/html/usuarioperfil.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/lib/net.d.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/js/lib/container.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/js/br/ata/usuario/view/Login.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/organizacao/view/OrganizacaoLancamento.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/view/Privilegio.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/view/User.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/lib/underas/underas.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/br/ata/perfil/view/Perfil.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/br/ata/certificado/view/Certificado.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/br/ata/perfil/view/ItemMenu.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/package.json",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/view/assets/html/itemmenu.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/lib/typescript/underas/net.d.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/view/ItemMenu.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/view/assets/html/menu.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/lib/typescript/underas/controller.d.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/lib/typescript/underas/container.d.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/controller/perfil.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/app/src/br/ata/perfil/controller/Perfil.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/app/src/br/ata/certificado/controller/Certificado.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/app/lib/typescript/dinroute/decorator.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/lib/typescript/mongodb/mongoose.d.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/model/perfil.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/view/perfil.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/view/reuniao.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/controllers/reuniao.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/models/IReuniao.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/controllers/Reuniao.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/reuniao/models/reuniao.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/perfil/view/Perfil.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/view/usuarioperfil.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/certificado/view/certificado.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/organizacao/view/organizacao.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/view/usuario.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/organizacao/view/organizacaolancamento.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/model/usuario.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/trimestre/models/trimestre.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/organizacao/model/IOrganizacaoLancamento.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/models/usuario.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/controllers/Usuario.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/controllers/Usuario.ts_",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/deploy/public/app.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/certificado/model/certificado.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/models/IUsuario.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src/br/ata/usuario/models/usuario.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/projectamb.sublime-project",
+		"/mnt/arquivos/workspace/projetos/nodejs/wiclin/projectamb/src/br/amb/ameba/model/MAmeba.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/wiclin/projectamb/projectamb.sublime-project",
+		"/mnt/arquivos/workspace/projetos/nodejs/wiclin/projectamb/tsconfig.json",
+		"/mnt/arquivos/workspace/projetos/nodejs/wiclin/projectamb/tsconfig_.json",
+		"/root/.config/sublime-text-3/Packages/TypeScript/TypeScript.sublime-build",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/public/br/net/atasacramental/usuario/view/UsuarioTeste.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/public/app.html",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/public/lib/org/underas/core/underas.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/public/lib/org/underas/core/Underas.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/public/br/net/atasacramental/trimestre/view/TrimestreTeste.ts",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/public/br/net/atasacramental/trimestre/view/TrimestreTeste.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/public/br/net/atasacramental/usuario/view/UsuarioTeste.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/ata3.sublime-project",
+		"/root/.config/sublime-text-2/Packages/User/TypeScriptInd.sublime-build",
+		"/root/.config/sublime-text-2/Packages/User/TypeScript.sublime-build",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/public/br/net/atasacramental/usuario/view/UsuarioPerfil.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/app/controllers/evento.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/app/models/trimestre.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/public/lib/org/underas/container/ModWindow.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/app/controllers/trimestre.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/app/routes/trimestre.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/public/br/net/atasacramental/trimestre/view/Trimestre.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/public/br/net/atasacramental/trimestre/view/TrimestreView.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/public/br/net/atasacramental/atividade/view/Evento.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/public/br/net/atasacramental/trimestre/view/TrimestreLancamento.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/public/br/net/atasacramental/atividade/staticvalues/evento_status.json",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/app/models/organizacao.js",
+		"/mnt/arquivos/workspace/projetos/nodejs/ata3/app/controllers/organizacao.js"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 96.0,
+		"where_history":
+		[
+			"/mnt/arquivos/workspace/projetos/nodejs/ata3ts/src",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"[\"_id\"]",
+			"ICertificadoModel",
+			"IPerfilModel",
+			"_id",
+			"IOrganizacaoModel",
+			"@Route({url:\"/:_id\",verb:\"delete\"})",
+			"@Route({url:\"/\",verb:\"put\"})",
+			"@Route({url:\"/\",verb:\"post\"})",
+			"@Route({url:\"/\",verb:\"get\"})",
+			"import {Route,Controller} from \"../../../../lib/decorator\";",
+			"ListView",
+			"listView",
+			"bool;",
+			"DataP",
+			"DataPi",
+			"DataPic",
+			"pi",
+			"data",
+			"date",
+			"js.underas.net.",
+			"js.underas.controller.",
+			"		\n",
+			"MenuTab",
+			"tabmenu",
+			"modBind",
+			"itemmenu",
+			"item",
+			"itemmenu",
+			"\"_id\"",
+			"js.underas.controller.",
+			"/perfil",
+			"select",
+			"js.underas.controller.",
+			"create",
+			"organizacao",
+			"Organizacao",
+			",required:true",
+			"\"",
+			"IDefaultRequest",
+			"objectid",
+			"object",
+			"objectid",
+			"object",
+			"certificado",
+			"Certificado",
+			"ICertificadoModel",
+			"var __extends = (this && this.__extends) || function (d, b) {\n    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];\n    function __() { this.constructor = d; }\n    __.prototype = b.prototype;\n    d.prototype = new __();\n};",
+			"console.log",
+			"idPerfil",
+			"itIdEvento",
+			"getByIdTrimestre",
+			"novaAtividade",
+			"itIdTrimestre",
+			"match",
+			"indexof",
+			"index",
+			"embed",
+			"saveItem",
+			"save",
+			"forEach",
+			"foreach",
+			"				\n",
+			"clearFormItem",
+			"setSelectedIndex",
+			"changeToIndex",
+			"setSelectedIndex",
+			"changeSelectedItem",
+			"itemchan",
+			"_mainlist",
+			"btReload",
+			"Grupo",
+			"associa",
+			"asso",
+			"itemchange",
+			"onchange",
+			"res.status(500).json(dta);",
+			"modoPesquisa"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"ICertificado",
+			"IPerfil",
+			"IOrganizacao",
+			"@Delete(\"/:_id\")",
+			"@Put(\"/\")",
+			"@Post(\"/\")",
+			"@Get(\"/\")",
+			"import {Get,Post,Put,Delete,Controller} from \"../../../../lib/router\";",
+			"boolean;",
+			"",
+			"module",
+			"",
+			"reuniao",
+			"Reuniao",
+			"",
+			"usuario",
+			"Usuario",
+			"IUsuarioModel",
+			"",
+			"Perfil",
+			"res.status(500).json(erro);",
+			"res.status(500).json(erro);\n",
+			"}\n",
+			"res.status(500).json(erro);"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "deploy/Gruntfile.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3689,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1148,
+								1148
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"typescript_plugin_format_options":
+							{
+								"convertTabsToSpaces": false,
+								"indentSize": 4,
+								"tabSize": 4
+							}
+						},
+						"translation.x": 0.0,
+						"translation.y": 756.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/br/ata/perfil/model/IPerfil.ts",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 659,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								172,
+								172
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true,
+							"typescript_plugin_format_options":
+							{
+								"convertTabsToSpaces": false,
+								"indentSize": 4,
+								"tabSize": 4
+							},
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/br/ata/perfil/view/ItemMenu.ts",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3663,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3506,
+								3506
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1458.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/br/ata/reuniao/view/ReuniaoPorPeriodo.ts",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8845,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7613,
+								7613
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"typescript_plugin_format_options":
+							{
+								"convertTabsToSpaces": false,
+								"indentSize": 4,
+								"tabSize": 4
+							},
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3672.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/br/ata/reuniao/model/IReuniao.ts",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 303,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								173,
+								173
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/TypeScript/TypeScript.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"use_tab_stops": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 39.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.doc":
+	{
+		"height": 0.0
+	},
+	"output.exec":
+	{
+		"height": 142.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/TypeScriptView.sublime-build",
+	"project": "ata3.sublime-project",
+	"replace":
+	{
+		"height": 62.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 331.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Projeto Exemplo</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min_c_3_.css" />
+		<link rel="stylesheet" href="lib/underas/assets/css/underas.css"/>
+		<script type="text/javascript" src="lib/jquery/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="lib/underas/underas.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				RequestManager.setRootUrl("http://localhost:8330/");
+				Underas.cache(true);
+				Underas.setProjectVersion("111");
+				Underas.loadModule({"mod":"br.ata.usuario.view.Login"});
+				Underas.loadModule({"mod":"br.ata.certificado.view.Certificado"});		
+			});
+		</script>
+	</head>
+<body>
+
+
+
+
+			<div class="container col-xs-12">
+	<!-- background-color:#E5E5E5;background-repeat:repeat-x;background-position:top;background-image:url(lib/underas/assets/tema1/img/fundoProTra.png);
+	 -->
+	<div class="row clearfix" style="padding-top:3px;">
+		<div class="col-xs-12 col-sm-2 column" id="logo_menu">
+				<div class="hidden-xs" style="height:60px;width:100%;background-repeat:no-repeat;background-position:center center;background-image:url('assets/img/test2.png')"></div>
+
+				<div class="visible-xs" style="height:100px;width:100%;background-repeat:no-repeat;background-position:center center;background-image:url('assets/img/test1.png')"></div>
+				<!--
+				<span class="glyphicon glyphicon-leaf" style="color:#539756"></span>
+				-->
+		</div>
+		<div class="col-xs-12 col-sm-10 column menu_main" style="">
+			<ul class="nav nav-pills" id="sidebar"></ul>
+			<div class="tab-content col-xs-12 column tab_content_menu" style="padding-top:5px"></div>
+		</div>
+	</div>
+	<!--
+	<div class="row clearfix">
+		<div class="col-sm-4 col-sm-offset-4 col-xs-12 column">
+			<div style="height:100px;width:100%;background-repeat:no-repeat;background-position:center center;background-image:url('assets/img/test1.png')"></div>
+		</div>
+	</div>
+	-->
+	<div class="row clearfix">
+		<div id="conteudo">
+			<ul id="navbarlist" class="nav nav-tabs"></ul>
+			<div id="div_teste"></div>
+		</div>
+	</div>
+	</div>
+<!--fim-->
+		<div id="hiddenThings" style="display:none">
+
+		</div>
+</body>
+</html>
