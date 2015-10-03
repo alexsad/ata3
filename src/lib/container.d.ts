@@ -28,6 +28,8 @@ export declare class ModWindow extends Component {
     _configModWindow: IConfigModWindow;
     _configListsViews: IConfigsLists[];
     constructor(p_subtitle: string, p_fullmod: string);
+    setTitle(p_title: string): void;
+    getTitle(): string;
     _onStart(): void;
     onStart(): void;
     getFormItem(): Object;

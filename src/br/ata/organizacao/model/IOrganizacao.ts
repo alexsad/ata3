@@ -1,6 +1,10 @@
 export interface IOrganizacao{
 	_id?:string;
 	descricao:string;
-	perfilAprovacao: any[];
-	perfilLiberacao: any[];
+	perfilAprovacao: string[];
+	perfilLiberacao: string[];
+}
+export interface IOrganizacaoPerfil {
+	idPerfil: string;
+	descricao: string;
 }

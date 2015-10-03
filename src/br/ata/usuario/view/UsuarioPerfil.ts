@@ -84,7 +84,7 @@ export class UsuarioPerfil extends ModWindow{
 			this.aviso.setType(AlertMsg.TP_WARNING);
 		};
 	}
-	delPerfil(event:Event){
+	delPerfil(event:Event):void{
 		event.preventDefault();
 		var tmpUsuarioSelecionado:IUsuario = <IUsuario>this._modUsuario.getMainList().getSelectedItem();
 		var tmpPerfilSelecionado:IUsuarioPerfil = 	<IUsuarioPerfil>this.getMainList().getSelectedItem();

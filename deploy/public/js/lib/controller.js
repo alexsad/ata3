@@ -1,10 +1,4 @@
 /// <reference path="../../lib/jquery2.d.ts"/>
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 define(["require", "exports", "util", "core", "net"], function (require, exports, util_1, core_1, net_1) {
     var Controller = (function () {
         function Controller(tagh, tagc) {
@@ -725,7 +719,10 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
             return vl.length > 0 == true;
         };
         Select.prototype.setValue = function (p_vl) {
-            if (p_vl.length > 0) {
+            if (!p_vl) {
+                this.getInput().val("");
+            }
+            else if (p_vl.length > 0) {
                 this.getEle().attr({ "data-prevalue": p_vl, "data-vl": p_vl });
                 var tmpDesc = this.getDescFromServiceByValue(p_vl);
                 this.getInput().val(tmpDesc);
@@ -1084,6 +1081,11 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
             tmpOnWithTemplate = null;
         };
         ListView.prototype.removeSelectedItem = function () {
+            var indexEmbed = this.getSelectedIndex();
+            if (indexEmbed > -1) {
+                this.dataProvider.splice(indexEmbed, 1);
+            }
+            ;
             this.getEle(".tilecellgrid .selectedLine").remove();
         };
         ListView.prototype.removeItem = function (p_item) {

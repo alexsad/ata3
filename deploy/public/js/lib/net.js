@@ -1,10 +1,4 @@
 /// <reference path="../../lib/jquery2.d.ts"/>
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
 define(["require", "exports", "core", "controller"], function (require, exports, core_1, controller_1) {
     var Task = (function (_super) {
         __extends(Task, _super);
@@ -289,22 +283,10 @@ define(["require", "exports", "core", "controller"], function (require, exports,
                             req_objToInsert["data"][tcolumn2] = dta_new;
                             delete req_objToInsert["format"];
                             delete req_objToInsert["onLoad"];
-                            delete req_objToInsert["puid"];
+                            delete req_objToInsert["module"];
                             delete req_objToInsert["method"];
                             delete req_objToInsert["url"];
                             this.getModule().getMainList().insertItem(req_objToInsert.data, 'bottom');
-                            if (this.getModule()._embedFather) {
-                                var tmpEmbedFather = this.getModule()._embedFather;
-                                var tmpEmbedItem = this.getModule()._embedItem;
-                                var tmC = 0;
-                                var tmpEmbedFatherVar = window[tmpEmbedFather];
-                                if (!tmpEmbedFatherVar.getMainList().getSelectedItem()[tmpEmbedItem]) {
-                                    tmpEmbedFatherVar.getMainList().getSelectedItem()[tmpEmbedItem] = [];
-                                }
-                                else {
-                                }
-                                ;
-                            }
                         }
                         ;
                     }.bind(this)
@@ -322,21 +304,6 @@ define(["require", "exports", "core", "controller"], function (require, exports,
             var p_req_delete = this.getDefaultRequest("/" + modTmp[tfield].getValue(), "delete");
             p_req_delete["onLoad"] = function (dta) {
                 if (this.getModule().getMainList()) {
-                    var tmpEmbedFather = this.getModule()._embedFather;
-                    if (tmpEmbedFather) {
-                        var tmpEmbedItem = this.getModule()._embedItem;
-                        var tmC = 0;
-                        var tmpEmbedFatherVar = window[tmpEmbedFather];
-                        if (tmpEmbedFatherVar.getMainList().getSelectedItem()[tmpEmbedItem]) {
-                            var indexEmbed = this.getModule().getMainList().getSelectedIndex();
-                            if (indexEmbed > -1) {
-                                tmpEmbedFatherVar.getMainList().getSelectedItem()[tmpEmbedItem].splice(indexEmbed, 1);
-                            }
-                            ;
-                        }
-                        ;
-                    }
-                    ;
                     this.getModule().getMainList().removeItem(this.getModule().getMainList().getSelectedItem());
                 }
                 ;
