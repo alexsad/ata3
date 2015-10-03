@@ -15,7 +15,7 @@ export class Trimestre extends ModWindow{
 	constructor(){
 		super("trimestres","br.ata.trimestre.view.Trimestre");
 		this.setRevision("$Revision: 138 $");	
-		this.setSize(12);
+		this.setSize(5);
 
 		this.mainTb = new ToolBar({"domain":"trimestre"});
 		this.append(this.mainTb);

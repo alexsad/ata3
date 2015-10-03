@@ -35,7 +35,7 @@ export class TrimestreView extends ModWindow{
 			}.bind(this);		
 		}
 		*/
-		
+		this.getTrimestres();
 	}
 	getSaldo():number{
 		return this._saldo;
@@ -51,10 +51,9 @@ export class TrimestreView extends ModWindow{
 	getTrimestres():void{
 		RequestManager.addRequest({
 			"module":this
-			,"url":"trimestre.business.TrimestreBLL.getDisponiveis"
+			,"url":"trimestre/getDisponiveis"
 			,"onLoad":function(dta:ITrimestre[]){
 				this.getMainList().setDataProvider(dta);
-				//trimestreview.mainTb.activate(true);
 			}.bind(this)
 		}); 
 	}
