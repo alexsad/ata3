@@ -35,4 +35,11 @@ export interface IPerfil{
   snAtivo:string;
   menus:IMenu[];
   notificacoes:INotificacao[];
+  perfilAprovacao: string[];
+  perfilLiberacao: string[];
+}
+
+export interface IPerfilAutorizacao{
+  idPerfil: string;
+  descricao: string;
 }

@@ -6,8 +6,6 @@ var schema = new mongoose.Schema({
 			type:String
 			,required:true
 		}
-		,"perfilAprovacao":[]
-		,"perfilLiberacao":[]
 });
 export interface IOrganizacaoModel extends IOrganizacao, mongoose.Document { };
 export var OrganizacaoDAO = mongoose.model<IOrganizacaoModel>("Organizacao", schema);

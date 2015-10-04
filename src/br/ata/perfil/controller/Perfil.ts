@@ -16,6 +16,17 @@ class Perfil{
 			}
 		);
 	}
+	@Get("/getAutorizacao/")
+	getAutorizacao(req: express.Request, res: express.Response) {
+		PerfilDAO.find({ "snAtivo": "S" }, { menus: false, notificacoes: false }).exec().then(
+			function(dta: IPerfil[]) {
+				res.json(dta);
+			}
+			, function(err: any) {
+				res.status(500).json(err);
+			}
+		);
+	}
 	@Get("/get/:idPerfil")
 	getByIdPerfil(req:express.Request,res:express.Response){
 		PerfilDAO.findById(req.params.idPerfil).exec().then(

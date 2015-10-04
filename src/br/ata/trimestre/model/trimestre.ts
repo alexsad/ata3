@@ -15,14 +15,14 @@ var schema = new mongoose.Schema({
 		, required: true
 	}
 	, "datasLivres": [Date]
-	, "lancamentosAtividade": [{
+	, "trimestreLancamentoAtividade": [{
 		"valor": {
 			type: Number
 			, required: true
 		}
-		, "idOrganizacao": {
+		,"idPerfil":{
 			type: mongoose.Schema.Types.ObjectId
-			, required: true
+			,required: true
 		}
 	}]
 	, "atividades": [{

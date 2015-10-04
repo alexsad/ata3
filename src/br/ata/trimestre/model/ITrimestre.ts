@@ -4,13 +4,15 @@ export interface ITrimestre{
 	nrTrimestre: number;
 	snAberto:string;
 	datasLivres: Date[];
-	lancamentosAtividade: ILancamentosAtividade[];
+	trimestreLancamentoAtividade: ITrimestreLancamentoAtividade[];
 	atividades: IAtividades[];
 }
 export interface IAtividades {
 
 }
 
-export interface ILancamentosAtividade{
-
+export interface ITrimestreLancamentoAtividade {
+	_id?: string;
+	valor: number;
+	idPerfil: string;
 }
