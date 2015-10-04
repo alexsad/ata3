@@ -131,19 +131,14 @@ module.exports = function(grunt) {
 		}
 	}	  
 	});
-	grunt.registerTask('default', ['build-all']);
-	//grunt.registerTask('dist', ['clean', 'copy']);
-		
-	grunt.registerTask('build-server', ['clean:server','typescript:server','uglify:server']);
-	grunt.registerTask('build-client', ['clean:client','typescript:client','copy:viewAssets','replace:viewjs']);
-	
-	grunt.registerTask('build-client2', ['clean:client','typescript:client','copy:viewAssets']);
-	
-
-	grunt.registerTask('build-all', ['build-server','build-client']);
-	
-	grunt.registerTask('build-deploy', ['build-all','uglify:view']);
-	grunt.registerTask('build-client-deploy', ['build-client','uglify:view']);
+	grunt.registerTask('default', ['build-dev']);
+	//grunt.registerTask('dist', ['clean', 'copy']);		
+	grunt.registerTask('build-server-dev', ['clean:server','typescript:server']);	
+	grunt.registerTask('build-server-deploy', ['build-server-dev','uglify:server']);
+	grunt.registerTask('build-client-dev', ['clean:client','typescript:client','copy:viewAssets','replace:viewjs']);
+	grunt.registerTask('build-client-deploy', ['build-client-dev','uglify:view']);
+	grunt.registerTask('build-dev', ['build-server-dev','build-client-dev']);	
+	grunt.registerTask('build-deploy', ['build-server-deploy','build-client-deploy']);
 	
 	//grunt.registerTask('build-deploy', ['build-all','uglify:minview']);
 	

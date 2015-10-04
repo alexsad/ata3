@@ -14,6 +14,8 @@ var schema = new mongoose.Schema({
     type:String
     ,required:true
   }
+  , "perfilAprovacao": [mongoose.Schema.Types.ObjectId]
+  , "perfilLiberacao": [mongoose.Schema.Types.ObjectId]
   ,"menus":[{
     "icone":{
         type:String

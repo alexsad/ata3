@@ -113,7 +113,7 @@ export class UsuarioPerfil extends ModWindow{
 		if(tmpPerfis){
 			var tmPerfis:number = tmpPerfis.length;
 			for(var x:number = 0 ;x<tmPerfis;x++){
-				var tmpDescPerfil = this.itPerfil.getDescFromServiceByValue(tmpPerfis[x]);
+				var tmpDescPerfil:string = this.itPerfil.getDescFromServiceByValue(tmpPerfis[x]);
 				//console.log(tmpDescPerfil);
 				tmpArrayPerfis.push({"idPerfil":tmpPerfis[x],"descricao":tmpDescPerfil});
 			};

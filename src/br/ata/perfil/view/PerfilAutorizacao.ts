@@ -1,26 +1,26 @@
-import {IOrganizacao, IOrganizacaoPerfil} from "../model/IOrganizacao";
-import {Organizacao} from "./Organizacao";
+import {IPerfil, IPerfilAutorizacao} from "../model/IPerfil";
+import {PerfilView} from "./PerfilView";
 import {ModWindow} from "../../../../lib/container";
 import {Button, AlertMsg, Select, ListView, ItemView} from "../../../../lib/controller";
 import {RequestManager, IDefaultRequest} from "../../../../lib/net";
 
-export enum EOrganizacaoPerfilTP {
+export enum EPerfilAutorizacaoTP {
 	APROVACAO,LIBERACAO
 }
 
-@ItemView({ url: "js/br/ata/organizacao/view/assets/html/organizacaoperfil.html", "list": "mainList" })
-export class OrganizacaoPerfil extends ModWindow {
+@ItemView({ url: "js/br/ata/perfil/view/assets/html/perfilautorizacao.html", "list": "mainList" })
+export class PerfilAutorizacao extends ModWindow {
 	itPerfil: Select;
 	aviso: AlertMsg;
 	btAddPerfil: Button;
 	btDelPerfil: Button;
 	mainList: ListView;
-	_modOrganizacao: Organizacao;
+	_modPerfilView: PerfilView;
 	_tpModulo: number;
-	constructor(p_modOrganizacao: Organizacao, p_tpModulo: EOrganizacaoPerfilTP) {
-		super("*Perfis Associados", "br.ata.organizacao.view.OrganizacaoPerfil");
+	constructor(p_modPerfilView: PerfilView, p_tpModulo: EPerfilAutorizacaoTP) {
+		super("*Perfis Associados", "br.ata.organizacao.view.PerfilViewPerfil");
 		this.setRevision("$Revision: 1 $");
-		this.setSize(3);
+		this.setSize(4);
 
 		this.aviso = new AlertMsg("Cadastro");
 		this.aviso.setType(AlertMsg.TP_ERROR);
@@ -48,7 +48,7 @@ export class OrganizacaoPerfil extends ModWindow {
 		this.mainList = new ListView("perfis");
 		//this.setMainList("mainList");
 		this.append(this.mainList);
-		this._modOrganizacao = p_modOrganizacao;
+		this._modPerfilView = p_modPerfilView;
 		this._tpModulo = p_tpModulo;
 	}
 	onStart(): void {
@@ -57,13 +57,27 @@ export class OrganizacaoPerfil extends ModWindow {
 			, "module": this
 		});
 	}
-	onChangeItem(p_obj: IOrganizacaoPerfil): IOrganizacaoPerfil {
-		this.itPerfil.setValue(p_obj.idPerfil);
+	onChangeItem(p_obj: IPerfil): IPerfil {
+		this.itPerfil.setValue(p_obj._id);
 		return p_obj;
 	}
+
+
+	beforeUpdate(p_req: IDefaultRequest, p_old_obj: IPerfil) {
+		if (p_old_obj.perfilAprovacao) {
+			p_req.data["perfilAprovacao"] = [];
+			p_req.data["perfilAprovacao"] = p_old_obj.perfilAprovacao;
+		};
+		if (p_old_obj.perfilLiberacao) {
+			p_req.data["perfilLiberacao"] = [];
+			p_req.data["perfilLiberacao"] = p_old_obj.perfilLiberacao;
+		};
+		return p_req;
+	}
+
 	addPerfil(event: Event): void {
 		event.preventDefault();
-		if(this._tpModulo==EOrganizacaoPerfilTP.APROVACAO){
+		if(this._tpModulo==EPerfilAutorizacaoTP.APROVACAO){
 			this.addPerfilAprovacao();
 		}else{
 			this.addPerfilLiberacao();
@@ -71,7 +85,7 @@ export class OrganizacaoPerfil extends ModWindow {
 	}
 	delPerfil(event: Event): void {
 		event.preventDefault();
-		if (this._tpModulo == EOrganizacaoPerfilTP.APROVACAO) {
+		if (this._tpModulo == EPerfilAutorizacaoTP.APROVACAO) {
 			this.delPerfilAprovacao();
 		} else {
 			this.delPerfilLiberacao();
@@ -79,19 +93,19 @@ export class OrganizacaoPerfil extends ModWindow {
 	}
 	addPerfilLiberacao(): void {
 		if (this.itPerfil.getValue()) {
-			var tmpOrganizacaoSelecionado: IOrganizacao = <IOrganizacao>this._modOrganizacao.getMainList().getSelectedItem();
-			var tmpPerfilSelecionado: IOrganizacaoPerfil = <IOrganizacaoPerfil>this.getMainList().getSelectedItem();
-			if (!tmpOrganizacaoSelecionado.perfilLiberacao) {
-				tmpOrganizacaoSelecionado.perfilLiberacao = [];
+			var tmpPerfilViewSelecionado: IPerfil = <IPerfil>this._modPerfilView.getMainList().getSelectedItem();
+			var tmpPerfilSelecionado: IPerfil = <IPerfil>this.getMainList().getSelectedItem();
+			if (!tmpPerfilViewSelecionado.perfilLiberacao) {
+				tmpPerfilViewSelecionado.perfilLiberacao = [];
 			} else {
-				var indexPerfil: number = tmpOrganizacaoSelecionado.perfilLiberacao.indexOf(this.itPerfil.getValue());
+				var indexPerfil: number = tmpPerfilViewSelecionado.perfilLiberacao.indexOf(this.itPerfil.getValue());
 				if (indexPerfil > -1) {
 					this.aviso.setText("A organizacao ja possui esse perfil!");
 					this.aviso.setType(AlertMsg.TP_ERROR);
 					return;
 				};
 			};
-			tmpOrganizacaoSelecionado.perfilLiberacao.push(this.itPerfil.getValue());
+			tmpPerfilViewSelecionado.perfilLiberacao.push(this.itPerfil.getValue());
 			this.aviso.setText("Salve o cadastro de organizacao para completar a acao!");
 			this.aviso.setType(AlertMsg.TP_INFO);
 			this.getPerfis();
@@ -102,19 +116,19 @@ export class OrganizacaoPerfil extends ModWindow {
 	}
 	addPerfilAprovacao():void {
 		if (this.itPerfil.getValue()) {
-			var tmpOrganizacaoSelecionado: IOrganizacao = <IOrganizacao>this._modOrganizacao.getMainList().getSelectedItem();
-			var tmpPerfilSelecionado: IOrganizacaoPerfil = <IOrganizacaoPerfil>this.getMainList().getSelectedItem();
-			if (!tmpOrganizacaoSelecionado.perfilAprovacao) {
-				tmpOrganizacaoSelecionado.perfilAprovacao = [];
+			var tmpPerfilViewSelecionado: IPerfil = <IPerfil>this._modPerfilView.getMainList().getSelectedItem();
+			var tmpPerfilSelecionado: IPerfilAutorizacao = <IPerfilAutorizacao>this.getMainList().getSelectedItem();
+			if (!tmpPerfilViewSelecionado.perfilAprovacao) {
+				tmpPerfilViewSelecionado.perfilAprovacao = [];
 			} else {
-				var indexPerfil: number = tmpOrganizacaoSelecionado.perfilAprovacao.indexOf(this.itPerfil.getValue());
+				var indexPerfil: number = tmpPerfilViewSelecionado.perfilAprovacao.indexOf(this.itPerfil.getValue());
 				if (indexPerfil > -1) {
 					this.aviso.setText("A organizacao ja possui esse perfil!");
 					this.aviso.setType(AlertMsg.TP_ERROR);
 					return;
 				};
 			};
-			tmpOrganizacaoSelecionado.perfilAprovacao.push(this.itPerfil.getValue());
+			tmpPerfilViewSelecionado.perfilAprovacao.push(this.itPerfil.getValue());
 			this.aviso.setText("Salve o cadastro de organizacao para completar a acao!");
 			this.aviso.setType(AlertMsg.TP_INFO);
 			this.getPerfis();
@@ -124,10 +138,10 @@ export class OrganizacaoPerfil extends ModWindow {
 		};
 	}
 	delPerfilAprovacao(): void {
-		var tmpOrganizacaoSelecionado: IOrganizacao = <IOrganizacao>this._modOrganizacao.getMainList().getSelectedItem();
-		var tmpPerfilSelecionado: IOrganizacaoPerfil = <IOrganizacaoPerfil>this.getMainList().getSelectedItem();
-		if (tmpOrganizacaoSelecionado && tmpPerfilSelecionado) {
-			var tmpPerfis: string[] = tmpOrganizacaoSelecionado.perfilAprovacao;
+		var tmpPerfilViewSelecionado: IPerfil = <IPerfil>this._modPerfilView.getMainList().getSelectedItem();
+		var tmpPerfilSelecionado: IPerfilAutorizacao = <IPerfilAutorizacao>this.getMainList().getSelectedItem();
+		if (tmpPerfilViewSelecionado && tmpPerfilSelecionado) {
+			var tmpPerfis: string[] = tmpPerfilViewSelecionado.perfilAprovacao;
 			var indexPerfil: number = tmpPerfis.indexOf(tmpPerfilSelecionado.idPerfil);
 			if (indexPerfil > -1) {
 				tmpPerfis.splice(indexPerfil, 1);
@@ -144,10 +158,10 @@ export class OrganizacaoPerfil extends ModWindow {
 		};
 	}
 	delPerfilLiberacao(): void {
-		var tmpOrganizacaoSelecionado: IOrganizacao = <IOrganizacao>this._modOrganizacao.getMainList().getSelectedItem();
-		var tmpPerfilSelecionado: IOrganizacaoPerfil = <IOrganizacaoPerfil>this.getMainList().getSelectedItem();
-		if (tmpOrganizacaoSelecionado && tmpPerfilSelecionado) {
-			var tmpPerfis: string[] = tmpOrganizacaoSelecionado.perfilLiberacao;
+		var tmpPerfilViewSelecionado: IPerfil = <IPerfil>this._modPerfilView.getMainList().getSelectedItem();
+		var tmpPerfilSelecionado: IPerfilAutorizacao = <IPerfilAutorizacao>this.getMainList().getSelectedItem();
+		if (tmpPerfilViewSelecionado && tmpPerfilSelecionado) {
+			var tmpPerfis: string[] = tmpPerfilViewSelecionado.perfilLiberacao;
 			var indexPerfil: number = tmpPerfis.indexOf(tmpPerfilSelecionado.idPerfil);
 			if (indexPerfil > -1) {
 				tmpPerfis.splice(indexPerfil, 1);
@@ -164,19 +178,19 @@ export class OrganizacaoPerfil extends ModWindow {
 		};
 	}
 	getPerfis(): void {
-		//console.log(p_idOrganizacao);
-		var tmpPerfil: IOrganizacao = <IOrganizacao>this._modOrganizacao.getMainList().getSelectedItem();
+		//console.log(p_idPerfilView);
+		var tmpPerfil: IPerfil = <IPerfil>this._modPerfilView.getMainList().getSelectedItem();
 		var tmpPerfis: string[] = [];
-		if(this._tpModulo==EOrganizacaoPerfilTP.LIBERACAO){
+		if(this._tpModulo==EPerfilAutorizacaoTP.LIBERACAO){
 			tmpPerfis = tmpPerfil.perfilLiberacao;
 		}else{
 			tmpPerfis = tmpPerfil.perfilAprovacao;
 		};
-		var tmpArrayPerfis: IOrganizacaoPerfil[] = [];
+		var tmpArrayPerfis: IPerfilAutorizacao[] = [];
 		if (tmpPerfis) {
 			var tmPerfis: number = tmpPerfis.length;
 			for (var x: number = 0; x < tmPerfis; x++) {
-				var tmpDescPerfil = this.itPerfil.getDescFromServiceByValue(tmpPerfis[x]);
+				var tmpDescPerfil:string = this.itPerfil.getDescFromServiceByValue(tmpPerfis[x]);
 				//console.log(tmpDescPerfil);
 				tmpArrayPerfis.push({ "idPerfil": tmpPerfis[x], "descricao": tmpDescPerfil });
 			};
