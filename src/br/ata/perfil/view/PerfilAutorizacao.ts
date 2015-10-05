@@ -61,20 +61,18 @@ export class PerfilAutorizacao extends ModWindow {
 		this.itPerfil.setValue(p_obj._id);
 		return p_obj;
 	}
-
-
-	beforeUpdate(p_req: IDefaultRequest, p_old_obj: IPerfil) {
-		if (p_old_obj.perfilAprovacao) {
-			p_req.data["perfilAprovacao"] = [];
-			p_req.data["perfilAprovacao"] = p_old_obj.perfilAprovacao;
-		};
-		if (p_old_obj.perfilLiberacao) {
-			p_req.data["perfilLiberacao"] = [];
-			p_req.data["perfilLiberacao"] = p_old_obj.perfilLiberacao;
-		};
-		return p_req;
+	salvarAlteracoes():void{
+		var tmpPerfilViewSelecionado: IPerfil = <IPerfil>this._modPerfilView.getMainList().getSelectedItem();
+		RequestManager.addRequest({
+			"module":this
+			,"url":"perfil"
+			,"method":"put"
+			,"data":tmpPerfilViewSelecionado
+			,"onLoad":function(dta:IPerfil[]):void{
+				this.getMainList().setDataProvider(dta);
+			}.bind(this)
+		});
 	}
-
 	addPerfil(event: Event): void {
 		event.preventDefault();
 		if(this._tpModulo==EPerfilAutorizacaoTP.APROVACAO){

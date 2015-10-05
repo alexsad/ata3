@@ -5,8 +5,6 @@ import {Menu} from "./Menu";
 import {IPerfil} from "../model/IPerfil";
 import {PerfilAutorizacao, EPerfilAutorizacaoTP} from "./PerfilAutorizacao";
 
-
-
 @ItemView({ url: "js/br/ata/perfil/view/assets/html/perfil.html", list: "mainList" })
 export class PerfilView extends ModWindow {
 	mainList: ListView;
@@ -20,7 +18,7 @@ export class PerfilView extends ModWindow {
 		this.mainList = new ListView("Perfil");
 		this.append(this.mainList);
 	}
-	onStart(): void {			
+	onStart(): void {
 
 		this._modPerfilAprovacao = new PerfilAutorizacao(this, EPerfilAutorizacaoTP.APROVACAO);
 		this._modPerfilAprovacao.setTitle("Apravacao");
