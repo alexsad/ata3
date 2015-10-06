@@ -1,7 +1,8 @@
-import {ITrimestre} from "../model/ITrimestre";
 import {ModWindow} from "../../../../lib/container";
 import {NumericStepper,CheckBox,InputText, ListView, ItemView} from "../../../../lib/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/net";
+import {ITrimestre} from "../model/ITrimestre";
+import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 
 
 @ItemView({ url: "js/br/ata/trimestre/view/assets/html/trimestreview.html", "list": "mainList" })
@@ -12,6 +13,7 @@ export class Trimestre extends ModWindow{
 	itSnAberto:CheckBox;	
 	mainTb:ToolBar;
 	mainList:ListView; 
+	_modTrimestreLancamentoAtividade: TrimestreLancamentoAtividade;
 	constructor(){
 		super("trimestres","br.ata.trimestre.view.Trimestre");
 		this.setRevision("$Revision: 138 $");	
@@ -61,6 +63,16 @@ export class Trimestre extends ModWindow{
 		
 	}
 	onStart():void{
+		this._modTrimestreLancamentoAtividade = new TrimestreLancamentoAtividade(this);
+		this.getModView().append(this._modTrimestreLancamentoAtividade);
 		this.mainTb.reloadItens();
+	}
+	onChangeItem(p_obj:ITrimestre):ITrimestre{
+		if(p_obj.trimestreLancamentoAtividade){
+			this._modTrimestreLancamentoAtividade.mainList.setDataProvider(p_obj.trimestreLancamentoAtividade);
+		}else{
+			this._modTrimestreLancamentoAtividade.mainList.setDataProvider([]);
+		};
+		return p_obj;
 	}
 }

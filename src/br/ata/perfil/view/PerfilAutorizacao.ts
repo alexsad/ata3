@@ -57,8 +57,8 @@ export class PerfilAutorizacao extends ModWindow {
 			, "module": this
 		});
 	}
-	onChangeItem(p_obj: IPerfil): IPerfil {
-		this.itPerfil.setValue(p_obj._id);
+	onChangeItem(p_obj: IPerfilAutorizacao): IPerfilAutorizacao {
+		this.itPerfil.setValue(p_obj.idPerfil);
 		return p_obj;
 	}
 	salvarAlteracoes():void{
@@ -68,13 +68,20 @@ export class PerfilAutorizacao extends ModWindow {
 			,"url":"perfil"
 			,"method":"put"
 			,"data":tmpPerfilViewSelecionado
-			,"onLoad":function(dta:IPerfil[]):void{
-				this.getMainList().setDataProvider(dta);
+			, "onLoad": function(resposta: boolean): void {
+				//this.getMainList().setDataProvider(dta);
+				if(resposta){
+					this.getPerfis();
+					this.aviso.setType(AlertMsg.TP_SUCCESS);
+					this.aviso.setText("Alteracoes salvas com sucesso!");
+				};				
 			}.bind(this)
 		});
 	}
 	addPerfil(event: Event): void {
 		event.preventDefault();
+		this.aviso.setType(AlertMsg.TP_INFO);
+		this.aviso.setText("Adicionando autorizacao de perfil!");
 		if(this._tpModulo==EPerfilAutorizacaoTP.APROVACAO){
 			this.addPerfilAprovacao();
 		}else{
@@ -83,6 +90,8 @@ export class PerfilAutorizacao extends ModWindow {
 	}
 	delPerfil(event: Event): void {
 		event.preventDefault();
+		this.aviso.setType(AlertMsg.TP_INFO);
+		this.aviso.setText("Removendo autorizacao de perfil!");
 		if (this._tpModulo == EPerfilAutorizacaoTP.APROVACAO) {
 			this.delPerfilAprovacao();
 		} else {
@@ -92,7 +101,7 @@ export class PerfilAutorizacao extends ModWindow {
 	addPerfilLiberacao(): void {
 		if (this.itPerfil.getValue()) {
 			var tmpPerfilViewSelecionado: IPerfil = <IPerfil>this._modPerfilView.getMainList().getSelectedItem();
-			var tmpPerfilSelecionado: IPerfil = <IPerfil>this.getMainList().getSelectedItem();
+			var tmpPerfilSelecionado: IPerfilAutorizacao = <IPerfilAutorizacao>this.getMainList().getSelectedItem();
 			if (!tmpPerfilViewSelecionado.perfilLiberacao) {
 				tmpPerfilViewSelecionado.perfilLiberacao = [];
 			} else {
@@ -104,9 +113,7 @@ export class PerfilAutorizacao extends ModWindow {
 				};
 			};
 			tmpPerfilViewSelecionado.perfilLiberacao.push(this.itPerfil.getValue());
-			this.aviso.setText("Salve o cadastro de organizacao para completar a acao!");
-			this.aviso.setType(AlertMsg.TP_INFO);
-			this.getPerfis();
+			this.salvarAlteracoes();
 		} else {
 			this.aviso.setText("Por favor selecione um perfil!");
 			this.aviso.setType(AlertMsg.TP_WARNING);
@@ -127,9 +134,7 @@ export class PerfilAutorizacao extends ModWindow {
 				};
 			};
 			tmpPerfilViewSelecionado.perfilAprovacao.push(this.itPerfil.getValue());
-			this.aviso.setText("Salve o cadastro de organizacao para completar a acao!");
-			this.aviso.setType(AlertMsg.TP_INFO);
-			this.getPerfis();
+			this.salvarAlteracoes();
 		} else {
 			this.aviso.setText("Por favor selecione um perfil!");
 			this.aviso.setType(AlertMsg.TP_WARNING);
@@ -143,13 +148,11 @@ export class PerfilAutorizacao extends ModWindow {
 			var indexPerfil: number = tmpPerfis.indexOf(tmpPerfilSelecionado.idPerfil);
 			if (indexPerfil > -1) {
 				tmpPerfis.splice(indexPerfil, 1);
-				this.aviso.setText("Salve o cadastro de organizacao para completar a acao!");
-				this.aviso.setType(AlertMsg.TP_INFO);
+				this.salvarAlteracoes();
 			} else {
 				this.aviso.setText("A organizacao nao possui mais esse perfil!");
 				this.aviso.setType(AlertMsg.TP_ERROR);
-			}
-			this.getPerfis();
+			}			
 		} else {
 			this.aviso.setText("Por favor selecione um perfil!");
 			this.aviso.setType(AlertMsg.TP_WARNING);
@@ -163,13 +166,11 @@ export class PerfilAutorizacao extends ModWindow {
 			var indexPerfil: number = tmpPerfis.indexOf(tmpPerfilSelecionado.idPerfil);
 			if (indexPerfil > -1) {
 				tmpPerfis.splice(indexPerfil, 1);
-				this.aviso.setText("Salve o cadastro de organizacao para completar a acao!");
-				this.aviso.setType(AlertMsg.TP_INFO);
+				this.salvarAlteracoes();
 			} else {
 				this.aviso.setText("A organizacao nao possui mais esse perfil!");
 				this.aviso.setType(AlertMsg.TP_ERROR);
-			}
-			this.getPerfis();
+			};			
 		} else {
 			this.aviso.setText("Por favor selecione um perfil!");
 			this.aviso.setType(AlertMsg.TP_WARNING);
