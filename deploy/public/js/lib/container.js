@@ -38,8 +38,7 @@ define(["require", "exports", "core", "net"], function (require, exports, core_1
         function ModWindow(p_subtitle, p_fullmod) {
             _super.call(this, 'div', '<h3 class="col-sm-12 col-xs-12 subtitlemodwindow">' + p_subtitle + '</h3>' +
                 '<div class="conteudo_form">' +
-                '<div class="form-group fbody">' +
-                '</div>' +
+                '<div class="form-group fbody"></div>' +
                 '<div style="" class="col-sm-12 col-xs-12 form-actions"></div>' +
                 '</div>' +
                 '<div class="blockrequest normal_load"><div class="BoxTasks" style="display:none"></div></div>' +

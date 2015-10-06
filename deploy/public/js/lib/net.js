@@ -244,15 +244,16 @@ define(["require", "exports", "core", "controller"], function (require, exports,
                 this.getModule()[tfield].setValue("");
                 this.getModule().clearFormItem();
             }.bind(this));
-            this.btDel = new controller_1.Button("Excluir");
-            this.btDel.setIcon("minus-sign");
-            this.btDel.addEvent('click', this.deleteItem.bind(this));
+            this.addButton(this.btAdd);
             this.btSave = new controller_1.Button("Salvar");
             this.btSave.setIcon("floppy-disk");
             this.btSave.addEvent('click', this.saveItem.bind(this));
-            this.addButton(this.btAdd);
-            this.addButton(this.btDel);
             this.addButton(this.btSave);
+            this.btDel = new controller_1.Button("Excluir");
+            this.btDel.setIcon("minus-sign");
+            this.btDel.getEle().removeClass("btn-default").addClass("btn-warning");
+            this.btDel.addEvent('click', this.deleteItem.bind(this));
+            this.addButton(this.btDel);
         }
         ToolBar.prototype.getDefaultRequest = function (p_act, p_method) {
             return { "format": RequestManager.format, "url": RequestManager.url + this._config.domain + p_act, "method": p_method, "module": this.getModule() };
@@ -283,10 +284,22 @@ define(["require", "exports", "core", "controller"], function (require, exports,
                             req_objToInsert["data"][tcolumn2] = dta_new;
                             delete req_objToInsert["format"];
                             delete req_objToInsert["onLoad"];
-                            delete req_objToInsert["module"];
+                            delete req_objToInsert["puid"];
                             delete req_objToInsert["method"];
                             delete req_objToInsert["url"];
                             this.getModule().getMainList().insertItem(req_objToInsert.data, 'bottom');
+                            if (this.getModule()._embedFather) {
+                                var tmpEmbedFather = this.getModule()._embedFather;
+                                var tmpEmbedItem = this.getModule()._embedItem;
+                                var tmC = 0;
+                                var tmpEmbedFatherVar = window[tmpEmbedFather];
+                                if (!tmpEmbedFatherVar.getMainList().getSelectedItem()[tmpEmbedItem]) {
+                                    tmpEmbedFatherVar.getMainList().getSelectedItem()[tmpEmbedItem] = [];
+                                }
+                                else {
+                                }
+                                ;
+                            }
                         }
                         ;
                     }.bind(this)

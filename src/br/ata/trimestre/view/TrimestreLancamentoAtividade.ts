@@ -1,90 +1,137 @@
-import {ITrimestreLancamentoAtividade} from "../model/ITrimestre";
 import {ModWindow} from "../../../../lib/container";
-import {Select,NumericStepper,InputText,DatePicker,ListView,ItemView} from "../../../../lib/controller";
-import {ToolBar,RequestManager} from "../../../../lib/net";
+import {Select, Button, NumericStepper, InputText, ListView, ItemView} from "../../../../lib/controller";
+import {SimpleToolBar,RequestManager} from "../../../../lib/net";
+import {ITrimestreLancamentoAtividade,ITrimestre} from "../model/ITrimestre";
+import {Trimestre} from "./Trimestre";
 
-@ItemView({url:"br/ata/organizacao/view/assets/html/organizacaolancamento.html","list":"mainList"})
-class TrimestreLancamentoAtividade extends ModWindow {
-	itIdOrganizacaoLancamento:InputText;
-	itIdOrganizacao:Select;
+@ItemView({ url: "js/br/ata/trimestre/view/assets/html/trimestrelancamentoatividade.html", "list": "mainList" })
+export class TrimestreLancamentoAtividade extends ModWindow {
+	itIdPerfilLancamento:InputText;
+	itIdPerfil:Select;
 	itValor:NumericStepper;
-	itIdTrimestre:Select;
-	mainTb:ToolBar;
+	mainTb: SimpleToolBar;
 	mainList:ListView;
-	constructor(){
-		super("*lancamento de valores", "br.ata.trimestre.view.TrimestreLancamentoAtividade");
+	btAdd: Button;
+	btDel: Button;
+	btSave: Button;
+	_modTrimestre: Trimestre;
+	constructor(p_modTrimestre: Trimestre) {
+		super("*lancamentos", "br.ata.trimestre.view.TrimestreLancamentoAtividade");
 		this.setRevision("$Revision: 138 $");
-		this.setSize(8);
+		this.setSize(4);
 
-		this.mainTb = new ToolBar({ "domain": "trimestre/trimestreLancamentoAtividade" });
+		this.mainTb = new SimpleToolBar();
 		this.append(this.mainTb);
 		
-		this.itIdOrganizacaoLancamento = new InputText("");
-		this.itIdOrganizacaoLancamento.setColumn("$_id");
-		this.itIdOrganizacaoLancamento.setLabel("cod.");
-		this.itIdOrganizacaoLancamento.setEnable(false);
-		this.itIdOrganizacaoLancamento.setSize(2);
-		this.append(this.itIdOrganizacaoLancamento);
+		this.itIdPerfilLancamento = new InputText("");
+		this.itIdPerfilLancamento.setColumn("$_id");
+		this.itIdPerfilLancamento.setLabel("cod.");
+		this.itIdPerfilLancamento.setEnable(false);
+		this.itIdPerfilLancamento.setSize(3);
+		this.append(this.itIdPerfilLancamento);
 
-		this.itIdOrganizacao = new Select("id_organizacao");
-		this.itIdOrganizacao.setColumn("@idOrganizacao");
-		this.itIdOrganizacao.setLabel("organizacao");
-		this.itIdOrganizacao.setValueField("_id");
-		this.itIdOrganizacao.setLabelField("descricao");
-		this.itIdOrganizacao.setEnable(false);
-		this.itIdOrganizacao.setSize(3);
-		this.append(this.itIdOrganizacao);
+		this.itIdPerfil = new Select("perfil");
+		this.itIdPerfil.setColumn("@idPerfil");
+		this.itIdPerfil.setLabel("perfil");
+		this.itIdPerfil.setValueField("_id");
+		this.itIdPerfil.setLabelField("descricao");
+		this.itIdPerfil.setSize(5);
+		this.append(this.itIdPerfil);
 
 		this.itValor = new NumericStepper(0);
 		this.itValor.setColumn("@valor");
 		this.itValor.setLabel("valor");
-		this.itValor.setSize(3);
+		this.itValor.setSize(4);
 		this.append(this.itValor);
-
-		this.itIdTrimestre = new Select("id_trimestre");
-		this.itIdTrimestre.setColumn("@idTrimestre");
-		this.itIdTrimestre.setLabel("trimestre");
-		this.itIdTrimestre.setValueField("_id");
-		this.itIdTrimestre.setLabelField("dsTrimestre");
-		this.itIdTrimestre.setSize(4);
-		this.append(this.itIdTrimestre);
 
 		this.mainList = new ListView("OrganizacaoLancamento");
 		//this.setMainList("mainList");		
 		this.append(this.mainList);
+		
+
+		this.btAdd = new Button("Novo");
+		this.btAdd.addEvent("click", this.addLancamento.bind(this));
+		this.btAdd.setIcon("plus");
+		this.mainTb.addButton(this.btAdd);
+
+		this.btSave = new Button("Salvar");
+		this.btSave.addEvent("click", this.salvarLancamento.bind(this));
+		this.btSave.setIcon("ok");
+		this.mainTb.addButton(this.btSave);
+
+		this.btDel = new Button("Excluir");
+		this.btDel.addEvent("click", this.delLancamento.bind(this));
+		this.btDel.getEle().removeClass("btn-default").addClass("btn-warning");
+		this.btDel.setIcon("minus");
+		this.mainTb.addButton(this.btDel);
+
+		this._modTrimestre = p_modTrimestre;
+
 	}
 	onStart():void{
-		this.itIdOrganizacao.fromService({
-			url:"organizacao/organizacao"
-			,module:this
+		this.itIdPerfil.fromService({
+			"url": "perfil/perfilsimples"
+			, "module": this
 		});
-		//this.itIdTrimestre.fromService(".business.BLL.get");
-		this.itIdTrimestre.fromService({
-			url:"trimestre/trimestre"
-			,module:this
-		});
-		//this.mainTb.activate(true);
+
 	}
-	getByIdTrimestre(p_idTrimestre:any):void{
-		this.itIdTrimestre.setValue(p_idTrimestre);
+	onChangeItem(p_obj: ITrimestreLancamentoAtividade): ITrimestreLancamentoAtividade {
+		this.itIdPerfilLancamento.setValue(p_obj._id);
+		this.itIdPerfil.setValue(p_obj.idPerfil);
+		this.itValor.setValue(p_obj.valor+"");
+		return p_obj;
+	}
+	salvarAlteracoes(): void {
+		var tmpTrimestreLancamentoSelecionado: ITrimestre = <ITrimestre>this._modTrimestre.getMainList().getSelectedItem();
 		RequestManager.addRequest({
-			module:this
-			,"url":"organizacao/organizacaolancamento/getbyidtrimestre/"+p_idTrimestre
-			//,"data":{"idTrimestre":p_idTrimestre}
-			, "onLoad": function(dta: ITrimestreLancamentoAtividade[]) {
-				this.getMainList().setDataProvider(dta);
+			"module": this
+			, "url": "trimestre"
+			, "method": "put"
+			, "data": tmpTrimestreLancamentoSelecionado
+			, "onLoad": function(resposta: boolean): void {
+				//this.getMainList().setDataProvider(dta);
+				if (resposta) {
+					//this.getPerfis();
+					if (this.itIdPerfilLancamento.getValue()=="") {
+						this._modTrimestre.mainTb.reloadItens();
+					};					
+				};
 			}.bind(this)
 		});
 	}
-	getByIdOrganizacao(p_idOrganizacao:any):void{
-		this.itIdOrganizacao.setValue(p_idOrganizacao);
-		RequestManager.addRequest({
-			module:this
-			,"url":"organizacao/organizacaolancamento/getbyidorganizacao/"+p_idOrganizacao
-			//,"data":{"idOrganizacao":p_idOrganizacao}
-			, "onLoad": function(dta: ITrimestreLancamentoAtividade[]) {
-				this.getMainList().setDataProvider(dta);
-			}.bind(this)
-		});
+	salvarLancamento(event: Event): void {
+		event.preventDefault();		
+		if (!this.itValor.getValue()){
+			this.itValor.setValid(false);
+		} else if (!this.itIdPerfil.getValue()) { 
+			this.itIdPerfil.setValid(false);
+		} else {
+			var tmpTrimestreLancamentoSelecionado: ITrimestre = <ITrimestre>this._modTrimestre.getMainList().getSelectedItem();
+			if (!tmpTrimestreLancamentoSelecionado.trimestreLancamentoAtividade) {
+				tmpTrimestreLancamentoSelecionado.trimestreLancamentoAtividade = [];
+			};
+			var tmpLancamento: ITrimestreLancamentoAtividade = <ITrimestreLancamentoAtividade>this.getFormItem();
+			if(tmpLancamento._id==""){
+				delete tmpLancamento._id;
+				tmpTrimestreLancamentoSelecionado.trimestreLancamentoAtividade.push(tmpLancamento);
+			}else{
+				var tmpIndex: number = this.mainList.getSelectedIndex();
+				tmpTrimestreLancamentoSelecionado.trimestreLancamentoAtividade[tmpIndex]=tmpLancamento;
+			};			
+			this.salvarAlteracoes();
+		};
+	}
+	addLancamento(event: Event): void {
+		event.preventDefault();
+		this.clearFormItem();
+	}
+	delLancamento(event: Event): void {
+		event.preventDefault();
+		var tmpTrimestreLancamentoSelecionado: ITrimestre = <ITrimestre>this._modTrimestre.getMainList().getSelectedItem();
+		if (tmpTrimestreLancamentoSelecionado.trimestreLancamentoAtividade) {
+			var tmpIndex: number = this.mainList.getSelectedIndex();
+			tmpTrimestreLancamentoSelecionado.trimestreLancamentoAtividade.splice(tmpIndex, 1);
+			this.salvarAlteracoes();
+		};
 	}
 }
