@@ -82,7 +82,7 @@ export class TrimestreDataLivre extends ModWindow{
 			tmpTrimestreSelecionado.datasLivres.push(tmpDate);
 			this.aviso.setText("Salve o cadastro de trimestre para completar a acao!");
 			this.aviso.setType(AlertMsg.TP_INFO);
-			this.getPerfis();
+			this.getDatasLivres();
 		}else{
 			this.aviso.setText("Por favor selecione um trimestre!");
 			this.aviso.setType(AlertMsg.TP_WARNING);
@@ -104,14 +104,13 @@ export class TrimestreDataLivre extends ModWindow{
 				this.aviso.setText("O trimestre nao possui mais essa data!");
 				this.aviso.setType(AlertMsg.TP_ERROR);
 			}
-			this.getPerfis();
+			this.getDatasLivres();
 		}else{
 			this.aviso.setText("Por favor selecione um trimestre!");
 			this.aviso.setType(AlertMsg.TP_WARNING);
 		};
 	}
-	getPerfis():void{
-		//console.log(p_idUsuario);
+	getDatasLivres():void{
 		var tmpTrimestre:ITrimestre = <ITrimestre>this._modTrimestre.getMainList().getSelectedItem();
 		var tmpDatasLivres:Date[] = tmpTrimestre.datasLivres;
 		var tmpArrayDatasLivres:ITrimestreDataLivre[] = [];
