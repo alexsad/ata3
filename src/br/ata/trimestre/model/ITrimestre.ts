@@ -10,9 +10,12 @@ export interface ITrimestre{
 export interface IAtividades {
 
 }
-
 export interface ITrimestreLancamentoAtividade {
 	_id?: string;
 	valor: number;
 	idPerfil: string;
+}
+export interface ITrimestreDataLivre{
+	idData:number;
+	momento:Date;
 }

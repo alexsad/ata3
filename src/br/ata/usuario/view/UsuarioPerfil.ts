@@ -89,7 +89,7 @@ export class UsuarioPerfil extends ModWindow{
 		var tmpUsuarioSelecionado:IUsuario = <IUsuario>this._modUsuario.getMainList().getSelectedItem();
 		var tmpPerfilSelecionado:IUsuarioPerfil = 	<IUsuarioPerfil>this.getMainList().getSelectedItem();
 		if(tmpUsuarioSelecionado && tmpPerfilSelecionado){
-			var tmpPerfis:string[] = tmpUsuarioSelecionado.perfis;	
+			var tmpPerfis:string[] = tmpUsuarioSelecionado.perfis;
 			var indexPerfil:number = tmpPerfis.indexOf(tmpPerfilSelecionado.idPerfil);
 			if (indexPerfil > -1) {
 				tmpPerfis.splice(indexPerfil, 1);

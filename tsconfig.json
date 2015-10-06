@@ -49,6 +49,7 @@
         "./src/br/ata/trimestre/model/ITrimestre.ts",
         "./src/br/ata/trimestre/model/trimestre.ts",
         "./src/br/ata/trimestre/view/Trimestre.ts",
+        "./src/br/ata/trimestre/view/TrimestreDataLivre.ts",
         "./src/br/ata/trimestre/view/TrimestreLancamentoAtividade.ts",
         "./src/br/ata/trimestre/view/TrimestreView.ts",
         "./src/br/ata/usuario/controller/Usuario.ts",
