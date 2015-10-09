@@ -12,8 +12,9 @@ export interface IControllerClass extends Function {
     $$controllerConfiguration: IControllerConfiguration;
     new (): Function;
 }
-export declare function Get(url: string): (target: any, methodName: string) => void;
-export declare function Post(url: string): (target: any, methodName: string) => void;
-export declare function Put(url: string): (target: any, methodName: string) => void;
-export declare function Delete(url: string): (target: any, methodName: string) => void;
 export declare function Controller(p_root: string): ClassDecorator;
+export declare const Get: (path?: string) => <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>) => void | TypedPropertyDescriptor<T>;
+export declare const Post: (path?: string) => <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>) => void | TypedPropertyDescriptor<T>;
+export declare const Put: (path?: string) => <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>) => void | TypedPropertyDescriptor<T>;
+export declare const Delete: (path?: string) => <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>) => void | TypedPropertyDescriptor<T>;
+export declare const Patch: (path?: string) => <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>) => void | TypedPropertyDescriptor<T>;
