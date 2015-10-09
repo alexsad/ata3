@@ -13,35 +13,10 @@ export interface IControllerConfiguration {
 
 export interface IControllerClass extends Function {
     prototype: {};
-		$$controllerConfiguration:IControllerConfiguration;
+	$$controllerConfiguration:IControllerConfiguration;
     new (): Function;
 }
-
 /*
-export function Route(p_routeConfig:{"url":string,"verb":string}) {
-		return function(target:any,methodName:string): void {
-
-			if(!target.$$controllerConfiguration){
-				 target.$$controllerConfiguration = {
-						 routes:[],
-						 root: null
-				 };
-			};
-      p_routeConfig.verb = p_routeConfig.verb.toLowerCase();
-			if(!p_routeConfig.verb.match("get|post|delete|put")){
-          console.error("verbo  '"+p_routeConfig.verb+"' invalido para a rota '"+p_routeConfig.url+"', verifique se o parametro verb comtem get, post, delete ou put");
-      }else{
-        target.$$controllerConfiguration.routes.push({
-          verb:p_routeConfig.verb
-          ,url: p_routeConfig.url
-          ,handlerName: methodName
-        });
-      };
-
-		}
-}
-*/
-
 export function Get(url:string) {
 	return function(target:any,methodName:string): void {
 		if(!target.$$controllerConfiguration){
@@ -57,55 +32,27 @@ export function Get(url:string) {
 		});
 	}
 }
-
-export function Post(url:string) {
-	return function(target:any,methodName:string): void {
-		if(!target.$$controllerConfiguration){
-			 target.$$controllerConfiguration = {
-					 routes:[],
-					 root: null
-			 };
-		};
-		target.$$controllerConfiguration.routes.push({
-		  verb:"post"
-		  ,url: url
-		  ,handlerName: methodName
-		});
-	}
+*/
+function methodDecoratorFactory(verbName: string): (path?: string) => MethodDecorator {
+    return function (path?: string): MethodDecorator {
+        return function (target: any, handlerName: string, descriptor: TypedPropertyDescriptor<Function>) {            
+			if(!target.$$controllerConfiguration){
+				target.$$controllerConfiguration = {
+					routes:[],
+					root: null
+				};
+			};
+			if(!path){
+				path="/";
+			};
+			target.$$controllerConfiguration.routes.push({
+				"verb":verbName
+				,"url": path
+				,"handlerName": handlerName
+			});
+        };
+    }
 }
-
-export function Put(url:string) {
-	return function(target:any,methodName:string): void {
-		if(!target.$$controllerConfiguration){
-			 target.$$controllerConfiguration = {
-					 routes:[],
-					 root: null
-			 };
-		};
-		target.$$controllerConfiguration.routes.push({
-		  verb:"put"
-		  ,url: url
-		  ,handlerName: methodName
-		});
-	}
-}
-
-export function Delete(url:string) {
-	return function(target:any,methodName:string): void {
-		if(!target.$$controllerConfiguration){
-			 target.$$controllerConfiguration = {
-					 routes:[],
-					 root: null
-			 };
-		};
-		target.$$controllerConfiguration.routes.push({
-		  verb:"delete"
-		  ,url: url
-		  ,handlerName: methodName
-		});
-	}
-}
-
 
 export function Controller(p_root: string): ClassDecorator {
     return function (target: IControllerClass) {
@@ -118,3 +65,9 @@ export function Controller(p_root: string): ClassDecorator {
 		  });
     }
 }
+
+export const Get = methodDecoratorFactory('get');
+export const Post = methodDecoratorFactory('post');
+export const Put = methodDecoratorFactory('put');
+export const Delete = methodDecoratorFactory('delete');
+export const Patch = methodDecoratorFactory('patch');

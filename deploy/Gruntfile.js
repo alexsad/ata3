@@ -111,6 +111,36 @@ module.exports = function(grunt) {
 			]
 		  }
 		}
+		,makerouter: {
+		  cwd: '.'
+		  ,expand: false
+		  ,src: [			
+				"../src/lib/router.ts"
+				,"!../src/br/**/view/*.ts"
+		  ]
+		  ,dest: 'app/lib'
+		  ,options: {			
+			"target": "es5",
+			"module": "commonjs",
+			"declaration": true,
+			"noImplicitAny": false,
+			"removeComments": true,
+			"noLib": false,
+			"sourceMap": false,
+			"experimentalDecorators": true,
+			"emitDecoratorMetadata":false,
+			"isolatedModules": false,
+			"noEmitHelpers": true,
+			"noResolve": true,
+			"references": [
+				"../src/lib/express-middleware.d.ts"
+				,"../src/lib/express.d.ts"
+				,"../src/lib/node.d.ts"	
+				,"../src/lib/express.d.ts"
+				,"../src/lib/DinRoute.d.ts"				
+			]
+		  }
+		}
 	  }
 	,uglify: {
 		view: {
