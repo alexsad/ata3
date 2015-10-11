@@ -15,7 +15,6 @@ export class Login extends ModWindow{
 	itsenha:InputPassWord;
 	btEntrar:Button;
 	_perfis:string[];
-	_perfisSimples:IPerfilSimples[];
 	constructor(){
 		super("Login","br.ata.usuario.view.Login");
 		this.setRevision("$Revision: 139 $");
@@ -109,6 +108,7 @@ export class Login extends ModWindow{
 					//this.idGrupo = dta.idGrupo;
 					//this.getMenusByIdPerfil(dta.perfis[0],dta.perfis);
 					this._perfis = dta.perfis;
+					this.idPerfil = dta.perfis[0];
 					this.filtrarPerfis(dta.perfis);
 				}
 			}.bind(this)
@@ -128,7 +128,6 @@ export class Login extends ModWindow{
 		this.itlogin.setValue("");
 		this.getModView().show(true).showNav(false);
 		this._perfis = [];
-		this._perfisSimples = [];
 	}
 	clearAll():void{
 		$("#sidebar,#tabs_menu,#navbarlist").html("");
@@ -157,8 +156,7 @@ export class Login extends ModWindow{
 						break;
 					}
 				};				
-				this._perfisSimples = tmpPerfisOk;
-				this.getMenusByIdPerfil(p_perfis[0], tmpPerfisOk);
+				this.getMenusByIdPerfil(this.idPerfil, tmpPerfisOk);
 			}.bind(this)
 		});
 	}
@@ -167,14 +165,22 @@ export class Login extends ModWindow{
 			"url": "perfil/get/" + p_idPerfil,
 			"module": this,
 			"onLoad": function(dta: IPerfil) {
+				
 				var tmpMenu = new MenuTab({ "domain": "", "target": "#sidebar" });
 				var tmpChildrens: IItemMenu[] = [];			
 				for (var i: number = 0; i < p_perfis.length;i++){
+
+					var tmpIcon: string = '';
+
+					if (p_perfis[i]._id == this.idPerfil) {
+						tmpIcon = 'ok';
+					};
+
 					tmpChildrens.push({
 						label: p_perfis[i].descricao
 						, funcao:''+p_perfis[i]._id
 						, tela:'tela'
-						, icone:''
+						, icone: tmpIcon
 						, ordem: i
 					});
 				};
@@ -207,11 +213,17 @@ export class Login extends ModWindow{
 				$("#tabmenu_" + tmpIdM + "_l li").not(":last").on('click',function(evt:Event){
 					evt.preventDefault();
 					//this.logOff();
-					var tmpIdPerfil:string = $(evt.target).parent().attr("data-actmod");
-					//console.log($(evt.target).parent());
-					//console.log(tmpIdPerfil);
-					this.clearAll();
-					this.getMenusByIdPerfil(tmpIdPerfil,this._perfisSimples);
+					var tmpIdPerfil:string = $(evt.target).parent().attr("data-actmod")[0];
+					console.log($(evt.target).parent());
+					console.log(tmpIdPerfil);
+
+					if (tmpIdPerfil != this.idPerfil){
+						this.idPerfil = tmpIdPerfil;
+						this.clearAll();
+						this.filtrarPerfis(this._perfis);
+					};
+					
+					
 				}.bind(this));
 				$("#tabmenu_" + tmpIdM + "_l li:last").on('click',function(evt:Event){
 					evt.preventDefault();

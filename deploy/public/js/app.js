@@ -34,9 +34,14 @@ $(function(){
 
 	
 	requirejs(
-		['container','net','br/ata/usuario/view/Login']
-		,function(_container,_net,_modlogin){
-			_net.RequestManager.setRootUrl("http://127.0.0.1:8330/");
+		['core','container','net','br/ata/usuario/view/Login']
+		,function(_core,_container,_net,_modlogin){
+
+			var tmpLocation = _core.Underas.getLocation();
+			//tmpLocation = tmpLocation.replace("8080","8330");
+			tmpLocation = tmpLocation.substring(0,tmpLocation.indexOf("8080"))+"8330/";
+
+			_net.RequestManager.setRootUrl(tmpLocation);
 			//console.log(m);
 			//var t = new sub.SubB(45);
 			//t.doAnyThing("nova instancia!!!!");
