@@ -3,19 +3,19 @@ import {ModWindow} from "../../../../lib/container";
 import {MenuTab,Button,InputPassWord,InputEmail,Notify,AlertMsg} from "../../../../lib/controller";
 import {RequestManager} from "../../../../lib/net";
 import {Underas} from "../../../../lib/core";
-import {IPerfil} from "../../perfil/model/IPerfil";
+import {IPerfil, IItemMenu, IPerfilSimples} from "../../perfil/model/IPerfil";
 
 export class Login extends ModWindow{
 	idOrganizacao:string;
-	idGrupo:string;
-	idUsuario:string;
-	idMembro:string;
+	idUsuario:string
+	idPerfil: string;
 	amAviso:AlertMsg;
 	notifys:Notify;
 	itlogin:InputEmail;
 	itsenha:InputPassWord;
 	btEntrar:Button;
-
+	_perfis:string[];
+	_perfisSimples:IPerfilSimples[];
 	constructor(){
 		super("Login","br.ata.usuario.view.Login");
 		this.setRevision("$Revision: 139 $");
@@ -38,7 +38,7 @@ export class Login extends ModWindow{
 		this.itsenha.setLabel("senha");
 		this.itsenha.setPlaceHolder("digite sua senha");
 		this.itsenha.setSize(12);
-		this.append(this.itsenha);
+		this.append(this.itsenha);	
 
 		this.btEntrar = new Button("Logar");
 		this.btEntrar.addEvent("click",this.logar.bind(this));
@@ -46,6 +46,12 @@ export class Login extends ModWindow{
 
 	}
 	onStart():void{
+		/*
+		this.itIdPerfil.fromService({
+			"url": "perfil/perfilsimples"
+			, "module": this
+		});
+		*/
 		this.getModView().showNav(false);
 		this.autoLogin();
 	}
@@ -101,8 +107,9 @@ export class Login extends ModWindow{
 					this.idOrganizacao = dta.idOrganizacao;
 					this.idUsuario = dta._id;
 					//this.idGrupo = dta.idGrupo;
-					//this.idMembro = dta.idMembro;
-					this.getMenusByIdPerfil(dta.perfis[0]);
+					//this.getMenusByIdPerfil(dta.perfis[0],dta.perfis);
+					this._perfis = dta.perfis;
+					this.filtrarPerfis(dta.perfis);
 				}
 			}.bind(this)
 		});
@@ -116,6 +123,16 @@ export class Login extends ModWindow{
 		login.itsenha.setValue("");
 		login.getModView().show(true).showNav(true);
 		*/
+		this.clearAll();
+		this.itsenha.setValue("");
+		this.itlogin.setValue("");
+		this.getModView().show(true).showNav(false);
+		this._perfis = [];
+		this._perfisSimples = [];
+	}
+	clearAll():void{
+		$("#sidebar,#tabs_menu,#navbarlist").html("");
+		$("#conteudo div.ModView").not(".mdwLogin").remove();
 	}
 	autoLogin():void{
 		var tl = Underas.getUrlParam("login");
@@ -126,13 +143,80 @@ export class Login extends ModWindow{
 			this.logar();
 		}
 	}
-	getMenusByIdPerfil(p_idPerfil:any):void{
+	filtrarPerfis(p_perfis: string[]): void {
 		RequestManager.addRequest({
-			"url":"perfil/get/"+p_idPerfil,
-			"module":this,
-			"onLoad":function(dta:IPerfil) {
-				var menu = new MenuTab({"domain":"","target":"#sidebar"});
-				menu.setDataProvider(dta.menus);
+			"url": "perfil/perfilsimples"
+			, "module": this
+			, "onLoad": function(dtap: IPerfilSimples[]) {
+				var tmpPerfisOk: IPerfilSimples[] = [];
+				for (var i: number=0; i < dtap.length; i++) {
+					if (p_perfis.indexOf(dtap[i]._id) > -1) {
+						tmpPerfisOk.push(dtap[i]);
+					};
+					if (tmpPerfisOk.length == p_perfis.length) {
+						break;
+					}
+				};				
+				this._perfisSimples = tmpPerfisOk;
+				this.getMenusByIdPerfil(p_perfis[0], tmpPerfisOk);
+			}.bind(this)
+		});
+	}
+	getMenusByIdPerfil(p_idPerfil: string, p_perfis: IPerfilSimples[]): void {
+		RequestManager.addRequest({
+			"url": "perfil/get/" + p_idPerfil,
+			"module": this,
+			"onLoad": function(dta: IPerfil) {
+				var tmpMenu = new MenuTab({ "domain": "", "target": "#sidebar" });
+				var tmpChildrens: IItemMenu[] = [];			
+				for (var i: number = 0; i < p_perfis.length;i++){
+					tmpChildrens.push({
+						label: p_perfis[i].descricao
+						, funcao:''+p_perfis[i]._id
+						, tela:'tela'
+						, icone:''
+						, ordem: i
+					});
+				};
+				tmpChildrens.push({
+					label: 'sair'
+					, funcao: 'logOff'
+					, tela: 'br.ata.usuario.view.Login'
+					, icone: 'off'
+					, ordem: 1
+				});	
+				dta.menus.push({
+					//id:'2344jfjfel'
+					icone: ''
+					, label: ''
+					, ordem: 23
+					, children: tmpChildrens
+				});
+				
+				tmpMenu.setDataProvider(dta.menus);
+
+				var tmpLogin: string = this.itlogin.getValue();
+				tmpLogin = tmpLogin.substring(0, tmpLogin.indexOf("@"));
+
+				var tmpIdM: number = dta.menus.length - 1;
+				$("#tabmenu_" + tmpIdM + ",#tabmenu_"+tmpIdM+"_l").addClass("pull-right");
+				$("#tabmenu_" + tmpIdM + " a").html(
+					'<img style="border: 2px solid #fff;border-radius: 100%;margin: -4px 8px 0 0;max-width: 30px;" alt="Photo" src="http://i.imgur.com/RLiDK.png" class="nav-user-photo">'
+					+'<small class="hidden-xs">'+tmpLogin+'</small>'
+				);
+				$("#tabmenu_" + tmpIdM + "_l li").not(":last").on('click',function(evt:Event){
+					evt.preventDefault();
+					//this.logOff();
+					var tmpIdPerfil:string = $(evt.target).parent().attr("data-actmod");
+					//console.log($(evt.target).parent());
+					//console.log(tmpIdPerfil);
+					this.clearAll();
+					this.getMenusByIdPerfil(tmpIdPerfil,this._perfisSimples);
+				}.bind(this));
+				$("#tabmenu_" + tmpIdM + "_l li:last").on('click',function(evt:Event){
+					evt.preventDefault();
+					this.logOff();
+				}.bind(this));
 				//menu.setIcon('assets/logo_title.jpg');
 				this.getModView().show(false).showNav(false);
 				//login.getNotificaoes();

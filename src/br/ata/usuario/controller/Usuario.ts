@@ -4,10 +4,10 @@ import {Get,Post,Put,Delete,Controller} from "../../../../lib/router";
 import {UsuarioDAO,IUsuarioModel} from "../model/usuario";
 
 
-@Controller("/usuario")
+@Controller()
 export class Usuario{
 
-	@Get("/")
+	@Get()
 	get(req:express.Request,res:express.Response):void{
 		UsuarioDAO.find({}).exec().then(
 			function(dta:IUsuarioModel[]){
@@ -58,7 +58,7 @@ export class Usuario{
 		);
 	}
 
-	@Post("/")
+	@Post()
 	add(req:express.Request,res:express.Response):void{
 		var nusuario:IUsuarioModel = <IUsuarioModel>req.body;
 		UsuarioDAO.create(nusuario).then(
@@ -72,7 +72,7 @@ export class Usuario{
 			}
 		);
 	}
-	@Put("/")
+	@Put()
 	atualizar(req:express.Request,res:express.Response):void{
 		var p_usuario:IUsuarioModel = <IUsuarioModel>req.body;
 		UsuarioDAO.findByIdAndUpdate(p_usuario._id,{$set:p_usuario},function(err){

@@ -24,8 +24,12 @@ function methodDecoratorFactory(verbName) {
 function Controller(p_root) {
     return function (target) {
         var tmpConfig = target.prototype;
+        if (!p_root) {
+            p_root = "/" + target.name.toLowerCase();
+        }
+        ;
         tmpConfig.$$controllerConfiguration.routes.forEach(function (route) {
-            console.log("add rota " + p_root + route.url + " : " + route.verb);
+            console.log(p_root + route.url+" "+route.verb);
             DinRoute_1.DinRoute.getApp()[route.verb](p_root + route.url, target.prototype[route.handlerName]);
         });
     };

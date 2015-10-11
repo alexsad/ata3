@@ -8,7 +8,7 @@ export enum EPerfilAutorizacaoTP {
 	APROVACAO,LIBERACAO
 }
 
-@ItemView({ url: "js/br/ata/perfil/view/assets/html/perfilautorizacao.html", "list": "mainList" })
+@ItemView("assets/html/perfilautorizacao.html")
 export class PerfilAutorizacao extends ModWindow {
 	itPerfil: Select;
 	aviso: AlertMsg;
@@ -18,7 +18,7 @@ export class PerfilAutorizacao extends ModWindow {
 	_modPerfilView: PerfilView;
 	_tpModulo: number;
 	constructor(p_modPerfilView: PerfilView, p_tpModulo: EPerfilAutorizacaoTP) {
-		super("*Perfis Associados", "br.ata.organizacao.view.PerfilViewPerfil");
+		super("*Perfis Associados", "br.ata.perfil.view.PerfilAutorizacao");
 		this.setRevision("$Revision: 1 $");
 		this.setSize(4);
 

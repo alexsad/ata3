@@ -13,6 +13,7 @@ export interface IControllerConfiguration {
 
 export interface IControllerClass extends Function {
     prototype: {};
+    name: string;
 	$$controllerConfiguration:IControllerConfiguration;
     new (): Function;
 }
@@ -54,11 +55,14 @@ function methodDecoratorFactory(verbName: string): (path?: string) => MethodDeco
     }
 }
 
-export function Controller(p_root: string): ClassDecorator {
+export function Controller(p_root?: string): ClassDecorator {
     return function (target: IControllerClass) {
 		  var tmpConfig:IControllerClass = <IControllerClass> target.prototype;
+		  if (!p_root) {
+			  p_root = "/" + target.name.toLowerCase();
+		  };
 		  tmpConfig.$$controllerConfiguration.routes.forEach(route => {
-          console.log("add rota "+p_root+route.url+" : "+route.verb);
+          console.log(p_root+route.url+" "+route.verb);
         //var verbS:string = route.verb;
         //DinRoute.getApp()[verbS].push();
 				DinRoute.getApp()[route.verb](p_root+route.url,target.prototype[route.handlerName]);

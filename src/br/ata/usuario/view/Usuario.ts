@@ -4,7 +4,7 @@ import {InputText,CheckBox,TextArea,Select,InputPassWord,InputEmail,ListView,Ite
 import {ToolBar,RequestManager,IDefaultRequest} from "../../../../lib/net";
 import {UsuarioPerfil} from "./UsuarioPerfil";
 
-@ItemView({url:"js/br/ata/usuario/view/assets/html/usuario.html","list":"mainList"})
+@ItemView("assets/html/usuario.html")
 export class Usuario extends ModWindow{
 	itIdUsuario:InputText;
 	itNmMembro:InputText;

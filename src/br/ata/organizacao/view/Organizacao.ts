@@ -3,7 +3,7 @@ import {ModWindow} from "../../../../lib/container";
 import {InputText,DatePicker,ListView,ItemView} from "../../../../lib/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/net";
 
-@ItemView({url:"js/br/ata/organizacao/view/assets/html/organizacao.html","list":"mainList"})
+@ItemView("assets/html/organizacao.html")
 export class Organizacao extends ModWindow{
 	itIdOrganizacao:InputText;
 	itDescricao:InputText;

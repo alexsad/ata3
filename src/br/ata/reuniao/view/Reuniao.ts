@@ -4,7 +4,7 @@ import {InputText,TextArea,NumericStepper,DatePicker,ListView,ItemView} from "..
 import {ToolBar,RequestManager} from "../../../../lib/net";
 import {Discursante} from "./Discursante";
 
-@ItemView({url:"js/br/ata/reuniao/view/assets/html/reuniao.html",list:"mainList"})
+@ItemView("assets/html/reuniao.html")
 export class Reuniao extends ModWindow{
 	itIdReuniao:InputText;
 	itMomento:DatePicker;

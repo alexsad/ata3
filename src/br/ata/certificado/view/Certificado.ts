@@ -4,7 +4,7 @@ import {ItemView,InputText,DatePicker,ListView} from "../../../../lib/controller
 import {ToolBar,RequestManager} from "../../../../lib/net";
 
 
-@ItemView({url:"js/br/ata/certificado/view/assets/html/certificado.html","list":"mainList"})
+@ItemView("assets/html/certificado.html")
 export class Certificado extends ModWindow{
 	itIdCertificado:InputText;
 	itValidade:DatePicker;

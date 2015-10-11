@@ -152,7 +152,10 @@ module.exports = function(grunt) {
 			}]
 		}
 		,server: {
-			files: [{
+			options: {
+      			mangle: false
+    		}
+			,files: [{
 				expand: true,
 				src: "**/*.js",
 				dest: 'app/br',

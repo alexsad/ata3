@@ -9,7 +9,7 @@ interface IUsuarioPerfil{
 	descricao: string;
 }
 
-@ItemView({url:"js/br/ata/usuario/view/assets/html/usuarioperfil.html","list":"mainList"})
+@ItemView("assets/html/usuarioperfil.html")
 export class UsuarioPerfil extends ModWindow{
 	itPerfil:Select;
 	aviso:AlertMsg;

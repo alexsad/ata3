@@ -10,7 +10,7 @@ idTrimestre:string;
 momento:Date;
 */
 
-@ItemView({url:"js/br/ata/trimestre/view/assets/html/trimestredatalivre.html","list":"mainList"})
+@ItemView("assets/html/trimestredatalivre.html")
 export class TrimestreDataLivre extends ModWindow{
   itIdData:InputText;
 	itMomento:DatePicker;
@@ -22,7 +22,7 @@ export class TrimestreDataLivre extends ModWindow{
 	constructor(p_modTrimestre:Trimestre){
 		super("*Perfis Associados","br.ata.trimestre.view.TrimestreDataLivre");
 		this.setRevision("$Revision: 1 $");
-		this.setSize(4);
+		this.setSize(3);
 
 		this.aviso = new AlertMsg("Cadastro");
 		this.aviso.setType(AlertMsg.TP_ERROR);
@@ -31,15 +31,15 @@ export class TrimestreDataLivre extends ModWindow{
 
 		this.itIdData = new InputText();
 		this.itIdData.setLabel("Cod:");
-    this.itIdData.setColumn("$idData");
+    	this.itIdData.setColumn("$idData");
 		this.itIdData.setSize(12);
 		this.append(this.itIdData);
 
-    this.itMomento = new DatePicker();
-    this.itMomento.setLabel("Cod:");
-    this.itMomento.setColumn("$momento");
-    this.itMomento.setSize(12);
-    this.append(this.itMomento);
+	    this.itMomento = new DatePicker();
+	    this.itMomento.setLabel("Cod:");
+	    this.itMomento.setColumn("@momento");
+	    this.itMomento.setSize(12);
+	    this.append(this.itMomento);
 
 		this.btAddData = new Button("Adicionar");
 		this.btAddData.addEvent("click",this.addData.bind(this));
@@ -61,14 +61,19 @@ export class TrimestreDataLivre extends ModWindow{
 	}
 	onChangeItem(p_obj:ITrimestreDataLivre):ITrimestreDataLivre{
 		//this.itPerfil.setValue(p_obj.idPerfil);
+
+		this.itMomento.setValue(p_obj.momento+"");
+		this.itIdData.setValue(p_obj.idData+"");
+
 		return p_obj;
 	}
 	addData(event:Event):void{
 		event.preventDefault();
 		if(this.itMomento.getValue()){
-      var tmpDate = new Date(this.itIdData.getValue());
+			this.itMomento.setValue(this.itMomento.getValue());
+			var tmpDate: Date = this.itMomento.getDate();
 			var tmpTrimestreSelecionado:ITrimestre = <ITrimestre>this._modTrimestre.getMainList().getSelectedItem();
-			var tmpDataSelecionada:ITrimestreDataLivre = 	<ITrimestreDataLivre>this.getMainList().getSelectedItem();
+			var tmpDataSelecionada:ITrimestreDataLivre = <ITrimestreDataLivre>this.getMainList().getSelectedItem();
 			if(!tmpTrimestreSelecionado.datasLivres){
 				tmpTrimestreSelecionado.datasLivres = [];
 			}else{
@@ -91,13 +96,11 @@ export class TrimestreDataLivre extends ModWindow{
 	delData(event:Event):void{
 		event.preventDefault();
 		var tmpTrimestreSelecionado:ITrimestre = <ITrimestre>this._modTrimestre.getMainList().getSelectedItem();
-		var tmpDataSelecionada:ITrimestreDataLivre = 	<ITrimestreDataLivre>this.getMainList().getSelectedItem();
+		var tmpDataSelecionada:ITrimestreDataLivre =  <ITrimestreDataLivre>this.getMainList().getSelectedItem();
 		if(tmpTrimestreSelecionado && tmpDataSelecionada){
-			var tmpDatasLivres:Date[] = tmpTrimestreSelecionado.datasLivres;
-      var tmpDate = new Date(this.itIdData.getValue());
-			var indexPerfil:number = tmpDatasLivres.indexOf(tmpDate);
-			if (indexPerfil > -1) {
-				tmpDatasLivres.splice(indexPerfil, 1);
+      		var indexData:number = parseInt(this.itIdData.getValue());
+			if (indexData > -1) {
+				tmpTrimestreSelecionado.datasLivres.splice(indexData, 1);
 				this.aviso.setText("Salve o cadastro de trimestre para completar a acao!");
 				this.aviso.setType(AlertMsg.TP_INFO);
 			}else{
