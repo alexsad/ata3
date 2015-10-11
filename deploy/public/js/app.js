@@ -43,6 +43,7 @@ $(function(){
 			//$("body").append("<div>!teste</div>");
 			var teste = new _modlogin.Login();
 			var mdw = new _container.ModView("cadastro de teste!!!");
+			mdw.getEle().addClass("mdwLogin");
 			mdw.setIcon("key");
 			mdw.show(true);
 			mdw.append(teste);

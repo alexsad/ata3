@@ -3,9 +3,9 @@ import {Get,Post,Put,Delete,Controller} from "../../../../lib/router";
 import {OrganizacaoDAO} from "../model/organizacao";
 import {IOrganizacao} from "../model/IOrganizacao";
 
-@Controller("/organizacao")
+@Controller()
 class Organizacao{
-	@Get("/")
+	@Get()
 	get(req:express.Request,res:express.Response):void{
 		OrganizacaoDAO.find({}).exec().then(
 			function(dta:IOrganizacao[]){
@@ -16,7 +16,7 @@ class Organizacao{
 			}
 		);
 	}
-	@Post("/")
+	@Post()
 	add(req:express.Request,res:express.Response):void{
 		var norganizacao:IOrganizacao = <IOrganizacao>req.body;
 		OrganizacaoDAO.create(norganizacao).then(
@@ -30,7 +30,7 @@ class Organizacao{
 			}
 		);
 	}
-	@Put("/")
+	@Put()
 	atualizar(req:express.Request,res:express.Response):void{
 		var p_organizacao:IOrganizacao = <IOrganizacao>req.body;
 		var tmpId: string = p_organizacao._id;

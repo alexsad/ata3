@@ -4,7 +4,7 @@ import {AlertMsg, ListView, ItemView} from "../../../../lib/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/net";
 
 
-@ItemView({ url: "js/br/ata/trimestre/view/assets/html/trimestreview.html", "list": "mainList" })
+@ItemView("assets/html/trimestreview.html")
 export class TrimestreView extends ModWindow{
 	amOrcamentoAtual: AlertMsg;
 	mainList: ListView;
@@ -45,7 +45,7 @@ export class TrimestreView extends ModWindow{
 	}
 	onChangeItem(p_item: ITrimestre): ITrimestre {		
 		//js.underas.core.Underas.loadModule({"mod":"br.net.atasacramental.atividade.view.Evento","act":"getByIdTrimestre","p":[p_item.idTrimestre],"puid":this.getVarModule()});
-		this.getOrcamentoByTrimestre(p_item);	
+		//this.getOrcamentoByTrimestre(p_item);	
 		return p_item;		
 	}	
 	getTrimestres():void{

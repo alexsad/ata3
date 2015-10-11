@@ -1,10 +1,11 @@
 import {ModWindow} from "../../../../lib/container";
 import {ItemView,NumericStepper,InputText,Select,ListView} from "../../../../lib/controller";
 import {ToolBar,IDefaultRequest,RequestManager} from "../../../../lib/net";
+import {Underas} from "../../../../lib/core";
 import {IItemMenu,IMenu} from "../model/IPerfil";
 import {Menu} from "Menu";
 
-@ItemView({url:"js/br/ata/perfil/view/assets/html/itemmenu.html",list:"mainList"})
+@ItemView("assets/html/itemmenu.html")
 export class ItemMenu extends ModWindow{
 	itIdItemMenu:InputText;	 
 	itLabel:InputText; 
@@ -74,13 +75,14 @@ export class ItemMenu extends ModWindow{
 		this._menu = p_menu;	
 	}
 	onStart():void{
+		var tmpUrl:string= Underas.getLocation();
 		this.itIcone.fromService({ 
-			rootUrl:"http://localhost:8080/"
+			rootUrl: tmpUrl
 			,url: "assets/icons.json"
 			,module:this 
 		});
 		this.itTela.fromService({ 
-			rootUrl:"http://localhost:8080/"
+			rootUrl: tmpUrl
 			,url: "assets/modulo.json"
 			,module:this 
 		});

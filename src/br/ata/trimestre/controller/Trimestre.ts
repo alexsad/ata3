@@ -3,9 +3,9 @@ import {Get,Post,Put,Delete,Controller} from "../../../../lib/router";
 import {TrimestreDAO} from "../model/trimestre";
 import {ITrimestre} from "../model/ITrimestre";
 
-@Controller("/trimestre")
+@Controller()
 export class Trimestre{
-	@Get("/")
+	@Get()
 	get(req:express.Request,res:express.Response):void{
 		TrimestreDAO.find({}, { atividades:false}).exec().then(
 			function(dta:ITrimestre[]){
@@ -27,7 +27,7 @@ export class Trimestre{
 			}
 		);
 	}
-	@Post("/")
+	@Post()
 	add(req:express.Request,res:express.Response):void{
 		var ntrimestre:ITrimestre = <ITrimestre>req.body;
 		TrimestreDAO.create(ntrimestre).then(
@@ -41,7 +41,7 @@ export class Trimestre{
 			}
 		);
 	}
-	@Put("/")
+	@Put()
 	atualizar(req:express.Request,res:express.Response):void{
 		var p_trimestre:ITrimestre = <ITrimestre>req.body;
 		var tmpId: string =  p_trimestre._id;

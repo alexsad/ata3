@@ -3,9 +3,9 @@ import {Get,Post,Put,Delete,Controller} from "../../../../lib/router";
 import {CertificadoDAO} from "../model/certificado";
 import {ICertificado} from "../model/ICertificado";
 
-@Controller("/certificado")
+@Controller()
 export class Certificado{
-		@Get("/")
+		@Get()
 		get(req:express.Request,res:express.Response):void{
 			CertificadoDAO.find({}).exec().then(
 				function(dta:ICertificado[]){
@@ -16,7 +16,7 @@ export class Certificado{
 				}
 			);
 		}
-		@Post("/")
+		@Post()
 		add(req:express.Request,res:express.Response):void{
 			var ncertificado:ICertificado = <ICertificado>req.body;
 			CertificadoDAO.create(ncertificado).then(
@@ -30,7 +30,7 @@ export class Certificado{
 				}
 			);
 		}
-		@Put("/")
+		@Put()
 		atualizar(req:express.Request,res:express.Response):void{
 			var p_certificado:ICertificado = <ICertificado>req.body;
 			var tmpId: string =  p_certificado._id;

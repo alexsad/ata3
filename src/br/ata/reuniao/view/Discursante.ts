@@ -4,7 +4,7 @@ import {ModWindow} from "../../../../lib/container";
 import {Select,InputText,TextArea,NumericStepper,DatePicker,ListView,ItemView} from "../../../../lib/controller";
 import {ToolBar,RequestManager,IDefaultRequest} from "../../../../lib/net";
 
-@ItemView({url:"js/br/ata/reuniao/view/assets/html/discursante.html",list:"mainList"})
+@ItemView("assets/html/discursante.html")
 export class Discursante extends ModWindow{
 	itIdDiscurso:InputText;
 	itIdMembro:Select;

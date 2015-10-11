@@ -6,7 +6,7 @@ import {Discursante} from "./Discursante";
 import {FastMembro} from "../../usuario/view/FastMembro";
 import {Droppable} from "../../../../lib/jqueryui";
 
-@ItemView({url:"js/br/ata/reuniao/view/assets/html/reuniaoporperiodo.html",list:"mainList"})
+@ItemView("assets/html/reuniaoporperiodo.html")
 export class ReuniaoPorPeriodo extends ModWindow{
 	itIdDiscurso:InputText;	 
 	itIdMembro:Select;	 

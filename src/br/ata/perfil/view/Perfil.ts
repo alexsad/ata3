@@ -6,7 +6,7 @@ import {IPerfil} from "../model/IPerfil";
 
 
 
-@ItemView({url:"js/br/ata/perfil/view/assets/html/perfil.html",list:"mainList"})
+@ItemView("assets/html/perfil.html")
 export class Perfil extends ModWindow{
 	itIdPerfil:InputText;	 
 	itNome:InputText;	 

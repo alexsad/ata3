@@ -5,7 +5,7 @@ import {ToolBar,RequestManager,IDefaultRequest} from "../../../../lib/net";
 import {UsuarioPerfil} from "./UsuarioPerfil";
 
 
-@ItemView({url:"js/br/ata/usuario/view/assets/html/discursante.html","list":"mainList"})
+@ItemView("assets/html/discursante.html")
 export class FastMembro extends ModWindow{
 	mainList:ListView;
 	constructor(){		

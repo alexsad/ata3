@@ -3,9 +3,9 @@ import {Get,Post,Put,Delete,Controller} from "../../../../lib/router";
 import {PerfilDAO} from "../model/perfil";
 import {IMenu, IItemMenu, IPerfil} from "../model/IPerfil";
 
-@Controller("/perfil")
+@Controller()
 class Perfil{
-	@Get("/")
+	@Get()
 	get(req:express.Request,res:express.Response){
 		PerfilDAO.find({}).exec().then(
 			function(dta:IPerfil[]){
@@ -53,7 +53,7 @@ class Perfil{
 			}
 		);
 	}
-	@Post("/")
+	@Post()
 	add(req:express.Request,res:express.Response):void{
 		var nperfil:IPerfil = <IPerfil>req.body;
 		PerfilDAO.create(nperfil).then(
@@ -67,7 +67,7 @@ class Perfil{
 			}
 		);
 	}
-	@Put("/")
+	@Put()
 	atualizar(req:express.Request,res:express.Response):void{
 		var p_perfil:IPerfil = <IPerfil>req.body;
 		var tmpId:string = p_perfil._id;

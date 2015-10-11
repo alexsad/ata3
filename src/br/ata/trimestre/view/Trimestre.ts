@@ -3,9 +3,10 @@ import {NumericStepper,CheckBox,InputText, ListView, ItemView} from "../../../..
 import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/net";
 import {ITrimestre} from "../model/ITrimestre";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
+import {TrimestreDataLivre} from "./TrimestreDataLivre";
 
 
-@ItemView({ url: "js/br/ata/trimestre/view/assets/html/trimestreview.html", "list": "mainList" })
+@ItemView("assets/html/trimestreview.html")
 export class Trimestre extends ModWindow{
 	itIdTrimestre:InputText	; 
 	itAno:NumericStepper;	 
@@ -14,9 +15,10 @@ export class Trimestre extends ModWindow{
 	mainTb:ToolBar;
 	mainList:ListView; 
 	_modTrimestreLancamentoAtividade: TrimestreLancamentoAtividade;
+	_modTrimestreDataLivre: TrimestreDataLivre;
 	constructor(){
 		super("trimestres","br.ata.trimestre.view.Trimestre");
-		this.setRevision("$Revision: 138 $");	
+		this.setRevision("$Revision: 140 $");	
 		this.setSize(5);
 
 		this.mainTb = new ToolBar({"domain":"trimestre"});
@@ -63,16 +65,34 @@ export class Trimestre extends ModWindow{
 		
 	}
 	onStart():void{
+		this._modTrimestreDataLivre = new TrimestreDataLivre(this);
+		this.getModView().append(this._modTrimestreDataLivre);
+
 		this._modTrimestreLancamentoAtividade = new TrimestreLancamentoAtividade(this);
 		this.getModView().append(this._modTrimestreLancamentoAtividade);
+
 		this.mainTb.reloadItens();
+
+
 	}
+	/*
+	beforeUpdate(p_req:IDefaultRequest, p_old_obj:ITrimestre):IDefaultRequest{
+		//var tmpTrimS: ITrimestre = <ITrimestre>this.mainList.getSelectedItem();
+		if (p_old_obj.datasLivres) {
+			console.log(p_req);
+			p_req.data.datasLivres = p_old_obj.datasLivres;
+
+		};
+		return p_req;
+	}
+	*/
 	onChangeItem(p_obj:ITrimestre):ITrimestre{
 		if(p_obj.trimestreLancamentoAtividade){
 			this._modTrimestreLancamentoAtividade.mainList.setDataProvider(p_obj.trimestreLancamentoAtividade);
 		}else{
 			this._modTrimestreLancamentoAtividade.mainList.setDataProvider([]);
-		};
+		};		
+		this._modTrimestreDataLivre.getDatasLivres();		
 		return p_obj;
 	}
 }

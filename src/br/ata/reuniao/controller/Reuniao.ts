@@ -5,9 +5,9 @@ import {ReuniaoDAO,IReuniaoModel} from "../model/reuniao";
 import {IDiscurso} from "../model/IReuniao";
 
 
-@Controller("/reuniao")
+@Controller()
 class Reuniao{
-	@Get("/")
+	@Get()
 	get(req:express.Request,res:express.Response):void{
 		ReuniaoDAO.find({}).exec().then(
 			function(dta:IReuniaoModel[]){
@@ -44,7 +44,7 @@ class Reuniao{
 			}
 		);
 	}
-	@Post("/")
+	@Post()
 	add(req:express.Request,res:express.Response):void{
 		var nreuniao:IReuniaoModel = <IReuniaoModel>req.body;
 		ReuniaoDAO.create(nreuniao).then(
@@ -58,7 +58,7 @@ class Reuniao{
 			}
 		);
 	}
-	@Put("/")
+	@Put()
 	atualizar(req:express.Request,res:express.Response):void{
 		var p_reuniao:IReuniaoModel = <IReuniaoModel>req.body;
 		ReuniaoDAO.findByIdAndUpdate(p_reuniao._id,{$set:p_reuniao},function(err){

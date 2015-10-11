@@ -5,7 +5,7 @@ import {Menu} from "./Menu";
 import {IPerfil} from "../model/IPerfil";
 import {PerfilAutorizacao, EPerfilAutorizacaoTP} from "./PerfilAutorizacao";
 
-@ItemView({ url: "js/br/ata/perfil/view/assets/html/perfil.html", list: "mainList" })
+@ItemView("assets/html/perfil.html")
 export class PerfilView extends ModWindow {
 	mainList: ListView;
 	_modPerfilAprovacao: PerfilAutorizacao;

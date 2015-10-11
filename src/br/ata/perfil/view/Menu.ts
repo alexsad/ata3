@@ -1,10 +1,11 @@
 import {ModWindow} from "../../../../lib/container";
 import {ItemView,NumericStepper,InputText,Select,ListView} from "../../../../lib/controller";
 import {ToolBar,IDefaultRequest,RequestManager} from "../../../../lib/net";
+import {Underas} from "../../../../lib/core";
 import {IMenu} from "../model/IPerfil";
 import {ItemMenu} from "./ItemMenu";
 
-@ItemView({url:"js/br/ata/perfil/view/assets/html/menu.html",list:"mainList"})
+@ItemView("assets/html/menu.html")
 export class Menu extends ModWindow{
 	itIdMenu: InputText;	 
 	itLabel: InputText; 
@@ -59,7 +60,7 @@ export class Menu extends ModWindow{
 	}
 	onStart():void{
 		this.itIcone.fromService({ 
-			rootUrl:"http://localhost:8080/"
+			rootUrl: Underas.getLocation()
 			,url: "assets/icons.json"
 			,module:this 
 		});

@@ -4,7 +4,7 @@ import {SimpleToolBar,RequestManager} from "../../../../lib/net";
 import {ITrimestreLancamentoAtividade,ITrimestre} from "../model/ITrimestre";
 import {Trimestre} from "./Trimestre";
 
-@ItemView({ url: "js/br/ata/trimestre/view/assets/html/trimestrelancamentoatividade.html", "list": "mainList" })
+@ItemView("assets/html/trimestrelancamentoatividade.html")
 export class TrimestreLancamentoAtividade extends ModWindow {
 	itIdPerfilLancamento:InputText;
 	itIdPerfil:Select;
@@ -27,7 +27,7 @@ export class TrimestreLancamentoAtividade extends ModWindow {
 		this.itIdPerfilLancamento.setColumn("$_id");
 		this.itIdPerfilLancamento.setLabel("cod.");
 		this.itIdPerfilLancamento.setEnable(false);
-		this.itIdPerfilLancamento.setSize(3);
+		this.itIdPerfilLancamento.setSize(2);
 		this.append(this.itIdPerfilLancamento);
 
 		this.itIdPerfil = new Select("perfil");
@@ -35,7 +35,7 @@ export class TrimestreLancamentoAtividade extends ModWindow {
 		this.itIdPerfil.setLabel("perfil");
 		this.itIdPerfil.setValueField("_id");
 		this.itIdPerfil.setLabelField("descricao");
-		this.itIdPerfil.setSize(5);
+		this.itIdPerfil.setSize(6);
 		this.append(this.itIdPerfil);
 
 		this.itValor = new NumericStepper(0);
