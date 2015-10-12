@@ -1,23 +1,21 @@
-import {IUsuario} from "../model/IUsuario";
-import {ModWindow} from "../../../../lib/container";
-import {MenuTab,Button,InputPassWord,InputEmail,Notify,AlertMsg} from "../../../../lib/controller";
-import {RequestManager} from "../../../../lib/net";
 import {Underas} from "../../../../lib/core";
-import {IPerfil, IItemMenu, IPerfilSimples} from "../../perfil/model/IPerfil";
+import {ModWindow} from "../../../../lib/container";
+import {Button,InputPassWord,InputEmail,Notify,AlertMsg} from "../../../../lib/controller";
+import {RequestManager} from "../../../../lib/net";
+import {IUsuario} from "../model/IUsuario";
+import {PerfilBox} from "../../perfil/view/PerfilBox";
+
+declare var perfilBoxContainer: PerfilBox;
 
 export class Login extends ModWindow{
-	idOrganizacao:string;
-	idUsuario:string
-	idPerfil: string;
 	amAviso:AlertMsg;
 	notifys:Notify;
 	itlogin:InputEmail;
 	itsenha:InputPassWord;
 	btEntrar:Button;
-	_perfis:string[];
 	constructor(){
 		super("Login","br.ata.usuario.view.Login");
-		this.setRevision("$Revision: 139 $");
+		this.setRevision("$Revision: 140 $");
 		this.setSize(4);
 
 		this.getEle().addClass("col-sm-offset-4 col-xs-offset-0");
@@ -53,6 +51,10 @@ export class Login extends ModWindow{
 		*/
 		this.getModView().showNav(false);
 		this.autoLogin();
+
+
+		perfilBoxContainer = new PerfilBox(this);
+
 	}
 	logar():void{
 	   if(!this.itlogin.isValid()){
@@ -100,16 +102,14 @@ export class Login extends ModWindow{
 		RequestManager.addRequest({
 			"url":"usuario/getbylogin/"+this.itlogin.getValue()
 			,"module":this
-			,"onLoad" : function(dta:IUsuario) {
+			,"onLoad" : function(dta:IUsuario){
 				//console.log(dta);
 				if(dta){
-					this.idOrganizacao = dta.idOrganizacao;
-					this.idUsuario = dta._id;
+					perfilBoxContainer.idOrganizacao = dta.idOrganizacao;
+					perfilBoxContainer.idUsuario = dta._id;
 					//this.idGrupo = dta.idGrupo;
 					//this.getMenusByIdPerfil(dta.perfis[0],dta.perfis);
-					this._perfis = dta.perfis;
-					this.idPerfil = dta.perfis[0];
-					this.filtrarPerfis(dta.perfis);
+					perfilBoxContainer.filtrarPerfis(dta.perfis[0], dta.perfis);
 				}
 			}.bind(this)
 		});
@@ -127,7 +127,6 @@ export class Login extends ModWindow{
 		this.itsenha.setValue("");
 		this.itlogin.setValue("");
 		this.getModView().show(true).showNav(false);
-		this._perfis = [];
 	}
 	clearAll():void{
 		$("#sidebar,#tabs_menu,#navbarlist").html("");
@@ -141,99 +140,6 @@ export class Login extends ModWindow{
 			this.itsenha.setValue(ts);
 			this.logar();
 		}
-	}
-	filtrarPerfis(p_perfis: string[]): void {
-		RequestManager.addRequest({
-			"url": "perfil/perfilsimples"
-			, "module": this
-			, "onLoad": function(dtap: IPerfilSimples[]) {
-				var tmpPerfisOk: IPerfilSimples[] = [];
-				for (var i: number=0; i < dtap.length; i++) {
-					if (p_perfis.indexOf(dtap[i]._id) > -1) {
-						tmpPerfisOk.push(dtap[i]);
-					};
-					if (tmpPerfisOk.length == p_perfis.length) {
-						break;
-					}
-				};				
-				this.getMenusByIdPerfil(this.idPerfil, tmpPerfisOk);
-			}.bind(this)
-		});
-	}
-	getMenusByIdPerfil(p_idPerfil: string, p_perfis: IPerfilSimples[]): void {
-		RequestManager.addRequest({
-			"url": "perfil/get/" + p_idPerfil,
-			"module": this,
-			"onLoad": function(dta: IPerfil) {
-				
-				var tmpMenu = new MenuTab({ "domain": "", "target": "#sidebar" });
-				var tmpChildrens: IItemMenu[] = [];			
-				for (var i: number = 0; i < p_perfis.length;i++){
-
-					var tmpIcon: string = '';
-
-					if (p_perfis[i]._id == this.idPerfil) {
-						tmpIcon = 'ok';
-					};
-
-					tmpChildrens.push({
-						label: p_perfis[i].descricao
-						, funcao:''+p_perfis[i]._id
-						, tela:'tela'
-						, icone: tmpIcon
-						, ordem: i
-					});
-				};
-				tmpChildrens.push({
-					label: 'sair'
-					, funcao: 'logOff'
-					, tela: 'br.ata.usuario.view.Login'
-					, icone: 'off'
-					, ordem: 1
-				});	
-				dta.menus.push({
-					//id:'2344jfjfel'
-					icone: ''
-					, label: ''
-					, ordem: 23
-					, children: tmpChildrens
-				});
-				
-				tmpMenu.setDataProvider(dta.menus);
-
-				var tmpLogin: string = this.itlogin.getValue();
-				tmpLogin = tmpLogin.substring(0, tmpLogin.indexOf("@"));
-
-				var tmpIdM: number = dta.menus.length - 1;
-				$("#tabmenu_" + tmpIdM + ",#tabmenu_"+tmpIdM+"_l").addClass("pull-right");
-				$("#tabmenu_" + tmpIdM + " a").html(
-					'<img style="border: 2px solid #fff;border-radius: 100%;margin: -4px 8px 0 0;max-width: 30px;" alt="Photo" src="http://i.imgur.com/RLiDK.png" class="nav-user-photo">'
-					+'<small class="hidden-xs">'+tmpLogin+'</small>'
-				);
-				$("#tabmenu_" + tmpIdM + "_l li").not(":last").on('click',function(evt:Event){
-					evt.preventDefault();
-					//this.logOff();
-					var tmpIdPerfil:string = $(evt.target).parent().attr("data-actmod")[0];
-					console.log($(evt.target).parent());
-					console.log(tmpIdPerfil);
-
-					if (tmpIdPerfil != this.idPerfil){
-						this.idPerfil = tmpIdPerfil;
-						this.clearAll();
-						this.filtrarPerfis(this._perfis);
-					};
-					
-					
-				}.bind(this));
-				$("#tabmenu_" + tmpIdM + "_l li:last").on('click',function(evt:Event){
-					evt.preventDefault();
-					this.logOff();
-				}.bind(this));
-				//menu.setIcon('assets/logo_title.jpg');
-				this.getModView().show(false).showNav(false);
-				//login.getNotificaoes();
-			}.bind(this)
-		});
 	}
 	getNotificaoes():void{
 		RequestManager.addRequest({

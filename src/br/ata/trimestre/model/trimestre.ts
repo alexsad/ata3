@@ -50,6 +50,10 @@ var schema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId
 			, required: true
 		}
+		, "idPerfil": {
+			type: mongoose.Schema.Types.ObjectId
+			, required: true
+		}		
 		, "orcamento": {
 			type: Number
 			, required: true
@@ -69,10 +73,6 @@ var schema = new mongoose.Schema({
 			type: Number
 			, required: true
 		}
-		, "idOrganizacao": {
-			type: mongoose.Schema.Types.ObjectId
-			, required: true
-		}
 		, "dsObservacao": {
 			type: String
 			, required: true
@@ -82,11 +82,35 @@ var schema = new mongoose.Schema({
 			, required: true
 		}
 	}]
+	, "vtSaldo": {
+		type: Number
+		, required: false
+	}
+	, "vtTotalLancado": {
+		type: Number
+		, required: false
+	}
 });
 
 schema.virtual("dsTrimestre").get(function() {
 	return this.nrTrimestre + "º de " + this.ano;
 });
+
+schema.virtual("atividades.iconStatus").get(function() {
+	var tpAlert:string = "info";
+	if (this.idStatus == 3 || this.idStatus == 6) {
+		tpAlert = "danger";
+	} else if (this.idStatus == 5) {
+		tpAlert = "warning";
+	} else if (this.idStatus == 7) {
+		tpAlert = "success";
+	};
+	return tpAlert;
+});
+
+
+
+
 schema.set('toJSON', {
 	virtuals: true
 });

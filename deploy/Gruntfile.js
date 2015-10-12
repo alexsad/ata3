@@ -82,8 +82,7 @@ module.exports = function(grunt) {
 		  cwd: '.'
 		  ,expand: false
 		  ,src: [			
-		  		"../src/**/model/I[A-Z]*.ts"
-				,"../src/**/view/*.ts"
+			"../src/**/view/*.ts"
 		  ]
 		  ,dest: 'public/js'
 		  ,options: {			
@@ -107,7 +106,39 @@ module.exports = function(grunt) {
 				"../src/lib/core.d.ts",
 				"../src/lib/container.d.ts",
 				"../src/lib/controller.d.ts",				
-				"../src/lib/net.d.ts"				
+				"../src/lib/net.d.ts",	
+				"../src/**/model/I[A-Z]*.ts"			
+			]
+		  }
+		}
+		,clientF: {
+		  cwd: '.'
+		  ,expand: false
+		  ,src:grunt.option( "target" )
+		  ,dest: 'public/js'
+		  ,options: {			
+			"target": "es5",
+			"module": "amd",
+			"declaration": false,
+			"noImplicitAny": true,
+			"removeComments": true,
+			"noLib": false,
+			"sourceMap": false,
+			"rootDir":"../src",
+			"experimentalDecorators": true,
+			"emitDecoratorMetadata":false,
+			"isolatedModules": false,
+			"noEmitHelpers": true,
+			"noResolve": true,
+			"references": [
+				"../src/lib/jquery2.d.ts",	
+				"../src/lib/jqueryui.d.ts",
+				"../src/lib/util.d.ts",
+				"../src/lib/core.d.ts",
+				"../src/lib/container.d.ts",
+				"../src/lib/controller.d.ts",				
+				"../src/lib/net.d.ts",
+				"../src/**/model/I[A-Z]*.ts"				
 			]
 		  }
 		}
@@ -164,6 +195,17 @@ module.exports = function(grunt) {
 		}
 	}	  
 	});
+
+
+	//console.log( grunt.option( "target" ) );
+
+	//var targetFile = grunt.option( "target" );
+
+	//global[targetFile] = grunt.option( "target" );
+	
+	grunt.registerTask('build-view-file', ['typescript:clientF']);
+
+
 	grunt.registerTask('default', ['build-dev']);
 	//grunt.registerTask('dist', ['clean', 'copy']);		
 	grunt.registerTask('build-server-dev', ['clean:server','typescript:server']);	

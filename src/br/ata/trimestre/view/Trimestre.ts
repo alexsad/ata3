@@ -6,7 +6,7 @@ import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import {TrimestreDataLivre} from "./TrimestreDataLivre";
 
 
-@ItemView("assets/html/trimestreview.html")
+@ItemView("assets/html/trimestre.html")
 export class Trimestre extends ModWindow{
 	itIdTrimestre:InputText	; 
 	itAno:NumericStepper;	 

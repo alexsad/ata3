@@ -30,9 +30,9 @@ requirejs.config({
 
 //var _app = {"loaded":{}};
 
-$(function(){
+var perfilBoxContainer = null;
 
-	
+$(function(){	
 	requirejs(
 		['core','container','net','br/ata/usuario/view/Login']
 		,function(_core,_container,_net,_modlogin){

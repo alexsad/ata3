@@ -20,7 +20,7 @@ export class TrimestreDataLivre extends ModWindow{
 	mainList:ListView;
 	_modTrimestre: Trimestre;
 	constructor(p_modTrimestre:Trimestre){
-		super("*Perfis Associados","br.ata.trimestre.view.TrimestreDataLivre");
+		super("*Datas Livres","br.ata.trimestre.view.TrimestreDataLivre");
 		this.setRevision("$Revision: 1 $");
 		this.setSize(3);
 
