@@ -32,13 +32,12 @@ export class Usuario{
 		);
 	}
 
-	@Get("/getbysnativos/:p_snAtivo")
+	@Get("/getbysnativo/:p_snAtivo")
 	getMembroBySnAtivo(req:express.Request,res:express.Response):void{
 		UsuarioDAO.find(
 			{"snAtivo":req.params.p_snAtivo}
 			,{
-				"login":0
-				,"senha":0
+				"senha":false
 			}
 		).exec().then(
 			(dta) => res.send(dta)

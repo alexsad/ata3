@@ -137,11 +137,4 @@ export class Usuario extends ModWindow{
 		this._modPerfis.getPerfis();
 		return p_obj;
 	}
-	beforeUpdate(p_req:IDefaultRequest,p_old_obj:IUsuario){
-		if(p_old_obj.perfis){
-			p_req.data["perfis"] = [];
-			p_req.data["perfis"] = p_old_obj.perfis;
-		};
-		return p_req;
-	}
 }
