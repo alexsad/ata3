@@ -79,8 +79,7 @@ export class Login extends ModWindow{
 	   }
 
 	   RequestManager.addRequest({
-		   "module":this
-		   ,"url":"usuario/logar"
+		   "url":"usuario/logar"
 		   ,"method":"get"
 		   ,"data":{
 				"login":this.itlogin.getValue()
@@ -101,7 +100,6 @@ export class Login extends ModWindow{
 	getDados():void{
 		RequestManager.addRequest({
 			"url":"usuario/getbylogin/"+this.itlogin.getValue()
-			,"module":this
 			,"onLoad" : function(dta:IUsuario){
 				//console.log(dta);
 				if(dta){
@@ -145,8 +143,7 @@ export class Login extends ModWindow{
 		RequestManager.addRequest({
 			//"s" : "notificacao.business.ConfigNotificacaoBLL.getValidasByIdGrupo",
 			//"m":"notificacao",
-			url:"notificacoes"
-			,module:this
+			"url":"notificacoes"
 			//data:this.idGrupo,
 			,"onLoad":function(dtas:IUsuario[]) {
 				/*

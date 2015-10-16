@@ -62,7 +62,6 @@ export class Menu extends ModWindow{
 		this.itIcone.fromService({ 
 			rootUrl: Underas.getLocation()
 			,url: "assets/icons.json"
-			,module:this 
 		});
 		this._items = new ItemMenu(this);
 		this.getModView().append(this._items);
@@ -72,10 +71,16 @@ export class Menu extends ModWindow{
 		return p_obj;
 	}
 	beforeInsert(p_req_obj: IDefaultRequest): IDefaultRequest{
+		if (!this._idPerfil) {
+			return null;
+		};
 		p_req_obj.url="perfil/menu/"+ this._idPerfil;
 		return p_req_obj;
 	}
 	beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: IMenu): IDefaultRequest{
+		if (!this._idPerfil) {
+			return null;
+		};
 		p_req_new_obj.url="perfil/menu/"+ this._idPerfil;
 		if(p_old_obj.children){
 			p_req_new_obj.data["children"] = [];
@@ -84,6 +89,9 @@ export class Menu extends ModWindow{
 		return p_req_new_obj;
 	}
 	beforeDelete(p_req_delete: IDefaultRequest, p_old_obj: IMenu): IDefaultRequest{
+		if (!this._idPerfil) {
+			return null;
+		};
 		p_req_delete.url="perfil/menu/"+ this._idPerfil + "," + p_old_obj._id;
 		return p_req_delete;
 	}

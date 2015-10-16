@@ -54,8 +54,7 @@ export class TrimestreView extends ModWindow{
 	}	
 	getTrimestres():void{
 		RequestManager.addRequest({
-			"module":this
-			, "url": "trimestre/getDisponiveisByIdPerfil/" + perfilBoxContainer.getIdPerfil()
+			"url": "trimestre/getDisponiveisByIdPerfil/" + perfilBoxContainer.getIdPerfil()
 			,"onLoad":function(dta:ITrimestre[]){
 				this.getMainList().setDataProvider(dta);
 			}.bind(this)
@@ -63,8 +62,7 @@ export class TrimestreView extends ModWindow{
 	}
 	getOrcamentoByTrimestre(p_item:ITrimestre){        
         RequestManager.addRequest({
-        		"module":this
-                ,"url" : "organizacao.business.OrganizacaoLancamentoBLL.getDadosOrcamento"
+                "url" : "organizacao.business.OrganizacaoLancamentoBLL.getDadosOrcamento"
                 ,"data":{
  					"idTrimestre": p_item._id
 					,"idOrganizacao": "login.idOrganizacao"

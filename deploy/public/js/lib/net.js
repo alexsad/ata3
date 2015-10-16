@@ -23,11 +23,11 @@ define(["require", "exports", "core", "controller"], function (require, exports,
             this.lbMsg.getEle().css({ "font-size": "8px", "font-weight": "normal", "float": "left", "margin-bottom": "2px", "width": "100%" });
             this.getEle().append(this.lbMsg.getEle());
         }
-        Task.prototype.setIdModWindow = function (p_idModWindow) {
-            this.idModWindow = p_idModWindow;
+        Task.prototype.setIdView = function (p_idView) {
+            this.idView = p_idView;
         };
-        Task.prototype.getIdModWindow = function () {
-            return this.idModWindow;
+        Task.prototype.getIdView = function () {
+            return this.idView;
         };
         Task.prototype.finalizar = function (dtk2) {
             this.getEle().addClass("finalizado");
@@ -71,8 +71,11 @@ define(["require", "exports", "core", "controller"], function (require, exports,
         };
         Task.prototype.erroState = function (msge) {
             this.setErro(true);
-            if (msge.join()) {
+            if (msge.join) {
                 this.setMSG(msge.join());
+            }
+            else {
+                this.lbMsg.setText(this.getTaskDesc() + ":" + msge);
             }
             ;
             RequestManager._log_erro({ "s": this.s + "", "e": msge });
@@ -98,16 +101,25 @@ define(["require", "exports", "core", "controller"], function (require, exports,
             ;
             req.format = req.format || this.format;
             var tsk = new Task({ "t": req.t, "s": req.url });
-            tsk.setIdModWindow(req.module.getEle().attr("id"));
+            if (req.module) {
+                tsk.setIdView(req.module.getModView().getEle().attr("id"));
+            }
+            else {
+                tsk.setIdView($("#conteudo .windowCA:first").attr("id"));
+            }
+            ;
             if (!req["method"]) {
                 req["method"] = "GET";
             }
             ;
-            var idWinMod = "#" + tsk.getIdModWindow();
-            $(idWinMod + " .blockrequest").addClass("_req_" + tsk.idRequest).css("display", (this._displayLoad ? "block" : "none"));
-            $(idWinMod + " .blockrequest .BoxTasks").append(tsk.getEle());
+            var idView = "#" + tsk.getIdView();
+            $(idView + " .blockrequest")
+                .addClass("_req_" + tsk.idRequest)
+                .css("display", (this._displayLoad ? "block" : "none"))
+                .find(".BoxTaskRequestProgress").animate({ "width": "40%" }, "faster");
+            $(idView + " .blockrequest .BoxTasks").append(tsk.getEle());
             var onLoad = function (dtr) {
-                var eleM = $("#" + this.getIdModWindow());
+                var eleM = $("#" + this.getIdView());
                 if (!dtr.erro) {
                     this.finalizar(dtr);
                     var paiRE = eleM.find(".blockrequest");
@@ -115,8 +127,14 @@ define(["require", "exports", "core", "controller"], function (require, exports,
                     var classes = paiRE.attr("class");
                     if (classes) {
                         if (classes.indexOf("_req_") < 0) {
-                            paiRE.css("display", "none").find(".BoxTasks").css("display", "none").find(".Task").remove();
+                            paiRE.find(".BoxTaskRequestProgress").animate({ "width": "100%" }, "faster", "linear", function () {
+                                paiRE.css("display", "none").find(".BoxTasks").css("display", "none").find(".Task").remove();
+                                paiRE.find(".BoxTaskRequestProgress").css({ "width": "5%" });
+                            });
                             RequestManager.finalizar();
+                        }
+                        else {
+                            paiRE.find(".BoxTaskRequestProgress").animate({ "width": "+=18%" }, "faster");
                         }
                         ;
                     }
@@ -124,6 +142,7 @@ define(["require", "exports", "core", "controller"], function (require, exports,
                 }
                 else {
                     this.erroState(dtr.erro);
+                    RequestManager.notifyTaskErro(this.getIdView(), dtr.erro);
                 }
             };
             var req_c12667 = {
@@ -169,18 +188,26 @@ define(["require", "exports", "core", "controller"], function (require, exports,
                 }
                 ;
                 RequestManager._log_erro({ "s": "RequestManager.Erro" + "", "e": [errotxt] });
-            });
+                this.erroState(errotxt);
+                RequestManager.notifyTaskErro(this.getIdView(), errotxt);
+            }.bind(tsk));
         };
         RequestManager.refresh = function () { };
         RequestManager.finalizar = function () {
         };
-        RequestManager.notifyTaskErro = function (idTask, erro) {
+        RequestManager.notifyTaskErro = function (p_idView, erro) {
+            console.log(p_idView);
+            $("#tge_" + p_idView.replace("uid_", ""))
+                .addClass("erro_load")
+                .find(".BoxTaskRequestProgress")
+                .css({ "background-color": "red" })
+                .animate({ "width": "80%" }, "faster");
         };
-        RequestManager.showAllTasks = function (p_idWinMod) {
-            $("#" + p_idWinMod + " .BoxTasks").css("display", "block");
+        RequestManager.showAllTasks = function (p_idWiew) {
+            $("#" + p_idWiew + " .BoxTasks").css("display", "block");
         };
-        RequestManager.hideAllTasks = function (p_idWinMod) {
-            $("#" + p_idWinMod + " .BoxTasks").css("display", "none");
+        RequestManager.hideAllTasks = function (p_idWiew) {
+            $("#" + p_idWiew + " .BoxTasks").css("display", "none");
         };
         RequestManager.setFormat = function (p_format) {
             this.format = p_format;

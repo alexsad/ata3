@@ -53,7 +53,6 @@ export class UsuarioPerfil extends ModWindow{
 	onStart():void{
 		this.itPerfil.fromService({
 			"url":"perfil/perfilsimples"
-			,"module":this
 		});
 	}
 	onChangeItem(p_obj:IUsuarioPerfil):IUsuarioPerfil{

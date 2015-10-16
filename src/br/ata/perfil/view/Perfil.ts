@@ -53,21 +53,9 @@ export class Perfil extends ModWindow{
 		this.append(this.mainList);	
 	}
 	onStart():void{
-		//this.mainTb.activate(true);
-		this.mainTb.reloadItens();	
-		/*	
-		RequestManager.addRequest({
-				"url":"perfil/menu",
-				"module":this,
-				"onLoad" : function(dta) {
-					//var mainMenu = new MenuTab({"title":"InfoAta 3.1","target":"#sidebar"});
-					//mainMenu.setDataProvider(dta[1].menus);
-					//mainMenu.setIcon('assets/logo_title.jpg');
-				}.bind(this)
-		});
-		*/
 		this._menus = new Menu();
 		this.getModView().append(this._menus);
+		this.mainTb.reloadItens();
 	}
 	onChangeItem(p_obj:IPerfil):IPerfil{
 		this._menus._idPerfil = this.itIdPerfil.getValue();
