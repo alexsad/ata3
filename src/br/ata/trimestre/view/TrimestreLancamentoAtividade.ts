@@ -71,7 +71,6 @@ export class TrimestreLancamentoAtividade extends ModWindow {
 	onStart():void{
 		this.itIdPerfil.fromService({
 			"url": "perfil/perfilsimples"
-			, "module": this
 		});
 
 	}
@@ -84,8 +83,7 @@ export class TrimestreLancamentoAtividade extends ModWindow {
 	salvarAlteracoes(): void {
 		var tmpTrimestreLancamentoSelecionado: ITrimestre = <ITrimestre>this._modTrimestre.getMainList().getSelectedItem();
 		RequestManager.addRequest({
-			"module": this
-			, "url": "trimestre"
+			 "url": "trimestre"
 			, "method": "put"
 			, "data": tmpTrimestreLancamentoSelecionado
 			, "onLoad": function(resposta: boolean): void {

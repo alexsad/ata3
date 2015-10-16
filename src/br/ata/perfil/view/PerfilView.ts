@@ -33,8 +33,7 @@ export class PerfilView extends ModWindow {
 		//this.mainTb.reloadItens();
 
 		RequestManager.addRequest({
-			"module":this
-			,"url":"perfil/getAutorizacao"
+			"url":"perfil/getAutorizacao"
 			,"onLoad":function(dta:IPerfil[]):void{
 				this.getMainList().setDataProvider(dta);
 			}.bind(this)

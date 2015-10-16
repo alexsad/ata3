@@ -79,19 +79,23 @@ export class ItemMenu extends ModWindow{
 		this.itIcone.fromService({ 
 			rootUrl: tmpUrl
 			,url: "assets/icons.json"
-			,module:this 
 		});
 		this.itTela.fromService({ 
 			rootUrl: tmpUrl
-			,url: "assets/modulo.json"
-			,module:this 
+			,url: "assets/modulo.json" 
 		});
 	}
 	beforeInsert(p_req_obj: IDefaultRequest): IDefaultRequest{
+		if (!this._menu._idPerfil || !this._menu.itIdMenu.getValue()) {
+			return null;
+		};
 		p_req_obj.url="perfil/menu/menuitem/"+this._menu._idPerfil+","+ this._menu.itIdMenu.getValue();
 		return p_req_obj;
 	}
 	beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: IItemMenu): IDefaultRequest{
+		if (!this._menu._idPerfil || !this._menu.itIdMenu.getValue()) {
+			return null;
+		};
 		var tmpMenu: IMenu = <IMenu> this._menu.getMainList().getSelectedItem();
 		if(tmpMenu.children){
 
@@ -104,6 +108,11 @@ export class ItemMenu extends ModWindow{
 		return null;
 	}
 	beforeDelete(p_req_delete: IDefaultRequest, p_old_obj: IItemMenu): IDefaultRequest {
+		
+		if (!this._menu._idPerfil || !this._menu.itIdMenu.getValue()) {
+			return null;
+		};
+
 		p_req_delete.url = "perfil/menu/menuitem/" + this._menu._idPerfil + "," + this._menu.itIdMenu.getValue() + "," + p_old_obj._id;
 		var tmpMenu: IMenu = <IMenu>this._menu.getMainList().getSelectedItem();
 

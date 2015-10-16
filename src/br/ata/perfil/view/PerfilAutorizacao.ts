@@ -54,7 +54,6 @@ export class PerfilAutorizacao extends ModWindow {
 	onStart(): void {
 		this.itPerfil.fromService({
 			"url": "perfil/perfilsimples"
-			, "module": this
 		});
 	}
 	onChangeItem(p_obj: IPerfilAutorizacao): IPerfilAutorizacao {
@@ -64,8 +63,7 @@ export class PerfilAutorizacao extends ModWindow {
 	salvarAlteracoes():void{
 		var tmpPerfilViewSelecionado: IPerfil = <IPerfil>this._modPerfilView.getMainList().getSelectedItem();
 		RequestManager.addRequest({
-			"module":this
-			,"url":"perfil"
+			"url":"perfil"
 			,"method":"put"
 			,"data":tmpPerfilViewSelecionado
 			, "onLoad": function(resposta: boolean): void {

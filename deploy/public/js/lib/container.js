@@ -41,7 +41,6 @@ define(["require", "exports", "core", "net"], function (require, exports, core_1
                 '<div class="form-group fbody"></div>' +
                 '<div style="" class="col-sm-12 col-xs-12 form-actions"></div>' +
                 '</div>' +
-                '<div class="blockrequest normal_load"><div class="BoxTasks" style="display:none"></div></div>' +
                 '<h5 class="col-xs-12 col-sm-12 column block_module_details"><span></span></h5>');
             if (!this._configModWindow) {
                 this._configModWindow = {
@@ -54,14 +53,6 @@ define(["require", "exports", "core", "net"], function (require, exports, core_1
             }
             ;
             this.getEle().addClass("col-sm-12 col-xs-12 column windowC ModWindow").css({ "z-index": (this._uid + 1) });
-            this.getEle(".blockrequest").attr("id", "tge_" + this._uid).on({
-                'click': function (evt) {
-                    net_1.RequestManager.showAllTasks($(evt.target).attr("id"));
-                },
-                'dblclick': function (evt) {
-                    net_1.RequestManager.removeAllTasks($(evt.target).attr("id"));
-                }
-            });
             this.setUrlModule(p_modpath);
         }
         ModWindow.prototype.setTitle = function (p_title) {
@@ -275,7 +266,10 @@ define(["require", "exports", "core", "net"], function (require, exports, core_1
     var ModView = (function (_super) {
         __extends(ModView, _super);
         function ModView(p_title) {
-            _super.call(this, 'div', '');
+            _super.call(this, 'div', '<div class="blockrequest normal_load">' +
+                '<div class="BoxTaskRequestProgress"></div>' +
+                '<div class="BoxTasks" style="display:none"></div>' +
+                '</div>');
             this._title = "";
             this._icone = "file";
             this._title = p_title;
@@ -304,6 +298,14 @@ define(["require", "exports", "core", "net"], function (require, exports, core_1
                 $("#uid_" + uidmodview + " .ModWindow:last").removeClass("hidden-xs");
                 $("#previous_" + uidmodview).removeClass("disabled");
                 $("#next_" + uidmodview).addClass("disabled");
+            });
+            this.getEle(".blockrequest").attr("id", "tge_" + this._uid).on({
+                'click': function (evt) {
+                    net_1.RequestManager.showAllTasks($(evt.target).attr("id"));
+                },
+                'dblclick': function (evt) {
+                    net_1.RequestManager.removeAllTasks($(evt.target).attr("id"));
+                }
             });
         }
         ModView.prototype.append = function (p_ele) {
@@ -359,7 +361,7 @@ define(["require", "exports", "core", "net"], function (require, exports, core_1
             }
             ;
             if (on) {
-                $("#conteudo .ModView").css("display", "none");
+                $("#conteudo .ModView").removeClass("windowCA").css("display", "none");
                 $("#navbarlist li.active").removeClass("active");
                 $("#aba_s_" + this._uid).addClass("active").css("display", "block");
                 this.getEle().addClass("windowCA").css("display", "block");

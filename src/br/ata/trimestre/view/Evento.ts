@@ -208,11 +208,9 @@ export class Evento extends ModWindow {
 	onStart():void{
 		this.itIdResponsavel.fromService({
 			url: "usuario/getbysnativo/S"
-			,module:this
 		});		
 		this.itIdStatus.fromService({
 			url: "trimestre/getAtividadeStatus"
-			, module: this
 		});		
 		this.itDtDisponivel.getInput().on("change", this.setDtEvento.bind(this));
 	}

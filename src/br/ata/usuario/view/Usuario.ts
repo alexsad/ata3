@@ -127,8 +127,7 @@ export class Usuario extends ModWindow{
 		this.mainTb.reloadItens();
 		//this.mainTb.activate(true);
 		this.itIdOrganizacao.fromService({
-			 module:this
-			,url:"organizacao"
+			"url":"organizacao"
 		});
 
 
