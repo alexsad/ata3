@@ -196,7 +196,6 @@ define(["require", "exports", "core", "controller"], function (require, exports,
         RequestManager.finalizar = function () {
         };
         RequestManager.notifyTaskErro = function (p_idView, erro) {
-            console.log(p_idView);
             $("#tge_" + p_idView.replace("uid_", ""))
                 .addClass("erro_load")
                 .find(".BoxTaskRequestProgress")
@@ -222,11 +221,16 @@ define(["require", "exports", "core", "controller"], function (require, exports,
             this._displayLoad = p_on;
         };
         RequestManager.removeAllTasks = function (p_idWinMod) {
-            if ($("#" + p_idWinMod).hasClass("erro_load")) {
-                $("#" + p_idWinMod + " .BoxTasks .TaskErro").remove();
-                $("#" + p_idWinMod).css("display", "none").removeClass().addClass("blockrequest normal_load");
+            var paiRE = $("#" + p_idWinMod);
+            if (paiRE.hasClass("erro_load")) {
+                paiRE.find(" .BoxTasks .TaskErro").remove();
+                paiRE.css("display", "none").removeClass().addClass("blockrequest normal_load");
             }
             ;
+            paiRE.find(".BoxTaskRequestProgress").css({
+                "width": "5%",
+                "background-color": "blue"
+            });
             this.hideAllTasks(p_idWinMod);
         };
         RequestManager.type = "GET";

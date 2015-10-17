@@ -18,7 +18,7 @@ export class UsuarioPerfil extends ModWindow{
 	mainList:ListView;
 	_modUsuario: Usuario;
 	constructor(p_modUsuario:Usuario){
-		super("*Perfis Associados","br.ata.usuario.view.UsuarioPerfil");
+		super("*Perfis Associados");
 		this.setRevision("$Revision: 1 $");
 		this.setSize(4);
 

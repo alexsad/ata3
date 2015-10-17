@@ -16,7 +16,7 @@ export class Perfil extends ModWindow{
 	mainList:ListView;
 	_menus: Menu;
 	constructor(){
-		super("Perfil","br.ata.perfil.view.Perfil");
+		super("Perfil");
 		this.setRevision("$Revision: 138 $");	
 		this.setSize(3);
 

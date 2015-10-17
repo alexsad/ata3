@@ -23,7 +23,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	mainList:ListView;
 	_modMembros:FastMembro;
 	constructor(){
-		super("*discursantes da reuniao","br.ata.reuniao.view.ReuniaoPorPeriodo");
+		super("*discursantes da reuniao");
 		this.setRevision("$Revision: 138 $");		
 		this.setSize(8);
 

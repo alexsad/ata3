@@ -202,6 +202,22 @@ module.exports = function(grunt) {
 	//var targetFile = grunt.option( "target" );
 
 	//global[targetFile] = grunt.option( "target" );
+
+
+	grunt.registerTask('build-view-pos', function(){
+		grunt.file.recurse("public/js/br/", function(abspath, rootdir, subdir, filename){
+			//console.log(abspath+":"+rootdir+":"+filename);
+			if(filename.indexOf(".js")>-1){
+				var contentFile = grunt.file.read(abspath);
+				if(contentFile.indexOf("})(container_1.ModWindow);")){
+					contentFile = contentFile.replace(/(_super\.call\(this,.*)/,"$1 this.setUrlModule('"+abspath.replace("public/","").replace(/\//g,".").replace(".js","")+"');");
+					grunt.file.write(abspath, contentFile);
+					grunt.log.writeln('File "' + abspath + '" modified.');
+				}
+			};
+		});
+	});
+
 	
 	grunt.registerTask('build-view-file', ['typescript:clientF']);
 
@@ -210,7 +226,7 @@ module.exports = function(grunt) {
 	//grunt.registerTask('dist', ['clean', 'copy']);		
 	grunt.registerTask('build-server-dev', ['clean:server','typescript:server']);	
 	grunt.registerTask('build-server-deploy', ['build-server-dev','uglify:server']);
-	grunt.registerTask('build-client-dev', ['clean:client','typescript:client','copy:viewAssets','replace:viewjs']);
+	grunt.registerTask('build-client-dev', ['clean:client','typescript:client','copy:viewAssets','replace:viewjs','build-view-pos']);
 	grunt.registerTask('build-client-deploy', ['build-client-dev','uglify:view']);
 	grunt.registerTask('build-dev', ['build-server-dev','build-client-dev']);	
 	grunt.registerTask('build-deploy', ['build-server-deploy','build-client-deploy']);

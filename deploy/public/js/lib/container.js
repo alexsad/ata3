@@ -35,7 +35,7 @@ define(["require", "exports", "core", "net"], function (require, exports, core_1
     exports.AlertWindow = AlertWindow;
     var ModWindow = (function (_super) {
         __extends(ModWindow, _super);
-        function ModWindow(p_subtitle, p_modpath) {
+        function ModWindow(p_subtitle) {
             _super.call(this, 'div', '<h3 class="col-sm-12 col-xs-12 subtitlemodwindow">' + p_subtitle + '</h3>' +
                 '<div class="conteudo_form">' +
                 '<div class="form-group fbody"></div>' +
@@ -53,7 +53,6 @@ define(["require", "exports", "core", "net"], function (require, exports, core_1
             }
             ;
             this.getEle().addClass("col-sm-12 col-xs-12 column windowC ModWindow").css({ "z-index": (this._uid + 1) });
-            this.setUrlModule(p_modpath);
         }
         ModWindow.prototype.setTitle = function (p_title) {
             this._configModWindow._subtitle = p_title;
@@ -299,13 +298,17 @@ define(["require", "exports", "core", "net"], function (require, exports, core_1
                 $("#previous_" + uidmodview).removeClass("disabled");
                 $("#next_" + uidmodview).addClass("disabled");
             });
-            this.getEle(".blockrequest").attr("id", "tge_" + this._uid).on({
-                'click': function (evt) {
-                    net_1.RequestManager.showAllTasks($(evt.target).attr("id"));
-                },
-                'dblclick': function (evt) {
+            this.getEle(".blockrequest").attr("id", "tge_" + this._uid).on('click', function (evt) {
+                var tmpEle = $(evt.target);
+                if (tmpEle.hasClass("taskBoxVisible")) {
+                    tmpEle.removeClass("taskBoxVisible");
                     net_1.RequestManager.removeAllTasks($(evt.target).attr("id"));
                 }
+                else {
+                    tmpEle.addClass("taskBoxVisible");
+                    net_1.RequestManager.showAllTasks(tmpEle.attr("id"));
+                }
+                ;
             });
         }
         ModView.prototype.append = function (p_ele) {

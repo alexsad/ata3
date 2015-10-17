@@ -907,7 +907,7 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
             var urlModule = this.getModule().getUrlModule();
             urlModule = urlModule.replace(/\.+/g, "/");
             urlModule = urlModule.substring(0, urlModule.lastIndexOf("/"));
-            this._urlTemplate = "js/" + urlModule + "/" + this._urlTemplate;
+            this._urlTemplate = urlModule + "/" + this._urlTemplate;
             $.get(this._urlTemplate, function (p_templateHtml) {
                 this._itemTemplateHtml = p_templateHtml;
                 fnAfter();

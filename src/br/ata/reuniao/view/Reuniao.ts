@@ -14,7 +14,7 @@ export class Reuniao extends ModWindow{
 	mainTb:ToolBar;
 	_modDiscursante: Discursante;
 	constructor(){
-		super("*cadastro de reunioes.","br.ata.reuniao.view.Reuniao");
+		super("*cadastro de reunioes.");
 		this.setRevision("$Revision: 138 $");
 		this.setSize(4);
 

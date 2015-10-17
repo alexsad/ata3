@@ -14,7 +14,7 @@ export class Login extends ModWindow{
 	itsenha:InputPassWord;
 	btEntrar:Button;
 	constructor(){
-		super("Login","br.ata.usuario.view.Login");
+		super("Login");
 		this.setRevision("$Revision: 140 $");
 		this.setSize(4);
 

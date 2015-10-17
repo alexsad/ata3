@@ -11,7 +11,7 @@ export class PerfilView extends ModWindow {
 	_modPerfilAprovacao: PerfilAutorizacao;
 	_modPerfilLiberacao: PerfilAutorizacao;
 	constructor() {
-		super("Perfil", "br.ata.perfil.view.PerfilView");
+		super("Perfil");
 		this.setRevision("$Revision: 138 $");
 		this.setSize(4);
 

@@ -33,7 +33,7 @@ export class Evento extends ModWindow {
 	btSubmeter: Button;
 
 	constructor() {
-		super("Atividades","br.ata.trimestre.view.Evento");
+		super("Atividades");
 		this.setRevision("$Revision: 140 $");
 		this.setSize(8);
 
