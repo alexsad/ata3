@@ -10,7 +10,7 @@ export class Organizacao extends ModWindow{
 	mainList:ListView;
 	mainTb:ToolBar;
 	constructor(){
-		super("Organizacoes","br.ata.organizacao.view.Organizacao");
+		super("Organizacoes");
 		this.setRevision("$Revision: 138 $");
 		this.setSize(6);
 

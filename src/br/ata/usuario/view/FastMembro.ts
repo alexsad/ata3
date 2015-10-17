@@ -9,7 +9,7 @@ import {UsuarioPerfil} from "./UsuarioPerfil";
 export class FastMembro extends ModWindow{
 	mainList:ListView;
 	constructor(){		
-		super("Lista de Discursantes","br.ata.usuario.view.FastMembro");
+		super("Lista de Discursantes");
 		this.setRevision("$Revision: 138 $");
 		this.setSize(4);
 		this.mainList = new ListView("discursantes");

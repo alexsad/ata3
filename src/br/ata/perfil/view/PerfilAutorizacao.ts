@@ -18,7 +18,7 @@ export class PerfilAutorizacao extends ModWindow {
 	_modPerfilView: PerfilView;
 	_tpModulo: number;
 	constructor(p_modPerfilView: PerfilView, p_tpModulo: EPerfilAutorizacaoTP) {
-		super("*Perfis Associados", "br.ata.perfil.view.PerfilAutorizacao");
+		super("*Perfis Associados");
 		this.setRevision("$Revision: 1 $");
 		this.setSize(4);
 

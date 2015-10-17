@@ -13,7 +13,7 @@ export class TrimestreView extends ModWindow{
 	mainList: ListView;
 	_modEvento: Evento;
 	constructor(){
-		super("trimestres","br.ata.trimestre.view.TrimestreView");
+		super("trimestres");
 		this.setRevision("$Revision: 63 $");	
 		this.setSize(4);	
 		

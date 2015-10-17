@@ -17,7 +17,7 @@ export class Menu extends ModWindow{
 	_items: ItemMenu;
 
 	constructor(){	
-		super("*cadastro e configuracao dos menus.","br.ata.perfil.view.Menu");
+		super("*cadastro e configuracao dos menus.");
 		this.setRevision("$Revision: 138 $");		
 		this.setSize(5);
 
@@ -82,10 +82,6 @@ export class Menu extends ModWindow{
 			return null;
 		};
 		p_req_new_obj.url="perfil/menu/"+ this._idPerfil;
-		if(p_old_obj.children){
-			p_req_new_obj.data["children"] = [];
-			p_req_new_obj.data["children"] = p_old_obj.children;
-		};
 		return p_req_new_obj;
 	}
 	beforeDelete(p_req_delete: IDefaultRequest, p_old_obj: IMenu): IDefaultRequest{

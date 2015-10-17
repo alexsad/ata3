@@ -12,7 +12,7 @@ export class Certificado extends ModWindow{
 	mainTb:ToolBar;
 	mainList:ListView;
 	constructor(){
-		super("Certificado","br.ata.certificado.view.Certificado");
+		super("Certificado");
 		this.setRevision("$Revision: 2 $");
 
 		this.mainTb = new ToolBar({"domain":"certificado"});

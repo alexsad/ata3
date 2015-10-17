@@ -16,7 +16,7 @@ export class Discursante extends ModWindow{
 	mainTb:ToolBar;
 	_idReuniao:string;
 	constructor(){
-		super("*discursantes da reuniao","br.ata.reuniao.view.Discursante");
+		super("*discursantes da reuniao");
 		this.setRevision("$Revision: 138 $");
 		this.setSize(8);
 

@@ -21,7 +21,7 @@ export class Usuario extends ModWindow{
 	_modPerfis: UsuarioPerfil;
 
 	constructor(){
-	 	super("*Cadastro de usuarios.","br.ata.usuario.view.Usuario");
+	 	super("*Cadastro de usuarios.");
 		this.setRevision("$Revision: 138 $");
 		this.setSize(8);
 

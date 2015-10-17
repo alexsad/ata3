@@ -17,7 +17,7 @@ export class ItemMenu extends ModWindow{
 	mainList:ListView;
 	_menu: Menu;
 	constructor(p_menu:Menu){
-		super("*Itens do menu.","br.ata.perfil.view.ItemMenu");
+		super("*Itens do menu.");
 		this.setRevision("$Revision: 138 $");		
 		this.setSize(4);
 
@@ -89,6 +89,11 @@ export class ItemMenu extends ModWindow{
 		if (!this._menu._idPerfil || !this._menu.itIdMenu.getValue()) {
 			return null;
 		};
+		var tmpMenu: IMenu = <IMenu>this._menu.getMainList().getSelectedItem();
+		if (!tmpMenu.children) {
+			tmpMenu.children = [];
+		};
+		tmpMenu.children.push(<IItemMenu>p_req_obj.data);
 		p_req_obj.url="perfil/menu/menuitem/"+this._menu._idPerfil+","+ this._menu.itIdMenu.getValue();
 		return p_req_obj;
 	}
@@ -97,13 +102,12 @@ export class ItemMenu extends ModWindow{
 			return null;
 		};
 		var tmpMenu: IMenu = <IMenu> this._menu.getMainList().getSelectedItem();
-		if(tmpMenu.children){
-
+		if(!tmpMenu.children){
+			tmpMenu.children = [];
 		};
 		//tmpMenu.children[0] =  p_req_new_obj.data;
 		var indx: number = parseInt(p_old_obj._ind);
 		tmpMenu.children[indx] = <IItemMenu>p_req_new_obj.data;
-		//tmpMenu.children.push();
 		this._menu.mainTb.saveItem(null);
 		return null;
 	}

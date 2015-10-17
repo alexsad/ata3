@@ -17,7 +17,7 @@ export class Trimestre extends ModWindow{
 	_modTrimestreLancamentoAtividade: TrimestreLancamentoAtividade;
 	_modTrimestreDataLivre: TrimestreDataLivre;
 	constructor(){
-		super("trimestres","br.ata.trimestre.view.Trimestre");
+		super("trimestres");
 		this.setRevision("$Revision: 140 $");	
 		this.setSize(5);
 

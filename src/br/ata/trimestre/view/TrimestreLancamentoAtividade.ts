@@ -16,7 +16,7 @@ export class TrimestreLancamentoAtividade extends ModWindow {
 	btSave: Button;
 	_modTrimestre: Trimestre;
 	constructor(p_modTrimestre: Trimestre) {
-		super("*lancamentos", "br.ata.trimestre.view.TrimestreLancamentoAtividade");
+		super("*lancamentos");
 		this.setRevision("$Revision: 138 $");
 		this.setSize(4);
 
