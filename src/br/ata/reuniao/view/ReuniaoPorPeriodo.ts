@@ -113,7 +113,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	}
 	onStart():void{		
 		this.itIdMembro.fromService({
-			"url":"usuario/getbysnativos/S"
+			"url":"usuario/getbysnativo/S"
 			,"module":this
 		});
 		this._modMembros = new FastMembro();

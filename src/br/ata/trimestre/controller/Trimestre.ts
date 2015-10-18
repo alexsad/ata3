@@ -47,11 +47,13 @@ export class Trimestre{
 		TrimestreDAO.find({ "snAberto": "S" }).exec().then(
 			function(dta: ITrimestre[]) {
 				var tmpDta: ITrimestre[] = [];
+				var tmpIdPerfilReq: string = req.params.idPerfil;
 				dta.forEach(function(tmpTrimestre:ITrimestre,indTrim:number){
 					
 					var tmpTotalLancado: number = 0;
 					tmpTrimestre.trimestreLancamentoAtividade.forEach(function(tmpItem: ITrimestreLancamentoAtividade) {
-						if (tmpItem.idPerfil == req.params.idPerfil) {
+						//console.log(tmpIdPerfilReq + ":" + tmpItem.idPerfil);
+						if (tmpItem.idPerfil == tmpIdPerfilReq) {
 							tmpTotalLancado += tmpItem.valor;
 						};
 					});
@@ -60,12 +62,12 @@ export class Trimestre{
 					//console.log(tmpTrimestre);
 					var tmpSaldo: number = tmpTotalLancado;
 					tmpTrimestre.atividades.forEach(function(tmpItemAtiv: IAtividade,indAtiv:number) {
-						if (tmpItemAtiv.idPerfil == req.params.idPerfil) {
+						//console.log(tmpIdPerfilReq + ":" + tmpItemAtiv.idPerfil);
+						if (tmpItemAtiv.idPerfil == tmpIdPerfilReq) {
 							tmpSaldo -= tmpItemAtiv.orcamento;
-						};
-
-
-						dta[indTrim].atividades.splice(indAtiv, 1);
+						}else{
+							dta[indTrim].atividades.splice(indAtiv, 1);
+						};						
 					});
 					dta[indTrim].vtTotalLancado = tmpTotalLancado;
 					dta[indTrim].vtSaldo = tmpSaldo;
@@ -116,6 +118,21 @@ export class Trimestre{
 		);
 	}
 
+	@Put("/atividade/:idTrimestre")
+	updateAtividade(req: express.Request, res: express.Response) {
+		var p_atividade: IAtividade = <IAtividade>req.body;
+		TrimestreDAO.findOneAndUpdate(
+			{ "_id": req.params.idTrimestre, "atividades._id": p_atividade._id }
+			, { "$set": { "atividades.$": p_atividade } }
+			, function(err, doc) {
+				if (err) {
+					res.status(400).json(err);
+				} else {
+					res.send(true);
+				}
+			}
+		);
+	}
 
 	@Post("/atividade/:idTrimestre")
 	addAtividade(req: express.Request, res: express.Response): void {
@@ -127,13 +144,13 @@ export class Trimestre{
 				//var newdoc:IMenu = <IMenu>data.menus["create"](p_menu);				
 				//var newdoc: IAtividade = <IAtividade>data.atividades["create"](p_atividade);
 				//console.log(newdoc);
-				data.atividades.push(p_atividade);
+				var newdoc: IAtividade = <IAtividade>data.atividades["create"](p_atividade);
+				data.atividades.push(newdoc);
 				data["save"](function(err2: any) {
 					if (err2) {
 						res.status(400).json(err2);
 					}else{
-						console.log('the sub-doc was saved2');
-						res.send(data.atividades[data.atividades.length - 1]._id);
+						res.send(newdoc._id);
 					};
 				});
 				

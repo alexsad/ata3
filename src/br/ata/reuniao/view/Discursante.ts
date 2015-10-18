@@ -72,8 +72,7 @@ export class Discursante extends ModWindow{
 	}
 	onStart():void{
 		this.itIdMembro.fromService({
-			url:"usuario/getbysnativos/S"
-			,module:this
+			url:"usuario/getbysnativo/S"
 		});
 		//this.itIdReuniao.fromService("reuniao/reuniao");
 	}

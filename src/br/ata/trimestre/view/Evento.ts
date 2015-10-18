@@ -4,6 +4,8 @@ import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/net";
 import {ITrimestre,IAtividade} from "../model/ITrimestre";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
+import {TrimestreView} from "./TrimestreView";
+
 
 declare var perfilBoxContainer: PerfilBox;
 
@@ -11,7 +13,6 @@ declare var perfilBoxContainer: PerfilBox;
 export class Evento extends ModWindow {
 	itIdEvento: InputText;
 	itSnEditavel: CheckBox;	
-	itIdTrimestre: InputText;	
 	itDescricao: InputText;	 
 	itDetalhes: TextArea;	 
 	itCodRefMLS: InputText;
@@ -31,13 +32,13 @@ export class Evento extends ModWindow {
 	mainList: ListView; 
 	btPrintAta: Button;
 	btSubmeter: Button;
-
-	constructor() {
+	_modTrimestreView: TrimestreView;
+	constructor(p_trimestre_view:TrimestreView) {
 		super("Atividades");
 		this.setRevision("$Revision: 140 $");
 		this.setSize(8);
 
-		this.mainTb = new ToolBar({ "domain": "evento" });
+		this.mainTb = new ToolBar({ "domain": "trimestre/atividade" });
 		this.append(this.mainTb);
 
 		this.itDsObservacao = new AlertMsg("Cadastro de Nova Atividade...");
@@ -48,19 +49,11 @@ export class Evento extends ModWindow {
 
 
 		this.itIdEvento = new InputText("");
-		this.itIdEvento.setColumn("$idEvento");
+		this.itIdEvento.setColumn("$_id");
 		this.itIdEvento.setLabel("cod.");
 		this.itIdEvento.setEnable(false);
 		this.itIdEvento.setSize(2);
 		this.append(this.itIdEvento);
-
-		this.itIdTrimestre = new InputText("");
-		this.itIdTrimestre.setColumn("!idTrimestre");
-		this.itIdTrimestre.setLabel("trim.");
-		this.itIdTrimestre.setEnable(false);
-		this.itIdTrimestre.setSize(2);
-		this.itIdTrimestre.show(true);
-		this.append(this.itIdTrimestre);
 
 		this.itCodRefMLS = new InputText("");
 		this.itCodRefMLS.setColumn("#codRefMLS");
@@ -69,23 +62,16 @@ export class Evento extends ModWindow {
 		this.itCodRefMLS.setSize(3);
 		this.itCodRefMLS.setEnable(false);
 		this.append(this.itCodRefMLS);
-
+		
+		//"idStatus":1, "descricao":"ELABORADA"
 		this.itIdStatus = new Select("Status");
 		this.itIdStatus.setColumn("@idStatus");
 		this.itIdStatus.setLabel("Status");
 		this.itIdStatus.setValueField("idStatus");
-		this.itIdStatus.setLabelField("descricao");
-		this.itIdStatus.setEnable(false);
+		this.itIdStatus.setLabelField("descricao");		
 		this.itIdStatus.setSize(5);
+		this.itIdStatus.setEnable(false);
 		this.append(this.itIdStatus);
-
-
-		this.itDescricao = new InputText("");
-		this.itDescricao.setColumn("@descricao");
-		this.itDescricao.setLabel("descricao");
-		this.itDescricao.setPlaceHolder("digite a descricao da atividade");
-		this.itDescricao.setSize(10);
-		this.append(this.itDescricao);
 
 		this.itSnEditavel = new CheckBox("Editavel?", "Sim");
 		this.itSnEditavel.setColumn("@snEditavel");
@@ -95,6 +81,13 @@ export class Evento extends ModWindow {
 		this.itSnEditavel.setSize(2);
 		this.itSnEditavel.setEnable(false);
 		this.append(this.itSnEditavel);
+
+		this.itDescricao = new InputText("");
+		this.itDescricao.setColumn("@descricao");
+		this.itDescricao.setLabel("descricao");
+		this.itDescricao.setPlaceHolder("digite a descricao da atividade");
+		this.itDescricao.setSize(12);
+		this.append(this.itDescricao);
 
 		this.itDtDisponivel = new Select("datas disponiveis");
 		this.itDtDisponivel.setLabel("Dts. Livres");
@@ -204,6 +197,8 @@ export class Evento extends ModWindow {
 
 		this.mainList = new ListView("Evento");
 		this.append(this.mainList);	
+
+		this._modTrimestreView = p_trimestre_view;
 	}
 	onStart():void{
 		this.itIdResponsavel.fromService({
@@ -253,6 +248,7 @@ export class Evento extends ModWindow {
 		this.itMomento.setValue(this.itDtDisponivel.getValue());
 	}
 	setDatasDisponiveis(p_dtas:Date[]):void{
+		console.log(this.mainList.getSelectedItem());
 		var tmpDatasDiponiveis: { 
 			dtEventoData:string
 			,dsEventoData:string
@@ -285,7 +281,15 @@ export class Evento extends ModWindow {
 	}
 	beforeInsert(p_req_obj:IDefaultRequest): IDefaultRequest{
 		p_req_obj.data.idStatus = 1;
-		p_req_obj.url = "trimestre/atividade/" + this.itIdTrimestre.getValue();
+		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
+		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre._id;
+		//tmpTrimestre.atividades.push(p_req_obj.data);
+		return p_req_obj;
+	}
+	beforeUpdate(p_req_obj: IDefaultRequest, p_old_obj:IAtividade): IDefaultRequest {
+		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
+		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre._id;
+		//tmpTrimestre.atividades.push(p_req_obj.data);
 		return p_req_obj;
 	}
 
