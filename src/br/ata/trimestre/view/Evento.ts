@@ -70,7 +70,7 @@ export class Evento extends ModWindow {
 		this.itIdStatus.setValueField("idStatus");
 		this.itIdStatus.setLabelField("descricao");		
 		this.itIdStatus.setSize(5);
-		this.itIdStatus.setEnable(false);
+		//this.itIdStatus.setEnable(false);
 		this.append(this.itIdStatus);
 
 		this.itSnEditavel = new CheckBox("Editavel?", "Sim");
@@ -248,7 +248,7 @@ export class Evento extends ModWindow {
 		this.itMomento.setValue(this.itDtDisponivel.getValue());
 	}
 	setDatasDisponiveis(p_dtas:Date[]):void{
-		console.log(this.mainList.getSelectedItem());
+		//console.log(this.mainList.getSelectedItem());
 		var tmpDatasDiponiveis: { 
 			dtEventoData:string
 			,dsEventoData:string

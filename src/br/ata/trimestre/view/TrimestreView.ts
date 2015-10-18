@@ -47,7 +47,7 @@ export class TrimestreView extends ModWindow{
 	onChangeItem(p_item: ITrimestre): ITrimestre {		
 		//js.underas.core.Underas.loadModule({"mod":"br.net.atasacramental.atividade.view.Evento","act":"getByIdTrimestre","p":[p_item.idTrimestre],"puid":this.getVarModule()});
 		//this.getOrcamentoByTrimestre(p_item);	
-		console.log(p_item.atividades);
+		//console.log(p_item.atividades);
 		this._modEvento.mainList.setDataProvider(p_item.atividades);
 		this._modEvento.setDatasDisponiveis(p_item.datasLivres);
 		this._modEvento.itOrcamento.setMax(p_item.vtSaldo);
