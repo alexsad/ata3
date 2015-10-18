@@ -100,13 +100,13 @@ class Perfil{
 			}else{
 				//var newdoc:IMenu = <IMenu>data.menus["create"](p_menu);				
 				var newdoc:IMenu = <IMenu>data.menus["create"](p_menu);
-				console.log(newdoc);
+				//console.log(newdoc);
 				data.menus.push(newdoc);
 				data["save"](function(err2:any){
 					if(err2){
 						res.status(400).json(err2);
 					};
-					console.log('the sub-doc was saved2');
+					//console.log('the sub-doc was saved2');
 				});
 				res.send(newdoc._id);
 			};

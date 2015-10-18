@@ -720,10 +720,16 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
             return vl.length > 0 == true;
         };
         Select.prototype.setValue = function (p_vl) {
+            var tmpVl = "";
             if (!p_vl) {
                 this.getInput().val("");
+                return;
             }
-            else if (p_vl.length > 0) {
+            else {
+                tmpVl = p_vl + "";
+            }
+            ;
+            if (tmpVl.length > 0) {
                 this.getEle().attr({ "data-prevalue": p_vl, "data-vl": p_vl });
                 var tmpDesc = this.getDescFromServiceByValue(p_vl);
                 this.getInput().val(tmpDesc);

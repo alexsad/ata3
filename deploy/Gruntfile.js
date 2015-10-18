@@ -226,10 +226,10 @@ module.exports = function(grunt) {
 	//grunt.registerTask('dist', ['clean', 'copy']);		
 	grunt.registerTask('build-server-dev', ['clean:server','typescript:server']);	
 	grunt.registerTask('build-server-deploy', ['build-server-dev','uglify:server']);
-	grunt.registerTask('build-client-dev', ['clean:client','typescript:client','copy:viewAssets','replace:viewjs','build-view-pos']);
-	grunt.registerTask('build-client-deploy', ['build-client-dev','uglify:view']);
-	grunt.registerTask('build-dev', ['build-server-dev','build-client-dev']);	
-	grunt.registerTask('build-deploy', ['build-server-deploy','build-client-deploy']);
+	grunt.registerTask('build-view-dev', ['clean:client','typescript:client','copy:viewAssets','replace:viewjs','build-view-pos']);
+	grunt.registerTask('build-view-deploy', ['build-view-dev','uglify:view']);
+	grunt.registerTask('build-dev', ['build-server-dev','build-view-dev']);	
+	grunt.registerTask('build-deploy', ['build-server-deploy','build-view-deploy']);
 	
 	//grunt.registerTask('build-deploy', ['build-all','uglify:minview']);
 	

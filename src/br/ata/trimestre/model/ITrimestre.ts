@@ -33,7 +33,8 @@ export interface IAtividade {
 	proposito:string;
 	idStatus: number;
 	dsObservacao: string;
-	vestuario: string
+	vestuario: string;
+	snEditavel?: string;
 }
 
 export enum EAtividadeStatus{

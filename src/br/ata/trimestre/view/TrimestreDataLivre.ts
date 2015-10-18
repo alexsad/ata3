@@ -36,7 +36,7 @@ export class TrimestreDataLivre extends ModWindow{
 		this.append(this.itIdData);
 
 	    this.itMomento = new DatePicker();
-	    this.itMomento.setLabel("Cod:");
+	    this.itMomento.setLabel("Data:");
 	    this.itMomento.setColumn("@momento");
 	    this.itMomento.setSize(12);
 	    this.append(this.itMomento);

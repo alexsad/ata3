@@ -38,18 +38,20 @@ export class TrimestreView extends ModWindow{
 			}.bind(this);		
 		}
 		*/
-		this.getTrimestres();
-		this._modEvento = new Evento();
+		
+		this._modEvento = new Evento(this);
 		this.getModView().append(this._modEvento);
+
+		this.getTrimestres();
 	}
 	onChangeItem(p_item: ITrimestre): ITrimestre {		
 		//js.underas.core.Underas.loadModule({"mod":"br.net.atasacramental.atividade.view.Evento","act":"getByIdTrimestre","p":[p_item.idTrimestre],"puid":this.getVarModule()});
 		//this.getOrcamentoByTrimestre(p_item);	
-
+		//console.log(p_item.atividades);
 		this._modEvento.mainList.setDataProvider(p_item.atividades);
 		this._modEvento.setDatasDisponiveis(p_item.datasLivres);
 		this._modEvento.itOrcamento.setMax(p_item.vtSaldo);
-		this._modEvento.itIdTrimestre.setValue(p_item._id);
+		//this._modEvento.itIdTrimestre.setValue(p_item._id);
 		return p_item;		
 	}	
 	getTrimestres():void{
