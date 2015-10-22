@@ -116,7 +116,7 @@ define(["require", "exports", "core", "controller"], function (require, exports,
             $(idView + " .blockrequest")
                 .addClass("_req_" + tsk.idRequest)
                 .css("display", (this._displayLoad ? "block" : "none"))
-                .find(".BoxTaskRequestProgress").animate({ "width": "40%" }, "faster");
+                .find(".BoxTaskRequestProgress").animate({ "width": "80%" }, "faster");
             $(idView + " .blockrequest .BoxTasks").append(tsk.getEle());
             var onLoad = function (dtr) {
                 var eleM = $("#" + this.getIdView());
@@ -134,7 +134,7 @@ define(["require", "exports", "core", "controller"], function (require, exports,
                             RequestManager.finalizar();
                         }
                         else {
-                            paiRE.find(".BoxTaskRequestProgress").animate({ "width": "+=18%" }, "faster");
+                            paiRE.find(".BoxTaskRequestProgress").animate({ "width": "+=5%" }, "faster");
                         }
                         ;
                     }

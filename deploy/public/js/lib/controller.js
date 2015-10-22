@@ -1287,10 +1287,9 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
             return parseInt(this.getValue());
         };
         NumericStepper.prototype.setVL = function (vl) {
-            if (vl >= this.minvl && vl <= this.maxvl) {
+           
                 this.setValue(vl + "");
-            }
-            ;
+
             if (vl <= this.minvl) {
                 this.setEnable(false, 3);
             }
@@ -1310,9 +1309,9 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
             if (this.isEnable(1)) {
                 if (this.getValue() == "") {
                     this.setValue(this.minvl + "");
-                }
-                ;
-                this.setVL(this.getVL() + this.stepvl);
+                }else if((this.getVL()+this.stepvl) < this.maxvl){
+                    this.setVL(this.getVL() + this.stepvl);
+                }                
             }
             ;
         };
@@ -1320,9 +1319,10 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
             if (this.isEnable(3)) {
                 if (this.getValue() == "") {
                     this.setValue(this.minvl + "");
-                }
-                ;
-                this.setVL(this.getVL() - this.stepvl);
+                }else if((this.getVL()-this.stepvl) > this.minvl){
+                    this.setVL(this.getVL() - this.stepvl);
+                };
+                
             }
             ;
         };
