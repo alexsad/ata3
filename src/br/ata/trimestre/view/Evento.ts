@@ -39,6 +39,7 @@ export class Evento extends ModWindow {
 		this.setSize(8);
 
 		this.mainTb = new ToolBar({ "domain": "trimestre/atividade" });
+		this.mainTb.btDel.getEle().hide();
 		this.append(this.mainTb);
 
 		this.itDsObservacao = new AlertMsg("Cadastro de Nova Atividade...");
@@ -63,14 +64,13 @@ export class Evento extends ModWindow {
 		this.itCodRefMLS.setEnable(false);
 		this.append(this.itCodRefMLS);
 		
-		//"idStatus":1, "descricao":"ELABORADA"
 		this.itIdStatus = new Select("Status");
 		this.itIdStatus.setColumn("@idStatus");
 		this.itIdStatus.setLabel("Status");
 		this.itIdStatus.setValueField("idStatus");
 		this.itIdStatus.setLabelField("descricao");		
 		this.itIdStatus.setSize(5);
-		//this.itIdStatus.setEnable(false);
+		this.itIdStatus.setEnable(false);
 		this.append(this.itIdStatus);
 
 		this.itSnEditavel = new CheckBox("Editavel?", "Sim");
@@ -144,6 +144,8 @@ export class Evento extends ModWindow {
 		this.itOrcamento.setMax(0);
 		this.itOrcamento.setStep(5);
 		this.itOrcamento.setEnable(false, 2);
+		this.itOrcamento.setEnable(false, 1);
+		this.itOrcamento.setEnable(false, 3);
 		this.itOrcamento.setSize(3);
 		this.append(this.itOrcamento);
 
@@ -227,10 +229,14 @@ export class Evento extends ModWindow {
 		this.itIdPerfil.setValue(perfilBoxContainer.getIdPerfil());
 		this.itIdResponsavel.setValue(perfilBoxContainer.idUsuario);
 		this.itSnEditavel.setValue("S");
-		//this.itOrcamento.setMax(trimestreview.getSaldo());
 		this.itOrcamento.setValue(this.itOrcamento.maxvl+"");
 
 		this.itMomento.setValue(this.itDtDisponivel.getValue());
+	}
+	onChangeItem(p_item:IAtividade):IAtividade{	
+		var on = (p_item.snEditavel=="S");
+		this.habilitarCampos(on);
+		return p_item;
 	}
 	habilitarCampos(on:boolean):void{
 		this.itDescricao.setEnable(on);
@@ -243,6 +249,9 @@ export class Evento extends ModWindow {
 		this.itProposito.setEnable(on);
 		this.itDetalhes.setEnable(on);
 		this.itCodRefMLS.setEnable(on);
+		this.btSubmeter.setEnable(on);
+		this.itOrcamento.setEnable(on, 1);
+		this.itOrcamento.setEnable(on, 3);
 	}
 	setDtEvento(evt:Event):void{
 		this.itMomento.setValue(this.itDtDisponivel.getValue());
@@ -289,7 +298,10 @@ export class Evento extends ModWindow {
 	beforeUpdate(p_req_obj: IDefaultRequest, p_old_obj:IAtividade): IDefaultRequest {
 		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
 		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre._id;
-		//tmpTrimestre.atividades.push(p_req_obj.data);
+		//tmpTrimestre.atividades.push(p_req_obj.data);		
+		if(p_old_obj.snEditavel=="N"){
+			return null;
+		};
 		return p_req_obj;
 	}
 

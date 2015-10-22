@@ -1,12 +1,12 @@
 import express = require('express');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router";
 import {PerfilDAO} from "../model/perfil";
-import {IMenu, IItemMenu, IPerfil} from "../model/IPerfil";
+import {IMenu, IItemMenu, IPerfilSimples, IPerfil} from "../model/IPerfil";
 
 @Controller()
-class Perfil{
+export class Perfil{
 	@Get()
-	get(req:express.Request,res:express.Response){
+	get(req:express.Request,res:express.Response):void{
 		PerfilDAO.find({}).exec().then(
 			function(dta:IPerfil[]){
 				res.json(dta);
@@ -17,7 +17,7 @@ class Perfil{
 		);
 	}
 	@Get("/getAutorizacao/")
-	getAutorizacao(req: express.Request, res: express.Response) {
+	getAutorizacaoService(req: express.Request, res: express.Response):void {
 		PerfilDAO.find({ "snAtivo": "S" }, { menus: false, notificacoes: false }).exec().then(
 			function(dta: IPerfil[]) {
 				res.json(dta);
@@ -27,8 +27,14 @@ class Perfil{
 			}
 		);
 	}
+	getAutorizacao():any{
+		return PerfilDAO.find({ "snAtivo": "S" }, { menus: false, notificacoes: false });
+	}
+	getAutorizacaoByIdPerfil(p_idPerfil:string):any{
+		return PerfilDAO.findById(p_idPerfil,{ menus: false, notificacoes: false });
+	}
 	@Get("/get/:idPerfil")
-	getByIdPerfil(req:express.Request,res:express.Response){
+	getByIdPerfil(req:express.Request,res:express.Response):void{
 		PerfilDAO.findById(req.params.idPerfil).exec().then(
 			function(dta:IPerfil){
 				res.json(dta);
@@ -113,7 +119,7 @@ class Perfil{
 		});
 	}
 	@Put("/menu/:idPerfil")
-	updateMenu(req:express.Request,res:express.Response) {
+	updateMenu(req:express.Request,res:express.Response):void{
 		var p_menu:IMenu = <IMenu>req.body;
 		PerfilDAO.findOneAndUpdate(
 			{ "_id": req.params.idPerfil , "menus._id": p_menu._id }
@@ -128,7 +134,7 @@ class Perfil{
 		);
 	}
 	@Delete("/menu/:idPerfil,:idMenu")
-	deleteMenu(req:express.Request,res:express.Response) {
+	deleteMenu(req:express.Request,res:express.Response):void {
 		PerfilDAO.findByIdAndUpdate(req.params.idPerfil,{$pull:{"menus":{_id:req.params.idMenu}}}
 			,function(err:any) {
 				if(!err){
@@ -140,7 +146,7 @@ class Perfil{
 		);
 	}
 	@Post("/menu/menuitem/:idPerfil,:idMenu")
-	addMenuItem(req:express.Request,res:express.Response) {
+	addMenuItem(req:express.Request,res:express.Response):void {
 		var p_menuItem:IItemMenu = <IItemMenu>req.body;
 		PerfilDAO.find(
 			{
@@ -180,7 +186,7 @@ class Perfil{
 		);
 	}
 	@Put("/menu/menuitem/:idPerfil,:idMenu")
-	updateMenuItem(req:express.Request,res:express.Response) {
+	updateMenuItem(req:express.Request,res:express.Response):void {
 		var p_menuItem:IItemMenu = <IItemMenu>req.body;
 		PerfilDAO.update(
 						{ "menus.children._id" : p_menuItem._id},
@@ -196,7 +202,7 @@ class Perfil{
 	}
 	//"/perfil/menu/menuitem/:idPerfil,:idMenu,:idMenuItem"
 	@Delete("/menu/menuitem/:idPerfil,:idMenu,:idMenuItem")
-	deleteMenuItem(req:express.Request,res:express.Response) {
+	deleteMenuItem(req:express.Request,res:express.Response):void{
 			PerfilDAO.findByIdAndUpdate(req.params.idPerfil,{$pull:{"menus":{_id:req.params.idMenu}}}
 				,function(err:any){
 					if(!err){

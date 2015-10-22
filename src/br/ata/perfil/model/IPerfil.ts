@@ -45,6 +45,6 @@ export interface IPerfilAutorizacao{
 }
 
 export interface IPerfilSimples {
-  _id: string;
+  _id?: string;
   descricao: string;
 }
