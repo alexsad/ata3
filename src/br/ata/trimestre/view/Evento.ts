@@ -1,7 +1,7 @@
 import {ModWindow} from "../../../../lib/container";
 import {InputTime, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, InputText, ListView, ItemView} from "../../../../lib/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/net";
-import {ITrimestre,IAtividade} from "../model/ITrimestre";
+import {ITrimestre,IAtividade,EAtividadeStatus} from "../model/ITrimestre";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
 import {TrimestreView} from "./TrimestreView";
@@ -32,6 +32,7 @@ export class Evento extends ModWindow {
 	mainList: ListView; 
 	btPrintAta: Button;
 	btSubmeter: Button;
+	btCancelar: Button;
 	_modTrimestreView: TrimestreView;
 	constructor(p_trimestre_view:TrimestreView) {
 		super("Atividades");
@@ -186,13 +187,24 @@ export class Evento extends ModWindow {
 		}.bind(this));
 
 		this.btSubmeter = new Button("Enviar");
+		this.btSubmeter.getEle().removeClass("btn-default").addClass("btn-info");
 		this.btSubmeter.setIcon("check");
-		//this.btSubmeter.addEvent('click', this.submeter.bind(this));
+		this.btSubmeter.addEvent('click', this.submeter.bind(this));
 		this.btSubmeter.setEnable(false);
 		this.mainTb.addButton(this.btSubmeter);
 
+		this.btCancelar = new Button("Repr.");
+		this.btCancelar.getEle().removeClass("btn-default").addClass("btn-warning");
+		this.btCancelar.setIcon("circle-arrow-down");
+		this.btCancelar.addEvent('click', this.cancelar.bind(this));
+		this.btCancelar.setEnable(false);
+		this.mainTb.addButton(this.btCancelar);
+
+
+
 		this.btPrintAta = new Button("Ata");
 		this.btPrintAta.setIcon("print");
+		this.btPrintAta.setEnable(false);
 		//this.btPrintAta.addEvent('click', this.printAta.bind(this));
 		this.mainTb.addButton(this.btPrintAta);
 
@@ -230,12 +242,21 @@ export class Evento extends ModWindow {
 		this.itIdResponsavel.setValue(perfilBoxContainer.idUsuario);
 		this.itSnEditavel.setValue("S");
 		this.itOrcamento.setValue(this.itOrcamento.maxvl+"");
-
 		this.itMomento.setValue(this.itDtDisponivel.getValue());
+		this.btSubmeter.setEnable(false);
 	}
 	onChangeItem(p_item:IAtividade):IAtividade{	
 		var on = (p_item.snEditavel=="S");
 		this.habilitarCampos(on);
+		if(on){
+			var tmpVlAtiv: number = p_item.orcamento;
+			this.itOrcamento.setMax(this._modTrimestreView.getSaldo() + tmpVlAtiv);
+			this.btSubmeter.setEnable(true);
+			this.btCancelar.setEnable(true);
+		}else{
+			this.btSubmeter.setEnable(false);
+			this.btCancelar.setEnable(false);
+		}
 		return p_item;
 	}
 	habilitarCampos(on:boolean):void{
@@ -252,6 +273,7 @@ export class Evento extends ModWindow {
 		this.btSubmeter.setEnable(on);
 		this.itOrcamento.setEnable(on, 1);
 		this.itOrcamento.setEnable(on, 3);
+		this.mainTb.btSave.setEnable(on);		
 	}
 	setDtEvento(evt:Event):void{
 		this.itMomento.setValue(this.itDtDisponivel.getValue());
@@ -303,6 +325,61 @@ export class Evento extends ModWindow {
 			return null;
 		};
 		return p_req_obj;
+	}
+	
+	beforeDelete(p_req: IDefaultRequest, p_old_obj: IAtividade): IDefaultRequest {
+		return null;
+	}
+
+	cancelar():void{
+		var tmpItemAtiv: IAtividade = <IAtividade>this.mainList.getSelectedItem();
+		if (tmpItemAtiv.snEditavel == "S"){
+			tmpItemAtiv.snEditavel = "N";
+			tmpItemAtiv.idStatus = EAtividadeStatus.REPROVADA;
+			var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
+			RequestManager.addRequest({
+				url: "trimestre/atividade/" + tmpTrimestre._id
+				, method: "PUT"
+				, data: tmpItemAtiv
+				, onLoad: function(rt_save: boolean): void {
+					this.itDsObservacao.setText("Atividade cancelada com sucesso!");
+					this.itDsObservacao.setType(AlertMsg.TP_WARNING);					
+				}.bind(this)
+			});
+		}
+	}
+	
+	submeter():void{
+		var tmpItemAtiv: IAtividade = <IAtividade>this.mainList.getSelectedItem();
+		if(tmpItemAtiv.snEditavel=="S"){
+			tmpItemAtiv.snEditavel = "N";
+			if (tmpItemAtiv.idStatus==EAtividadeStatus.ENVIADA) {
+				tmpItemAtiv.idStatus = EAtividadeStatus.APROVADA;
+			} else if (tmpItemAtiv.idStatus == EAtividadeStatus.APROVADA) {
+				tmpItemAtiv.idStatus = EAtividadeStatus.LIBERADA;
+			}else{
+				tmpItemAtiv.idStatus = EAtividadeStatus.ENVIADA;
+			}
+			var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
+			RequestManager.addRequest({
+				url: "trimestre/atividade/" + tmpTrimestre._id
+				,method:"PUT"
+				,data:tmpItemAtiv
+				,onLoad:function(rt_save:boolean):void{
+					var tmpStatus:string = EAtividadeStatus[tmpItemAtiv.idStatus].toLowerCase();
+					if(rt_save){
+						if (tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA) {
+							tmpStatus = "aprovada";
+						};
+						this.itDsObservacao.setText("Atividade enviada com sucesso, em breve sua atividade sera analisada e se tudo estiver correto ela sera " + tmpStatus + "!");
+						this.itDsObservacao.setType(AlertMsg.TP_INFO);
+					}else{
+						this.itDsObservacao.setText("A atividade nao pode ser " + tmpStatus + ", entre em contato com o bispado em caso de duvidas!");
+						this.itDsObservacao.setType(AlertMsg.TP_ERROR);
+					}
+				}.bind(this)
+			});
+		};
 	}
 
 }

@@ -22,12 +22,12 @@ export class PerfilView extends ModWindow {
 
 		this._modPerfilAprovacao = new PerfilAutorizacao(this, EPerfilAutorizacaoTP.APROVACAO);
 		this._modPerfilAprovacao.setTitle("Apravacao");
-		this._modPerfilAprovacao.aviso.setText("Lista de perfis que podem aprovar as atividades do perfil selecionado!");
+		this._modPerfilAprovacao.aviso.setText("Lista de perfis que o perfil selecionado pode aprovar as atividades!");
 		this.getModView().append(this._modPerfilAprovacao);
 
 		this._modPerfilLiberacao = new PerfilAutorizacao(this, EPerfilAutorizacaoTP.LIBERACAO);
 		this._modPerfilLiberacao.setTitle("Liberacao");
-		this._modPerfilLiberacao.aviso.setText("Lista de perfis que podem liberar as atividades do perfil selecionado!");
+		this._modPerfilLiberacao.aviso.setText("Lista de perfis que o perfil selecionado pode liberar as atividades!");
 		this.getModView().append(this._modPerfilLiberacao);
 
 		//this.mainTb.reloadItens();

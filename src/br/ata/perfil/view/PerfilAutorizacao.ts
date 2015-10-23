@@ -105,7 +105,7 @@ export class PerfilAutorizacao extends ModWindow {
 			} else {
 				var indexPerfil: number = tmpPerfilViewSelecionado.perfilLiberacao.indexOf(this.itPerfil.getValue());
 				if (indexPerfil > -1) {
-					this.aviso.setText("A organizacao ja possui esse perfil!");
+					this.aviso.setText("A autorizacao ja possui esse perfil!");
 					this.aviso.setType(AlertMsg.TP_ERROR);
 					return;
 				};
@@ -126,7 +126,7 @@ export class PerfilAutorizacao extends ModWindow {
 			} else {
 				var indexPerfil: number = tmpPerfilViewSelecionado.perfilAprovacao.indexOf(this.itPerfil.getValue());
 				if (indexPerfil > -1) {
-					this.aviso.setText("A organizacao ja possui esse perfil!");
+					this.aviso.setText("A autorizacao ja possui esse perfil!");
 					this.aviso.setType(AlertMsg.TP_ERROR);
 					return;
 				};
@@ -148,7 +148,7 @@ export class PerfilAutorizacao extends ModWindow {
 				tmpPerfis.splice(indexPerfil, 1);
 				this.salvarAlteracoes();
 			} else {
-				this.aviso.setText("A organizacao nao possui mais esse perfil!");
+				this.aviso.setText("A autorizacao nao possui mais esse perfil!");
 				this.aviso.setType(AlertMsg.TP_ERROR);
 			}			
 		} else {
@@ -166,7 +166,7 @@ export class PerfilAutorizacao extends ModWindow {
 				tmpPerfis.splice(indexPerfil, 1);
 				this.salvarAlteracoes();
 			} else {
-				this.aviso.setText("A organizacao nao possui mais esse perfil!");
+				this.aviso.setText("A autorizacao nao possui mais esse perfil!");
 				this.aviso.setType(AlertMsg.TP_ERROR);
 			};			
 		} else {
