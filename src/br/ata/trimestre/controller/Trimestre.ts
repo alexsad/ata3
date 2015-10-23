@@ -84,9 +84,9 @@ export class Trimestre{
 								console.log(tmpItemAtiv.idStatus);
 								*/
 
-								if(dtaPerfil.perfilAprovacao.indexOf(tmpIdPerfilReq) > -1 && tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA){
+								if (dtaPerfil.perfilAprovacao.indexOf(tmpItemAtiv.idPerfil) > -1 && tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA) {
 									dta[indTrim].atividades[indAtiv].snEditavel = "S";
-								}else if(dtaPerfil.perfilLiberacao.indexOf(tmpIdPerfilReq) > -1 && tmpItemAtiv.idStatus == EAtividadeStatus.APROVADA){
+								} else if (dtaPerfil.perfilLiberacao.indexOf(tmpItemAtiv.idPerfil) > -1 && tmpItemAtiv.idStatus == EAtividadeStatus.APROVADA) {
 									dta[indTrim].atividades[indAtiv].snEditavel = "S";
 								}else if (tmpItemAtiv.idPerfil == tmpIdPerfilReq) {									
 									if (

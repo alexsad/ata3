@@ -50,9 +50,12 @@ export class TrimestreView extends ModWindow{
 		//console.log(p_item.atividades);
 		this._modEvento.mainList.setDataProvider(p_item.atividades);
 		this._modEvento.setDatasDisponiveis(p_item.datasLivres);
-		this._modEvento.itOrcamento.setMax(p_item.vtSaldo);
 		//this._modEvento.itIdTrimestre.setValue(p_item._id);
 		return p_item;		
+	}
+	getSaldo():number{
+		var tmpItemTrimestre:ITrimestre = <ITrimestre>this.mainList.getSelectedItem();
+		return tmpItemTrimestre.vtSaldo;
 	}	
 	getTrimestres():void{
 		RequestManager.addRequest({
