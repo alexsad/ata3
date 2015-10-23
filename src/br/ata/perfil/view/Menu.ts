@@ -7,40 +7,40 @@ import {ItemMenu} from "./ItemMenu";
 
 @ItemView("assets/html/menu.html")
 export class Menu extends ModWindow{
-	itIdMenu: InputText;	 
-	itLabel: InputText; 
-	itIcone: Select;	 
+	itIdMenu: InputText;
+	itLabel: InputText;
+	itIcone: Select;
 	itOrdem: NumericStepper;
 	mainTb:ToolBar;
 	mainList:ListView;
 	_idPerfil: string;
 	_items: ItemMenu;
 
-	constructor(){	
+	constructor(){
 		super("*cadastro e configuracao dos menus.");
-		this.setRevision("$Revision: 138 $");		
+		this.setRevision("$Revision: 138 $");
 		this.setSize(5);
 
 		this.mainTb = new ToolBar({"domain":"perfil/menu"});
-		this.append(this.mainTb);	
+		this.append(this.mainTb);
 
 		this.itIdMenu = new InputText("");
 		this.itIdMenu.setColumn("$_id");
 		this.itIdMenu.setLabel("cod.");
-		this.itIdMenu.setEnable(false);	
-		this.itIdMenu.setSize(3);	
-		this.append(this.itIdMenu);	
+		this.itIdMenu.setEnable(false);
+		this.itIdMenu.setSize(3);
+		this.append(this.itIdMenu);
 
 		this.itLabel = new InputText("");
 		this.itLabel.setColumn("@label");
 		this.itLabel.setLabel("label");
-		this.itLabel.setSize(6);	
+		this.itLabel.setSize(6);
 		this.append(this.itLabel);
 
 		this.itOrdem = new NumericStepper(0);
 		this.itOrdem.setColumn("@ordem");
 		this.itOrdem.setLabel("ordem");
-		this.itOrdem.setSize(3);	
+		this.itOrdem.setSize(3);
 		this.itOrdem.setMin(1);
 		this.itOrdem.setMax(100);
 		this.itOrdem.setStep(1);
@@ -53,18 +53,18 @@ export class Menu extends ModWindow{
 		this.itIcone.setSize(12);
 		this.itIcone.setValueField("icon");
 		this.itIcone.setLabelField("desc");
-		this.append(this.itIcone);	
-		
-		this.mainList = new ListView("Menu");		
-		this.append(this.mainList);		
+		this.append(this.itIcone);
+
+		this.mainList = new ListView("Menu");
+		this.append(this.mainList);
 	}
 	onStart():void{
-		this.itIcone.fromService({ 
+		this._items = new ItemMenu(this);
+		this.getModView().append(this._items);
+		this.itIcone.fromService({
 			rootUrl: Underas.getLocation()
 			,url: "assets/icons.json"
 		});
-		this._items = new ItemMenu(this);
-		this.getModView().append(this._items);
 	}
 	onChangeItem(p_obj:IMenu):IMenu{
 		this._items.getMainList().setDataProvider(p_obj.children);

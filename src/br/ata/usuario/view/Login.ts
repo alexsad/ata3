@@ -35,7 +35,7 @@ export class Login extends ModWindow{
 		this.itsenha.setLabel("senha");
 		this.itsenha.setPlaceHolder("digite sua senha");
 		this.itsenha.setSize(12);
-		this.append(this.itsenha);	
+		this.append(this.itsenha);
 
 		this.btEntrar = new Button("Logar");
 		this.btEntrar.addEvent("click",this.logar.bind(this));
@@ -103,7 +103,6 @@ export class Login extends ModWindow{
 			,"onLoad" : function(dta:IUsuario){
 				//console.log(dta);
 				if(dta){
-					perfilBoxContainer.idOrganizacao = dta.idOrganizacao;
 					perfilBoxContainer.idUsuario = dta._id;
 					//this.idGrupo = dta.idGrupo;
 					//this.getMenusByIdPerfil(dta.perfis[0],dta.perfis);

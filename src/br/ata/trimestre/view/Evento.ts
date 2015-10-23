@@ -12,24 +12,24 @@ declare var perfilBoxContainer: PerfilBox;
 @ItemView("assets/html/evento.html")
 export class Evento extends ModWindow {
 	itIdEvento: InputText;
-	itSnEditavel: CheckBox;	
-	itDescricao: InputText;	 
-	itDetalhes: TextArea;	 
+	itSnEditavel: CheckBox;
+	itDescricao: InputText;
+	itDetalhes: TextArea;
 	itCodRefMLS: InputText;
-	itLocal: InputText;	 
-	itMomento: DatePicker;	 
-	itHora: InputTime;	 
-	itIdResponsavel: Select;	 
-	itOrcamento: NumericStepper;	 
-	itPublicoAlvo: InputText;	 
-	itProposito: InputText;	 
-	itIdStatus: Select;	 
-	itIdPerfil: InputText;
-	itDtDisponivel: Select;	 
-	itDsObservacao:AlertMsg;	 
-	itVestuario: InputText;	
+	itLocal: InputText;
+	itMomento: DatePicker;
+	itHora: InputTime;
+	itIdResponsavel: Select;
+	itOrcamento: NumericStepper;
+	itPublicoAlvo: InputText;
+	itProposito: InputText;
+	itIdStatus: Select;
+	itIdPerfil: Select;
+	itDtDisponivel: Select;
+	itDsObservacao:AlertMsg;
+	itVestuario: InputText;
 	mainTb: ToolBar;
-	mainList: ListView; 
+	mainList: ListView;
 	btPrintAta: Button;
 	btSubmeter: Button;
 	btCancelar: Button;
@@ -64,12 +64,12 @@ export class Evento extends ModWindow {
 		this.itCodRefMLS.setSize(3);
 		this.itCodRefMLS.setEnable(false);
 		this.append(this.itCodRefMLS);
-		
+
 		this.itIdStatus = new Select("Status");
 		this.itIdStatus.setColumn("@idStatus");
 		this.itIdStatus.setLabel("Status");
 		this.itIdStatus.setValueField("idStatus");
-		this.itIdStatus.setLabelField("descricao");		
+		this.itIdStatus.setLabelField("descricao");
 		this.itIdStatus.setSize(5);
 		this.itIdStatus.setEnable(false);
 		this.append(this.itIdStatus);
@@ -105,14 +105,14 @@ export class Evento extends ModWindow {
 		this.itMomento.setLabel("data");
 		this.itMomento.setEnable(false);
 		this.itMomento.setSize(4);
-		this.append(this.itMomento);	
+		this.append(this.itMomento);
 
 
 		this.itHora = new InputTime("19:00");
 		this.itHora.setColumn("@hora");
 		this.itHora.setPlaceHolder("hora da atividade ex. 19:00");
 		this.itHora.setLabel("hora");
-		this.itHora.setSize(3);	
+		this.itHora.setSize(3);
 		this.append(this.itHora);
 
 		this.itLocal = new InputText("capela");
@@ -122,21 +122,21 @@ export class Evento extends ModWindow {
 		this.itLocal.setSize(12);
 		this.append(this.itLocal);
 
-		this.itIdPerfil = new InputText("");
+		this.itIdPerfil = new Select("selecione uma pefil");
 		this.itIdPerfil.setColumn("@idPerfil");
-		this.itIdPerfil.setLabel("perfil");
+		this.itIdPerfil.setLabel("perfil:");
+		this.itIdPerfil.setValueField("_id");
+		this.itIdPerfil.setLabelField("descricao");
 		this.itIdPerfil.setSize(4);
-		this.itIdPerfil.setEnable(false);
 		this.append(this.itIdPerfil);
 
 		this.itIdResponsavel = new Select("responsavel");
 		this.itIdResponsavel.setColumn("@idResponsavel");
 		this.itIdResponsavel.setLabel("responsavel");
 		this.itIdResponsavel.setValueField("_id");
-		this.itIdResponsavel.setLabelField("nmMembro");
+		this.itIdResponsavel.setLabelField("nome");
 		this.itIdResponsavel.setSize(5);
 		this.append(this.itIdResponsavel);
-
 
 		this.itOrcamento = new NumericStepper(0);
 		this.itOrcamento.setColumn("@orcamento");
@@ -200,27 +200,27 @@ export class Evento extends ModWindow {
 		this.btCancelar.setEnable(false);
 		this.mainTb.addButton(this.btCancelar);
 
-
-
 		this.btPrintAta = new Button("Ata");
 		this.btPrintAta.setIcon("print");
 		this.btPrintAta.setEnable(false);
 		//this.btPrintAta.addEvent('click', this.printAta.bind(this));
 		this.mainTb.addButton(this.btPrintAta);
 
-
 		this.mainList = new ListView("Evento");
-		this.append(this.mainList);	
+		this.append(this.mainList);
 
 		this._modTrimestreView = p_trimestre_view;
 	}
 	onStart():void{
 		this.itIdResponsavel.fromService({
-			url: "usuario/getbysnativo/S"
-		});		
+			url: "organizacao/membro/getbysnativo/S"
+		});
 		this.itIdStatus.fromService({
 			url: "trimestre/getAtividadeStatus"
-		});		
+		});
+		this.itIdPerfil.fromService({
+			"url": "perfil/perfilsimples"
+		});
 		this.itDtDisponivel.getInput().on("change", this.setDtEvento.bind(this));
 	}
 	novaAtividade():void{
@@ -245,7 +245,7 @@ export class Evento extends ModWindow {
 		this.itMomento.setValue(this.itDtDisponivel.getValue());
 		this.btSubmeter.setEnable(false);
 	}
-	onChangeItem(p_item:IAtividade):IAtividade{	
+	onChangeItem(p_item:IAtividade):IAtividade{
 		var on = (p_item.snEditavel=="S");
 		this.habilitarCampos(on);
 		if(on){
@@ -273,14 +273,14 @@ export class Evento extends ModWindow {
 		this.btSubmeter.setEnable(on);
 		this.itOrcamento.setEnable(on, 1);
 		this.itOrcamento.setEnable(on, 3);
-		this.mainTb.btSave.setEnable(on);		
+		this.mainTb.btSave.setEnable(on);
 	}
 	setDtEvento(evt:Event):void{
 		this.itMomento.setValue(this.itDtDisponivel.getValue());
 	}
 	setDatasDisponiveis(p_dtas:Date[]):void{
 		//console.log(this.mainList.getSelectedItem());
-		var tmpDatasDiponiveis: { 
+		var tmpDatasDiponiveis: {
 			dtEventoData:string
 			,dsEventoData:string
 		}[] = [];
@@ -320,13 +320,13 @@ export class Evento extends ModWindow {
 	beforeUpdate(p_req_obj: IDefaultRequest, p_old_obj:IAtividade): IDefaultRequest {
 		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
 		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre._id;
-		//tmpTrimestre.atividades.push(p_req_obj.data);		
+		//tmpTrimestre.atividades.push(p_req_obj.data);
 		if(p_old_obj.snEditavel=="N"){
 			return null;
 		};
 		return p_req_obj;
 	}
-	
+
 	beforeDelete(p_req: IDefaultRequest, p_old_obj: IAtividade): IDefaultRequest {
 		return null;
 	}
@@ -343,12 +343,12 @@ export class Evento extends ModWindow {
 				, data: tmpItemAtiv
 				, onLoad: function(rt_save: boolean): void {
 					this.itDsObservacao.setText("Atividade cancelada com sucesso!");
-					this.itDsObservacao.setType(AlertMsg.TP_WARNING);					
+					this.itDsObservacao.setType(AlertMsg.TP_WARNING);
 				}.bind(this)
 			});
 		}
 	}
-	
+
 	submeter():void{
 		var tmpItemAtiv: IAtividade = <IAtividade>this.mainList.getSelectedItem();
 		if(tmpItemAtiv.snEditavel=="S"){
@@ -383,4 +383,3 @@ export class Evento extends ModWindow {
 	}
 
 }
-

@@ -1,7 +1,9 @@
-import {IOrganizacao} from "../model/IOrganizacao";
 import {ModWindow} from "../../../../lib/container";
 import {InputText,DatePicker,ListView,ItemView} from "../../../../lib/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/net";
+import {IOrganizacao} from "../model/IOrganizacao";
+import {Membro} from "./Membro";
+
 
 @ItemView("assets/html/organizacao.html")
 export class Organizacao extends ModWindow{
@@ -9,10 +11,11 @@ export class Organizacao extends ModWindow{
 	itDescricao:InputText;
 	mainList:ListView;
 	mainTb:ToolBar;
+	_modMembro:Membro;
 	constructor(){
 		super("Organizacoes");
 		this.setRevision("$Revision: 138 $");
-		this.setSize(6);
+		this.setSize(4);
 
 		this.mainTb = new ToolBar({"domain":"organizacao"});
 		this.append(this.mainTb);
@@ -35,9 +38,12 @@ export class Organizacao extends ModWindow{
 		//this.addAssociation({"mod":"br.net.atasacramental.organizacao.view.OrganizacaoLancamento","act":"getByIdOrganizacao","puid":this.getVarModule()});
 	}
 	onStart():void{
+		this._modMembro = new Membro(this);
+		this.getModView().append(this._modMembro);
 		this.mainTb.reloadItens();
 	}
 	onChangeItem(p_obj: IOrganizacao): IOrganizacao {
+		this._modMembro.mainList.setDataProvider(p_obj.membro);
 		return p_obj;
 	}
 	beforeUpdate(p_req: IDefaultRequest, p_old_obj: IOrganizacao) {
