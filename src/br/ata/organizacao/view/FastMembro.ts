@@ -1,9 +1,7 @@
-import {IUsuario} from "../model/IUsuario";
 import {ModWindow} from "../../../../lib/container";
 import {ListView,ItemView} from "../../../../lib/controller";
 import {ToolBar,RequestManager,IDefaultRequest} from "../../../../lib/net";
-import {UsuarioPerfil} from "./UsuarioPerfil";
-
+import {IMembro} from "../model/IMembro";
 
 @ItemView("assets/html/discursante.html")
 export class FastMembro extends ModWindow{
@@ -21,8 +19,8 @@ export class FastMembro extends ModWindow{
 	}
 	getMembros():void{
 		RequestManager.addRequest({
-	        "url":"usuario/getbysnativo/S"
-	        ,"onLoad":function(dta:IUsuario[]){        	
+			"url": "organizacao/membro/getbysnativo/S"
+	        ,"onLoad":function(dta:IMembro[]){        	
 	        	this.getMainList().setDataProvider(dta);
 	        	this.getMainList().getEle(".tilecell .discursante_drag").draggable({
         			helper : "clone"

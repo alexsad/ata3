@@ -48,10 +48,10 @@ export class Trimestre{
 	getDisponiveisByIdPerfil(req: express.Request, res: express.Response): void {
 		var tmpIdPerfilReq: string = req.params.idPerfil;
 		TrimestreDAO.find({ "snAberto": "S" }).exec().then(
-			function(dta: ITrimestre[]) {
+			function(dtaTrimestre: ITrimestre[]) {
 
 				var perfilController: Perfil = new Perfil();
-
+				//var tmpTrimestreLst: ITrimestre[] = [];
 
 				perfilController.getAutorizacaoByIdPerfil(tmpIdPerfilReq).exec().then(
 					function(dtaPerfil: IPerfil) {
@@ -63,9 +63,9 @@ export class Trimestre{
 						};
 						if(!dtaPerfil.perfilLiberacao){
 							dtaPerfil.perfilLiberacao=[];
-						};
-						var tmpDta: ITrimestre[] = [];						
-						dta.forEach(function(tmpTrimestre: ITrimestre, indTrim: number) {
+						};					
+						dtaTrimestre.forEach(function(tmpTrimestre: ITrimestre, indTrim: number) {
+							//tmpTrimestreLst.push(tmpTrimestre);
 							var tmpTotalLancado: number = 0;
 							tmpTrimestre.trimestreLancamentoAtividade.forEach(function(tmpItem: ITrimestreLancamentoAtividade) {
 								if (tmpItem.idPerfil == tmpIdPerfilReq) {
@@ -84,10 +84,20 @@ export class Trimestre{
 								console.log(tmpItemAtiv.idStatus);
 								*/
 
-								if (dtaPerfil.perfilAprovacao.indexOf(tmpItemAtiv.idPerfil) > -1 && tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA) {
-									dta[indTrim].atividades[indAtiv].snEditavel = "S";
-								} else if (dtaPerfil.perfilLiberacao.indexOf(tmpItemAtiv.idPerfil) > -1 && tmpItemAtiv.idStatus == EAtividadeStatus.APROVADA) {
-									dta[indTrim].atividades[indAtiv].snEditavel = "S";
+								if (
+									(
+										dtaPerfil.perfilAprovacao.indexOf(tmpItemAtiv.idPerfil) > -1
+										&& tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA
+									) 
+									||
+									(
+										dtaPerfil.perfilLiberacao.indexOf(tmpItemAtiv.idPerfil) > -1
+										&& tmpItemAtiv.idStatus == EAtividadeStatus.APROVADA
+									)
+								) {
+									dtaTrimestre[indTrim].atividades[indAtiv].snEditavel = "S";
+									dtaTrimestre[indTrim].atividades[indAtiv].dsObservacao = "caso 1";
+
 								}else if (tmpItemAtiv.idPerfil == tmpIdPerfilReq) {									
 									if (
 										tmpItemAtiv.idStatus == EAtividadeStatus.CANCELADA
@@ -95,18 +105,21 @@ export class Trimestre{
 										|| tmpItemAtiv.idStatus == EAtividadeStatus.PENDENTE
 										|| tmpItemAtiv.idStatus == EAtividadeStatus.REPROVADA
 									) {
-										dta[indTrim].atividades[indAtiv].snEditavel = "S";
+										dtaTrimestre[indTrim].atividades[indAtiv].snEditavel = "S";
+										dtaTrimestre[indTrim].atividades[indAtiv].dsObservacao = "caso 2";
 									} else {
-										dta[indTrim].atividades[indAtiv].snEditavel = "N";
+										dtaTrimestre[indTrim].atividades[indAtiv].snEditavel = "N";
+										dtaTrimestre[indTrim].atividades[indAtiv].dsObservacao = "caso 3";
 									}
 								}else{
-									dta[indTrim].atividades.splice(indAtiv, 1);
+									console.log(dtaTrimestre[indTrim].atividades[indAtiv]);
+									dtaTrimestre[indTrim].atividades.splice(indAtiv, 1);
 								};
 							});
-							dta[indTrim].vtTotalLancado = tmpTotalLancado;
-							dta[indTrim].vtSaldo = tmpSaldo;
+							dtaTrimestre[indTrim].vtTotalLancado = tmpTotalLancado;
+							dtaTrimestre[indTrim].vtSaldo = tmpSaldo;
 						});
-						res.json(dta);
+						res.json(dtaTrimestre);
 					}
 					, function(err: any) {
 						res.status(500).json(err);

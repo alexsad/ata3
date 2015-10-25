@@ -81,13 +81,13 @@ export class Membro extends ModWindow{
 			return null;
 		};
 		var tmpOrg: IOrganizacao = <IOrganizacao>this._modOrganizacao.getMainList().getSelectedItem();
-		if (!tmpOrg.membro) {
+		if(!tmpOrg.membro) {
 			tmpOrg.membro = [];
 		};
-		tmpOrg.membro.push(<IMembro>p_req_obj.data);
-    this._modOrganizacao.mainTb.saveItem(null);
-		//p_req_obj.url="perfil/menu/menuitem/"+this._modOrganizacao.itIdOrganizacao.getValue();
-		return null;
+		//tmpOrg.membro.push(<IMembro>p_req_obj.data);
+    	//this._modOrganizacao.mainTb.saveItem(null);
+		p_req_obj.url="organizacao/membro/"+this._modOrganizacao.itIdOrganizacao.getValue();
+		return p_req_obj;
 	}
 	beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: IMembro): IDefaultRequest{
     if (!this._modOrganizacao.itIdOrganizacao.getValue()) {

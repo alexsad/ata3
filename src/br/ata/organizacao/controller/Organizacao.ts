@@ -21,11 +21,18 @@ class Organizacao{
 	getMembroBySnAtivo(req:express.Request,res:express.Response):void{
 		OrganizacaoDAO.find(
 			{"membro.snAtivo":"S"}
-			,{_id: 0, 'membro.$': 1}
 		).exec().then(
 			function(dta:IOrganizacao[]){
-				console.log(dta);
-				res.json(dta);
+				var tmpLstMembros: IMembro[] = [];				
+				dta.forEach(function(itemOrg:IOrganizacao):void{
+					itemOrg.membro.forEach(function(itemMemb):void{
+						if(itemMemb.snAtivo=="S"){
+							tmpLstMembros.push(itemMemb);
+						};						
+					});					
+				});
+				//console.log(tmpLstMembros);
+				res.json(tmpLstMembros);
 			}
 			,function(err:any){
 				res.status(500).json(err);
@@ -45,6 +52,26 @@ class Organizacao{
 				}
 			}
 		);
+	}
+	@Post("/membro/:idOrganizacao")
+	adicionarMembro(req: express.Request, res: express.Response): void {
+		var p_membro: IMembro = <IMembro>req.body;
+		OrganizacaoDAO.findById(req.params.idOrganizacao, function(err: any, data: IOrganizacao) {
+			if (err) {
+				res.status(400).json(err);
+			} else {
+				var newdoc: IMembro = <IMembro>data.membro["create"](p_membro);
+				data.membro.push(newdoc);
+				//console.log(p_membro);
+				data["save"](function(err2: any) {
+					if (err2) {
+						res.status(400).json(err2);
+					} else {
+						res.send(newdoc._id);
+					};
+				});
+			};
+		});
 	}
 	@Put()
 	atualizar(req:express.Request,res:express.Response):void{
