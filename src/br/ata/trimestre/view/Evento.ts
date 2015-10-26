@@ -251,6 +251,7 @@ export class Evento extends ModWindow {
 		this.habilitarCampos(on);
 		if(on){
 			var tmpVlAtiv: number = p_item.orcamento;
+			console.log(tmpVlAtiv+":"+this._modTrimestreView.getSaldo());
 			this.itOrcamento.setMax(this._modTrimestreView.getSaldo() + tmpVlAtiv);
 			this.btSubmeter.setEnable(true);
 			this.btCancelar.setEnable(true);
@@ -324,7 +325,7 @@ export class Evento extends ModWindow {
 		};
 		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
 		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre._id;
-		//tmpTrimestre.atividades.push(p_req_obj.data);		
+		//tmpTrimestre.atividades.push(p_req_obj.data);
 		return p_req_obj;
 	}
 
