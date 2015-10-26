@@ -128,6 +128,7 @@ export class Evento extends ModWindow {
 		this.itIdPerfil.setValueField("_id");
 		this.itIdPerfil.setLabelField("descricao");
 		this.itIdPerfil.setSize(4);
+		this.itIdPerfil.setEnable(false);
 		this.append(this.itIdPerfil);
 
 		this.itIdResponsavel = new Select("responsavel");
@@ -318,12 +319,12 @@ export class Evento extends ModWindow {
 		return p_req_obj;
 	}
 	beforeUpdate(p_req_obj: IDefaultRequest, p_old_obj:IAtividade): IDefaultRequest {
-		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
-		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre._id;
-		//tmpTrimestre.atividades.push(p_req_obj.data);
 		if(p_old_obj.snEditavel=="N"){
 			return null;
 		};
+		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
+		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre._id;
+		//tmpTrimestre.atividades.push(p_req_obj.data);		
 		return p_req_obj;
 	}
 

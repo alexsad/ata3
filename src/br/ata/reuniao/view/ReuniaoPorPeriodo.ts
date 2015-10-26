@@ -3,7 +3,7 @@ import {ModWindow} from "../../../../lib/container";
 import {Button,InputText,Select,TextArea,NumericStepper,DatePicker,DatePartType,ListView,ItemView} from "../../../../lib/controller";
 import {SimpleToolBar,RequestManager,IDefaultRequest} from "../../../../lib/net";
 import {Discursante} from "./Discursante";
-import {FastMembro} from "../../usuario/view/FastMembro";
+import {FastMembro} from "../../organizacao/view/FastMembro";
 import {Droppable} from "../../../../lib/jqueryui";
 
 @ItemView("assets/html/reuniaoporperiodo.html")
@@ -75,7 +75,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 		this.itIdMembro.setColumn("@idMembro");
 		this.itIdMembro.setLabel("membro");
 		this.itIdMembro.setValueField("_id");
-		this.itIdMembro.setLabelField("nmMembro");
+		this.itIdMembro.setLabelField("nome");
 		this.itIdMembro.setSize(8);	
 		this.append(this.itIdMembro);
 
@@ -113,8 +113,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	}
 	onStart():void{		
 		this.itIdMembro.fromService({
-			"url":"usuario/getbysnativo/S"
-			,"module":this
+			"url":"organizacao/membro/getbysnativo/S"
 		});
 		this._modMembros = new FastMembro();
 		this.getModView().append(this._modMembros);
@@ -175,8 +174,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	}
 	inserir(p_novo:IDiscurso):void{
 		RequestManager.addRequest({
-			"module":this
-			,"url":"reuniao/discurso/"+ p_novo.idReuniao
+			"url":"reuniao/discurso/"+ p_novo.idReuniao
 			,"method":"post"
 			,"data":p_novo
 			,"onLoad":function(newId:number):void{
@@ -187,8 +185,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	}
 	atualizar(p_atualizado:IDiscurso):void{
 		RequestManager.addRequest({
-			"module":this
-			,"url":"reuniao/discurso/"+ p_atualizado.idReuniao
+			"url":"reuniao/discurso/"+ p_atualizado.idReuniao
 			,"method":"put"
 			,"data":p_atualizado
 			,"onLoad":function(allOk:boolean):void{
@@ -199,8 +196,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	pesquisar(evt:Event):void{
 		evt.preventDefault();
 	    RequestManager.addRequest({
-	    	"module":this
-	    	,"url":"reuniao/getbyperiodo"
+	    	"url":"reuniao/getbyperiodo"
 	    	,"data":{
 	    		"inicio":this.itDtaI.getValue()
 	    		,"fim":this.itDtaF.getValue()
