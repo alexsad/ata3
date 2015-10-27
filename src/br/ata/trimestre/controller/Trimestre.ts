@@ -46,6 +46,130 @@ export class Trimestre{
 	}
 	@Get("/getDisponiveisByIdPerfil/:idPerfil")
 	getDisponiveisByIdPerfil(req: express.Request, res: express.Response): void {
+		var tmpIdPerfilReq: string = req.params.idPerfil;		
+		var perfilController: Perfil = new Perfil();
+
+		perfilController.getAutorizacaoByIdPerfil(tmpIdPerfilReq).exec().then(
+			function(dtaPerfil: IPerfil) {
+				//res.json(dtaPerfil);
+				//console.log(dtaPerfil.perfilAprovacao);
+				//console.log(dtaPerfil);
+				if (!dtaPerfil.perfilAprovacao) {
+					dtaPerfil.perfilAprovacao = [];
+				};
+				if (!dtaPerfil.perfilLiberacao) {
+					dtaPerfil.perfilLiberacao = [];
+				};
+
+				TrimestreDAO.aggregate([
+					{$unwind:"$atividades"}
+					,{$match:{
+						$or:[
+							{"atividades.idPerfil":tmpIdPerfilReq}
+							,{"atividades.idPerfil": {$in:dtaPerfil.perfilLiberacao}}
+							,{"atividades.idPerfil": {$in:dtaPerfil.perfilAprovacao}}
+						]	
+					}}	
+
+				],function(err:any,dtaTrimestre: ITrimestre[]){
+			        if (err) {
+			          	res.status(500).json(err);
+			        };
+					res.json(dtaTrimestre);
+				});
+			}
+			, function(err: any) {
+				res.status(500).json(err);
+			}
+		);
+
+
+		TrimestreDAO.find({ "snAberto": "S" }).exec().then(
+			function(dtaTrimestre: ITrimestre[]) {
+
+				var perfilController: Perfil = new Perfil();
+				//var tmpTrimestreLst: ITrimestre[] = [];
+
+				perfilController.getAutorizacaoByIdPerfil(tmpIdPerfilReq).exec().then(
+					function(dtaPerfil: IPerfil) {
+						//res.json(dtaPerfil);
+						//console.log(dtaPerfil.perfilAprovacao);
+						//console.log(dtaPerfil);
+						if (!dtaPerfil.perfilAprovacao) {
+							dtaPerfil.perfilAprovacao = [];
+						};
+						if (!dtaPerfil.perfilLiberacao) {
+							dtaPerfil.perfilLiberacao = [];
+						};
+						dtaTrimestre.forEach(function(tmpTrimestre: ITrimestre, indTrim: number) {
+							//tmpTrimestreLst.push(tmpTrimestre);
+							var tmpTotalLancado: number = 0;
+							tmpTrimestre.trimestreLancamentoAtividade.forEach(function(tmpItem: ITrimestreLancamentoAtividade) {
+								if (tmpItem.idPerfil == tmpIdPerfilReq) {
+									tmpTotalLancado += tmpItem.valor;
+								};
+							});
+							var tmpSaldo: number = tmpTotalLancado;
+							tmpTrimestre.atividades.forEach(function(tmpItemAtiv: IAtividade, indAtiv: number) {
+
+								if (tmpItemAtiv.idPerfil == tmpIdPerfilReq) {
+									tmpSaldo -= tmpItemAtiv.orcamento;
+								};
+								/*
+								console.log(dtaPerfil.perfilAprovacao);
+								console.log(dtaPerfil.perfilLiberacao);
+								console.log(tmpItemAtiv.idStatus);
+								*/
+
+								if (
+									(
+										dtaPerfil.perfilAprovacao.indexOf(tmpItemAtiv.idPerfil) > -1
+										&& tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA
+									)
+									||
+									(
+										dtaPerfil.perfilLiberacao.indexOf(tmpItemAtiv.idPerfil) > -1
+										&& tmpItemAtiv.idStatus == EAtividadeStatus.APROVADA
+									)
+								) {
+									dtaTrimestre[indTrim].atividades[indAtiv].snEditavel = "S";
+									dtaTrimestre[indTrim].atividades[indAtiv].dsObservacao = "caso 1";
+
+								} else if (tmpItemAtiv.idPerfil == tmpIdPerfilReq) {
+									if (
+										tmpItemAtiv.idStatus == EAtividadeStatus.CANCELADA
+										|| tmpItemAtiv.idStatus == EAtividadeStatus.ELABORADA
+										|| tmpItemAtiv.idStatus == EAtividadeStatus.PENDENTE
+										|| tmpItemAtiv.idStatus == EAtividadeStatus.REPROVADA
+									) {
+										dtaTrimestre[indTrim].atividades[indAtiv].snEditavel = "S";
+										dtaTrimestre[indTrim].atividades[indAtiv].dsObservacao = "caso 2";
+									} else {
+										dtaTrimestre[indTrim].atividades[indAtiv].snEditavel = "N";
+										dtaTrimestre[indTrim].atividades[indAtiv].dsObservacao = "caso 3";
+									}
+								} else {
+									console.log(dtaTrimestre[indTrim].atividades[indAtiv]);
+									dtaTrimestre[indTrim].atividades.splice(indAtiv, 1);
+								};
+							});
+							dtaTrimestre[indTrim].vtTotalLancado = tmpTotalLancado;
+							dtaTrimestre[indTrim].vtSaldo = tmpSaldo;
+						});
+						res.json(dtaTrimestre);
+					}
+					, function(err: any) {
+						res.status(500).json(err);
+					}
+				);
+			}
+			, function(err) {
+				res.status(400).json(err);
+			}
+		);
+	}
+	@Get("/getDisponiveisByIdPerfil2/:idPerfil")
+	getDisponiveisByIdPerfil2(req: express.Request, res: express.Response): void {
 		var tmpIdPerfilReq: string = req.params.idPerfil;
 		TrimestreDAO.find({ "snAberto": "S" }).exec().then(
 			function(dtaTrimestre: ITrimestre[]) {

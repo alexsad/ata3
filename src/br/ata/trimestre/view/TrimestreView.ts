@@ -57,6 +57,10 @@ export class TrimestreView extends ModWindow{
 		var tmpItemTrimestre:ITrimestre = <ITrimestre>this.mainList.getSelectedItem();
 		return parseInt(tmpItemTrimestre.vtSaldo+"");
 	}
+	setSaldo(p_saldonovo:number):void{
+		var tmpItemTrimestre: ITrimestre = <ITrimestre>this.mainList.getSelectedItem();
+		tmpItemTrimestre.vtSaldo = p_saldonovo;
+	}
 	getTrimestres():void{
 		RequestManager.addRequest({
 			"url": "trimestre/getDisponiveisByIdPerfil/" + perfilBoxContainer.getIdPerfil()

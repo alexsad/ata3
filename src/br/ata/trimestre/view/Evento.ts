@@ -242,7 +242,9 @@ export class Evento extends ModWindow {
 		this.itIdPerfil.setValue(perfilBoxContainer.getIdPerfil());
 		this.itIdResponsavel.setValue(perfilBoxContainer.idUsuario);
 		this.itSnEditavel.setValue("S");
-		this.itOrcamento.setValue(this.itOrcamento.maxvl+"");
+		this.itOrcamento.setValue(this._modTrimestreView.getSaldo()+"");
+		this.itOrcamento.setMax(this._modTrimestreView.getSaldo());
+		//console.log(this.itOrcamento.maxvl);
 		this.itMomento.setValue(this.itDtDisponivel.getValue());
 		this.btSubmeter.setEnable(false);
 	}
@@ -251,7 +253,7 @@ export class Evento extends ModWindow {
 		this.habilitarCampos(on);
 		if(on){
 			var tmpVlAtiv: number = p_item.orcamento;
-			console.log(tmpVlAtiv+":"+this._modTrimestreView.getSaldo());
+			//console.log(tmpVlAtiv+":"+this._modTrimestreView.getSaldo());
 			this.itOrcamento.setMax(this._modTrimestreView.getSaldo() + tmpVlAtiv);
 			this.btSubmeter.setEnable(true);
 			this.btCancelar.setEnable(true);
@@ -306,16 +308,30 @@ export class Evento extends ModWindow {
 	beforeSave(p_obj:IAtividade):IAtividade{
 		if (p_obj.local == "") {
 			p_obj.local = "capela";
-		}
+		};
 		if (p_obj.vestuario == "") {
 			p_obj.vestuario = "no padrao";
-		}
+		};
+		this.itOrcamento.setMax(p_obj.orcamento);
 		return p_obj;
+	}
+	getIcone(p_idStatus:number):string{	
+		var tpAlert:string = "info";
+		if (p_idStatus == 3 || p_idStatus == 6) {
+			tpAlert = "danger";
+		} else if (p_idStatus == 5) {
+			tpAlert = "warning";
+		} else if (p_idStatus == 7) {
+			tpAlert = "success";
+		};
+		return tpAlert;
 	}
 	beforeInsert(p_req_obj:IDefaultRequest): IDefaultRequest{
 		p_req_obj.data.idStatus = 1;
 		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
 		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre._id;
+		tmpTrimestre.vtSaldo = tmpTrimestre.vtSaldo - this.itOrcamento.getVL();
+		p_req_obj.data.iconStatus = "info";
 		//tmpTrimestre.atividades.push(p_req_obj.data);
 		return p_req_obj;
 	}
@@ -325,6 +341,7 @@ export class Evento extends ModWindow {
 		};
 		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
 		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre._id;
+		p_old_obj.iconStatus = this.getIcone(p_old_obj.idStatus);
 		//tmpTrimestre.atividades.push(p_req_obj.data);
 		return p_req_obj;
 	}

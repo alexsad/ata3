@@ -1293,26 +1293,26 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
            };
            this.setValue(tmpVl);
 
-            if (tmpVl <= this.minvl) {
-                this.setEnable(false, 3);
-            }
-            else {
+            if (tmpVl > this.minvl) {
                 this.setEnable(true, 3);
             }
+            else {
+                this.setEnable(false, 3);
+            }
             ;
-            if (tmpVl >= this.maxvl) {
-                this.setEnable(false, 1);
+            if (tmpVl < this.maxvl) {
+                this.setEnable(true, 1);
             }
             else {
-                this.setEnable(true, 1);
+                this.setEnable(false, 1);
             }
             ;
         };
         NumericStepper.prototype.aumentar = function () {
             if (this.isEnable(1)) {
                 if (this.getValue() == "") {
-                    this.setValue(this.minvl + "");
-                }else if((this.getVL()+this.stepvl) < this.maxvl){
+                    this.setVL(this.minvl);
+                }else if((this.getVL()+this.stepvl) <= this.maxvl){
                     this.setVL(this.getVL() + this.stepvl);
                 }
             }
@@ -1321,8 +1321,8 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
         NumericStepper.prototype.diminuir = function () {
             if (this.isEnable(3)) {
                 if (this.getValue() == "") {
-                    this.setValue(this.minvl + "");
-                }else if((this.getVL()-this.stepvl) > this.minvl){
+                    this.setVL(this.minvl);
+                }else if((this.getVL()-this.stepvl) >= this.minvl){
                     this.setVL(this.getVL() - this.stepvl);
                 };
 
