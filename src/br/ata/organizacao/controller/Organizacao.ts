@@ -19,17 +19,42 @@ class Organizacao{
 	}
 	@Get("/membro/getbysnativo/:p_snAtivo")
 	getMembroBySnAtivo(req:express.Request,res:express.Response):void{
+		OrganizacaoDAO.aggregate([
+		{$unwind: "$membro"}
+		,{ $match: {
+					 "membro.snAtivo": req.params.p_snAtivo
+		}}
+    ,{$project:
+     {
+			 	_id:"$membro._id"
+				,nome: "$membro.nome"
+				,sexo: "$membro.sexo"
+				,telefone: "$membro.telefone"
+				,celular: "$membro.celular"
+				,obs: "$membro.obs"
+				,snAtivo: "$membro.snAtivo"
+     }
+   	}		
+	], function (err:any, tmpLstMembros:IMembro[]) {
+        if (err) {
+          	res.status(500).json(err);
+        };
+				res.json(tmpLstMembros);
+    })
+	}
+	@Get("/membro/getbysnativo_old/:p_snAtivo")
+	getMembroBySnAtivo_(req:express.Request,res:express.Response):void{
 		OrganizacaoDAO.find(
 			{"membro.snAtivo":"S"}
 		).exec().then(
 			function(dta:IOrganizacao[]){
-				var tmpLstMembros: IMembro[] = [];				
+				var tmpLstMembros: IMembro[] = [];
 				dta.forEach(function(itemOrg:IOrganizacao):void{
 					itemOrg.membro.forEach(function(itemMemb):void{
 						if(itemMemb.snAtivo=="S"){
 							tmpLstMembros.push(itemMemb);
-						};						
-					});					
+						};
+					});
 				});
 				//console.log(tmpLstMembros);
 				res.json(tmpLstMembros);

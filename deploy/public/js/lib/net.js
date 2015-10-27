@@ -397,7 +397,7 @@ define(["require", "exports", "core", "controller"], function (require, exports,
                                     if (!tmpField) {
                                         console.log("change item #erro: field " + fieldTmp + " not exist!");
                                     }
-                                    else if (tmpField.isBlankWhenNull() && (tmpValue == "undefined" || tmpValue == "null" || (!tmpValue))) {
+                                    else if (tmpField.isBlankWhenNull() && (tmpValue == "undefined" || tmpValue == "null")) {
                                         tmpField.setValue("");
                                     }
                                     else {
