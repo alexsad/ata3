@@ -13,7 +13,7 @@ export class Trimestre{
 			function(dta:ITrimestre[]){
 				res.json(dta);
 			}
-			,function(err){
+			,function(err:any){
 				res.status(400).json(err);
 			}
 		);
@@ -24,7 +24,7 @@ export class Trimestre{
 			function(dta: ITrimestre[]) {
 				res.json(dta);
 			}
-			, function(err) {
+			, function(err:any) {
 				res.status(400).json(err);
 			}
 		);
@@ -145,7 +145,7 @@ export class Trimestre{
 					}
 				);
 			}
-			, function(err) {
+			, function(err:any) {
 				res.status(400).json(err);
 			}
 		);
@@ -169,7 +169,7 @@ export class Trimestre{
 		var p_trimestre:ITrimestre = <ITrimestre>req.body;
 		var tmpId: string =  p_trimestre._id;
 		delete p_trimestre._id;
-		TrimestreDAO.findByIdAndUpdate(tmpId, { $set: p_trimestre }, function(err) {
+		TrimestreDAO.findByIdAndUpdate(tmpId, { $set: p_trimestre }, function(err:any) {
 			if(err){
 				res.status(400).json(err);
 			}else{
@@ -195,7 +195,7 @@ export class Trimestre{
 		TrimestreDAO.findOneAndUpdate(
 			{ "_id": req.params.idTrimestre, "atividades._id": p_atividade._id }
 			, { "$set": { "atividades.$": p_atividade } }
-			, function(err, doc) {
+			, function(err:any) {
 				if (err) {
 					res.status(400).json(err);
 				} else {

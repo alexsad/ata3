@@ -13,7 +13,7 @@ class Reuniao{
 			function(dta:IReuniaoModel[]){
 				res.json(dta);
 			}
-			,function(err){
+			,function(err:any){
 				res.status(400).json(err);
 			}
 		);
@@ -24,7 +24,7 @@ class Reuniao{
 			function(dta:IReuniaoModel[]){
 				res.json(dta);
 			}
-			,function(err){
+			,function(err:any){
 				res.status(400).json(err);
 			}
 		);
@@ -82,7 +82,7 @@ class Reuniao{
 			function(dta: IReuniaoModel[]) {
 				res.json(dta);
 			}
-			, function(err) {
+			, function(err:any) {
 				res.status(400).json(err);
 			}
 			);
@@ -104,7 +104,7 @@ class Reuniao{
 	@Put()
 	atualizar(req:express.Request,res:express.Response):void{
 		var p_reuniao:IReuniaoModel = <IReuniaoModel>req.body;
-		ReuniaoDAO.findByIdAndUpdate(p_reuniao._id,{$set:p_reuniao},function(err){
+		ReuniaoDAO.findByIdAndUpdate(p_reuniao._id,{$set:p_reuniao},function(err:any){
 			if(err){
 				res.status(400).json(err);
 			}else{

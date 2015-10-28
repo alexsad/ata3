@@ -18,7 +18,20 @@
     "compileOnSave": false,
     "filesGlob": [
         "./src/br/**/*.ts",
-        "./src/lib/*.ts",
+        "./src/lib/DinRoute.d.ts",
+        "./src/lib/container.d.ts",
+        "./src/lib/controller.d.ts",
+        "./src/lib/core.d.ts",
+        "./src/lib/express-middleware.d.ts",
+        "./src/lib/express.d.ts",
+        "./src/lib/jquery2.d.ts",
+        "./src/lib/jqueryui.d.ts",
+        "./src/lib/mongodb.d.ts",
+        "./src/lib/mongoose.d.ts",
+        "./src/lib/net.d.ts",
+        "./src/lib/node.d.ts",
+        "./src/lib/router.d.ts",
+        "./src/lib/util.d.ts",
         "!./node_modules/**/*.ts",
         "!./deploy/node_modules/**/*.ts"
     ],
@@ -64,7 +77,6 @@
         "./src/br/ata/usuario/view/Usuario.ts",
         "./src/br/ata/usuario/view/UsuarioPerfil.ts",
         "./src/lib/DinRoute.d.ts",
-        "./src/lib/DinRoute.ts",
         "./src/lib/container.d.ts",
         "./src/lib/controller.d.ts",
         "./src/lib/core.d.ts",
@@ -77,7 +89,6 @@
         "./src/lib/net.d.ts",
         "./src/lib/node.d.ts",
         "./src/lib/router.d.ts",
-        "./src/lib/router.ts",
         "./src/lib/util.d.ts"
     ]
 }

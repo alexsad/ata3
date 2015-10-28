@@ -78,7 +78,7 @@ export class Perfil{
 		var p_perfil:IPerfil = <IPerfil>req.body;
 		var tmpId:string = p_perfil._id;
 		delete p_perfil._id;
-		PerfilDAO.findByIdAndUpdate(tmpId, { $set: p_perfil }, function(err) {
+		PerfilDAO.findByIdAndUpdate(tmpId, { $set: p_perfil }, function(err:any) {
 			if(err){
 				res.status(400).json(err);
 			}else{
@@ -104,7 +104,7 @@ export class Perfil{
 			if(err){
 				res.status(400).json(err);
 			}else{
-				//var newdoc:IMenu = <IMenu>data.menus["create"](p_menu);				
+				//var newdoc:IMenu = <IMenu>data.menus["create"](p_menu);
 				var newdoc:IMenu = <IMenu>data.menus["create"](p_menu);
 				//console.log(newdoc);
 				data.menus.push(newdoc);
@@ -124,7 +124,7 @@ export class Perfil{
 		PerfilDAO.findOneAndUpdate(
 			{ "_id": req.params.idPerfil , "menus._id": p_menu._id }
 			,{ "$set":{"menus.$": p_menu}}
-			,function(err,doc) {
+			,function(err:any) {
 				if(err){
 					res.status(400).json(err);
 				}else{
@@ -191,7 +191,7 @@ export class Perfil{
 		PerfilDAO.update(
 						{ "menus.children._id" : p_menuItem._id},
 						{ "$push": { "menus.0.children": p_menuItem } },
-								function(err,numAffected) {
+								function(err:any) {
 									if(!err){
 										res.send(true);
 									}else{
