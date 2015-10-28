@@ -139,6 +139,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 			    console.log(tmpFrom.attr("data-iddiscursante"));						    
 			    console.log("to");					    
 			    console.log(tmpTo.attr("data-idconvite"));	
+				tmpTo.addClass("selectedLine active");
 			    var tmpIndex:number = parseInt(tmpTo.attr("data-ind"));
 			    this.getMainList().changeToIndex(tmpIndex);
 			    var tmpDiscurso:IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
@@ -193,7 +194,20 @@ export class ReuniaoPorPeriodo extends ModWindow{
 			}.bind(this)
 		});
 	}
-	pesquisar(evt:Event):void{
+	pesquisar(evt: Event): void {
+		evt.preventDefault();
+		RequestManager.addRequest({
+			"url": "reuniao/pesquisar"
+			, "data": {
+					"inicio": this.itDtaI.getValue()
+					, "fim": this.itDtaF.getValue()
+				}
+			, "onLoad": function(dta: IDiscurso[]): void {
+				this.mainList.setDataProvider(dta);
+			}.bind(this)
+		});		
+	}
+	pesquisar_(evt:Event):void{
 		evt.preventDefault();
 	    RequestManager.addRequest({
 	    	"url":"reuniao/getbyperiodo"

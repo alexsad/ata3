@@ -52,10 +52,9 @@ export class Reuniao extends ModWindow{
 		this.append(this.mainList);
 	}
 	onStart():void{
-		//this.mainTb.activate(true);
-		this.mainTb.reloadItens();
 		this._modDiscursante = new Discursante();
 		this.getModView().append(this._modDiscursante);
+		this.mainTb.reloadItens();
 	}
 	onChangeItem(p_obj:IReuniao):IReuniao{
 		this._modDiscursante._idReuniao = this.itIdReuniao.getValue();

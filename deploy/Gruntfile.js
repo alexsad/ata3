@@ -193,8 +193,14 @@ module.exports = function(grunt) {
 				cwd: './app/br'
 			}]
 		}
-	}	  
-	});
+	}
+	,ts: {
+      view : {
+        tsconfig: "../tsconfigview.json"
+      }
+    }	
+
+});
 
 
 	//console.log( grunt.option( "target" ) );
@@ -218,6 +224,16 @@ module.exports = function(grunt) {
 		});
 	});
 
+
+
+	grunt.loadNpmTasks("grunt-ts");
+	grunt.loadNpmTasks('grunt-text-replace');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-typescript');
+
 	
 	grunt.registerTask('build-view-file', ['typescript:clientF']);
 
@@ -226,20 +242,13 @@ module.exports = function(grunt) {
 	//grunt.registerTask('dist', ['clean', 'copy']);		
 	grunt.registerTask('build-server-dev', ['clean:server','typescript:server']);	
 	grunt.registerTask('build-server-deploy', ['build-server-dev','uglify:server']);
-	grunt.registerTask('build-view-dev', ['clean:client','typescript:client','copy:viewAssets','replace:viewjs','build-view-pos']);
+	grunt.registerTask('build-view-dev', ['clean:client','ts:view','copy:viewAssets','replace:viewjs','build-view-pos']);
 	grunt.registerTask('build-view-deploy', ['build-view-dev','uglify:view']);
 	grunt.registerTask('build-dev', ['build-server-dev','build-view-dev']);	
 	grunt.registerTask('build-deploy', ['build-server-deploy','build-view-deploy']);
 	
 	//grunt.registerTask('build-deploy', ['build-all','uglify:minview']);
 	
-	grunt.loadNpmTasks('grunt-text-replace');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	//grunt.loadNpmTasks('grunt-contrib-cssmin');
-	//grunt.loadNpmTasks('grunt-usemin');
-	grunt.loadNpmTasks('grunt-typescript');
+
 
 };

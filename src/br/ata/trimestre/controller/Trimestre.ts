@@ -64,8 +64,19 @@ export class Trimestre{
 						if(!dtaPerfil.perfilLiberacao){
 							dtaPerfil.perfilLiberacao=[];
 						};
+
 						dtaTrimestre.forEach(function(tmpTrimestre: ITrimestre, indTrim: number) {
-							tmpTrimestreLst.push(tmpTrimestre);
+							tmpTrimestreLst.push({
+								_id: tmpTrimestre._id
+								,ano:tmpTrimestre.ano
+								,nrTrimestre: tmpTrimestre.nrTrimestre
+								,snAberto:"S"
+								,datasLivres:[]
+								,trimestreLancamentoAtividade: []
+								,atividades:[]
+								,vtSaldo:0
+								,vtTotalLancado:0
+							});
 
 							var tmpTotalLancado: number = 0;
 							tmpTrimestre.trimestreLancamentoAtividade.forEach(function(tmpItem: ITrimestreLancamentoAtividade) {
@@ -97,8 +108,8 @@ export class Trimestre{
 									)
 								) {
 									dtaTrimestre[indTrim].atividades[indAtiv].snEditavel = "S";
-									dtaTrimestre[indTrim].atividades[indAtiv].dsObservacao = "caso 1";
-
+									//dtaTrimestre[indTrim].atividades[indAtiv].dsObservacao = "caso 1";
+									tmpTrimestreLst[indTrim].atividades.push(dtaTrimestre[indTrim].atividades[indAtiv]);
 								}else if (tmpItemAtiv.idPerfil == tmpIdPerfilReq) {
 									if (
 										tmpItemAtiv.idStatus == EAtividadeStatus.CANCELADA
@@ -107,20 +118,27 @@ export class Trimestre{
 										|| tmpItemAtiv.idStatus == EAtividadeStatus.REPROVADA
 									) {
 										dtaTrimestre[indTrim].atividades[indAtiv].snEditavel = "S";
-										dtaTrimestre[indTrim].atividades[indAtiv].dsObservacao = "caso 2";
+										//dtaTrimestre[indTrim].atividades[indAtiv].dsObservacao = "caso 2";
 									} else {
 										dtaTrimestre[indTrim].atividades[indAtiv].snEditavel = "N";
-										dtaTrimestre[indTrim].atividades[indAtiv].dsObservacao = "caso 3";
+										//dtaTrimestre[indTrim].atividades[indAtiv].dsObservacao = "caso 3";
 									}
-								}else{
+									tmpTrimestreLst[indTrim].atividades.push(dtaTrimestre[indTrim].atividades[indAtiv]);
+								}
+								/*
+								else{
 									console.log(dtaTrimestre[indTrim].atividades[indAtiv]);
 									dtaTrimestre[indTrim].atividades.splice(indAtiv, 1);
 								};
+								*/
 							});
-							dtaTrimestre[indTrim].vtTotalLancado = tmpTotalLancado;
-							dtaTrimestre[indTrim].vtSaldo = tmpSaldo;
+							tmpTrimestreLst[indTrim].vtTotalLancado = tmpTotalLancado;
+							tmpTrimestreLst[indTrim].vtSaldo = tmpSaldo;
+
+							//tmpTrimestreLst[indTrim]
+
 						});
-						res.json(dtaTrimestre);
+						res.json(tmpTrimestreLst);
 					}
 					, function(err: any) {
 						res.status(500).json(err);

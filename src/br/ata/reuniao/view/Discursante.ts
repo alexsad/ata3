@@ -34,7 +34,7 @@ export class Discursante extends ModWindow{
 		this.itIdMembro.setColumn("@idMembro");
 		this.itIdMembro.setLabel("membro");
 		this.itIdMembro.setValueField("_id");
-		this.itIdMembro.setLabelField("nmMembro");
+		this.itIdMembro.setLabelField("nome");
 		this.itIdMembro.setSize(7);
 		this.append(this.itIdMembro);
 
@@ -72,7 +72,7 @@ export class Discursante extends ModWindow{
 	}
 	onStart():void{
 		this.itIdMembro.fromService({
-			url:"usuario/getbysnativo/S"
+			url: "organizacao/membro/getbysnativo/S"
 		});
 		//this.itIdReuniao.fromService("reuniao/reuniao");
 	}
