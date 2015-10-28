@@ -44,162 +44,39 @@ module.exports = function(grunt) {
 			options: {
 				separator: ';'
 			}
-		}		
-	  ,typescript: {
-		server: {
-		  cwd: '.'
-		  ,expand: false
-		  ,src: [			
-				"../src/br/**/*.ts"
-				,"!../src/br/**/view/*.ts"
-		  ]
-		  ,dest: 'app/br/ata'
-		  ,options: {			
-			"target": "es5",
-			"module": "commonjs",
-			"declaration": false,
-			"noImplicitAny": false,
-			"removeComments": true,
-			"noLib": false,
-			"sourceMap": false,
-			"experimentalDecorators": true,
-			"emitDecoratorMetadata":false,
-			"isolatedModules": false,
-			"noEmitHelpers": true,
-			"noResolve": true,
-			"references": [
-				"../src/lib/DinRoute.d.ts",
-				"../src/lib/router.d.ts",
-				"../src/lib/express-middleware.d.ts",
-				"../src/lib/express.d.ts",
-				"../src/lib/mongodb.d.ts",
-				"../src/lib/mongoose.d.ts",
-				"../src/lib/node.d.ts"				
-			]
+		}	 
+		,uglify: {
+			view: {
+				files: [{
+					expand: true,
+					src: "**/view/*.js",
+					dest: 'public/js/br',
+					cwd: './public/js/br'
+				}]
+			}
+			,server: {
+				options: {
+					mangle: false
+				}
+				,files: [{
+					expand: true,
+					src: "**/*.js",
+					dest: 'app/br',
+					cwd: './app/br'
+				}]
+			}
+		}
+		,ts: {
+		  view : {
+			tsconfig: "../tsconfigview.json"
 		  }
-		}
-		,client: {
-		  cwd: '.'
-		  ,expand: false
-		  ,src: [			
-			"../src/**/view/*.ts"
-		  ]
-		  ,dest: 'public/js'
-		  ,options: {			
-			"target": "es5",
-			"module": "amd",
-			"declaration": false,
-			"noImplicitAny": true,
-			"removeComments": true,
-			"noLib": false,
-			"sourceMap": false,
-			"rootDir":"../src",
-			"experimentalDecorators": true,
-			"emitDecoratorMetadata":false,
-			"isolatedModules": false,
-			"noEmitHelpers": true,
-			"noResolve": true,
-			"references": [
-				"../src/lib/jquery2.d.ts",	
-				"../src/lib/jqueryui.d.ts",
-				"../src/lib/util.d.ts",
-				"../src/lib/core.d.ts",
-				"../src/lib/container.d.ts",
-				"../src/lib/controller.d.ts",				
-				"../src/lib/net.d.ts",	
-				"../src/**/model/I[A-Z]*.ts"			
-			]
+		  ,server : {
+			tsconfig: "../tsconfigserver.json"
 		  }
-		}
-		,clientF: {
-		  cwd: '.'
-		  ,expand: false
-		  ,src:grunt.option( "target" )
-		  ,dest: 'public/js'
-		  ,options: {			
-			"target": "es5",
-			"module": "amd",
-			"declaration": false,
-			"noImplicitAny": true,
-			"removeComments": true,
-			"noLib": false,
-			"sourceMap": false,
-			"rootDir":"../src",
-			"experimentalDecorators": true,
-			"emitDecoratorMetadata":false,
-			"isolatedModules": false,
-			"noEmitHelpers": true,
-			"noResolve": true,
-			"references": [
-				"../src/lib/jquery2.d.ts",	
-				"../src/lib/jqueryui.d.ts",
-				"../src/lib/util.d.ts",
-				"../src/lib/core.d.ts",
-				"../src/lib/container.d.ts",
-				"../src/lib/controller.d.ts",				
-				"../src/lib/net.d.ts",
-				"../src/**/model/I[A-Z]*.ts"				
-			]
+		  ,makerouter : {
+			tsconfig: "../tsconfigmakerouter.json"
 		  }
-		}
-		,makerouter: {
-		  cwd: '.'
-		  ,expand: false
-		  ,src: [			
-				"../src/lib/router.ts"
-				,"!../src/br/**/view/*.ts"
-		  ]
-		  ,dest: 'app/lib'
-		  ,options: {			
-			"target": "es5",
-			"module": "commonjs",
-			"declaration": true,
-			"noImplicitAny": false,
-			"removeComments": true,
-			"noLib": false,
-			"sourceMap": false,
-			"experimentalDecorators": true,
-			"emitDecoratorMetadata":false,
-			"isolatedModules": false,
-			"noEmitHelpers": true,
-			"noResolve": true,
-			"references": [
-				"../src/lib/express-middleware.d.ts"
-				,"../src/lib/express.d.ts"
-				,"../src/lib/node.d.ts"	
-				,"../src/lib/express.d.ts"
-				,"../src/lib/DinRoute.d.ts"				
-			]
-		  }
-		}
-	  }
-	,uglify: {
-		view: {
-			files: [{
-				expand: true,
-				src: "**/view/*.js",
-				dest: 'public/js/br',
-				cwd: './public/js/br'
-			}]
-		}
-		,server: {
-			options: {
-      			mangle: false
-    		}
-			,files: [{
-				expand: true,
-				src: "**/*.js",
-				dest: 'app/br',
-				cwd: './app/br'
-			}]
-		}
-	}
-	,ts: {
-      view : {
-        tsconfig: "../tsconfigview.json"
-      }
-    }	
-
+		}	
 });
 
 
@@ -232,15 +109,11 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-typescript');
-
-	
-	grunt.registerTask('build-view-file', ['typescript:clientF']);
 
 
 	grunt.registerTask('default', ['build-dev']);
 	//grunt.registerTask('dist', ['clean', 'copy']);		
-	grunt.registerTask('build-server-dev', ['clean:server','typescript:server']);	
+	grunt.registerTask('build-server-dev', ['clean:server','ts:server']);	
 	grunt.registerTask('build-server-deploy', ['build-server-dev','uglify:server']);
 	grunt.registerTask('build-view-dev', ['clean:client','ts:view','copy:viewAssets','replace:viewjs','build-view-pos']);
 	grunt.registerTask('build-view-deploy', ['build-view-dev','uglify:view']);

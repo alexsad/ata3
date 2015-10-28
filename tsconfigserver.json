@@ -1,0 +1,35 @@
+{
+    "version": "1.5.0",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": true,
+        "removeComments": true,
+        "noLib": false,
+        "emitDecoratorMetadata": false,
+        "sourceMap": false,
+        "outDir": "deploy/app/br/ata",
+        "experimentalDecorators": true,
+        "isolatedModules": false,
+        "noEmitHelpers": true,
+        "noResolve": true
+    },
+    "compileOnSave": false,
+    "filesGlob": [
+        "./src/br/**/*.ts",
+        "./src/br/**/model/I[A-Z]*.ts",
+		"!../src/br/**/view/*.ts",
+        "!./node_modules/**/*.ts",
+        "!./deploy/node_modules/**/*.ts",
+		"../src/lib/DinRoute.d.ts",
+		"../src/lib/router.d.ts",
+		"../src/lib/express-middleware.d.ts",
+		"../src/lib/express.d.ts",
+		"../src/lib/mongodb.d.ts",
+		"../src/lib/mongoose.d.ts",
+		"../src/lib/node.d.ts"	
+    ],
+    "files": [
+    ]
+}
