@@ -2,6 +2,7 @@ import express = require('express');
 import url = require('url');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router";
 import {UsuarioDAO,IUsuarioModel} from "../model/usuario";
+import {IUsuario} from "../model/IUsuario";
 
 
 @Controller()
@@ -13,7 +14,7 @@ export class Usuario{
 			function(dta:IUsuarioModel[]){
 				res.json(dta);
 			}
-			,function(err:Object){
+			,function(err:any){
 				res.status(500).json(err);
 			}
 		);
@@ -26,7 +27,7 @@ export class Usuario{
 			function(dta:IUsuarioModel){
 				res.send(((dta)?true:false));
 			}
-			,function(erro){
+			,function(erro:any){
 				res.status(500).json(erro);
 			}
 		);
@@ -40,8 +41,8 @@ export class Usuario{
 				"senha":false
 			}
 		).exec().then(
-			(dta) => res.send(dta)
-			,(err) => res.status(500).json(err)
+			(dta:IUsuario[]) => res.send(dta)
+			,(err:any) => res.status(500).json(err)
 		);
 	}
 
@@ -51,7 +52,7 @@ export class Usuario{
 			function(dta:IUsuarioModel){
 				res.send(dta);
 			}
-			,function(erro){
+			,function(erro:any){
 				res.status(500).json(erro);
 			}
 		);
@@ -74,7 +75,7 @@ export class Usuario{
 	@Put()
 	atualizar(req:express.Request,res:express.Response):void{
 		var p_usuario:IUsuarioModel = <IUsuarioModel>req.body;
-		UsuarioDAO.findByIdAndUpdate(p_usuario._id,{$set:p_usuario},function(err){
+		UsuarioDAO.findByIdAndUpdate(p_usuario._id,{$set:p_usuario},function(err:any){
 			if(err){
 				res.status(400).json(err);
 			}else{

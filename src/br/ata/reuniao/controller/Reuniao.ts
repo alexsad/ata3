@@ -13,7 +13,7 @@ class Reuniao{
 			function(dta:IReuniaoModel[]){
 				res.json(dta);
 			}
-			,function(err){
+			,function(err:any){
 				res.status(400).json(err);
 			}
 		);
@@ -24,15 +24,16 @@ class Reuniao{
 			function(dta:IReuniaoModel[]){
 				res.json(dta);
 			}
-			,function(err){
+			,function(err:any){
 				res.status(400).json(err);
 			}
 		);
 	}
-	@Get("/getbyperiodo")
-	getByPeriodo(req:express.Request,res:express.Response){
+	@Get("/pesquisar")
+	pesquisar(req:express.Request,res:express.Response){
 		var queryParams = url.parse(req.url, true).query;
 		//console.log(queryParams.inicio+"---"+queryParams.fim);
+		/*
 		ReuniaoDAO.find({
 			"momento":{"$gte":new Date(queryParams.inicio),"$lt":new Date(queryParams.fim)}
 		}).sort({"momento":"asc"}).exec().then(
@@ -43,6 +44,48 @@ class Reuniao{
 				res.status(400).json(err);
 			}
 		);
+*/
+
+		ReuniaoDAO.aggregate([
+			{ $unwind: "$discursos" }
+			, {
+				$match: {
+					"momento": { "$gte": new Date(queryParams.inicio), "$lt": new Date(queryParams.fim) }
+				}
+			}
+			, {
+				$project:
+				{
+					_id: "$discursos._id"
+					, idMembro: "$discursos.idMembro"
+					, tempo: "$discursos.tempo"
+					, tema: "$discursos.tema"
+					, fonte: "$discursos.fonte"
+					, linkFonte: "$discursos.linkFonte"
+				}
+			}
+		], function(err: any, tmpLstDiscurso: IDiscurso[]) {
+			if (err) {
+				res.status(500).json(err);
+			};
+			res.json(tmpLstDiscurso);
+		})
+
+	}
+	@Get("/getbyperiodo")
+	getByPeriodo(req: express.Request, res: express.Response) {
+		var queryParams = url.parse(req.url, true).query;
+		//console.log(queryParams.inicio+"---"+queryParams.fim);
+		ReuniaoDAO.find({
+			"momento": { "$gte": new Date(queryParams.inicio), "$lt": new Date(queryParams.fim) }
+		}).sort({ "momento": "asc" }).exec().then(
+			function(dta: IReuniaoModel[]) {
+				res.json(dta);
+			}
+			, function(err:any) {
+				res.status(400).json(err);
+			}
+			);
 	}
 	@Post()
 	add(req:express.Request,res:express.Response):void{
@@ -61,7 +104,7 @@ class Reuniao{
 	@Put()
 	atualizar(req:express.Request,res:express.Response):void{
 		var p_reuniao:IReuniaoModel = <IReuniaoModel>req.body;
-		ReuniaoDAO.findByIdAndUpdate(p_reuniao._id,{$set:p_reuniao},function(err){
+		ReuniaoDAO.findByIdAndUpdate(p_reuniao._id,{$set:p_reuniao},function(err:any){
 			if(err){
 				res.status(400).json(err);
 			}else{

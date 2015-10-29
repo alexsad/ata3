@@ -12,7 +12,7 @@ class Organizacao{
 			function(dta:IOrganizacao[]){
 				res.json(dta);
 			}
-			,function(err){
+			,function(err:any){
 				res.status(400).json(err);
 			}
 		);
@@ -34,7 +34,7 @@ class Organizacao{
 				,obs: "$membro.obs"
 				,snAtivo: "$membro.snAtivo"
      }
-   	}		
+   	}
 	], function (err:any, tmpLstMembros:IMembro[]) {
         if (err) {
           	res.status(500).json(err);
@@ -50,7 +50,7 @@ class Organizacao{
 			function(dta:IOrganizacao[]){
 				var tmpLstMembros: IMembro[] = [];
 				dta.forEach(function(itemOrg:IOrganizacao):void{
-					itemOrg.membro.forEach(function(itemMemb):void{
+					itemOrg.membro.forEach(function(itemMemb:IMembro):void{
 						if(itemMemb.snAtivo=="S"){
 							tmpLstMembros.push(itemMemb);
 						};
@@ -103,7 +103,7 @@ class Organizacao{
 		var p_organizacao:IOrganizacao = <IOrganizacao>req.body;
 		var tmpId: string = p_organizacao._id;
 		delete p_organizacao._id;
-		OrganizacaoDAO.findByIdAndUpdate(tmpId, { $set: p_organizacao }, function(err) {
+		OrganizacaoDAO.findByIdAndUpdate(tmpId, { $set: p_organizacao }, function(err:any) {
 			if(err){
 				res.status(400).json(err);
 			}else{
