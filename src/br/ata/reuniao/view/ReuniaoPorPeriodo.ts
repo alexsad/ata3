@@ -54,7 +54,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	    this.itDtaI.setLabel("inicio:");
 	    //this.itDtaI.show(false);
 	    this.itDtaI.setSize(6);
-	    //this.itDtaI.setDate(DatePartType.year,2010);	
+	    this.itDtaI.setDate(DatePartType.year,2010);	
 	    this.append(this.itDtaI);
 
 	    this.itDtaF = new DatePicker();
@@ -118,7 +118,24 @@ export class ReuniaoPorPeriodo extends ModWindow{
 		this._modMembros = new FastMembro();
 		this.getModView().append(this._modMembros);
 		this.getMainList().setDataProvider([]);		
-		//this.pesquisar();		
+		//this.pesquisar();	
+
+		this.mainList.getEle(".tilecellgrid").on("mouseenter", ".convite_reuniao", function(evt:Event) {
+			//console.log(this);
+			//this.mainList.getEle(".tilecellgrid .convite_reuniao").removeClass("selectedLine active");
+			//$(evt.target).addClass("selectedLine active");
+			//_this.addClass("selectedLine active");
+			var _this: JQuery = $(evt.target);
+			if (_this.hasClass("convite_reuniao")) {
+				var tmpIndex: number = parseInt(_this.attr("data-ind"));
+				this.getMainList().changeToIndex(tmpIndex);			    
+			};
+			
+			//this.getMainList()._ind = tmpIndex;
+			    
+
+		}.bind(this));
+
 	}
 	addDroppableEvent(){
 		/*
@@ -132,22 +149,28 @@ export class ReuniaoPorPeriodo extends ModWindow{
 		accept: ".discursante_drag"
 	  	,drop: function( event:Event, ui:any ){	
 	  		var tmpTo =  $(event.target);
-	  		if(!tmpTo.attr("data-updating")){
+				if (!tmpTo.attr("data-updating") && tmpTo.hasClass("active")) {
 	  			tmpTo.attr("data-updating","y");
 		  		console.log("from");
 			    var tmpFrom =  $(ui.helper);
-			    console.log(tmpFrom.attr("data-iddiscursante"));						    
+				console.log(tmpFrom.attr("data-iddiscursante")+":"+tmpFrom.attr("data-nomedisc"));						    
 			    console.log("to");					    
-			    console.log(tmpTo.attr("data-idconvite"));	
-				tmpTo.addClass("selectedLine active");
+			    //console.log(tmpTo.attr("data-idconvite"));	
+				//tmpTo.addClass("selectedLine active");
+				//console.log(tmpTo);
 			    var tmpIndex:number = parseInt(tmpTo.attr("data-ind"));
-			    this.getMainList().changeToIndex(tmpIndex);
+				//this.getMainList()._ind = tmpIndex;
+			    //this.getMainList().changeToIndex(tmpIndex);
 			    var tmpDiscurso:IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
 			    
+				console.log(tmpDiscurso.idMembro + ":" + tmpDiscurso.nmMembro + " : " + tmpIndex);
+
+
 			    tmpDiscurso.idMembro = tmpFrom.attr("data-iddiscursante");
 			    //tmpDiscurso
-			    console.log(tmpFrom.attr("data-nomedisc"));
+				
 			    tmpDiscurso.nmMembro = tmpFrom.attr("data-nomedisc");
+				tmpTo.find(".nmMembro").text(tmpDiscurso.nmMembro);
 			    if(tmpDiscurso._id){
 			    	this.atualizar(tmpDiscurso);
 			    }else{
@@ -156,7 +179,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 			    	tmpDiscurso.fonte = "Alia.";
 					this.inserir(tmpDiscurso);
 			    };
-			    this.getMainList().updateItem(tmpDiscurso);
+			    //this.getMainList().updateItem(tmpDiscurso);
 			    this.addDroppableEvent();
 		  	};
 	  	}.bind(this)
@@ -194,10 +217,10 @@ export class ReuniaoPorPeriodo extends ModWindow{
 			}.bind(this)
 		});
 	}
-	pesquisar(evt: Event): void {
+	pesquisar_(evt: Event): void {
 		evt.preventDefault();
 		RequestManager.addRequest({
-			"url": "reuniao/pesquisar"
+			"url": "reuniao/getbyperiodo"
 			, "data": {
 					"inicio": this.itDtaI.getValue()
 					, "fim": this.itDtaF.getValue()
@@ -207,7 +230,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 			}.bind(this)
 		});		
 	}
-	pesquisar_(evt:Event):void{
+	pesquisar(evt:Event):void{
 		evt.preventDefault();
 	    RequestManager.addRequest({
 	    	"url":"reuniao/getbyperiodo"
