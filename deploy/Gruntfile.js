@@ -73,9 +73,6 @@ module.exports = function(grunt) {
 		  ,server : {
 			tsconfig: "../tsconfigserver.json"
 		  }
-		  ,makerouter : {
-			tsconfig: "../tsconfigmakerouter.json"
-		  }
 		}	
 });
 

@@ -1,6 +1,6 @@
 import {IReuniao,IDiscurso} from "../model/IReuniao";
 import {ModWindow} from "../../../../lib/container";
-import {Button,InputText,Select,TextArea,NumericStepper,DatePicker,DatePartType,ListView,ItemView} from "../../../../lib/controller";
+import {Button, ListViewItemRender, InputText, Select, TextArea, NumericStepper, DatePicker, DatePartType, ListView, ItemView} from "../../../../lib/controller";
 import {SimpleToolBar,RequestManager,IDefaultRequest} from "../../../../lib/net";
 import {Discursante} from "./Discursante";
 import {FastMembro} from "../../organizacao/view/FastMembro";
@@ -19,6 +19,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	btPesquisar:Button;
 	btPrintSintetico:Button;
 	btPrintConvites:Button;
+	btSalvarConvite: Button;
 	mainTb:SimpleToolBar;
 	mainList:ListView;
 	_modMembros:FastMembro;
@@ -32,19 +33,26 @@ export class ReuniaoPorPeriodo extends ModWindow{
 
 		this.btPesquisar = new Button("Pesquisar");
 		this.btPesquisar.addEvent('click',this.pesquisar.bind(this));
-		this.btPesquisar.setIcon("search");
-		//this.btPesquisar.setEnable(false);		
+		this.btPesquisar.setIcon("search");				
 		this.mainTb.addButton(this.btPesquisar);
 
 		this.btPrintSintetico = new Button("Discursos");
 		this.btPrintSintetico.setIcon("print");
 		this.btPrintSintetico.addEvent('click',this.printSintetico.bind(this));
+		this.btPrintSintetico.setEnable(false);
 		this.mainTb.addButton(this.btPrintSintetico);
 
 		this.btPrintConvites = new Button("Convites");
 		this.btPrintConvites.setIcon("envelope");
-		this.btPrintConvites.addEvent('click',this.printConvites.bind(this));		
+		this.btPrintConvites.addEvent('click',this.printConvites.bind(this));
+		this.btPrintConvites.setEnable(false);		
 		this.mainTb.addButton(this.btPrintConvites);
+
+		this.btSalvarConvite = new Button("Salvar");
+		this.btSalvarConvite.setIcon("disk");
+		this.btSalvarConvite.addEvent('click', this.salvarConvite.bind(this));
+		this.btSalvarConvite.setEnable(true);
+		this.mainTb.addButton(this.btSalvarConvite);
 		
 	    
 	    
@@ -139,51 +147,106 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	}
 	addDroppableEvent(){
 		/*
-		var tmpTo =  this.mainList.getEle(".tilecellgrid").find(".convite_reuniao");
-		if(!tmpTo.attr("data-droppable")){
-			tmpTo.attr("data-droppable","y");
+		var tmpConviteDom =  this.mainList.getEle(".tilecellgrid").find(".convite_reuniao");
+		if(!tmpConviteDom.attr("data-droppable")){
+			tmpConviteDom.attr("data-droppable","y");
 		*/
 		console.log("add droppable");
 
 		this.mainList.getEle(".tilecellgrid .convite_reuniao").droppable({
-		accept: ".discursante_drag"
-	  	,drop: function( event:Event, ui:any ){	
-	  		var tmpTo =  $(event.target);
-				if (!tmpTo.attr("data-updating") && tmpTo.hasClass("active")) {
-	  			tmpTo.attr("data-updating","y");
-		  		console.log("from");
-			    var tmpFrom =  $(ui.helper);
-				console.log(tmpFrom.attr("data-iddiscursante")+":"+tmpFrom.attr("data-nomedisc"));						    
-			    console.log("to");					    
-			    //console.log(tmpTo.attr("data-idconvite"));	
-				//tmpTo.addClass("selectedLine active");
-				//console.log(tmpTo);
-			    var tmpIndex:number = parseInt(tmpTo.attr("data-ind"));
-				//this.getMainList()._ind = tmpIndex;
-			    //this.getMainList().changeToIndex(tmpIndex);
-			    var tmpDiscurso:IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
-			    
-				console.log(tmpDiscurso.idMembro + ":" + tmpDiscurso.nmMembro + " : " + tmpIndex);
-
-
-			    tmpDiscurso.idMembro = tmpFrom.attr("data-iddiscursante");
-			    //tmpDiscurso
+		accept: ".discursante_drag,.convite_drag"
+	  	,drop: function( event:Event, ui:any ){
+			var tmpMembroDom = $(ui.helper);
+			var tmpConviteDom = $(event.target);
+			if (tmpMembroDom.hasClass("discursante_drag")) {
+				console.log("eh membro!");
 				
-			    tmpDiscurso.nmMembro = tmpFrom.attr("data-nomedisc");
-				tmpTo.find(".nmMembro").text(tmpDiscurso.nmMembro);
-			    if(tmpDiscurso._id){
-			    	this.atualizar(tmpDiscurso);
-			    }else{
-			    	tmpDiscurso.tema = "..defina o tema";
-			    	tmpDiscurso.linkFonte = "#";
-			    	tmpDiscurso.fonte = "Alia.";
-					this.inserir(tmpDiscurso);
-			    };
-			    //this.getMainList().updateItem(tmpDiscurso);
-			    this.addDroppableEvent();
-		  	};
+				if (!tmpConviteDom.attr("data-updating") && tmpConviteDom.hasClass("active")) {
+					tmpConviteDom.attr("data-updating", "y");
+					console.log("membro");
+
+					console.log(tmpMembroDom.attr("data-iddiscursante") + ":" + tmpMembroDom.attr("data-nomedisc"));
+					console.log("convite");					    
+					//console.log(tmpConviteDom.attr("data-idconvite"));	
+					//tmpConviteDom.addClass("selectedLine active");
+					//console.log(tmpConviteDom);
+					var tmpIndex: number = parseInt(tmpConviteDom.attr("data-ind"));
+					//this.getMainList()._ind = tmpIndex;
+					//this.getMainList().changeToIndex(tmpIndex);
+					var tmpDiscurso: IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
+
+					console.log(tmpDiscurso.idMembro + ":" + tmpDiscurso.nmMembro + " : " + tmpIndex);
+
+
+					tmpDiscurso.idMembro = tmpMembroDom.attr("data-iddiscursante");
+					//tmpDiscurso
+				
+					tmpDiscurso.nmMembro = tmpMembroDom.attr("data-nomedisc");
+					tmpConviteDom.find("h4 .nmMembro").html(tmpDiscurso.nmMembro);
+					//console.log(tmpConviteDom);
+					//tmpMembroDom.find(".nmMembro").html(tmpDiscurso.nmMembro);
+					if (tmpDiscurso._id) {
+						this.atualizar(tmpDiscurso,function(){});
+					} else {
+						tmpDiscurso.tema = "..defina o tema";
+						tmpDiscurso.linkFonte = "#";
+						tmpDiscurso.fonte = "Alia.";
+						this.inserir(tmpDiscurso);
+					};
+					//this.getMainList().updateItem(tmpDiscurso);
+					this.addDroppableEvent();
+				};
+			} else if(tmpMembroDom.hasClass("convite_drag")) {
+				console.log("eh reuniao!");
+
+				var tmpDiscurso1: IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
+				var idReuniao1: string = tmpDiscurso1.idReuniao;
+
+
+
+				//console.log(tmpMembroDom.attr("data-iddiscursante") + ":" + tmpMembroDom.attr("data-nomedisc"));
+				
+				var tmpIndex1: number = parseInt(tmpMembroDom.attr("data-indconv"));
+						
+				//var tmpIndexConvite: number =
+
+				this.getMainList().changeToIndex(tmpIndex1);
+
+				var tmpDiscurso2: IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
+				var idReuniao2: string = tmpDiscurso2.idReuniao;
+
+				var idDisc1: string = tmpDiscurso1._id;
+				tmpDiscurso1.idReuniao = idReuniao2;
+				tmpDiscurso2.idReuniao = idReuniao1;
+				tmpDiscurso1._id = tmpDiscurso2._id;
+				tmpDiscurso2._id = idDisc1;
+
+
+
+				
+				this.mainList.updateItem(tmpDiscurso2);
+
+				this.getMainList().changeToIndex(tmpDiscurso2._ind);
+
+				this.mainList.updateItem(tmpDiscurso1);
+
+				//replaceWith
+				
+				//
+
+				this.atualizar(tmpDiscurso2);
+				this.atualizar(tmpDiscurso1);
+
+			}
+
+
 	  	}.bind(this)
+
+		}).find(".convite_drag").draggable({
+			helper: "clone"
 		});
+
+		//this.mainList.get
 	}
 	onChangeItem(p_obj:IDiscurso):IDiscurso{
 		
@@ -217,21 +280,10 @@ export class ReuniaoPorPeriodo extends ModWindow{
 			}.bind(this)
 		});
 	}
-	pesquisar_(evt: Event): void {
-		evt.preventDefault();
-		RequestManager.addRequest({
-			"url": "reuniao/getbyperiodo"
-			, "data": {
-					"inicio": this.itDtaI.getValue()
-					, "fim": this.itDtaF.getValue()
-				}
-			, "onLoad": function(dta: IDiscurso[]): void {
-				this.mainList.setDataProvider(dta);
-			}.bind(this)
-		});		
-	}
-	pesquisar(evt:Event):void{
-		evt.preventDefault();
+	pesquisar(evt?:Event):void{
+		if(evt){
+			evt.preventDefault();
+		};		
 	    RequestManager.addRequest({
 	    	"url":"reuniao/getbyperiodo"
 	    	,"data":{
@@ -287,5 +339,19 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	printConvites(evt:Event):void{
 		evt.preventDefault();
 		//js.underas.core.Underas.printDataProvider(this.getMainList().getDataProvider(),'assets/reports/convites.json');
+	}
+	salvarConvite(evt: Event): void {
+		evt.preventDefault();
+
+		var tmpDiscurso: IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
+		
+
+		var tmpDiscursoForms: IDiscurso = <IDiscurso>this.getFormItem();
+		tmpDiscursoForms.idReuniao = tmpDiscurso.idReuniao;
+
+
+		this.atualizar(tmpDiscursoForms);
+		//this.pesquisar();
+
 	}
 }
