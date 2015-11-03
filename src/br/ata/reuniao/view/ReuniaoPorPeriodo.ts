@@ -213,29 +213,33 @@ export class ReuniaoPorPeriodo extends ModWindow{
 				this.getMainList().changeToIndex(tmpIndex1);
 
 				var tmpDiscurso2: IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
-				var idReuniao2: string = tmpDiscurso2.idReuniao;
-
-				var idDisc1: string = tmpDiscurso1._id;
-				tmpDiscurso1.idReuniao = idReuniao2;
-				tmpDiscurso2.idReuniao = idReuniao1;
-				tmpDiscurso1._id = tmpDiscurso2._id;
-				tmpDiscurso2._id = idDisc1;
-
-
-
 				
-				this.mainList.updateItem(tmpDiscurso2);
+				if(tmpDiscurso2._id==""){
 
-				this.getMainList().changeToIndex(tmpDiscurso2._ind);
+					tmpDiscurso2.tema = tmpDiscurso1.tema;
+					tmpDiscurso2.linkFonte = tmpDiscurso1.linkFonte;
+					tmpDiscurso2.fonte = tmpDiscurso1.fonte;
+					this.inserir(tmpDiscurso2);
 
-				this.mainList.updateItem(tmpDiscurso1);
+				}else{
 
-				//replaceWith
-				
-				//
+					var idReuniao2: string = tmpDiscurso2.idReuniao;
+					var idDisc1: string = tmpDiscurso1._id;
+					tmpDiscurso1.idReuniao = idReuniao2;
+					tmpDiscurso2.idReuniao = idReuniao1;
+					tmpDiscurso1._id = tmpDiscurso2._id;
+					tmpDiscurso2._id = idDisc1;				
+					//this.mainList.updateItem(tmpDiscurso2);
+					//this.mainList.replaceItem(tmpDiscurso2,tmpIndex1);
+					//this.getMainList().changeToIndex(tmpDiscurso2._ind);
+					//this.mainList.updateItem(tmpDiscurso1);
+					//this.mainList.replaceItem(tmpDiscurso1, tmpDiscurso2._ind);
+					//replaceWith				
+					//
+					this.atualizar(tmpDiscurso2);
+					this.atualizar(tmpDiscurso1);
 
-				this.atualizar(tmpDiscurso2);
-				this.atualizar(tmpDiscurso1);
+				}
 
 			}
 
