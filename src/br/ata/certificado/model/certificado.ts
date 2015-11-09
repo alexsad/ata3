@@ -1,15 +1,9 @@
 import {ICertificado} from "./ICertificado";
-import mongoose = require("mongoose");
+import sequelize = require("../../../../config/sequelizedb");
 
-var schema = new mongoose.Schema({
-		"validade":{
-			type:Date
-			,required:true
-		}
-		, "pin":{
-			type:String
-			,required:true
-		}
+var CertificadoDAO = sequelize.define('certificado', {
+	validade: sequelize.constructor.DATE
+	, pin: sequelize.constructor.STRING
 });
-export interface ICertificadoModel extends ICertificado, mongoose.Document { };
-export var CertificadoDAO = mongoose.model<ICertificadoModel>("Certificado", schema);
+
+export = CertificadoDAO;

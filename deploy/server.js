@@ -1,6 +1,6 @@
 var http = require('http');
 var app = require('./config/express')();
-require("./config/database.js")("mongodb://localhost/ata3_trn");
+//require("./config/sequelizedb.js")("/mnt/arquivos/workspace/db/sqlite/ata3.sqlite");
 
 
 http.createServer(app).listen(app.get('port'), function(){

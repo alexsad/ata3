@@ -1,5 +1,5 @@
 export interface ICertificado{
-	_id?:string;
+	id?:number;
 	validade:Date;
 	pin: string;
 }
