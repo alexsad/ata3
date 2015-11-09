@@ -7,3 +7,8 @@ var CertificadoDAO = sequelize.define('certificado', {
 });
 
 export = CertificadoDAO;
+
+//sequelize.define
+
+
+//export interface CertificadoDAO extends sequelize.Instance<CertificadoDAO, RolePojo>, ICertificado { }
