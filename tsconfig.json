@@ -17,6 +17,8 @@
     },
     "compileOnSave": false,
     "filesGlob": [
+        "./src/lib/sequelize.d.ts",
+        "./src/config/sequelizedb.ts",
         "./src/br/**/*.ts",
         "./src/lib/DinRoute.d.ts",
         "./src/lib/container.d.ts",
@@ -26,8 +28,6 @@
         "./src/lib/express.d.ts",
         "./src/lib/jquery2.d.ts",
         "./src/lib/jqueryui.d.ts",
-        "./src/lib/mongodb.d.ts",
-        "./src/lib/mongoose.d.ts",
         "./src/lib/net.d.ts",
         "./src/lib/node.d.ts",
         "./src/lib/router.d.ts",

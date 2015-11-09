@@ -19,7 +19,7 @@ export class Certificado extends ModWindow{
 		this.append(this.mainTb);
 
 		this.itIdCertificado = new InputText("");
-		this.itIdCertificado.setColumn("$_id");
+		this.itIdCertificado.setColumn("$id");
 		this.itIdCertificado.setLabel("cod.");
 		this.itIdCertificado.setEnable(false);
 		this.itIdCertificado.setSize(2);

@@ -1032,21 +1032,27 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
             ;
         };
         ListView.prototype.updateItem = function (p_item) {
-            var tmpOnWithTemplate = function () {
-                this.setSelectedItem(p_item);
-                var itemRender = new ListViewItemRender(p_item, this._itemTemplateHtml);
-                itemRender.getEle().attr("data-ind", this.getSelectedIndex()).addClass("tilecell list-group-item");
-                itemRender.getEle().addClass("selectedLine");
-                this.getEle(".tilecellgrid .selectedLine").replaceWith(itemRender.getEle());
-            }.bind(this);
-            if (!this._itemTemplateHtml) {
-                this._getTmpUrl(tmpOnWithTemplate);
+            this.setSelectedItem(p_item);
+            var itemRender = new ListViewItemRender(p_item, this._itemTemplateHtml);
+            itemRender.getEle().attr("data-ind", this.getSelectedIndex()).addClass("tilecell list-group-item");
+            itemRender.getEle().addClass("selectedLine");
+            this.getEle(".tilecellgrid .selectedLine").replaceWith(itemRender.getEle());
+        };
+        ListView.prototype.replaceItem = function (p_item, p_index) {
+            var p_index_s = 0;
+            if (!p_index) {
+                p_index_s = this.getSelectedIndex();
             }
             else {
-                tmpOnWithTemplate();
+                p_index_s = p_index;
             }
             ;
-            tmpOnWithTemplate = null;
+            p_item["_ind"] = p_index_s;
+            var itemRender = new ListViewItemRender(p_item, this._itemTemplateHtml);
+            itemRender.getEle().attr("data-ind", p_index_s).addClass("tilecell list-group-item");
+            itemRender.getEle().addClass("selectedLine");
+            this.setSelectedItem(p_index);
+            this.getEle(".tilecellgrid .selectedLine").replaceWith(itemRender.getEle());
         };
         ListView.prototype.insertItem = function (p_item, p_where) {
             if (p_where === void 0) { p_where = "top"; }
@@ -1126,7 +1132,7 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
         ListView.prototype.changeSelectedItem = function (tgt) {
             this.getEle(".tilecellgrid .row_cells .selectedLine").removeClass("selectedLine active");
             tgt.addClass("selectedLine active");
-            this["_ind"] = parseInt(tgt.attr("data-ind"));
+            this._ind = parseInt(tgt.attr("data-ind"));
             if (this.itemChange && this.getSelectedItem()) {
                 this.itemChange(this.getSelectedItem());
             }
@@ -1287,12 +1293,12 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
             return parseInt(this.getValue());
         };
         NumericStepper.prototype.setVL = function (vl) {
-          var tmpVl = 0;
-           if(vl){
-             tmpVl = vl;
-           };
-           this.setValue(tmpVl);
-
+            var tmpVl = 0;
+            if (vl) {
+                tmpVl = vl;
+            }
+            ;
+            this.setValue(tmpVl + "");
             if (tmpVl > this.minvl) {
                 this.setEnable(true, 3);
             }
@@ -1312,9 +1318,11 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
             if (this.isEnable(1)) {
                 if (this.getValue() == "") {
                     this.setVL(this.minvl);
-                }else if((this.getVL()+this.stepvl) <= this.maxvl){
+                }
+                else if ((this.getVL() + this.stepvl) <= this.maxvl) {
                     this.setVL(this.getVL() + this.stepvl);
                 }
+                ;
             }
             ;
         };
@@ -1322,10 +1330,11 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
             if (this.isEnable(3)) {
                 if (this.getValue() == "") {
                     this.setVL(this.minvl);
-                }else if((this.getVL()-this.stepvl) >= this.minvl){
+                }
+                else if ((this.getVL() - this.stepvl) >= this.minvl) {
                     this.setVL(this.getVL() - this.stepvl);
-                };
-
+                }
+                ;
             }
             ;
         };

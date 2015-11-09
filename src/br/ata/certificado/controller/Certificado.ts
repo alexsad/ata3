@@ -1,57 +1,47 @@
 import express = require('express');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router";
-import {CertificadoDAO} from "../model/certificado";
+import CertificadoDAO = require("../model/certificado");
 import {ICertificado} from "../model/ICertificado";
 
 @Controller()
 export class Certificado{
 		@Get()
 		get(req:express.Request,res:express.Response):void{
-			CertificadoDAO.find({}).exec().then(
-				function(dta:ICertificado[]){
-					res.json(dta);
-				}
-				,function(err){
-					res.status(400).json(err);
-				}
-			);
-		}
-		@Post()
+			CertificadoDAO.findAll().then(function(dta:ICertificado[]) {
+				res.json(dta);
+			}).catch(function(err) {
+				res.status(400).json(err);
+			});
+		}		
+		@Get()
 		add(req:express.Request,res:express.Response):void{
 			var ncertificado:ICertificado = <ICertificado>req.body;
-			CertificadoDAO.create(ncertificado).then(
-				function(p_ncertificado:ICertificado) {
-				  	res.json(p_ncertificado._id);
-				}
-				,function(error:any){
-					if(error){
-						res.status(400).json(error);
-					}
-				}
-			);
-		}
+			CertificadoDAO.create(ncertificado).then(function(p_ncertificado: ICertificado) {
+				res.json(p_ncertificado.id);
+			}).catch(function(err) {
+				res.status(400).json(err);
+			});
+		}		
 		@Put()
 		atualizar(req:express.Request,res:express.Response):void{
-			var p_certificado:ICertificado = <ICertificado>req.body;
-			var tmpId: string =  p_certificado._id;
-			delete p_certificado._id;
-			CertificadoDAO.findByIdAndUpdate(tmpId, { $set: p_certificado }, function(err) {
-				if(err){
-					res.status(400).json(err);
-				}else{
-					res.send(true);
-				}
+			var ncertificado: ICertificado = <ICertificado>req.body;
+			CertificadoDAO.upsert(ncertificado).then(function(p_ncertificado: ICertificado) {
+				res.send(true);
+			}).catch(function(err) {
+				res.status(400).json(err);
 			});
 		}
 		@Delete("/:_id")
 		delete(req:express.Request,res:express.Response):void{
-			CertificadoDAO.findByIdAndRemove(req.params._id).exec().then(
-				function(){
-						res.send(true);
+			CertificadoDAO.destroy({
+				where: {
+					id:req.params._id
 				}
-				,function(err:any) {
-				    res.status(400).json(err);
-				}
-			);
+			}).then(function(p_ncertificado: ICertificado) {
+				res.send(true);
+			}).catch(function(err) {
+				res.status(400).json(err);
+			});
 		}
+		
 }

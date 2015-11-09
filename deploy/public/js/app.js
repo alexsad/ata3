@@ -33,6 +33,7 @@ requirejs.config({
 var perfilBoxContainer = null;
 
 $(function(){	
+	/*
 	requirejs(
 		['core','container','net','br/ata/usuario/view/Login']
 		,function(_core,_container,_net,_modlogin){
@@ -55,21 +56,27 @@ $(function(){
 		}
 	);
 	
-	/*
+	*/
 	requirejs(
-		['container','net','br/ata/perfil/view/Perfil']
-		,function(_container,_net,_mod){
+		['core','container','net','br/ata/certificado/view/Certificado']
+		,function(_core,_container,_net,_mod){
+			var tmpLocation = _core.Underas.getLocation();
+			//tmpLocation = tmpLocation.replace("8080","8330");
+			tmpLocation = tmpLocation.substring(0,tmpLocation.indexOf("8080"))+"8330/";
+
+			_net.RequestManager.setRootUrl(tmpLocation);
+
 			_net.RequestManager.setRootUrl("http://127.0.0.1:8330/");
 			//console.log(m);
 			//var t = new sub.SubB(45);
 			//t.doAnyThing("nova instancia!!!!");
 			//$("body").append("<div>!teste</div>");
-			var teste = new _mod.Perfil();
+			var teste = new _mod.Certificado();
 			var mdw = new _container.ModView("cadastro de teste!!!");
 			mdw.setIcon("key");
 			mdw.show(true);
 			mdw.append(teste);
 		}
 	);
-	*/
+	
 });
