@@ -7,7 +7,7 @@ export class PerfilBox{
 	_perfis: string[];
 	_perfilSelected: string;
 	_modLogin: Login;
-	idUsuario: string;
+	idUsuario: number;
 	constructor(p_modLogin:Login){
 		this._perfis = [];
 		this._modLogin = p_modLogin;

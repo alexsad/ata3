@@ -28,7 +28,9 @@
         "./src/lib/node.d.ts",
         "./src/lib/sequelize.d.ts",
         "./src/br/ata/certificado/controller/*.ts",
-        "./src/br/ata/certificado/model/*.ts"
+        "./src/br/ata/certificado/model/*.ts",
+        "./src/br/ata/usuario/controller/*.ts",
+        "./src/br/ata/usuario/model/*.ts"
     ],
     "files": [
         "src/config/sequelizedb.ts",
@@ -40,6 +42,9 @@
         "src/lib/sequelize.d.ts",
         "src/br/ata/certificado/controller/Certificado.ts",
         "src/br/ata/certificado/model/ICertificado.ts",
-        "src/br/ata/certificado/model/certificado.ts"
+        "src/br/ata/certificado/model/certificado.ts",
+        "src/br/ata/usuario/controller/Usuario.ts",
+        "src/br/ata/usuario/model/IUsuario.ts",
+        "src/br/ata/usuario/model/usuario.ts"
     ]
 }

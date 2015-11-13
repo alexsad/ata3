@@ -29,7 +29,7 @@ export class UsuarioPerfil extends ModWindow{
 
 		this.itPerfil = new Select("selecione uma pefil");
 		this.itPerfil.setLabel("Perfil:");
-		this.itPerfil.setValueField("_id");
+		this.itPerfil.setValueField("id");
 		this.itPerfil.setLabelField("descricao");
 		this.itPerfil.setSize(12);
 		this.append(this.itPerfil);

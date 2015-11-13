@@ -1,7 +1,7 @@
 import express = require('express');
 import url = require('url');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router";
-import {UsuarioDAO,IUsuarioModel} from "../model/usuario";
+import UsuarioDAO = require("../model/usuario");
 import {IUsuario} from "../model/IUsuario";
 
 
@@ -10,21 +10,18 @@ export class Usuario{
 
 	@Get()
 	get(req:express.Request,res:express.Response):void{
-		UsuarioDAO.find({}).exec().then(
-			function(dta:IUsuarioModel[]){
-				res.json(dta);
-			}
-			,function(err:any){
-				res.status(500).json(err);
-			}
-		);
+		UsuarioDAO.findAll().then(function(dta: IUsuario[]) {
+			res.json(dta);
+		}).catch(function(err) {
+			res.status(400).json(err);
+		});
 	}
 
 	@Get("/logar")
 	logar(req:express.Request,res:express.Response):void{
-		var p_usuario:IUsuarioModel = url.parse(req.url, true).query;
+		var p_usuario: IUsuario = <IUsuario>url.parse(req.url, true).query;
 		UsuarioDAO.findOne(p_usuario).exec().then(
-			function(dta:IUsuarioModel){
+			function(dta:IUsuario) {
 				res.send(((dta)?true:false));
 			}
 			,function(erro:any){
@@ -34,7 +31,7 @@ export class Usuario{
 	}
 
 	@Get("/getbysnativo/:p_snAtivo")
-	getMembroBySnAtivo(req:express.Request,res:express.Response):void{
+	getBySnAtivo(req:express.Request,res:express.Response):void{
 		UsuarioDAO.find(
 			{"snAtivo":req.params.p_snAtivo}
 			,{
@@ -49,7 +46,7 @@ export class Usuario{
 	@Get("/getbylogin/:login")
 	getByEmail(req:express.Request,res:express.Response):void{
 		UsuarioDAO.findOne({"login":req.params.login}).exec().then(
-			function(dta:IUsuarioModel){
+			function(dta:IUsuario){
 				res.send(dta);
 			}
 			,function(erro:any){
@@ -60,10 +57,10 @@ export class Usuario{
 
 	@Post()
 	add(req:express.Request,res:express.Response):void{
-		var nusuario:IUsuarioModel = <IUsuarioModel>req.body;
+		var nusuario:IUsuario = <IUsuario>req.body;
 		UsuarioDAO.create(nusuario).then(
-			function(p_nusuario:IUsuarioModel) {
-			  	res.json(p_nusuario._id);
+			function(p_nusuario:IUsuario) {
+			  	res.json(p_nusuario.id);
 			}
 			,function(error:any){
 				if(error){
@@ -72,10 +69,11 @@ export class Usuario{
 			}
 		);
 	}
+
 	@Put()
 	atualizar(req:express.Request,res:express.Response):void{
-		var p_usuario:IUsuarioModel = <IUsuarioModel>req.body;
-		UsuarioDAO.findByIdAndUpdate(p_usuario._id,{$set:p_usuario},function(err:any){
+		var p_usuario:IUsuario = <IUsuario>req.body;
+		UsuarioDAO.findByIdAndUpdate(p_usuario.id,{$set:p_usuario},function(err:any){
 			if(err){
 				res.status(400).json(err);
 			}else{

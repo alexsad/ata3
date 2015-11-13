@@ -103,7 +103,7 @@ export class Login extends ModWindow{
 			,"onLoad" : function(dta:IUsuario){
 				//console.log(dta);
 				if(dta){
-					perfilBoxContainer.idUsuario = dta._id;
+					perfilBoxContainer.idUsuario = dta.id;
 					//this.idGrupo = dta.idGrupo;
 					//this.getMenusByIdPerfil(dta.perfis[0],dta.perfis);
 					perfilBoxContainer.filtrarPerfis(dta.perfis[0], dta.perfis);

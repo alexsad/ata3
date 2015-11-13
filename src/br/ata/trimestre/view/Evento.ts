@@ -240,7 +240,7 @@ export class Evento extends ModWindow {
 		this.itIdStatus.setValue("1");
 
 		this.itIdPerfil.setValue(perfilBoxContainer.getIdPerfil());
-		this.itIdResponsavel.setValue(perfilBoxContainer.idUsuario);
+		this.itIdResponsavel.setValue(perfilBoxContainer.idUsuario+"");
 		this.itSnEditavel.setValue("S");
 		this.itOrcamento.setValue(this._modTrimestreView.getSaldo()+"");
 		this.itOrcamento.setMax(this._modTrimestreView.getSaldo());

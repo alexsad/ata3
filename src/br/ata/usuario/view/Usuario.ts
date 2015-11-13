@@ -23,7 +23,7 @@ export class Usuario extends ModWindow{
 		this.append(this.mainTb);
 
 		this.itIdUsuario = new InputText("");
-		this.itIdUsuario.setColumn("$_id");
+		this.itIdUsuario.setColumn("$id");
 		this.itIdUsuario.setLabel("cod.");
 		this.itIdUsuario.setEnable(false);
 		this.itIdUsuario.setSize(2);
@@ -52,12 +52,12 @@ export class Usuario extends ModWindow{
 		this.append(this.mainList);
 	}
 	onStart():void{
-		this._modPerfis = new UsuarioPerfil(this);
-		this.getModView().append(this._modPerfis);
+		//this._modPerfis = new UsuarioPerfil(this);
+		//this.getModView().append(this._modPerfis);
 		this.mainTb.reloadItens();
 	}
 	onChangeItem(p_obj:IUsuario):IUsuario{
-		this._modPerfis.getPerfis();
+		//this._modPerfis.getPerfis();
 		return p_obj;
 	}
 }

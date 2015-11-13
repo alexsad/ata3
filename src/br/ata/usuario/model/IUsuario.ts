@@ -1,7 +1,13 @@
 export interface IUsuario{
-	_id?:string;
+	id?:number;
 	login:string;
 	senha: string;
 	snAtivo: string;		
 	perfis: string[];
 }
+
+export interface IUsuarioPerfil {
+	idUsuario: number;
+	idPerfil: number;
+}
+

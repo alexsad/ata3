@@ -58,7 +58,7 @@ $(function(){
 	
 	*/
 	requirejs(
-		['core','container','net','br/ata/certificado/view/Certificado']
+		['core','container','net','br/ata/usuario/view/Usuario']
 		,function(_core,_container,_net,_mod){
 			var tmpLocation = _core.Underas.getLocation();
 			//tmpLocation = tmpLocation.replace("8080","8330");
@@ -71,7 +71,7 @@ $(function(){
 			//var t = new sub.SubB(45);
 			//t.doAnyThing("nova instancia!!!!");
 			//$("body").append("<div>!teste</div>");
-			var teste = new _mod.Certificado();
+			var teste = new _mod.Usuario();
 			var mdw = new _container.ModView("cadastro de teste!!!");
 			mdw.setIcon("key");
 			mdw.show(true);
