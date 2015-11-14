@@ -1,4 +1,5 @@
-import {IReuniao,IDiscurso} from "../model/IReuniao";
+import {IReuniao} from "../model/IReuniao";
+import {IDiscurso} from "../model/IDiscurso";
 import {ModWindow} from "../../../../lib/container";
 import {Button, ListViewItemRender, InputText, Select, TextArea, NumericStepper, DatePicker, DatePartType, ListView, ItemView} from "../../../../lib/controller";
 import {SimpleToolBar,RequestManager,IDefaultRequest} from "../../../../lib/net";
@@ -133,7 +134,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 			//this.mainList.getEle(".tilecellgrid .convite_reuniao").removeClass("selectedLine active");
 			//$(evt.target).addClass("selectedLine active");
 			//_this.addClass("selectedLine active");
-			var _this: JQuery = $(evt.target);
+			var _this:JQuery = $(evt.target);
 			if (_this.hasClass("convite_reuniao")) {
 				var tmpIndex: number = parseInt(_this.attr("data-ind"));
 				this.getMainList().changeToIndex(tmpIndex);			    
@@ -178,14 +179,14 @@ export class ReuniaoPorPeriodo extends ModWindow{
 					console.log(tmpDiscurso.idMembro + ":" + tmpDiscurso.nmMembro + " : " + tmpIndex);
 
 
-					tmpDiscurso.idMembro = tmpMembroDom.attr("data-iddiscursante");
+					tmpDiscurso.idMembro = parseInt(tmpMembroDom.attr("data-iddiscursante"));
 					//tmpDiscurso
 				
 					tmpDiscurso.nmMembro = tmpMembroDom.attr("data-nomedisc");
 					tmpConviteDom.find("h4 .nmMembro").html(tmpDiscurso.nmMembro);
 					//console.log(tmpConviteDom);
 					//tmpMembroDom.find(".nmMembro").html(tmpDiscurso.nmMembro);
-					if (tmpDiscurso._id) {
+					if (tmpDiscurso.id) {
 						this.atualizar(tmpDiscurso,function(){});
 					} else {
 						tmpDiscurso.tema = "..defina o tema";
@@ -200,7 +201,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 				console.log("eh reuniao!");
 
 				var tmpDiscurso1: IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
-				var idReuniao1: string = tmpDiscurso1.idReuniao;
+				var idReuniao1: number = tmpDiscurso1.idReuniao;
 
 
 
@@ -214,7 +215,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 
 				var tmpDiscurso2: IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
 				
-				if(tmpDiscurso2._id==""){
+				if(!tmpDiscurso2.id){
 
 					tmpDiscurso2.tema = tmpDiscurso1.tema;
 					tmpDiscurso2.linkFonte = tmpDiscurso1.linkFonte;
@@ -223,12 +224,12 @@ export class ReuniaoPorPeriodo extends ModWindow{
 
 				}else{
 
-					var idReuniao2: string = tmpDiscurso2.idReuniao;
-					var idDisc1: string = tmpDiscurso1._id;
+					var idReuniao2: number = tmpDiscurso2.idReuniao;
+					var idDisc1: number = tmpDiscurso1.id;
 					tmpDiscurso1.idReuniao = idReuniao2;
 					tmpDiscurso2.idReuniao = idReuniao1;
-					tmpDiscurso1._id = tmpDiscurso2._id;
-					tmpDiscurso2._id = idDisc1;				
+					tmpDiscurso1.id = tmpDiscurso2.id;
+					tmpDiscurso2.id = idDisc1;				
 					//this.mainList.updateItem(tmpDiscurso2);
 					//this.mainList.replaceItem(tmpDiscurso2,tmpIndex1);
 					//this.getMainList().changeToIndex(tmpDiscurso2._ind);
@@ -254,12 +255,12 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	}
 	onChangeItem(p_obj:IDiscurso):IDiscurso{
 		
-		this.itIdDiscurso.setValue(p_obj._id);
+		this.itIdDiscurso.setValue(p_obj.id+"");
 		this.itLinkFonte.setValue(p_obj.linkFonte);
 		this.itFonte.setValue(p_obj.fonte);
 		this.itTema.setValue(p_obj.tema);
 		this.itTempo.setValue(p_obj.tempo+"");
-		this.itIdMembro.setValue(p_obj.idMembro);
+		this.itIdMembro.setValue(p_obj.idMembro+"");
 
 		return p_obj;
 	}
@@ -287,7 +288,8 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	pesquisar(evt?:Event):void{
 		if(evt){
 			evt.preventDefault();
-		};		
+		};	
+		/*	
 	    RequestManager.addRequest({
 	    	"url":"reuniao/getbyperiodo"
 	    	,"data":{
@@ -335,6 +337,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 				this.addDroppableEvent();
 	    	}.bind(this)
 		});  
+	*/
 	}
 	printSintetico(evt:Event):void{
 		evt.preventDefault();

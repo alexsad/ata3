@@ -1,5 +1,5 @@
 export interface IMembro{
-  _id?:string;
+  id?:number;
   _ind?:number;
   nome: string;
   sexo: string;
@@ -7,4 +7,5 @@ export interface IMembro{
   celular: string;
   obs: string;
   snAtivo: string;
+  idOrganizacao: number;
 }

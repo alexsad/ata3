@@ -20,77 +20,71 @@ export class Usuario{
 	@Get("/logar")
 	logar(req:express.Request,res:express.Response):void{
 		var p_usuario: IUsuario = <IUsuario>url.parse(req.url, true).query;
-		UsuarioDAO.findOne(p_usuario).exec().then(
+		UsuarioDAO.find({ where: { "id":p_usuario } }).then(
 			function(dta:IUsuario) {
 				res.send(((dta)?true:false));
 			}
-			,function(erro:any){
-				res.status(500).json(erro);
-			}
-		);
+		).catch(function(err) {
+			res.status(400).json(err);
+		});
 	}
 
-	@Get("/getbysnativo/:p_snAtivo")
+	@Get("/getbysnativo/:p_snativo")
 	getBySnAtivo(req:express.Request,res:express.Response):void{
-		UsuarioDAO.find(
-			{"snAtivo":req.params.p_snAtivo}
-			,{
-				"senha":false
-			}
-		).exec().then(
+		UsuarioDAO.findAll(
+			{where:{
+				"snAtivo":req.params.p_snativo
+				,"senha":false
+			}}
+		).then(
 			(dta:IUsuario[]) => res.send(dta)
-			,(err:any) => res.status(500).json(err)
-		);
+		).catch(function(err) {
+			res.status(400).json(err);
+		});
 	}
 
 	@Get("/getbylogin/:login")
-	getByEmail(req:express.Request,res:express.Response):void{
-		UsuarioDAO.findOne({"login":req.params.login}).exec().then(
+	getByEmail(req: express.Request, res: express.Response): void {
+		UsuarioDAO.find({
+				where:{"login": req.params.login }
+			}).then(
 			function(dta:IUsuario){
 				res.send(dta);
 			}
-			,function(erro:any){
-				res.status(500).json(erro);
-			}
-		);
+		).catch(function(err) {
+			res.status(400).json(err);
+		});
 	}
 
 	@Post()
-	add(req:express.Request,res:express.Response):void{
-		var nusuario:IUsuario = <IUsuario>req.body;
-		UsuarioDAO.create(nusuario).then(
-			function(p_nusuario:IUsuario) {
-			  	res.json(p_nusuario.id);
-			}
-			,function(error:any){
-				if(error){
-					res.status(400).json(error);
-				}
-			}
-		);
+	add(req: express.Request, res: express.Response): void {
+		var nusuario: IUsuario = <IUsuario>req.body;
+		UsuarioDAO.create(nusuario).then(function(p_nusuario: IUsuario) {
+			res.json(p_nusuario.id);
+		}).catch(function(err) {
+			res.status(400).json(err);
+		});
 	}
-
 	@Put()
-	atualizar(req:express.Request,res:express.Response):void{
-		var p_usuario:IUsuario = <IUsuario>req.body;
-		UsuarioDAO.findByIdAndUpdate(p_usuario.id,{$set:p_usuario},function(err:any){
-			if(err){
-				res.status(400).json(err);
-			}else{
-				res.send(true);
-			}
+	atualizar(req: express.Request, res: express.Response): void {
+		var nusuario: IUsuario = <IUsuario>req.body;
+		UsuarioDAO.upsert(nusuario).then(function(p_nusuario: IUsuario) {
+			res.send(true);
+		}).catch(function(err) {
+			res.status(400).json(err);
 		});
 	}
 	@Delete("/:_id")
-	delete(req:express.Request,res:express.Response):void{
-		UsuarioDAO.findByIdAndRemove(req.params._id).exec().then(
-			function(){
-					res.send(true);
+	delete(req: express.Request, res: express.Response): void {
+		UsuarioDAO.destroy({
+			where: {
+				id: req.params._id
 			}
-			,function(err:any) {
-			    res.status(400).json(err);
-			}
-		);
+		}).then(function(p_nusuario: IUsuario) {
+			res.send(true);
+		}).catch(function(err) {
+			res.status(400).json(err);
+		});
 	}
 
 };

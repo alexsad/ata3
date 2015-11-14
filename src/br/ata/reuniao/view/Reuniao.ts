@@ -22,7 +22,7 @@ export class Reuniao extends ModWindow{
 		this.append(this.mainTb);
 
 		this.itIdReuniao = new InputText();
-		this.itIdReuniao.setColumn("$_id");
+		this.itIdReuniao.setColumn("$id");
 		this.itIdReuniao.setLabel("cod.");
 		this.itIdReuniao.setEnable(false);
 		this.itIdReuniao.setSize(3);
@@ -57,8 +57,9 @@ export class Reuniao extends ModWindow{
 		this.mainTb.reloadItens();
 	}
 	onChangeItem(p_obj:IReuniao):IReuniao{
-		this._modDiscursante._idReuniao = this.itIdReuniao.getValue();
-		this._modDiscursante.getMainList().setDataProvider(p_obj.discursos);
+		//this._modDiscursante._idReuniao = this.itIdReuniao.getValue();
+		//this._modDiscursante.getMainList().setDataProvider(p_obj.discursos);
+		this._modDiscursante.getByIdReuniao(p_obj.id);
 		return p_obj;
 	}
 }

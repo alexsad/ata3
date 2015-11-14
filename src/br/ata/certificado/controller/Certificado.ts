@@ -13,7 +13,7 @@ export class Certificado{
 				res.status(400).json(err);
 			});
 		}		
-		@Get()
+		@Post()
 		add(req:express.Request,res:express.Response):void{
 			var ncertificado:ICertificado = <ICertificado>req.body;
 			CertificadoDAO.create(ncertificado).then(function(p_ncertificado: ICertificado) {
@@ -31,11 +31,11 @@ export class Certificado{
 				res.status(400).json(err);
 			});
 		}
-		@Delete("/:_id")
+		@Delete("/:id")
 		delete(req:express.Request,res:express.Response):void{
 			CertificadoDAO.destroy({
 				where: {
-					id:req.params._id
+					id:req.params.id
 				}
 			}).then(function(p_ncertificado: ICertificado) {
 				res.send(true);
