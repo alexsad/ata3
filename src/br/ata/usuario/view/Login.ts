@@ -43,18 +43,9 @@ export class Login extends ModWindow{
 
 	}
 	onStart():void{
-		/*
-		this.itIdPerfil.fromService({
-			"url": "perfil/perfilsimples"
-			, "module": this
-		});
-		*/
 		this.getModView().showNav(false);
 		this.autoLogin();
-
-
 		perfilBoxContainer = new PerfilBox(this);
-
 	}
 	logar():void{
 	   if(!this.itlogin.isValid()){
@@ -80,7 +71,7 @@ export class Login extends ModWindow{
 
 	   RequestManager.addRequest({
 		   "url":"usuario/logar"
-		   ,"method":"get"
+		   ,"method":"post"
 		   ,"data":{
 				"login":this.itlogin.getValue()
 				,"senha":this.itsenha.getValue()
@@ -101,25 +92,13 @@ export class Login extends ModWindow{
 		RequestManager.addRequest({
 			"url":"usuario/getbylogin/"+this.itlogin.getValue()
 			,"onLoad" : function(dta:IUsuario){
-				//console.log(dta);
 				if(dta){
-					perfilBoxContainer.idUsuario = dta.id;
-					//this.idGrupo = dta.idGrupo;
-					//this.getMenusByIdPerfil(dta.perfis[0],dta.perfis);
-					perfilBoxContainer.filtrarPerfis(dta.perfis[0], dta.perfis);
+					perfilBoxContainer.getPerfisByIdUsuario(dta.id);
 				}
 			}.bind(this)
 		});
 	}
 	logOff():void{
-		/*
-		var menu = new MenuTab({"title":"InfoAta 3.1","target":"#sidebar"});
-		menu.setDataProvider([]);
-		$$("#navbarlist li").setStyle("display","none");
-		login.itlogin.setValue("");
-		login.itsenha.setValue("");
-		login.getModView().show(true).showNav(true);
-		*/
 		this.clearAll();
 		this.itsenha.setValue("");
 		this.itlogin.setValue("");

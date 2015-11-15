@@ -1,49 +1,63 @@
 import express = require('express');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router";
-import {TrimestreDAO} from "../model/trimestre";
+import TrimestreDAO = require("../model/trimestre");
 import {ITrimestre,EAtividadeStatus, IAtividade, ITrimestreLancamentoAtividade} from "../model/ITrimestre";
-import {IPerfil,IPerfilSimples} from "../../perfil/model/IPerfil";
+import {IPerfil} from "../../perfil/model/IPerfil";
 import {Perfil} from "../../perfil/controller/Perfil";
 
 @Controller()
 export class Trimestre{
 	@Get()
 	get(req:express.Request,res:express.Response):void{
-		TrimestreDAO.find({}, { atividades:false}).exec().then(
+		TrimestreDAO.findAll().then(
 			function(dta:ITrimestre[]){
 				res.json(dta);
 			}
-			,function(err:any){
-				res.status(400).json(err);
-			}
-		);
+		).catch(function(err) {
+			res.status(400).json(err);
+		});
 	}
 	@Get("/getDisponiveis")
 	getDisponiveis(req: express.Request, res: express.Response): void {
-		TrimestreDAO.find({"snAberto":"S"}).exec().then(
+		TrimestreDAO.findAll({where:{"snAberto": "S" }}).then(
 			function(dta: ITrimestre[]) {
 				res.json(dta);
 			}
-			, function(err:any) {
-				res.status(400).json(err);
+		).catch(function(err) {
+			res.status(400).json(err);
+		});
+	}
+	@Post()
+	add(req: express.Request, res: express.Response): void {
+		var ntrimestre: ITrimestre = <ITrimestre>req.body;
+		TrimestreDAO.create(ntrimestre).then(function(p_ntrimestre: ITrimestre) {
+			res.json(p_ntrimestre.id);
+		}).catch(function(err) {
+			res.status(400).json(err);
+		});
+	}
+	@Put()
+	atualizar(req: express.Request, res: express.Response): void {
+		var ntrimestre: ITrimestre = <ITrimestre>req.body;
+		TrimestreDAO.upsert(ntrimestre).then(function(p_ntrimestre: ITrimestre) {
+			res.send(true);
+		}).catch(function(err) {
+			res.status(400).json(err);
+		});
+	}
+	@Delete("/:id")
+	delete(req: express.Request, res: express.Response): void {
+		TrimestreDAO.destroy({
+			where: {
+				id: req.params.id
 			}
-		);
+		}).then(function(p_ntrimestre: ITrimestre) {
+			res.send(true);
+		}).catch(function(err) {
+			res.status(400).json(err);
+		});
 	}
-	@Get("/getAtividadeStatus")
-	getAtividadeStatus(req: express.Request, res: express.Response): void {
-		var tmpArr: {
-			idStatus:number
-			,descricao:string
-		}[] = [];
-
-		for (var i: number = 1; i < 8;i++){
-			tmpArr.push({
-				idStatus:i
-				,descricao:EAtividadeStatus[i]
-			});
-		};
-		res.json(tmpArr);
-	}
+/*
 	@Get("/getDisponiveisByIdPerfil/:idPerfil")
 	getDisponiveisByIdPerfil(req: express.Request, res: express.Response): void {
 		var tmpIdPerfilReq: string = req.params.idPerfil;
@@ -90,11 +104,7 @@ export class Trimestre{
 								if(tmpItemAtiv.idPerfil == tmpIdPerfilReq){
 									tmpSaldo -= tmpItemAtiv.orcamento;
 								};
-								/*
-								console.log(dtaPerfil.perfilAprovacao);
-								console.log(dtaPerfil.perfilLiberacao);
-								console.log(tmpItemAtiv.idStatus);
-								*/
+
 
 								if (
 									(
@@ -125,12 +135,7 @@ export class Trimestre{
 									}
 									tmpTrimestreLst[indTrim].atividades.push(dtaTrimestre[indTrim].atividades[indAtiv]);
 								}
-								/*
-								else{
-									console.log(dtaTrimestre[indTrim].atividades[indAtiv]);
-									dtaTrimestre[indTrim].atividades.splice(indAtiv, 1);
-								};
-								*/
+	
 							});
 							tmpTrimestreLst[indTrim].vtTotalLancado = tmpTotalLancado;
 							tmpTrimestreLst[indTrim].vtSaldo = tmpSaldo;
@@ -150,98 +155,5 @@ export class Trimestre{
 			}
 		);
 	}
-	@Post()
-	add(req:express.Request,res:express.Response):void{
-		var ntrimestre:ITrimestre = <ITrimestre>req.body;
-		TrimestreDAO.create(ntrimestre).then(
-			function(p_ntrimestre:ITrimestre) {
-			  	res.json(p_ntrimestre._id);
-			}
-			,function(error:any){
-				if(error){
-					res.status(400).json(error);
-				}
-			}
-		);
-	}
-	@Put()
-	atualizar(req:express.Request,res:express.Response):void{
-		var p_trimestre:ITrimestre = <ITrimestre>req.body;
-		var tmpId: string =  p_trimestre._id;
-		delete p_trimestre._id;
-		TrimestreDAO.findByIdAndUpdate(tmpId, { $set: p_trimestre }, function(err:any) {
-			if(err){
-				res.status(400).json(err);
-			}else{
-				res.send(true);
-			}
-		});
-	}
-	@Delete("/:_id")
-	delete(req:express.Request,res:express.Response):void{
-		TrimestreDAO.findByIdAndRemove(req.params._id).exec().then(
-			function(){
-					res.send(true);
-			}
-			,function(err:any) {
-			    res.status(400).json(err);
-			}
-		);
-	}
-
-	@Put("/atividade/:idTrimestre")
-	updateAtividade(req: express.Request, res: express.Response) {
-		var p_atividade: IAtividade = <IAtividade>req.body;
-		TrimestreDAO.findOneAndUpdate(
-			{ "_id": req.params.idTrimestre, "atividades._id": p_atividade._id }
-			, { "$set": { "atividades.$": p_atividade } }
-			, function(err:any) {
-				if (err) {
-					res.status(400).json(err);
-				} else {
-					res.send(true);
-				}
-			}
-		);
-	}
-
-	@Post("/atividade/:idTrimestre")
-	addAtividade(req: express.Request, res: express.Response): void {
-		var p_atividade: IAtividade = <IAtividade>req.body;
-		TrimestreDAO.findById(req.params.idTrimestre, function(err: any, data: ITrimestre) {
-			if (err) {
-				res.status(400).json(err);
-			} else {
-				//var newdoc:IMenu = <IMenu>data.menus["create"](p_menu);
-				//var newdoc: IAtividade = <IAtividade>data.atividades["create"](p_atividade);
-				//console.log(newdoc);
-				var newdoc: IAtividade = <IAtividade>data.atividades["create"](p_atividade);
-				data.atividades.push(newdoc);
-				console.log(data.datasLivres);
-				console.log(p_atividade.momento);
-
-				var strDataNew: string = p_atividade.momento + "";
-				strDataNew = strDataNew.substring(0, 10);
-				data.datasLivres.every(function(p_data: Date, indDta: number):boolean{
-					var strDataOld: string = p_data.toISOString();
-					console.log(strDataOld + ":" + strDataNew);
-					if (strDataOld.indexOf(strDataNew)>-1) {
-						data.datasLivres.splice(indDta, 1);
-						return false;
-					}
-					return true;
-				});
-
-
-				data["save"](function(err2: any) {
-					if (err2) {
-						res.status(400).json(err2);
-					}else{
-						res.send(newdoc._id);
-					};
-				});
-
-			};
-		});
-	}
+*/
 }

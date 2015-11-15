@@ -24,7 +24,7 @@ export class Perfil extends ModWindow{
 		this.append(this.mainTb);
 
 		this.itIdPerfil = new InputText("");
-		this.itIdPerfil.setColumn("$_id");
+		this.itIdPerfil.setColumn("$id");
 		this.itIdPerfil.setLabel("cod.");
 		this.itIdPerfil.setEnable(false);	
 		this.itIdPerfil.setSize(4);	
@@ -58,13 +58,7 @@ export class Perfil extends ModWindow{
 		this.mainTb.reloadItens();
 	}
 	onChangeItem(p_obj:IPerfil):IPerfil{
-		this._menus._idPerfil = this.itIdPerfil.getValue();
-		this._menus.getMainList().setDataProvider(p_obj.menus);
-		if(p_obj.menus){
-			if (p_obj.menus.length == 0) {
-				this._menus._items.getMainList().setDataProvider([]);
-			};			
-		};
+		this._menus.getByIdPerfil(p_obj.id);
 		return p_obj;
 	}
 }

@@ -1,68 +1,86 @@
 import {MenuTab} from "../../../../lib/controller";
 import {RequestManager} from "../../../../lib/net";
-import {IPerfil, IItemMenu, IPerfilSimples} from "../model/IPerfil";
+import {IPerfil,IMenu, IItemMenu} from "../model/IPerfil";
+import {IUsuarioPerfil} from "../../usuario/model/IUsuario";
 import {Login} from "../../usuario/view/Login";
 
 export class PerfilBox{
-	_perfis: string[];
+	_perfisUsuario: IUsuarioPerfil[];	
 	_perfilSelected: string;
 	_modLogin: Login;
 	idUsuario: number;
+	idPerfil: number;
 	constructor(p_modLogin:Login){
-		this._perfis = [];
+		this._perfisUsuario = [];
 		this._modLogin = p_modLogin;
 	}
-	setIdPerfil(p_idPerfil:string):void{
-		this._perfilSelected = p_idPerfil;
+	setIdPerfil(p_idPerfil:number):void{
+		this.idPerfil = p_idPerfil;
 	}
-	getIdPerfil():string{
-		return this._perfilSelected;
-	}
-	setPerfis(p_perfis:string[]):void{
-		this._perfis = p_perfis;
-	}
-	getPerfis():string[]{
-		return this._perfis;
+	getIdPerfil():number{
+		return this.idPerfil;
 	}
 
-	filtrarPerfis(p_idPerfil:string,p_perfis:string[]): void {
-		this.setIdPerfil(p_idPerfil);
-		this.setPerfis(p_perfis);
+	setPerfisUsuario(p_perfis: IUsuarioPerfil[]): void {
 		RequestManager.addRequest({
-			"url": "perfil/perfilsimples"
-			, "module": this._modLogin
-			, "onLoad": function(dtap: IPerfilSimples[]) {
-				var tmpPerfisOk: IPerfilSimples[] = [];
-				for (var i: number = 0; i < dtap.length; i++) {
-					if (this.getPerfis().indexOf(dtap[i]._id) > -1) {
-						tmpPerfisOk.push(dtap[i]);
-					};
-					if (tmpPerfisOk.length == this.getPerfis().length) {
-						break;
-					}
-				};
-				this.getMenusByIdPerfil(this.getIdPerfil(), tmpPerfisOk);
+			url: "perfil/getbysnativo/S"
+			,onLoad:function(dta:IPerfil[]){
+				//p_perfis.()
+				p_perfis.forEach(function(usuarioperfil: IUsuarioPerfil){
+					dta.every(function(pperfil: IPerfil): boolean{
+						if(pperfil.id==usuarioperfil.idPerfil){
+							usuarioperfil.dsPerfil = pperfil.descricao;
+							return false;
+						};
+						return true;
+					});
+				});
 			}.bind(this)
 		});
+		this._perfisUsuario = p_perfis;
 	}
-	getMenusByIdPerfil(p_idPerfil: string, p_perfis: IPerfilSimples[]): void {
+	getPerfisUsuario(): IUsuarioPerfil[] {
+		return this._perfisUsuario;
+	}
+	getPerfisByIdUsuario(p_idUsuario:number):void{
+		this.idUsuario = p_idUsuario;
 		RequestManager.addRequest({
-			"url": "perfil/get/" + p_idPerfil,
+			url:"usuarioperfil/getbyidusuario/"+p_idUsuario
+			, onLoad: function(dta: IUsuarioPerfil[]): void {
+				this.setPerfisUsuario(dta);
+				if(dta.length>0){
+					this.getMenusByIdPerfil(dta[0].idPerfil);
+				}
+			}.bind(this)
+		});
+		
+	}
+
+	getMenusByIdPerfil(p_idPerfil: number): void {
+
+		this.setIdPerfil(p_idPerfil);
+
+		//this.getPerfisUsuario()
+
+		RequestManager.addRequest({
+			"url": "menu/getfullbyidperfil/" + p_idPerfil,
 			"module": this._modLogin,
-			"onLoad": function(dta: IPerfil) {
+			"onLoad": function(dta: IMenu[]) {
 				var tmpMenu = new MenuTab({ "domain": "", "target": "#sidebar" });
 				var tmpChildrens: IItemMenu[] = [];
-				for (var i: number = 0; i < p_perfis.length; i++) {
+				var tmpPerfis: IUsuarioPerfil[] = this.getPerfisUsuario();
+				for (var i: number = 0; i < tmpPerfis.length; i++) {
 					var tmpIcon: string = '';
-					if (p_perfis[i]._id == this.getIdPerfil()) {
+					if (tmpPerfis[i].id == this.getIdPerfil()) {
 						tmpIcon = 'ok';
 					};
 					tmpChildrens.push({
-						label: p_perfis[i].descricao
-						, funcao: '' + p_perfis[i]._id
+						label: tmpPerfis[i].dsPerfil
+						, funcao: '' + tmpPerfis[i].id
 						, tela: 'tela'
 						, icone: tmpIcon
 						, ordem: i
+						, idMenu:0
 					});
 				};
 				tmpChildrens.push({
@@ -71,18 +89,20 @@ export class PerfilBox{
 					, tela: 'br.ata.usuario.view.Login'
 					, icone: 'off'
 					, ordem: 1
+					,idMenu:0
 				});
-				dta.menus.push({
+				dta.push({
 					//id:'2344jfjfel'
 					icone: ''
 					, label: ''
 					, ordem: 23
 					, children: tmpChildrens
+					,idPerfil:0
 				});
-				tmpMenu.setDataProvider(dta.menus);
+				tmpMenu.setDataProvider(dta);
 				var tmpLogin: string = this._modLogin.itlogin.getValue();
 				tmpLogin = tmpLogin.substring(0, tmpLogin.indexOf("@"));
-				var tmpIdM: number = dta.menus.length - 1;
+				var tmpIdM: number = dta.length - 1;
 				$("#tabmenu_" + tmpIdM + ",#tabmenu_" + tmpIdM + "_l").addClass("pull-right");
 				$("#tabmenu_" + tmpIdM + " a").html(
 					'<img style="border: 2px solid #fff;border-radius: 100%;margin: -4px 8px 0 0;max-width: 30px;" alt="Photo" src="http://i.imgur.com/RLiDK.png" class="nav-user-photo">'
@@ -106,7 +126,7 @@ export class PerfilBox{
 						if (tmpIdPerfil != this.getIdPerfil()) {
 							this.setIdPerfil(tmpIdPerfil);
 							this._modLogin.clearAll();
-							this.filtrarPerfis(tmpIdPerfil, this.getPerfis());
+							//this.filtrarPerfis(tmpIdPerfil, this.getPerfis());
 						};
 
 					};

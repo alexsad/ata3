@@ -7,7 +7,9 @@ export interface IUsuario{
 }
 
 export interface IUsuarioPerfil {
+	id?: number;
 	idUsuario: number;
 	idPerfil: number;
+	dsPerfil?: string;
 }
 

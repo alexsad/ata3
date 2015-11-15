@@ -52,12 +52,12 @@ export class Usuario extends ModWindow{
 		this.append(this.mainList);
 	}
 	onStart():void{
-		//this._modPerfis = new UsuarioPerfil(this);
-		//this.getModView().append(this._modPerfis);
+		this._modPerfis = new UsuarioPerfil();
+		this.getModView().append(this._modPerfis);
 		this.mainTb.reloadItens();
 	}
 	onChangeItem(p_obj:IUsuario):IUsuario{
-		//this._modPerfis.getPerfis();
+		this._modPerfis.getByIdUsuario(p_obj.id);
 		return p_obj;
 	}
 }

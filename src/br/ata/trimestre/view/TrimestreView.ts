@@ -2,7 +2,7 @@ import {ModWindow} from "../../../../lib/container";
 import {AlertMsg, ListView, ItemView} from "../../../../lib/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/net";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
-import {Evento} from "./Evento";
+import {Atividade} from "./Atividade";
 import {ITrimestre, ITrimestreDataLivre} from "../model/ITrimestre";
 
 declare var perfilBoxContainer: PerfilBox;
@@ -11,7 +11,7 @@ declare var perfilBoxContainer: PerfilBox;
 export class TrimestreView extends ModWindow{
 	amOrcamentoAtual: AlertMsg;
 	mainList: ListView;
-	_modEvento: Evento;
+	_modAtividade: Atividade;
 	constructor(){
 		super("trimestres");
 		this.setRevision("$Revision: 63 $");
@@ -25,7 +25,7 @@ export class TrimestreView extends ModWindow{
 
 		this.mainList = new ListView("Trimestre");
 		this.append(this.mainList);
-		//this.addAssociation({"mod":"Evento","url":"js/br/net/atasacramental/evento/view/Evento.js","act":"getByIdTrimestre","puid":this.getVarModule()});
+		//this.addAssociation({"mod":"Atividade","url":"js/br/net/atasacramental/evento/view/Atividade.js","act":"getByIdTrimestre","puid":this.getVarModule()});
 	}
 	onStart():void{
 		//this.mainTb.reloadItens();
@@ -33,24 +33,25 @@ export class TrimestreView extends ModWindow{
 
 		if(!this.getMainList().itemChange){
 			this.getMainList()["itemChange"] = function(p_item){
-				js.underas.core.Underas.loadModule({"mod":"Evento","url":"js/br/net/atasacramental/atividade/view/Evento.js","act":"getByIdTrimestre","p":[p_item.idTrimestre],"puid":this.getVarModule()});
+				js.underas.core.Underas.loadModule({"mod":"Atividade","url":"js/br/net/atasacramental/atividade/view/Atividade.js","act":"getByIdTrimestre","p":[p_item.idTrimestre],"puid":this.getVarModule()});
 
 			}.bind(this);
 		}
 		*/
 
-		this._modEvento = new Evento(this);
-		this.getModView().append(this._modEvento);
+		this._modAtividade = new Atividade(this);
+		this.getModView().append(this._modAtividade);
 
 		this.getTrimestres();
 	}
 	onChangeItem(p_item: ITrimestre): ITrimestre {
-		//js.underas.core.Underas.loadModule({"mod":"br.net.atasacramental.atividade.view.Evento","act":"getByIdTrimestre","p":[p_item.idTrimestre],"puid":this.getVarModule()});
+		//js.underas.core.Underas.loadModule({"mod":"br.net.atasacramental.atividade.view.Atividade","act":"getByIdTrimestre","p":[p_item.idTrimestre],"puid":this.getVarModule()});
 		//this.getOrcamentoByTrimestre(p_item);
 		//console.log(p_item.atividades);
-		this._modEvento.mainList.setDataProvider(p_item.atividades);
-		this._modEvento.setDatasDisponiveis(p_item.datasLivres);
-		//this._modEvento.itIdTrimestre.setValue(p_item._id);
+		//this._modAtividade.mainList.setDataProvider(p_item.atividades);
+		//this._modAtividade.setDatasDisponiveis(p_item.datasLivres);
+		//this._modAtividade.itIdTrimestre.setValue(p_item._id);
+		this._modAtividade.getByIdTrimestre(p_item.id);
 		return p_item;
 	}
 	getSaldo():number{
@@ -63,7 +64,7 @@ export class TrimestreView extends ModWindow{
 	}
 	getTrimestres():void{
 		RequestManager.addRequest({
-			"url": "trimestre/getDisponiveisByIdPerfil/" + perfilBoxContainer.getIdPerfil()
+			"url": "trimestre/getdisponiveisbyidperfil/" + perfilBoxContainer.getIdPerfil()
 			,"onLoad":function(dta:ITrimestre[]){
 				this.getMainList().setDataProvider(dta);
 			}.bind(this)
@@ -73,7 +74,7 @@ export class TrimestreView extends ModWindow{
         RequestManager.addRequest({
                 "url" : "organizacao.business.OrganizacaoLancamentoBLL.getDadosOrcamento"
                 ,"data":{
- 					"idTrimestre": p_item._id
+ 					"idTrimestre": p_item.id
 					,"idOrganizacao": "login.idOrganizacao"
                 }
                 ,"onLoad" : function(dta:ITrimestre[]):void{

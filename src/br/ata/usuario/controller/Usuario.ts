@@ -17,10 +17,14 @@ export class Usuario{
 		});
 	}
 
-	@Get("/logar")
+	@Post("/logar")
 	logar(req:express.Request,res:express.Response):void{
-		var p_usuario: IUsuario = <IUsuario>url.parse(req.url, true).query;
-		UsuarioDAO.find({ where: { "id":p_usuario } }).then(
+		var p_usuario: IUsuario = <IUsuario>req.body;
+		console.log(p_usuario);
+		UsuarioDAO.find({ where: { 
+			"login":p_usuario.login 
+			,"senha":p_usuario.senha
+		} }).then(
 			function(dta:IUsuario) {
 				res.send(((dta)?true:false));
 			}

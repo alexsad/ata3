@@ -44,7 +44,7 @@
         "src/br/ata/reuniao/view/Discursante.ts",
         "src/br/ata/reuniao/view/Reuniao.ts",
         "src/br/ata/reuniao/view/ReuniaoPorPeriodo.ts",
-        "src/br/ata/trimestre/view/Evento.ts",
+        "src/br/ata/trimestre/view/Atividade.ts",
         "src/br/ata/trimestre/view/Trimestre.ts",
         "src/br/ata/trimestre/view/TrimestreDataLivre.ts",
         "src/br/ata/trimestre/view/TrimestreLancamentoAtividade.ts",

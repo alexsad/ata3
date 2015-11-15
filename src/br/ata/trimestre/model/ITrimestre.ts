@@ -1,25 +1,25 @@
 export interface ITrimestre{
-	_id?:string;
+	id?:number;
 	ano: number;
 	nrTrimestre: number;
 	snAberto:string;
-	datasLivres: Date[];
-	trimestreLancamentoAtividade: ITrimestreLancamentoAtividade[];
-	atividades: IAtividade[];
 	vtSaldo?: number;
 	vtTotalLancado?: number;
 }
 export interface ITrimestreLancamentoAtividade {
-	_id?: string;
+	id?: number;
+	idTrimestre: number;
 	valor: number;
-	idPerfil: string;
+	idPerfil: number;
 }
 export interface ITrimestreDataLivre{
-	idData:number;
+	id?: number;
+	idTrimestre: number;
 	momento:Date;
 }
 export interface IAtividade {
-	_id?: string;
+	id?: number;
+	idTrimestre: number;
 	descricao:  string;
 	detalhes:string;
 	local:string;

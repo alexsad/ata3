@@ -92,7 +92,7 @@ module.exports = function(grunt) {
 				if(contentFile.indexOf("})(container_1.ModWindow);")){
 					contentFile = contentFile.replace(/(_super\.call\(this,.*)/,"$1 this.setUrlModule('"+abspath.replace("public/","").replace(/\//g,".").replace(".js","")+"');");
 					grunt.file.write(abspath, contentFile);
-					grunt.log.writeln('File "' + abspath + '" modified.');
+					//grunt.log.writeln('File "' + abspath + '" modified.');
 				}
 			};
 		});
