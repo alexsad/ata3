@@ -133,7 +133,7 @@ export class Atividade extends ModWindow {
 		this.itIdPerfil = new Select("selecione uma pefil");
 		this.itIdPerfil.setColumn("@idPerfil");
 		this.itIdPerfil.setLabel("perfil:");
-		this.itIdPerfil.setValueField("_id");
+		this.itIdPerfil.setValueField("id");
 		this.itIdPerfil.setLabelField("descricao");
 		this.itIdPerfil.setSize(4);
 		this.itIdPerfil.setEnable(false);
@@ -142,7 +142,7 @@ export class Atividade extends ModWindow {
 		this.itIdResponsavel = new Select("responsavel");
 		this.itIdResponsavel.setColumn("@idResponsavel");
 		this.itIdResponsavel.setLabel("responsavel");
-		this.itIdResponsavel.setValueField("_id");
+		this.itIdResponsavel.setValueField("id");
 		this.itIdResponsavel.setLabelField("nome");
 		this.itIdResponsavel.setSize(5);
 		this.append(this.itIdResponsavel);
@@ -222,10 +222,10 @@ export class Atividade extends ModWindow {
 	}
 	onStart():void{
 		this.itIdResponsavel.fromService({
-			url: "organizacao/membro/getbysnativo/S"
+			url: "membro/getbysnativo/S"
 		});
 		this.itIdStatus.fromService({
-			url: "trimestre/getAtividadeStatus"
+			url: "atividade/getatividadestatus"
 		});
 		this.itIdPerfil.fromService({
 			"url": "perfil/getbysnativo/S"

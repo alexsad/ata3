@@ -1,6 +1,8 @@
 import express = require('express');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router";
 import TrimestreDAO = require("../model/trimestre");
+import {Atividade} from "./Atividade";
+import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import {ITrimestre,EAtividadeStatus, IAtividade, ITrimestreLancamentoAtividade} from "../model/ITrimestre";
 import {IPerfil} from "../../perfil/model/IPerfil";
 import {Perfil} from "../../perfil/controller/Perfil";
@@ -17,7 +19,8 @@ export class Trimestre{
 			res.status(400).json(err);
 		});
 	}
-	@Get("/getDisponiveis")
+
+	@Get("/getdisponiveis")
 	getDisponiveis(req: express.Request, res: express.Response): void {
 		TrimestreDAO.findAll({where:{"snAberto": "S" }}).then(
 			function(dta: ITrimestre[]) {
@@ -27,6 +30,42 @@ export class Trimestre{
 			res.status(400).json(err);
 		});
 	}
+	
+	@Get('/getbyidperfil/:idperfil')
+	getByIdPerfil(req: express.Request, res: express.Response): void {
+		var pidperfil: number = parseInt(req.params.idperfil);
+		TrimestreDAO.findAll({ where: { "snAberto": "S" } }).then(
+			function(dta: ITrimestre[]) {
+				if(dta.length==0){
+					res.json(dta);
+				}else{
+					var ativctrl:Atividade = new Atividade();
+					var lancctrl:TrimestreLancamentoAtividade = new TrimestreLancamentoAtividade();
+					var tmade: number = 0;	
+					dta.forEach(function(ptrimestre:ITrimestre,indx:number){
+						ativctrl.getTotalOrcamentoByIdTrimestreAndIdPerfil(ptrimestre.id, pidperfil).then(function(total: number) {
+							dta[indx].vtSaldo = total || 0;
+							//dta[indx].vtTotalLancado = total || 0;
+							lancctrl.getTotalByIdTrimestreIdPerfil(ptrimestre.id, pidperfil).then(function(ptotal_lanc: number) {
+								dta[indx].vtTotalLancado = ptotal_lanc||0;
+								tmade++;
+								if (tmade == dta.length) {
+									res.json(dta);
+								};	
+							});
+
+						
+						}).catch(function(err) {
+							console.log(err);
+						});
+					});
+				};
+			}
+		).catch(function(err) {
+			res.status(400).json(err);
+		});
+	}
+
 	@Post()
 	add(req: express.Request, res: express.Response): void {
 		var ntrimestre: ITrimestre = <ITrimestre>req.body;

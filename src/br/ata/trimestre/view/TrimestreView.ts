@@ -64,7 +64,7 @@ export class TrimestreView extends ModWindow{
 	}
 	getTrimestres():void{
 		RequestManager.addRequest({
-			"url": "trimestre/getdisponiveisbyidperfil/" + perfilBoxContainer.getIdPerfil()
+			"url": "trimestre/getbyidperfil/" + perfilBoxContainer.getIdPerfil()
 			,"onLoad":function(dta:ITrimestre[]){
 				this.getMainList().setDataProvider(dta);
 			}.bind(this)

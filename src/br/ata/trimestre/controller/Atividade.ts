@@ -13,7 +13,7 @@ export class Atividade {
 			res.status(400).json(err);
 		});
 	}
-	@Get("/getAtividadeStatus")
+	@Get("/getatividadestatus")
 	getAtividadeStatus(req: express.Request, res: express.Response): void {
 		var tmpArr: {
 			idStatus: number
@@ -27,6 +27,14 @@ export class Atividade {
 			});
 		};
 		res.json(tmpArr);
+	}
+	getTotalOrcamentoByIdTrimestreAndIdPerfil(p_idTrimestre,p_idPerfil) {
+		return AtividadeDAO.sum('orcamento', {
+			where:{
+				"id_perfil":p_idPerfil
+				,"id_trimestre":p_idTrimestre
+			}
+		});
 	}
 	@Post()
 	add(req: express.Request, res: express.Response): void {
