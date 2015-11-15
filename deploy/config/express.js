@@ -48,9 +48,9 @@ dinRoute.DinRoute.setApp(app);
 //console.log(dinRoute.DinRoute);
 
 var baseDir = 'app/br/ata';
-load(baseDir+"/"+"certificado"+'/controller', {checkext:true, extlist:['.js']}).into(app);
+//load(baseDir+"/"+"certificado"+'/controller', {checkext:true, extlist:['.js']}).into(app);
        
-/*
+
 fs.readdir(baseDir, function (err, files) { // '/' denotes the root folder
   if (err) throw err;
    files.forEach( function (file) {
@@ -69,6 +69,6 @@ fs.readdir(baseDir, function (err, files) { // '/' denotes the root folder
      });
    });
 });
-*/
+
 return app;
 };

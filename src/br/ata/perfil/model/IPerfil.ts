@@ -1,22 +1,30 @@
+
+export enum EPerfilAutorizacaoTP {
+  APROVACAO, LIBERACAO
+}
+
 export interface IMenu{
-  _id?:string;
+  id?:number;
   icone:string;
   label:string;
   ordem:number;
-  children:IItemMenu[];
+  idPerfil: number;
+  children?:IItemMenu[];
 }
 
 export interface IItemMenu{
-  _id?:string;
-  _ind?:string;
+  id?:number;
+  _ind?:string; 
   label:string;
   funcao:string;
   tela:string;
   icone:string;
   ordem:number;
+  idMenu: number;
 }
-export interface INotificacao{
-  _id?:string;
+export interface IPerfilNotificacao {
+  id?:number;
+  idPerfil: number;
   descricao:string;
   mascara:string;
   dtInicial:Date;
@@ -29,22 +37,17 @@ export interface INotificacao{
   tpNotificacao:number;
 }
 export interface IPerfil{
-  _id?:string;
+  id?:number;
   descricao:string;
   comentario:string;
   snAtivo:string;
-  menus:IMenu[];
-  notificacoes:INotificacao[];
-  perfilAprovacao: string[];
-  perfilLiberacao: string[];
+  menus?:IMenu[];
+  notificacoes?:IPerfilNotificacao[];
 }
 
 export interface IPerfilAutorizacao{
-  idPerfil: string;
-  descricao: string;
-}
-
-export interface IPerfilSimples {
-  _id?: string;
-  descricao: string;
+  id?: number;
+  idPerfil: number;
+  idPerfilAlvo: number;
+  tpAutorizacao: EPerfilAutorizacaoTP;
 }

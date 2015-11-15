@@ -21,7 +21,7 @@ export class Organizacao extends ModWindow{
 		this.append(this.mainTb);
 
 		this.itIdOrganizacao = new InputText("");
-		this.itIdOrganizacao.setColumn("$_id");
+		this.itIdOrganizacao.setColumn("$id");
 		this.itIdOrganizacao.setLabel("cod.");
 		this.itIdOrganizacao.setEnable(false);
 		this.itIdOrganizacao.setSize(4);
@@ -38,16 +38,13 @@ export class Organizacao extends ModWindow{
 		//this.addAssociation({"mod":"br.net.atasacramental.organizacao.view.OrganizacaoLancamento","act":"getByIdOrganizacao","puid":this.getVarModule()});
 	}
 	onStart():void{
-		this._modMembro = new Membro(this);
+		this._modMembro = new Membro();
 		this.getModView().append(this._modMembro);
 		this.mainTb.reloadItens();
 	}
 	onChangeItem(p_obj: IOrganizacao): IOrganizacao {
-		this._modMembro.mainList.setDataProvider(p_obj.membro);
+		//this._modMembro.mainList.setDataProvider(p_obj.membro);
+		this._modMembro.getByIdOrganizacao(p_obj.id);
 		return p_obj;
 	}
-	beforeUpdate(p_req: IDefaultRequest, p_old_obj: IOrganizacao) {
-		return p_req;
-	}
-
 }

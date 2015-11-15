@@ -25,7 +25,7 @@ export class Trimestre extends ModWindow{
 		this.append(this.mainTb);
 
 		this.itIdTrimestre = new InputText("");
-		this.itIdTrimestre.setColumn("$_id");
+		this.itIdTrimestre.setColumn("$id");
 		this.itIdTrimestre.setLabel("cod.");
 		this.itIdTrimestre.setEnable(false);	
 		this.itIdTrimestre.setSize(3);	
@@ -65,10 +65,10 @@ export class Trimestre extends ModWindow{
 		
 	}
 	onStart():void{
-		this._modTrimestreDataLivre = new TrimestreDataLivre(this);
+		this._modTrimestreDataLivre = new TrimestreDataLivre();
 		this.getModView().append(this._modTrimestreDataLivre);
 
-		this._modTrimestreLancamentoAtividade = new TrimestreLancamentoAtividade(this);
+		this._modTrimestreLancamentoAtividade = new TrimestreLancamentoAtividade();
 		this.getModView().append(this._modTrimestreLancamentoAtividade);
 
 		this.mainTb.reloadItens();
@@ -87,12 +87,16 @@ export class Trimestre extends ModWindow{
 	}
 	*/
 	onChangeItem(p_obj:ITrimestre):ITrimestre{
+		/*
 		if(p_obj.trimestreLancamentoAtividade){
 			this._modTrimestreLancamentoAtividade.mainList.setDataProvider(p_obj.trimestreLancamentoAtividade);
 		}else{
 			this._modTrimestreLancamentoAtividade.mainList.setDataProvider([]);
 		};		
-		this._modTrimestreDataLivre.getDatasLivres();		
+		this._modTrimestreDataLivre.getDatasLivres();	
+		*/
+		this._modTrimestreDataLivre.getByIdTrimestre(p_obj.id);
+		this._modTrimestreLancamentoAtividade.getByIdTrimestre(p_obj.id);	
 		return p_obj;
 	}
 }

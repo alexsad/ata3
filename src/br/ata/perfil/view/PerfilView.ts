@@ -1,15 +1,14 @@
 import {ModWindow} from "../../../../lib/container";
 import {ItemView, InputText, CheckBox, ListView} from "../../../../lib/controller";
-import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/net";
+import {RequestManager, IDefaultRequest} from "../../../../lib/net";
 import {Menu} from "./Menu";
-import {IPerfil} from "../model/IPerfil";
-import {PerfilAutorizacao, EPerfilAutorizacaoTP} from "./PerfilAutorizacao";
+import {IPerfil, EPerfilAutorizacaoTP} from "../model/IPerfil";
+import {PerfilAutorizacao} from "./PerfilAutorizacao";
 
 @ItemView("assets/html/perfil.html")
 export class PerfilView extends ModWindow {
 	mainList: ListView;
-	_modPerfilAprovacao: PerfilAutorizacao;
-	_modPerfilLiberacao: PerfilAutorizacao;
+	_modPerfilAutorizacao: PerfilAutorizacao;
 	constructor() {
 		super("Perfil");
 		this.setRevision("$Revision: 138 $");
@@ -20,28 +19,20 @@ export class PerfilView extends ModWindow {
 	}
 	onStart(): void {
 
-		this._modPerfilAprovacao = new PerfilAutorizacao(this, EPerfilAutorizacaoTP.APROVACAO);
-		this._modPerfilAprovacao.setTitle("Apravacao");
-		this._modPerfilAprovacao.aviso.setText("Lista de perfis que o perfil selecionado pode aprovar as atividades!");
-		this.getModView().append(this._modPerfilAprovacao);
-
-		this._modPerfilLiberacao = new PerfilAutorizacao(this, EPerfilAutorizacaoTP.LIBERACAO);
-		this._modPerfilLiberacao.setTitle("Liberacao");
-		this._modPerfilLiberacao.aviso.setText("Lista de perfis que o perfil selecionado pode liberar as atividades!");
-		this.getModView().append(this._modPerfilLiberacao);
-
-		//this.mainTb.reloadItens();
+		this._modPerfilAutorizacao = new PerfilAutorizacao();
+		this._modPerfilAutorizacao.setTitle("Apravacao");
+		this._modPerfilAutorizacao.aviso.setText("Lista de perfis que o perfil selecionado pode aprovar ou liberar as atividades!");
+		this.getModView().append(this._modPerfilAutorizacao);
 
 		RequestManager.addRequest({
-			"url":"perfil/getAutorizacao"
+			"url":"perfil"
 			,"onLoad":function(dta:IPerfil[]):void{
 				this.getMainList().setDataProvider(dta);
 			}.bind(this)
 		});
 	}
 	onChangeItem(p_obj: IPerfil): IPerfil {
-		this._modPerfilAprovacao.getPerfis();
-		this._modPerfilLiberacao.getPerfis();
+		this._modPerfilAutorizacao.getByIdPerfil(p_obj.id);
 		return p_obj;
 	}
 }

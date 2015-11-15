@@ -1,7 +1,4 @@
-import {IMembro} from "./IMembro";
-
 export interface IOrganizacao{
-	_id?:string;
+	id?:number;
 	descricao:string;
-	membro:IMembro[];
 }

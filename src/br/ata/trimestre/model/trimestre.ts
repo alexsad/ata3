@@ -1,149 +1,40 @@
+
 import {ITrimestre} from "./ITrimestre";
-import mongoose = require("mongoose");
+import sequelize = require("../../../../config/sequelizedb");
 
-var atividadeSchema = new mongoose.Schema({
-	"descricao": {
-		type: String
-		, required: true
-	}
-	, "detalhes": {
-		type: String
-		, required: true
-	}
-	, "local": {
-		type: String
-		, required: true
-	}
-	, "momento": {
-		type: Date
-		, required: true
-	}
-	, "hora": {
-		type: String
-		, required: true
-	}
-	, "idResponsavel": {
-		type: mongoose.Schema.Types.ObjectId
-		, required: true
-	}
-	, "idPerfil": {
-		type: mongoose.Schema.Types.ObjectId
-		, required: true
-	}
-	, "orcamento": {
-		type: Number
-		, required: true
-	}
-	, "codRefMLS": {
-		type: Number
-	}
-	, "publicoAlvo": {
-		type: String
-		, required: true
-	}
-	, "proposito": {
-		type: String
-		, required: true
-	}
-	, "idStatus": {
-		type: Number
-		, required: true
-	}
-	, "dsObservacao": {
-		type: String
-		, required: true
-	}
-	, "vestuario": {
-		type: String
-		, required: true
-	}
-	, "snEditavel": {
-		type: String
-		, required: true
-	}
-	
-});
-
-
-atividadeSchema.virtual("iconStatus").get(function() {
-	var tpAlert:string = "info";
-	if (this.idStatus == 3 || this.idStatus == 6) {
-		tpAlert = "danger";
-	} else if (this.idStatus == 5) {
-		tpAlert = "warning";
-	} else if (this.idStatus == 7) {
-		tpAlert = "success";
-	};
-	return tpAlert;
-});
-
-
-
-atividadeSchema.set('toJSON', {
-	virtuals: true
-});
-
-
-var schema = new mongoose.Schema({
+var TrimestreDAO = sequelize.define('trimestre', {
 	"ano": {
-		type: Number
-		, required: true
+		type: sequelize.constructor.INTEGER
 	}
 	, "nrTrimestre": {
-		type: Number
-		, required: true
+		type: sequelize.constructor.INTEGER
+		, field: "nr_trimestre"
 	}
 	, "snAberto": {
-		type: String
-		, required: true
+		type: sequelize.constructor.STRING
+		, field: "sn_aberto"
 	}
-	, "datasLivres": [Date]
-	, "trimestreLancamentoAtividade": [{
-		"valor": {
-			type: Number
-			, required: true
-		}
-		,"idPerfil":{
-			type: mongoose.Schema.Types.ObjectId
-			,required: true
-		}
-	}]
-	, "atividades": [atividadeSchema]
 	, "vtSaldo": {
-		type: Number
-		, required: false
+		type: sequelize.constructor.VIRTUAL(sequelize.constructor.INTEGER)
+		, set: function(p_vl: number) {
+			this.setDataValue('vtSaldo', p_vl);
+		}
 	}
 	, "vtTotalLancado": {
-		type: Number
-		, required: false
+		type: sequelize.constructor.VIRTUAL(sequelize.constructor.INTEGER)
+		, set: function(p_vl: number) {
+			this.setDataValue('vtTotalLancado', p_vl);
+		}
 	}
-});
+	, "dsTrimestre": {
+		type: sequelize.constructor.VIRTUAL(sequelize.constructor.STRING),
+		get: function() {
+			return this.get('nrTrimestre') + "º de " + this.get('ano');
+		}
+	}
+}, {
+		"timestamps": false
+		, "freezeTableName": true
+	});
 
-schema.virtual("dsTrimestre").get(function() {
-	return this.nrTrimestre + "º de " + this.ano;
-});
-
-
-
-/*
-schema.virtual("atividades.iconStatus").get(function() {
-	var tpAlert:string = "info";
-	if (this.idStatus == 3 || this.idStatus == 6) {
-		tpAlert = "danger";
-	} else if (this.idStatus == 5) {
-		tpAlert = "warning";
-	} else if (this.idStatus == 7) {
-		tpAlert = "success";
-	};
-	return tpAlert;
-});
-*/
-
-
-
-schema.set('toJSON', {
-	virtuals: true
-});
-
-export interface ITrimestreModel extends ITrimestre, mongoose.Document { };
-export var TrimestreDAO = mongoose.model<ITrimestreModel>("Trimestre", schema);
+export = TrimestreDAO;

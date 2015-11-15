@@ -29,9 +29,7 @@
         "./src/lib/jquery2.d.ts",
         "./src/lib/jqueryui.d.ts"
     ],
-    "reference": [
-
-    ],
+    "reference": [],
     "files": [
         "src/br/ata/certificado/view/Certificado.ts",
         "src/br/ata/organizacao/view/FastMembro.ts",
@@ -46,7 +44,7 @@
         "src/br/ata/reuniao/view/Discursante.ts",
         "src/br/ata/reuniao/view/Reuniao.ts",
         "src/br/ata/reuniao/view/ReuniaoPorPeriodo.ts",
-        "src/br/ata/trimestre/view/Evento.ts",
+        "src/br/ata/trimestre/view/Atividade.ts",
         "src/br/ata/trimestre/view/Trimestre.ts",
         "src/br/ata/trimestre/view/TrimestreDataLivre.ts",
         "src/br/ata/trimestre/view/TrimestreLancamentoAtividade.ts",
@@ -58,6 +56,7 @@
         "src/br/ata/organizacao/model/IMembro.ts",
         "src/br/ata/organizacao/model/IOrganizacao.ts",
         "src/br/ata/perfil/model/IPerfil.ts",
+        "src/br/ata/reuniao/model/IDiscurso.ts",
         "src/br/ata/reuniao/model/IReuniao.ts",
         "src/br/ata/trimestre/model/ITrimestre.ts",
         "src/br/ata/usuario/model/IUsuario.ts",

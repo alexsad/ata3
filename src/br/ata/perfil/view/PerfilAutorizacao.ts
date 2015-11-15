@@ -1,197 +1,85 @@
-import {IPerfil, IPerfilAutorizacao} from "../model/IPerfil";
 import {PerfilView} from "./PerfilView";
 import {ModWindow} from "../../../../lib/container";
-import {Button, AlertMsg, Select, ListView, ItemView} from "../../../../lib/controller";
-import {RequestManager, IDefaultRequest} from "../../../../lib/net";
+import {InputText,CheckBox,Button, AlertMsg, Select, ListView, ItemView} from "../../../../lib/controller";
+import {ToolBar,RequestManager, IDefaultRequest} from "../../../../lib/net";
+import {IPerfil, IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfil";
 
-export enum EPerfilAutorizacaoTP {
-	APROVACAO,LIBERACAO
-}
 
 @ItemView("assets/html/perfilautorizacao.html")
 export class PerfilAutorizacao extends ModWindow {
 	itPerfil: Select;
+	itIdPerfilAutorizacao: InputText;
+	itTpAutorizacao: CheckBox;
+	itPerfilAlvo: Select;
 	aviso: AlertMsg;
-	btAddPerfil: Button;
-	btDelPerfil: Button;
+	mainTb: ToolBar;
 	mainList: ListView;
-	_modPerfilView: PerfilView;
-	_tpModulo: number;
-	constructor(p_modPerfilView: PerfilView, p_tpModulo: EPerfilAutorizacaoTP) {
+	constructor() {
 		super("*Perfis Associados");
 		this.setRevision("$Revision: 1 $");
-		this.setSize(4);
+		this.setSize(8);
+
+		this.mainTb = new ToolBar({ "domain": "perfilautorizacao" });
+		this.append(this.mainTb);
 
 		this.aviso = new AlertMsg("Cadastro");
 		this.aviso.setType(AlertMsg.TP_ERROR);
 		this.aviso.show(true);
 		this.append(this.aviso);
 
-		this.itPerfil = new Select("selecione uma pefil");
+		this.itIdPerfilAutorizacao = new InputText("cod.");
+		this.itIdPerfilAutorizacao.setLabel("cod.");
+		this.itIdPerfilAutorizacao.setSize(3);
+		this.itIdPerfilAutorizacao.setColumn("$id");
+		this.itIdPerfilAutorizacao.setEnable(false);
+		this.append(this.itIdPerfilAutorizacao);
+
+		this.itPerfil = new Select("pefil");
 		this.itPerfil.setLabel("Perfil:");
-		this.itPerfil.setValueField("_id");
+		this.itPerfil.setColumn("!idPerfil");
+		this.itPerfil.setValueField("id");
 		this.itPerfil.setLabelField("descricao");
-		this.itPerfil.setSize(12);
+		this.itPerfil.setEnable(false);
+		this.itPerfil.setSize(9);
 		this.append(this.itPerfil);
 
-		this.btAddPerfil = new Button("Adicionar");
-		this.btAddPerfil.addEvent("click", this.addPerfil.bind(this));
-		this.btAddPerfil.setSize(6);
-		this.append(this.btAddPerfil);
+		this.itPerfilAlvo = new Select("pefil");
+		this.itPerfilAlvo.setLabel("Perfil Alvo:");
+		this.itPerfilAlvo.setColumn("@idPerfilAlvo");
+		this.itPerfilAlvo.setValueField("id");
+		this.itPerfilAlvo.setLabelField("descricao");
+		this.itPerfilAlvo.setSize(12);
+		this.append(this.itPerfilAlvo);
 
-		this.btDelPerfil = new Button("Remover");
-		this.btDelPerfil.addEvent("click", this.delPerfil.bind(this));
-		this.btDelPerfil.getEle().removeClass("btn-default").addClass("btn-warning");
-		this.btDelPerfil.setSize(6);
-		this.append(this.btDelPerfil);
+
+
+		this.itTpAutorizacao = new CheckBox("Autorizacao", "permite liberacao?");
+		this.itTpAutorizacao.setLabel("Autorizacao:");
+		this.itTpAutorizacao.setColumn("@tpAutorizacao");
+		this.itTpAutorizacao.setCheckedValue(EPerfilAutorizacaoTP.LIBERACAO+"");
+		this.itTpAutorizacao.setUnCheckedValue(EPerfilAutorizacaoTP.APROVACAO+"");
+		this.itTpAutorizacao.setSize(12);
+		this.append(this.itTpAutorizacao);
 
 		this.mainList = new ListView("perfis");
 		//this.setMainList("mainList");
 		this.append(this.mainList);
-		this._modPerfilView = p_modPerfilView;
-		this._tpModulo = p_tpModulo;
 	}
 	onStart(): void {
 		this.itPerfil.fromService({
-			"url": "perfil/perfilsimples"
+			"url": "perfil/getbysnativo/S"
+		});
+		this.itPerfilAlvo.fromService({
+			"url": "perfil/getbysnativo/S"
 		});
 	}
-	onChangeItem(p_obj: IPerfilAutorizacao): IPerfilAutorizacao {
-		this.itPerfil.setValue(p_obj.idPerfil);
-		return p_obj;
-	}
-	salvarAlteracoes():void{
-		var tmpPerfilViewSelecionado: IPerfil = <IPerfil>this._modPerfilView.getMainList().getSelectedItem();
+	getByIdPerfil(p_idPerfil:number):void{
+		this.itPerfil.setValue(p_idPerfil + "");
 		RequestManager.addRequest({
-			"url":"perfil"
-			,"method":"put"
-			,"data":tmpPerfilViewSelecionado
-			, "onLoad": function(resposta: boolean): void {
-				//this.getMainList().setDataProvider(dta);
-				if(resposta){
-					this.getPerfis();
-					this.aviso.setType(AlertMsg.TP_SUCCESS);
-					this.aviso.setText("Alteracoes salvas com sucesso!");
-				};				
+			"url":"perfilautorizacao/getbyidperfil/"+p_idPerfil
+			,"onLoad":function(dta:IPerfilAutorizacao[]){
+				this.mainList.setDataProvider(dta);
 			}.bind(this)
 		});
-	}
-	addPerfil(event: Event): void {
-		event.preventDefault();
-		this.aviso.setType(AlertMsg.TP_INFO);
-		this.aviso.setText("Adicionando autorizacao de perfil!");
-		if(this._tpModulo==EPerfilAutorizacaoTP.APROVACAO){
-			this.addPerfilAprovacao();
-		}else{
-			this.addPerfilLiberacao();
-		};
-	}
-	delPerfil(event: Event): void {
-		event.preventDefault();
-		this.aviso.setType(AlertMsg.TP_INFO);
-		this.aviso.setText("Removendo autorizacao de perfil!");
-		if (this._tpModulo == EPerfilAutorizacaoTP.APROVACAO) {
-			this.delPerfilAprovacao();
-		} else {
-			this.delPerfilLiberacao();
-		};
-	}
-	addPerfilLiberacao(): void {
-		if (this.itPerfil.getValue()) {
-			var tmpPerfilViewSelecionado: IPerfil = <IPerfil>this._modPerfilView.getMainList().getSelectedItem();
-			var tmpPerfilSelecionado: IPerfilAutorizacao = <IPerfilAutorizacao>this.getMainList().getSelectedItem();
-			if (!tmpPerfilViewSelecionado.perfilLiberacao) {
-				tmpPerfilViewSelecionado.perfilLiberacao = [];
-			} else {
-				var indexPerfil: number = tmpPerfilViewSelecionado.perfilLiberacao.indexOf(this.itPerfil.getValue());
-				if (indexPerfil > -1) {
-					this.aviso.setText("A autorizacao ja possui esse perfil!");
-					this.aviso.setType(AlertMsg.TP_ERROR);
-					return;
-				};
-			};
-			tmpPerfilViewSelecionado.perfilLiberacao.push(this.itPerfil.getValue());
-			this.salvarAlteracoes();
-		} else {
-			this.aviso.setText("Por favor selecione um perfil!");
-			this.aviso.setType(AlertMsg.TP_WARNING);
-		};
-	}
-	addPerfilAprovacao():void {
-		if (this.itPerfil.getValue()) {
-			var tmpPerfilViewSelecionado: IPerfil = <IPerfil>this._modPerfilView.getMainList().getSelectedItem();
-			var tmpPerfilSelecionado: IPerfilAutorizacao = <IPerfilAutorizacao>this.getMainList().getSelectedItem();
-			if (!tmpPerfilViewSelecionado.perfilAprovacao) {
-				tmpPerfilViewSelecionado.perfilAprovacao = [];
-			} else {
-				var indexPerfil: number = tmpPerfilViewSelecionado.perfilAprovacao.indexOf(this.itPerfil.getValue());
-				if (indexPerfil > -1) {
-					this.aviso.setText("A autorizacao ja possui esse perfil!");
-					this.aviso.setType(AlertMsg.TP_ERROR);
-					return;
-				};
-			};
-			tmpPerfilViewSelecionado.perfilAprovacao.push(this.itPerfil.getValue());
-			this.salvarAlteracoes();
-		} else {
-			this.aviso.setText("Por favor selecione um perfil!");
-			this.aviso.setType(AlertMsg.TP_WARNING);
-		};
-	}
-	delPerfilAprovacao(): void {
-		var tmpPerfilViewSelecionado: IPerfil = <IPerfil>this._modPerfilView.getMainList().getSelectedItem();
-		var tmpPerfilSelecionado: IPerfilAutorizacao = <IPerfilAutorizacao>this.getMainList().getSelectedItem();
-		if (tmpPerfilViewSelecionado && tmpPerfilSelecionado) {
-			var tmpPerfis: string[] = tmpPerfilViewSelecionado.perfilAprovacao;
-			var indexPerfil: number = tmpPerfis.indexOf(tmpPerfilSelecionado.idPerfil);
-			if (indexPerfil > -1) {
-				tmpPerfis.splice(indexPerfil, 1);
-				this.salvarAlteracoes();
-			} else {
-				this.aviso.setText("A autorizacao nao possui mais esse perfil!");
-				this.aviso.setType(AlertMsg.TP_ERROR);
-			}			
-		} else {
-			this.aviso.setText("Por favor selecione um perfil!");
-			this.aviso.setType(AlertMsg.TP_WARNING);
-		};
-	}
-	delPerfilLiberacao(): void {
-		var tmpPerfilViewSelecionado: IPerfil = <IPerfil>this._modPerfilView.getMainList().getSelectedItem();
-		var tmpPerfilSelecionado: IPerfilAutorizacao = <IPerfilAutorizacao>this.getMainList().getSelectedItem();
-		if (tmpPerfilViewSelecionado && tmpPerfilSelecionado) {
-			var tmpPerfis: string[] = tmpPerfilViewSelecionado.perfilLiberacao;
-			var indexPerfil: number = tmpPerfis.indexOf(tmpPerfilSelecionado.idPerfil);
-			if (indexPerfil > -1) {
-				tmpPerfis.splice(indexPerfil, 1);
-				this.salvarAlteracoes();
-			} else {
-				this.aviso.setText("A autorizacao nao possui mais esse perfil!");
-				this.aviso.setType(AlertMsg.TP_ERROR);
-			};			
-		} else {
-			this.aviso.setText("Por favor selecione um perfil!");
-			this.aviso.setType(AlertMsg.TP_WARNING);
-		};
-	}
-	getPerfis(): void {
-		//console.log(p_idPerfilView);
-		var tmpPerfil: IPerfil = <IPerfil>this._modPerfilView.getMainList().getSelectedItem();
-		var tmpPerfis: string[] = [];
-		if(this._tpModulo==EPerfilAutorizacaoTP.LIBERACAO){
-			tmpPerfis = tmpPerfil.perfilLiberacao;
-		}else{
-			tmpPerfis = tmpPerfil.perfilAprovacao;
-		};
-		var tmpArrayPerfis: IPerfilAutorizacao[] = [];
-		if (tmpPerfis) {
-			var tmPerfis: number = tmpPerfis.length;
-			for (var x: number = 0; x < tmPerfis; x++) {
-				var tmpDescPerfil:string = this.itPerfil.getDescFromServiceByValue(tmpPerfis[x]);
-				//console.log(tmpDescPerfil);
-				tmpArrayPerfis.push({ "idPerfil": tmpPerfis[x], "descricao": tmpDescPerfil });
-			};
-		};
-		this.getMainList().setDataProvider(tmpArrayPerfis);
-	}
+	}	
 }

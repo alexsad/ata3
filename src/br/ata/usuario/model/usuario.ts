@@ -1,20 +1,20 @@
 import {IUsuario} from "./IUsuario";
-import mongoose = require("mongoose");
+import sequelize = require("../../../../config/sequelizedb");
 
-var schema = new mongoose.Schema({
-		"login":{
-			type:String
-			,required:true
-		}
-		,"senha":{
-			type:String
-			,required:true
-		}
-		,"snAtivo":{
-			type:String
-			,required:true
-		}
-		,"perfis":[mongoose.Schema.Types.ObjectId]
+var UsuarioDAO = sequelize.define('usuario', {
+	"login": {
+		type: sequelize.constructor.STRING
+	}
+	,"senha": {
+		type: sequelize.constructor.STRING
+	}
+	,"snAtivo": {
+		type: sequelize.constructor.STRING
+		, field: "sn_ativo"
+	}
+}, {
+	"timestamps": false
+	, "freezeTableName": true
 });
-export interface IUsuarioModel extends IUsuario, mongoose.Document { };
-export var UsuarioDAO = mongoose.model<IUsuarioModel>("Usuario", schema);
+
+export = UsuarioDAO;

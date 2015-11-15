@@ -10,8 +10,9 @@ import {TrimestreView} from "./TrimestreView";
 declare var perfilBoxContainer: PerfilBox;
 
 @ItemView("assets/html/evento.html")
-export class Evento extends ModWindow {
+export class Atividade extends ModWindow {
 	itIdEvento: InputText;
+	itIdTrimestre: InputText;
 	itSnEditavel: CheckBox;
 	itDescricao: InputText;
 	itDetalhes: TextArea;
@@ -51,11 +52,18 @@ export class Evento extends ModWindow {
 
 
 		this.itIdEvento = new InputText("");
-		this.itIdEvento.setColumn("$_id");
+		this.itIdEvento.setColumn("$id");
 		this.itIdEvento.setLabel("cod.");
 		this.itIdEvento.setEnable(false);
 		this.itIdEvento.setSize(2);
 		this.append(this.itIdEvento);
+
+		this.itIdTrimestre = new InputText("");
+		this.itIdTrimestre.setColumn("!idTrimestre");
+		this.itIdTrimestre.setLabel("tri.");
+		this.itIdTrimestre.setEnable(false);
+		this.itIdTrimestre.setSize(2);
+		this.append(this.itIdTrimestre);
 
 		this.itCodRefMLS = new InputText("");
 		this.itCodRefMLS.setColumn("#codRefMLS");
@@ -70,7 +78,7 @@ export class Evento extends ModWindow {
 		this.itIdStatus.setLabel("Status");
 		this.itIdStatus.setValueField("idStatus");
 		this.itIdStatus.setLabelField("descricao");
-		this.itIdStatus.setSize(5);
+		this.itIdStatus.setSize(3);
 		this.itIdStatus.setEnable(false);
 		this.append(this.itIdStatus);
 
@@ -220,9 +228,18 @@ export class Evento extends ModWindow {
 			url: "trimestre/getAtividadeStatus"
 		});
 		this.itIdPerfil.fromService({
-			"url": "perfil/perfilsimples"
+			"url": "perfil/getbysnativo/S"
 		});
 		this.itDtDisponivel.getInput().on("change", this.setDtEvento.bind(this));
+	}
+	getByIdTrimestre(p_idTrimestre:number):void{
+		this.itIdTrimestre.setValue(p_idTrimestre + "");
+		RequestManager.addRequest({
+			url:"atividade/getbyidtrimestre/"+p_idTrimestre
+			,onLoad:function(dta:Atividade[]){
+				this.mainList.setDataProvider(dta);
+			}.bind(this)
+		});
 	}
 	novaAtividade():void{
 
@@ -239,8 +256,8 @@ export class Evento extends ModWindow {
 		this.btSubmeter.setEnable(false);
 		this.itIdStatus.setValue("1");
 
-		this.itIdPerfil.setValue(perfilBoxContainer.getIdPerfil());
-		this.itIdResponsavel.setValue(perfilBoxContainer.idUsuario);
+		this.itIdPerfil.setValue(perfilBoxContainer.getIdPerfil()+"");
+		this.itIdResponsavel.setValue(perfilBoxContainer.idUsuario+"");
 		this.itSnEditavel.setValue("S");
 		this.itOrcamento.setValue(this._modTrimestreView.getSaldo()+"");
 		this.itOrcamento.setMax(this._modTrimestreView.getSaldo());
@@ -329,7 +346,7 @@ export class Evento extends ModWindow {
 	beforeInsert(p_req_obj:IDefaultRequest): IDefaultRequest{
 		p_req_obj.data.idStatus = 1;
 		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
-		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre._id;
+		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre.id;
 		tmpTrimestre.vtSaldo = tmpTrimestre.vtSaldo - this.itOrcamento.getVL();
 		p_req_obj.data.iconStatus = "info";
 		//tmpTrimestre.atividades.push(p_req_obj.data);
@@ -340,7 +357,7 @@ export class Evento extends ModWindow {
 			return null;
 		};
 		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
-		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre._id;
+		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre.id;
 		p_old_obj.iconStatus = this.getIcone(p_old_obj.idStatus);
 		//tmpTrimestre.atividades.push(p_req_obj.data);
 		return p_req_obj;
@@ -357,7 +374,7 @@ export class Evento extends ModWindow {
 			tmpItemAtiv.idStatus = EAtividadeStatus.REPROVADA;
 			var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
 			RequestManager.addRequest({
-				url: "trimestre/atividade/" + tmpTrimestre._id
+				url: "trimestre/atividade/" + tmpTrimestre.id
 				, method: "PUT"
 				, data: tmpItemAtiv
 				, onLoad: function(rt_save: boolean): void {
@@ -381,7 +398,7 @@ export class Evento extends ModWindow {
 			}
 			var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
 			RequestManager.addRequest({
-				url: "trimestre/atividade/" + tmpTrimestre._id
+				url: "trimestre/atividade/" + tmpTrimestre.id
 				,method:"PUT"
 				,data:tmpItemAtiv
 				,onLoad:function(rt_save:boolean):void{
