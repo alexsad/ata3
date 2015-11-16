@@ -12,7 +12,7 @@ export class Usuario{
 	get(req:express.Request,res:express.Response):void{
 		UsuarioDAO.findAll().then(function(dta: IUsuario[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -20,15 +20,17 @@ export class Usuario{
 	@Post("/logar")
 	logar(req:express.Request,res:express.Response):void{
 		var p_usuario: IUsuario = <IUsuario>req.body;
+		//var p_usuario: IUsuario = <IUsuario>req.query;
 		console.log(p_usuario);
-		UsuarioDAO.find({ where: { 
-			"login":p_usuario.login 
+		UsuarioDAO.find({ where: {
+			"login":p_usuario.login
 			,"senha":p_usuario.senha
+			,"snAtivo":"S"
 		} }).then(
 			function(dta:IUsuario) {
 				res.send(((dta)?true:false));
 			}
-		).catch(function(err) {
+		).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -42,7 +44,7 @@ export class Usuario{
 			}}
 		).then(
 			(dta:IUsuario[]) => res.send(dta)
-		).catch(function(err) {
+		).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -55,7 +57,7 @@ export class Usuario{
 			function(dta:IUsuario){
 				res.send(dta);
 			}
-		).catch(function(err) {
+		).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -65,7 +67,7 @@ export class Usuario{
 		var nusuario: IUsuario = <IUsuario>req.body;
 		UsuarioDAO.create(nusuario).then(function(p_nusuario: IUsuario) {
 			res.json(p_nusuario.id);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -74,7 +76,7 @@ export class Usuario{
 		var nusuario: IUsuario = <IUsuario>req.body;
 		UsuarioDAO.upsert(nusuario).then(function(p_nusuario: IUsuario) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -86,7 +88,7 @@ export class Usuario{
 			}
 		}).then(function(p_nusuario: IUsuario) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}

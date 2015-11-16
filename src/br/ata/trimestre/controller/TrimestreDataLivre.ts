@@ -9,7 +9,7 @@ export class TrimestreDataLivre {
 	get(req: express.Request, res: express.Response): void {
 		TrimestreDataLivreDAO.findAll().then(function(dta: ITrimestreDataLivre[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -21,7 +21,7 @@ export class TrimestreDataLivre {
 			}
 		}).then(function(dta: ITrimestreDataLivre[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -30,7 +30,7 @@ export class TrimestreDataLivre {
 		var ntrimestredatalivre: ITrimestreDataLivre = <ITrimestreDataLivre>req.body;
 		TrimestreDataLivreDAO.create(ntrimestredatalivre).then(function(p_ntrimestredatalivre: ITrimestreDataLivre) {
 			res.json(p_ntrimestredatalivre.id);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -39,7 +39,7 @@ export class TrimestreDataLivre {
 		var ntrimestredatalivre: ITrimestreDataLivre = <ITrimestreDataLivre>req.body;
 		TrimestreDataLivreDAO.upsert(ntrimestredatalivre).then(function(p_ntrimestredatalivre: ITrimestreDataLivre) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -51,7 +51,7 @@ export class TrimestreDataLivre {
 			}
 		}).then(function(p_ntrimestredatalivre: ITrimestreDataLivre) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}

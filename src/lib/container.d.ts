@@ -1,6 +1,6 @@
-import { Component } from "core";
-import { Controller, Button, IListView } from "controller";
-import { IDefaultRequest } from "net";
+import { Component } from "./core";
+import { Controller, Button, IListView } from "./controller";
+import { IDefaultRequest } from "./net";
 export declare class AlertWindow extends Component {
     _title: string;
     constructor(p_title: string, p_msg: string);

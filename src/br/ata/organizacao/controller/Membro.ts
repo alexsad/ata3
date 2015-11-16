@@ -9,7 +9,7 @@ export class Membro {
 	get(req: express.Request, res: express.Response): void {
 		MembroDAO.findAll().then(function(dta: IMembro[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -19,7 +19,7 @@ export class Membro {
 			where: { "snAtivo": req.params.p_snativo }
 		}).then(function(dta: IMembro[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -29,7 +29,7 @@ export class Membro {
 			where: { "idOrganizacao": req.params.idOrganizacao }
 		}).then(function(dta: IMembro[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -38,7 +38,7 @@ export class Membro {
 		var nmembro: IMembro = <IMembro>req.body;
 		MembroDAO.create(nmembro).then(function(p_nmembro: IMembro) {
 			res.json(p_nmembro.id);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -47,7 +47,7 @@ export class Membro {
 		var nmembro: IMembro = <IMembro>req.body;
 		MembroDAO.upsert(nmembro).then(function(p_nmembro: IMembro) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -59,7 +59,7 @@ export class Membro {
 			}
 		}).then(function(p_nmembro: IMembro) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}

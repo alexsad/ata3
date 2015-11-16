@@ -9,7 +9,7 @@ export class TrimestreLancamentoAtividade{
 		get(req:express.Request,res:express.Response):void{
 			TrimestreLancamentoAtividadeDAO.findAll().then(function(dta:ITrimestreLancamentoAtividade[]) {
 				res.json(dta);
-			}).catch(function(err) {
+			}).catch(function(err:any) {
 				res.status(400).json(err);
 			});
 		}	
@@ -21,7 +21,7 @@ export class TrimestreLancamentoAtividade{
 				}
 			}).then(function(dta: ITrimestreLancamentoAtividade[]) {
 				res.json(dta);
-			}).catch(function(err) {
+			}).catch(function(err:any) {
 				res.status(400).json(err);
 			});
 		}
@@ -38,7 +38,7 @@ export class TrimestreLancamentoAtividade{
 			var ntrimestrelancamentoatividade:ITrimestreLancamentoAtividade = <ITrimestreLancamentoAtividade>req.body;
 			TrimestreLancamentoAtividadeDAO.create(ntrimestrelancamentoatividade).then(function(p_ntrimestrelancamentoatividade: ITrimestreLancamentoAtividade) {
 				res.json(p_ntrimestrelancamentoatividade.id);
-			}).catch(function(err) {
+			}).catch(function(err:any) {
 				res.status(400).json(err);
 			});
 		}		
@@ -47,7 +47,7 @@ export class TrimestreLancamentoAtividade{
 			var ntrimestrelancamentoatividade: ITrimestreLancamentoAtividade = <ITrimestreLancamentoAtividade>req.body;
 			TrimestreLancamentoAtividadeDAO.upsert(ntrimestrelancamentoatividade).then(function(p_ntrimestrelancamentoatividade: ITrimestreLancamentoAtividade) {
 				res.send(true);
-			}).catch(function(err) {
+			}).catch(function(err:any) {
 				res.status(400).json(err);
 			});
 		}
@@ -59,7 +59,7 @@ export class TrimestreLancamentoAtividade{
 				}
 			}).then(function(p_ntrimestrelancamentoatividade: ITrimestreLancamentoAtividade) {
 				res.send(true);
-			}).catch(function(err) {
+			}).catch(function(err:any) {
 				res.status(400).json(err);
 			});
 		}

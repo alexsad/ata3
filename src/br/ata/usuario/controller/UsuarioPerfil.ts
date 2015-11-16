@@ -9,7 +9,7 @@ export class UsuarioPerfil {
 	get(req: express.Request, res: express.Response): void {
 		UsuarioPerfilDAO.findAll().then(function(dta: IUsuarioPerfil[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -21,7 +21,7 @@ export class UsuarioPerfil {
 			}
 		}).then(function(dta: IUsuarioPerfil[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -30,7 +30,7 @@ export class UsuarioPerfil {
 		var nusuarioPerfil: IUsuarioPerfil = <IUsuarioPerfil>req.body;
 		UsuarioPerfilDAO.create(nusuarioPerfil).then(function(p_nusuarioPerfil: IUsuarioPerfil) {
 			res.json(p_nusuarioPerfil.id);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -39,7 +39,7 @@ export class UsuarioPerfil {
 		var nusuarioPerfil: IUsuarioPerfil = <IUsuarioPerfil>req.body;
 		UsuarioPerfilDAO.upsert(nusuarioPerfil).then(function(p_nusuarioPerfil: IUsuarioPerfil) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -51,7 +51,7 @@ export class UsuarioPerfil {
 			}
 		}).then(function(p_nusuarioPerfil: IUsuarioPerfil) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}

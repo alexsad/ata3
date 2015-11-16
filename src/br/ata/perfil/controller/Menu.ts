@@ -10,7 +10,7 @@ export class Menu {
 	get(req: express.Request, res: express.Response): void {
 		MenuDAO.findAll().then(function(dta: IMenu[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -22,7 +22,7 @@ export class Menu {
 			}
 		}).then(function(dta: IMenu[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -47,13 +47,13 @@ export class Menu {
 					if (tmade == dta.length) {
 						res.json(dta);
 					}
-				}).catch(function(err) {
+				}).catch(function(err:any) {
 					res.status(400).json(err);
 				});
 				//dta[0].children = [];
 			});
 			
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -62,7 +62,7 @@ export class Menu {
 		var nmenu: IMenu = <IMenu>req.body;
 		MenuDAO.create(nmenu).then(function(p_nmenu: IMenu) {
 			res.json(p_nmenu.id);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -71,7 +71,7 @@ export class Menu {
 		var nmenu: IMenu = <IMenu>req.body;
 		MenuDAO.upsert(nmenu).then(function(p_nmenu: IMenu) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -83,7 +83,7 @@ export class Menu {
 			}
 		}).then(function(p_nmenu: IMenu) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}

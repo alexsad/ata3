@@ -38,7 +38,7 @@ export class Atividade extends ModWindow {
 		this.setRevision("$Revision: 140 $");
 		this.setSize(8);
 
-		this.mainTb = new ToolBar({ "domain": "trimestre/atividade" });
+		this.mainTb = new ToolBar({ "domain": "atividade" });
 		this.mainTb.btDel.getEle().hide();
 		this.append(this.mainTb);
 
@@ -303,7 +303,7 @@ export class Atividade extends ModWindow {
 		this.itOrcamento.setMax(p_obj.orcamento);
 		return p_obj;
 	}
-	getIcone(p_idStatus:number):string{	
+	getIcone(p_idStatus:number):string{
 		var tpAlert: string = "info";
 		if (p_idStatus == EAtividadeStatus.PENDENTE) {
 			tpAlert = "danger";
@@ -315,10 +315,10 @@ export class Atividade extends ModWindow {
 		return tpAlert;
 	}
 	beforeInsert(p_req_obj:IDefaultRequest): IDefaultRequest{
-		p_req_obj.data.idStatus = 1;
-		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
-		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre.id;
-		tmpTrimestre.vtSaldo = tmpTrimestre.vtSaldo - this.itOrcamento.getVL();
+		p_req_obj.data.idStatus = EAtividadeStatus.ELABORADA;
+		//var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
+		//p_req_obj.url = "trimestre/atividade/" + tmpTrimestre.id;
+		//tmpTrimestre.vtSaldo = tmpTrimestre.vtSaldo - this.itOrcamento.getVL();
 		p_req_obj.data.iconStatus = "info";
 		//tmpTrimestre.atividades.push(p_req_obj.data);
 		return p_req_obj;

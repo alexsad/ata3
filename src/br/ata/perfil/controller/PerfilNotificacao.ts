@@ -9,7 +9,7 @@ export class PerfilNotificacao {
 	get(req: express.Request, res: express.Response): void {
 		PerfilNotificacaoDAO.findAll().then(function(dta: IPerfilNotificacao[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -18,7 +18,7 @@ export class PerfilNotificacao {
 		var nperfilnotificacao: IPerfilNotificacao = <IPerfilNotificacao>req.body;
 		PerfilNotificacaoDAO.create(nperfilnotificacao).then(function(p_nperfilnotificacao: IPerfilNotificacao) {
 			res.json(p_nperfilnotificacao.id);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -27,7 +27,7 @@ export class PerfilNotificacao {
 		var nperfilnotificacao: IPerfilNotificacao = <IPerfilNotificacao>req.body;
 		PerfilNotificacaoDAO.upsert(nperfilnotificacao).then(function(p_nperfilnotificacao: IPerfilNotificacao) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -39,7 +39,7 @@ export class PerfilNotificacao {
 			}
 		}).then(function(p_nperfilnotificacao: IPerfilNotificacao) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}

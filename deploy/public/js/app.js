@@ -32,15 +32,15 @@ requirejs.config({
 
 var perfilBoxContainer = null;
 
-$(function(){	
-	
+$(function(){
+
 	requirejs(
 		['core','container','net','br/ata/usuario/view/Login']
 		,function(_core,_container,_net,_modlogin){
 
 			var tmpLocation = _core.Underas.getLocation();
 			//tmpLocation = tmpLocation.replace("8080","8330");
-			tmpLocation = tmpLocation.substring(0,tmpLocation.indexOf("8080"))+"8330/";
+			tmpLocation = tmpLocation.substring(0,tmpLocation.indexOf("8099"))+"8330/";
 
 			_net.RequestManager.setRootUrl(tmpLocation);
 			//console.log(m);
@@ -55,12 +55,18 @@ $(function(){
 			mdw.append(teste);
 		}
 	);
-	
-	
-	/*
+
+/*
+
 	requirejs(
-		['core','container','net','br/ata/usuario/view/Usuario']
-		,function(_core,_container,_net,_mod){
+		[
+		'core'
+		,'container'
+		,'net'
+		,'br/ata/usuario/view/Usuario'
+		,'br/ata/perfil/view/Perfil'
+		]
+		,function(_core,_container,_net,_mod,_mod2){
 			var tmpLocation = _core.Underas.getLocation();
 			//tmpLocation = tmpLocation.replace("8080","8330");
 			tmpLocation = tmpLocation.substring(0,tmpLocation.indexOf("8080"))+"8330/";
@@ -77,7 +83,13 @@ $(function(){
 			mdw.setIcon("key");
 			mdw.show(true);
 			mdw.append(teste);
+
+			var teste2 = new _mod2.Perfil();
+			var mdw2 = new _container.ModView("cadastro de teste!!!");
+			mdw2.setIcon("key");
+			mdw2.show(true);
+			mdw2.append(teste2);
 		}
 	);
-	*/
+*/
 });

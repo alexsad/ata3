@@ -9,7 +9,7 @@ export class PerfilAutorizacao{
 	get(req:express.Request,res:express.Response):void{
 		PerfilAutorizacaoDAO.findAll().then(function(dta:IPerfilAutorizacao[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -21,7 +21,7 @@ export class PerfilAutorizacao{
 			}
 		}).then(function(dta: IPerfilAutorizacao[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}	
@@ -38,7 +38,7 @@ export class PerfilAutorizacao{
 		var nperfilautorizacao:IPerfilAutorizacao = <IPerfilAutorizacao>req.body;
 		PerfilAutorizacaoDAO.create(nperfilautorizacao).then(function(p_nperfilautorizacao: IPerfilAutorizacao) {
 			res.json(p_nperfilautorizacao.id);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}		
@@ -47,7 +47,7 @@ export class PerfilAutorizacao{
 		var nperfilautorizacao: IPerfilAutorizacao = <IPerfilAutorizacao>req.body;
 		PerfilAutorizacaoDAO.upsert(nperfilautorizacao).then(function(p_nperfilautorizacao: IPerfilAutorizacao) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -59,7 +59,7 @@ export class PerfilAutorizacao{
 			}
 		}).then(function(p_nperfilautorizacao: IPerfilAutorizacao) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}

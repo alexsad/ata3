@@ -1,7 +1,7 @@
-import { IPaginationParam } from "util";
-import { Component } from "core";
-import { IConfigModWindow, ModWindow } from "container";
-import { IRequestConf } from "net";
+import { IPaginationParam } from "./util";
+import { Component } from "./core";
+import { IConfigModWindow, ModWindow } from "./container";
+import { IRequestConf } from "./net";
 export declare class Controller {
     _uid: number;
     _html: JQuery;

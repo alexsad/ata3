@@ -11,7 +11,7 @@ export class Atividade {
 	get(req: express.Request, res: express.Response): void {
 		AtividadeDAO.findAll().then(function(dta: IAtividade[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -24,7 +24,7 @@ export class Atividade {
 			}
 		}).then(function(dta: IAtividade[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -36,7 +36,7 @@ export class Atividade {
 			tpAuto = EPerfilAutorizacaoTP.APROVACAO;
 		}
 		perfilAuto.getByIdPerfilTpAutorizacao(req.params.idperfil, tpAuto)
-		.then(function(dta1:IPerfilAutorizacao[]){			
+		.then(function(dta1:IPerfilAutorizacao[]){
 			if(dta1.length==0){
 				res.json([]);
 			}else{
@@ -53,12 +53,12 @@ export class Atividade {
 					}
 				}).then(function(dta: IAtividade[]) {
 					res.json(dta);
-				}).catch(function(err) {
+				}).catch(function(err:any) {
 					res.status(400).json(err);
 				});
 			}
 		})
-		.catch(function(err) {
+		.catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -79,7 +79,7 @@ export class Atividade {
 		};
 		res.json(tmpArr);
 	}
-	getTotalOrcamentoByIdTrimestreAndIdPerfil(p_idTrimestre,p_idPerfil) {
+	getTotalOrcamentoByIdTrimestreAndIdPerfil(p_idTrimestre:number,p_idPerfil:number) {
 		return AtividadeDAO.sum('orcamento', {
 			where:{
 				"id_perfil":p_idPerfil
@@ -92,7 +92,7 @@ export class Atividade {
 		var natividade: IAtividade = <IAtividade>req.body;
 		AtividadeDAO.create(natividade).then(function(p_natividade: IAtividade) {
 			res.json(p_natividade.id);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -101,7 +101,7 @@ export class Atividade {
 		var natividade: IAtividade = <IAtividade>req.body;
 		AtividadeDAO.upsert(natividade).then(function(p_natividade: IAtividade) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -113,7 +113,7 @@ export class Atividade {
 			}
 		}).then(function(p_natividade: IAtividade) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
