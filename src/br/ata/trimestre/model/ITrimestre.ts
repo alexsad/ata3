@@ -41,9 +41,7 @@ export interface IAtividade {
 export enum EAtividadeStatus{
 	ELABORADA = 1
     ,ENVIADA = 2
-    ,REPROVADA = 3
-    ,APROVADA = 4
-    ,PENDENTE = 5
-    ,CANCELADA = 6  
-    ,LIBERADA = 7  
+    ,APROVADA = 3
+    ,PENDENTE = 4 
+    ,LIBERADA = 5  
 }

@@ -51,7 +51,7 @@ export class TrimestreView extends ModWindow{
 		//this._modAtividade.mainList.setDataProvider(p_item.atividades);
 		//this._modAtividade.setDatasDisponiveis(p_item.datasLivres);
 		//this._modAtividade.itIdTrimestre.setValue(p_item._id);
-		this._modAtividade.getByIdTrimestre(p_item.id);
+		this._modAtividade.getByIdTrimestreIdPerfil(p_item.id, perfilBoxContainer.getIdPerfil());
 		return p_item;
 	}
 	getSaldo():number{
