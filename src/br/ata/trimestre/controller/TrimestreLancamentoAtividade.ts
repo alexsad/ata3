@@ -24,6 +24,14 @@ export class TrimestreLancamentoAtividade{
 			}).catch(function(err) {
 				res.status(400).json(err);
 			});
+		}
+		getTotalByIdTrimestreIdPerfil(p_idTrimestre:number,p_idPerfil:number){
+			return TrimestreLancamentoAtividadeDAO.sum('valor', {
+				where: {
+					'id_trimestre': p_idTrimestre
+					,'id_perfil':p_idPerfil
+				}
+			})
 		}			
 		@Post()
 		add(req:express.Request,res:express.Response):void{

@@ -1,16 +1,13 @@
 import {ModWindow} from "../../../../lib/container";
 import {InputTime, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, InputText, ListView, ItemView} from "../../../../lib/controller";
-import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/net";
-import {ITrimestre,IAtividade,EAtividadeStatus} from "../model/ITrimestre";
-import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
+import {SimpleToolBar, RequestManager, IDefaultRequest} from "../../../../lib/net";
+import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
-import {TrimestreView} from "./TrimestreView";
-
 
 declare var perfilBoxContainer: PerfilBox;
 
 @ItemView("assets/html/evento.html")
-export class Atividade extends ModWindow {
+export class AtividadeAutorizacao extends ModWindow {
 	itIdEvento: InputText;
 	itIdTrimestre: InputText;
 	itSnEditavel: CheckBox;
@@ -26,23 +23,22 @@ export class Atividade extends ModWindow {
 	itProposito: InputText;
 	itIdStatus: Select;
 	itIdPerfil: Select;
-	itDtDisponivel: Select;
-	itDsObservacao:AlertMsg;
+	itDsObservacao: AlertMsg;
 	itVestuario: InputText;
-	mainTb: ToolBar;
+	mainTb: SimpleToolBar;
 	mainList: ListView;
+	btPrintAta: Button;
 	btSubmeter: Button;
-	_modTrimestreView: TrimestreView;
-	constructor(p_trimestre_view:TrimestreView) {
+	btCancelar: Button;
+	constructor() {
 		super("Atividades");
 		this.setRevision("$Revision: 140 $");
-		this.setSize(8);
+		this.setSize(12);
 
-		this.mainTb = new ToolBar({ "domain": "trimestre/atividade" });
-		this.mainTb.btDel.getEle().hide();
+		this.mainTb = new SimpleToolBar();
 		this.append(this.mainTb);
 
-		this.itDsObservacao = new AlertMsg("Cadastro de Nova Atividade...");
+		this.itDsObservacao = new AlertMsg("Autorizacao de atividade...");
 		this.itDsObservacao.setColumn("#dsObservacao");
 		this.itDsObservacao.setSize(12);
 		this.itDsObservacao.setType(AlertMsg.TP_WARNING);
@@ -94,15 +90,8 @@ export class Atividade extends ModWindow {
 		this.itDescricao.setLabel("descricao");
 		this.itDescricao.setPlaceHolder("digite a descricao da atividade");
 		this.itDescricao.setSize(12);
+		this.itDescricao.setEnable(false);
 		this.append(this.itDescricao);
-
-		this.itDtDisponivel = new Select("datas disponiveis");
-		this.itDtDisponivel.setLabel("Dts. Livres");
-		this.itDtDisponivel.setValueField("momento");
-		this.itDtDisponivel.setLabelField("dsData");
-		this.itDtDisponivel.setEnable(true);
-		this.itDtDisponivel.setSize(5);
-		this.append(this.itDtDisponivel);
 
 
 		this.itMomento = new DatePicker();
@@ -119,13 +108,15 @@ export class Atividade extends ModWindow {
 		this.itHora.setPlaceHolder("hora da atividade ex. 19:00");
 		this.itHora.setLabel("hora");
 		this.itHora.setSize(3);
+		this.itHora.setEnable(false);
 		this.append(this.itHora);
 
 		this.itLocal = new InputText("capela");
 		this.itLocal.setColumn("@local");
 		this.itLocal.setLabel("local");
 		this.itLocal.setPlaceHolder("local da atividade");
-		this.itLocal.setSize(12);
+		this.itLocal.setSize(5);
+		this.itLocal.setEnable(false);
 		this.append(this.itLocal);
 
 		this.itIdPerfil = new Select("selecione uma pefil");
@@ -143,6 +134,7 @@ export class Atividade extends ModWindow {
 		this.itIdResponsavel.setValueField("id");
 		this.itIdResponsavel.setLabelField("nome");
 		this.itIdResponsavel.setSize(5);
+		this.itIdResponsavel.setEnable(false);
 		this.append(this.itIdResponsavel);
 
 		this.itOrcamento = new NumericStepper(0);
@@ -151,9 +143,7 @@ export class Atividade extends ModWindow {
 		this.itOrcamento.setMin(0);
 		this.itOrcamento.setMax(0);
 		this.itOrcamento.setStep(5);
-		this.itOrcamento.setEnable(false, 2);
-		this.itOrcamento.setEnable(false, 1);
-		this.itOrcamento.setEnable(false, 3);
+		this.itOrcamento.setEnable(false);
 		this.itOrcamento.setSize(3);
 		this.append(this.itOrcamento);
 
@@ -163,6 +153,7 @@ export class Atividade extends ModWindow {
 		this.itPublicoAlvo.setPlaceHolder("digite o publico da atividade ex. toda a ala");
 		this.itPublicoAlvo.setSize(6);
 		this.itPublicoAlvo.setMaxLength(220);
+		this.itPublicoAlvo.setEnable(false);
 		this.append(this.itPublicoAlvo);
 
 		this.itVestuario = new InputText("no padrao");
@@ -171,6 +162,7 @@ export class Atividade extends ModWindow {
 		this.itVestuario.setPlaceHolder("digite o vestuario da atividade ex. no esporte fino");
 		this.itVestuario.setSize(6);
 		this.itVestuario.setMaxLength(150);
+		this.itVestuario.setEnable(false);
 		this.append(this.itVestuario);
 
 		this.itProposito = new InputText("");
@@ -179,6 +171,7 @@ export class Atividade extends ModWindow {
 		this.itProposito.setLabel("proposito");
 		this.itProposito.setSize(12);
 		this.itProposito.setMaxLength(300);
+		this.itProposito.setEnable(false);
 		this.append(this.itProposito);
 
 		this.itDetalhes = new TextArea("");
@@ -187,25 +180,33 @@ export class Atividade extends ModWindow {
 		this.itDetalhes.setPlaceHolder("digite os detalhes da atividade");
 		this.itDetalhes.setSize(12);
 		this.itDetalhes.setMaxLength(300);
+		this.itDetalhes.setEnable(false);
 		this.append(this.itDetalhes);
 
-		this.mainTb.btAdd.addEvent('click', function(evt:Event) {
-			this.novaAtividade();
-		}.bind(this));
-
-		this.btSubmeter = new Button("Enviar");
+		this.btSubmeter = new Button("Autorizar");
 		this.btSubmeter.getEle().removeClass("btn-default").addClass("btn-info");
 		this.btSubmeter.setIcon("check");
 		this.btSubmeter.addEvent('click', this.submeter.bind(this));
 		this.btSubmeter.setEnable(false);
 		this.mainTb.addButton(this.btSubmeter);
 
+		this.btCancelar = new Button("Pendente");
+		this.btCancelar.getEle().removeClass("btn-default").addClass("btn-warning");
+		this.btCancelar.setIcon("circle-arrow-down");
+		this.btCancelar.addEvent('click', this.cancelar.bind(this));
+		this.btCancelar.setEnable(false);
+		this.mainTb.addButton(this.btCancelar);
+
+		this.btPrintAta = new Button("Ata");
+		this.btPrintAta.setIcon("print");
+		this.btPrintAta.setEnable(false);
+		//this.btPrintAta.addEvent('click', this.printAta.bind(this));
+		this.mainTb.addButton(this.btPrintAta);
+
 		this.mainList = new ListView("Evento");
 		this.append(this.mainList);
-
-		this._modTrimestreView = p_trimestre_view;
 	}
-	onStart():void{
+	onStart(): void {
 		this.itIdResponsavel.fromService({
 			url: "membro/getbysnativo/S"
 		});
@@ -215,95 +216,53 @@ export class Atividade extends ModWindow {
 		this.itIdPerfil.fromService({
 			"url": "perfil/getbysnativo/S"
 		});
-		this.itDtDisponivel.getInput().on("change", this.setDtEvento.bind(this));
+
+
 	}
-	getByIdTrimestreIdPerfil(p_idTrimestre:number,p_idPerfil:number):void{
-		this.itIdTrimestre.setValue(p_idTrimestre + "");
+
+	getByIdStatus(p_idStatus:EAtividadeStatus):void{
 		RequestManager.addRequest({
-			url: "atividade/getbyidtrimestreidperfil/"+p_idTrimestre+"/"+p_idPerfil
-			, onLoad: function(dta: Atividade[]) {
+			url: "atividade/getbyidperfilidstatus/" + perfilBoxContainer.getIdPerfil() + "/" + p_idStatus
+			, onLoad: function(dta: IAtividade[]) {
 				this.mainList.setDataProvider(dta);
 			}.bind(this)
 		});
-		RequestManager.addRequest({
-			url: "trimestredatalivre/getbyidtrimestre/" + p_idTrimestre
-			, onLoad: function(tmpDatasDiponiveis: Atividade[]) {
-				this.itDtDisponivel.setDataProvider(tmpDatasDiponiveis);
-				if(tmpDatasDiponiveis.length > 0){
-					this.itDtDisponivel.setEnable(true);
-				}else{
-					this.itDtDisponivel.setEnable(false);
-				}
-			}.bind(this)
-		});
 	}
-	novaAtividade():void{
-
-		this.itDsObservacao.setValue("Cadastro de nova atividade...");
-		this.itDsObservacao.setType(AlertMsg.TP_WARNING);
-		this.itIdEvento.setValue("");
-		this.itDescricao.setValue("");
-		this.itPublicoAlvo.setValue("");
-		this.itVestuario.setValue("");
-		this.itProposito.setValue("");
-		this.itDetalhes.setValue("");
-
-		this.habilitarCampos(true);
-		this.btSubmeter.setEnable(false);
-		this.itIdStatus.setValue("1");
-
-		this.itIdPerfil.setValue(perfilBoxContainer.getIdPerfil()+"");
-		this.itIdResponsavel.setValue(perfilBoxContainer.idUsuario+"");
-		this.itSnEditavel.setValue("S");
-		this.itOrcamento.setValue(this._modTrimestreView.getSaldo()+"");
-		this.itOrcamento.setMax(this._modTrimestreView.getSaldo());
-		//console.log(this.itOrcamento.maxvl);
-		this.itMomento.setValue(this.itDtDisponivel.getValue());
-		this.btSubmeter.setEnable(false);
+	getAtividadesEnviadas():void{
+		this.getByIdStatus(EAtividadeStatus.ENVIADA);
 	}
-	onChangeItem(p_item:IAtividade):IAtividade{
-		var on = (p_item.snEditavel=="S");
+	getAtividadesAprovadas(): void {
+		this.getByIdStatus(EAtividadeStatus.APROVADA);
+	}
+
+	onChangeItem(p_item: IAtividade): IAtividade {
+		var on = (p_item.snEditavel == "S");
 		this.habilitarCampos(on);
-		if(on){
-			var tmpVlAtiv: number = p_item.orcamento;
-			//console.log(tmpVlAtiv+":"+this._modTrimestreView.getSaldo());
-			this.itOrcamento.setMax(this._modTrimestreView.getSaldo() + tmpVlAtiv);
-			this.btSubmeter.setEnable(true);
-		}else{
-			this.btSubmeter.setEnable(false);
-		}
+		this.itIdEvento.setValue(p_item.id+"");
+		this.itIdTrimestre.setValue(p_item.idTrimestre + "");
+		this.itIdPerfil.setValue(p_item.idPerfil + "");
+		this.itDescricao.setValue(p_item.descricao);
+		this.itDsObservacao.setValue(p_item.dsObservacao);
+		this.itCodRefMLS.setValue(p_item.codRefMLS + "");
+		this.itIdStatus.setValue(p_item.idStatus + "");
+		this.itSnEditavel.setValue(p_item.snEditavel);
+		this.itMomento.setValue(p_item.momento+"");	
+		this.itHora.setValue(p_item.hora);
+		this.itLocal.setValue(p_item.local);		
+		this.itIdResponsavel.setValue(p_item.idResponsavel + "");
+		this.itOrcamento.setValue(p_item.orcamento + "");
+		this.itPublicoAlvo.setValue(p_item.publicoAlvo);
+		this.itVestuario.setValue(p_item.vestuario);
+		this.itProposito.setValue(p_item.proposito);		
+		this.itDetalhes.setValue(p_item.detalhes);
+
 		return p_item;
 	}
-	habilitarCampos(on:boolean):void{
-		this.itDescricao.setEnable(on);
-		this.itLocal.setEnable(on);
-		this.itDtDisponivel.setEnable(on);
-		this.itHora.setEnable(on);
-		this.itIdResponsavel.setEnable(on);
-		this.itPublicoAlvo.setEnable(on);
-		this.itVestuario.setEnable(on);
-		this.itProposito.setEnable(on);
-		this.itDetalhes.setEnable(on);
+	habilitarCampos(on: boolean): void {
 		this.itCodRefMLS.setEnable(on);
 		this.btSubmeter.setEnable(on);
-		this.itOrcamento.setEnable(on, 1);
-		this.itOrcamento.setEnable(on, 3);
-		this.mainTb.btSave.setEnable(on);
 	}
-	setDtEvento(evt:Event):void{
-		this.itMomento.setValue(this.itDtDisponivel.getValue());
-	}
-	beforeSave(p_obj:IAtividade):IAtividade{
-		if (p_obj.local == "") {
-			p_obj.local = "capela";
-		};
-		if (p_obj.vestuario == "") {
-			p_obj.vestuario = "no padrao";
-		};
-		this.itOrcamento.setMax(p_obj.orcamento);
-		return p_obj;
-	}
-	getIcone(p_idStatus:number):string{	
+	getIcone(p_idStatus: number): string {
 		var tpAlert: string = "info";
 		if (p_idStatus == EAtividadeStatus.PENDENTE) {
 			tpAlert = "danger";
@@ -314,55 +273,46 @@ export class Atividade extends ModWindow {
 		};
 		return tpAlert;
 	}
-	beforeInsert(p_req_obj:IDefaultRequest): IDefaultRequest{
-		p_req_obj.data.idStatus = 1;
-		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
-		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre.id;
-		tmpTrimestre.vtSaldo = tmpTrimestre.vtSaldo - this.itOrcamento.getVL();
-		p_req_obj.data.iconStatus = "info";
-		//tmpTrimestre.atividades.push(p_req_obj.data);
-		return p_req_obj;
-	}
-	beforeUpdate(p_req_obj: IDefaultRequest, p_old_obj:IAtividade): IDefaultRequest {
-		if(p_old_obj.snEditavel=="N"){
-			return null;
-		};
-		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
-		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre.id;
-		p_old_obj.iconStatus = this.getIcone(p_old_obj.idStatus);
-		//tmpTrimestre.atividades.push(p_req_obj.data);
-		return p_req_obj;
-	}
-
-	beforeDelete(p_req: IDefaultRequest, p_old_obj: IAtividade): IDefaultRequest {
-		return null;
-	}
-
-	submeter():void{
+	cancelar(): void {
 		var tmpItemAtiv: IAtividade = <IAtividade>this.mainList.getSelectedItem();
-		if(tmpItemAtiv.snEditavel=="S"){
+		if (tmpItemAtiv.snEditavel == "S") {
 			tmpItemAtiv.snEditavel = "N";
-			if (tmpItemAtiv.idStatus==EAtividadeStatus.ENVIADA) {
+			tmpItemAtiv.idStatus = EAtividadeStatus.PENDENTE;
+			RequestManager.addRequest({
+				url: "atividade"
+				, method: "PUT"
+				, data: tmpItemAtiv
+				, onLoad: function(rt_save: boolean): void {
+					this.itDsObservacao.setText("Atividade cancelada!");
+					this.itDsObservacao.setType(AlertMsg.TP_WARNING);
+				}.bind(this)
+			});
+		}
+	}
+	submeter(): void {
+		var tmpItemAtiv: IAtividade = <IAtividade>this.mainList.getSelectedItem();
+		if (tmpItemAtiv.snEditavel == "S") {
+			tmpItemAtiv.snEditavel = "N";
+			if (tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA) {
 				tmpItemAtiv.idStatus = EAtividadeStatus.APROVADA;
 			} else if (tmpItemAtiv.idStatus == EAtividadeStatus.APROVADA) {
 				tmpItemAtiv.idStatus = EAtividadeStatus.LIBERADA;
-			}else{
+			} else {
 				tmpItemAtiv.idStatus = EAtividadeStatus.ENVIADA;
 			}
-			var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
 			RequestManager.addRequest({
-				url: "trimestre/atividade/" + tmpTrimestre.id
-				,method:"PUT"
-				,data:tmpItemAtiv
-				,onLoad:function(rt_save:boolean):void{
-					var tmpStatus:string = EAtividadeStatus[tmpItemAtiv.idStatus].toLowerCase();
-					if(rt_save){
+				url: "atividade"
+				, method: "PUT"
+				, data: tmpItemAtiv
+				, onLoad: function(rt_save: boolean): void {
+					var tmpStatus: string = EAtividadeStatus[tmpItemAtiv.idStatus].toLowerCase();
+					if (rt_save) {
 						if (tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA) {
 							tmpStatus = "aprovada";
 						};
 						this.itDsObservacao.setText("Atividade enviada com sucesso, em breve sua atividade sera analisada e se tudo estiver correto ela sera " + tmpStatus + "!");
 						this.itDsObservacao.setType(AlertMsg.TP_INFO);
-					}else{
+					} else {
 						this.itDsObservacao.setText("A atividade nao pode ser " + tmpStatus + ", entre em contato com o bispado em caso de duvidas!");
 						this.itDsObservacao.setType(AlertMsg.TP_ERROR);
 					}

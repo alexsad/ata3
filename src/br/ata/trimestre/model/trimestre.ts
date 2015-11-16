@@ -15,20 +15,26 @@ var TrimestreDAO = sequelize.define('trimestre', {
 		, field: "sn_aberto"
 	}
 	, "vtSaldo": {
-		type: sequelize.constructor.VIRTUAL(sequelize.constructor.INTEGER)
-		, set: function(p_vl: number) {
+		type: sequelize.constructor.VIRTUAL
+		, get: function(): number {
+			return this.getDataValue('vtSaldo') || 0;
+		}
+		,set:function(p_vl: number) {
 			this.setDataValue('vtSaldo', p_vl);
 		}
 	}
 	, "vtTotalLancado": {
-		type: sequelize.constructor.VIRTUAL(sequelize.constructor.INTEGER)
-		, set: function(p_vl: number) {
+		type: sequelize.constructor.VIRTUAL
+		,get:function():number{
+			return this.getDataValue('vtTotalLancado') || 0;
+		}
+		,set:function(p_vl: number){
 			this.setDataValue('vtTotalLancado', p_vl);
 		}
 	}
 	, "dsTrimestre": {
 		type: sequelize.constructor.VIRTUAL(sequelize.constructor.STRING),
-		get: function() {
+		get: function():string{
 			return this.get('nrTrimestre') + "º de " + this.get('ano');
 		}
 	}

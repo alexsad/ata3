@@ -4,6 +4,7 @@
 ,{"modulo":"br.ata.perfil.view.PerfilView","descricao":"Perfis Atividades"}
 ,{"modulo":"br.ata.organizacao.view.Organizacao","descricao":"Organizacao"}
 ,{"modulo":"br.ata.trimestre.view.Trimestre","descricao":"Trimestres"}
+,{"modulo":"br.ata.trimestre.view.AtividadeAutorizacao","descricao":"Aprovacao de Atividade"}
 ,{"modulo":"br.ata.trimestre.view.TrimestreView","descricao":"Edicao de Atividade"}
 ,{"modulo":"br.ata.certificado.view.Certificado","descricao":"Certificado"}
 ,{"modulo":"br.ata.reuniao.view.Convite","descricao":"Convites"}

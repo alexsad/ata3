@@ -1,4 +1,4 @@
-import {IAtividade} from "./ITrimestre";
+import {IAtividade, EAtividadeStatus} from "./ITrimestre";
 import sequelize = require("../../../../config/sequelizedb");
 
 var AtividadeDAO = sequelize.define('atividade', {
@@ -55,19 +55,26 @@ var AtividadeDAO = sequelize.define('atividade', {
 		type: sequelize.constructor.STRING
 	}
 	, "snEditavel": {
-		type: sequelize.constructor.STRING
-		, field: "sn_editavel"
+		type: sequelize.constructor.VIRTUAL(sequelize.constructor.STRING)
+		,get: function(): string {
+			var idStatusn: number = this.get('idStatus');
+			var strSnEditavel:string = "N";
+			if(idStatusn==EAtividadeStatus.PENDENTE||idStatusn==EAtividadeStatus.ELABORADA){
+				strSnEditavel = "S";
+			};
+			return strSnEditavel;
+		}
 	}
 	,"iconStatus": {
 		type: sequelize.constructor.VIRTUAL(sequelize.constructor.STRING),
 		get: function() {
 			var idStatusTMP: number = this.get('idStatus');
 			var tpAlert: string = "info";
-			if (idStatusTMP == 3 || idStatusTMP == 6) {
+			if (idStatusTMP == EAtividadeStatus.PENDENTE) {
 				tpAlert = "danger";
-			} else if (idStatusTMP == 5) {
+			} else if (idStatusTMP == EAtividadeStatus.ENVIADA) {
 				tpAlert = "warning";
-			} else if (idStatusTMP == 7) {
+			} else if (idStatusTMP == EAtividadeStatus.LIBERADA) {
 				tpAlert = "success";
 			};
 			return tpAlert;

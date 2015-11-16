@@ -51,7 +51,7 @@ export class TrimestreView extends ModWindow{
 		//this._modAtividade.mainList.setDataProvider(p_item.atividades);
 		//this._modAtividade.setDatasDisponiveis(p_item.datasLivres);
 		//this._modAtividade.itIdTrimestre.setValue(p_item._id);
-		this._modAtividade.getByIdTrimestre(p_item.id);
+		this._modAtividade.getByIdTrimestreIdPerfil(p_item.id, perfilBoxContainer.getIdPerfil());
 		return p_item;
 	}
 	getSaldo():number{
@@ -64,7 +64,7 @@ export class TrimestreView extends ModWindow{
 	}
 	getTrimestres():void{
 		RequestManager.addRequest({
-			"url": "trimestre/getdisponiveisbyidperfil/" + perfilBoxContainer.getIdPerfil()
+			"url": "trimestre/getbyidperfil/" + perfilBoxContainer.getIdPerfil()
 			,"onLoad":function(dta:ITrimestre[]){
 				this.getMainList().setDataProvider(dta);
 			}.bind(this)
