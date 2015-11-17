@@ -327,8 +327,6 @@ export class Atividade extends ModWindow {
 		if(p_old_obj.snEditavel=="N"){
 			return null;
 		};
-		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
-		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre.id;
 		p_old_obj.iconStatus = this.getIcone(p_old_obj.idStatus);
 		//tmpTrimestre.atividades.push(p_req_obj.data);
 		return p_req_obj;
@@ -351,7 +349,7 @@ export class Atividade extends ModWindow {
 			}
 			var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
 			RequestManager.addRequest({
-				url: "trimestre/atividade/" + tmpTrimestre.id
+				url: "atividade/" + tmpTrimestre.id
 				,method:"PUT"
 				,data:tmpItemAtiv
 				,onLoad:function(rt_save:boolean):void{

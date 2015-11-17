@@ -40,7 +40,7 @@ $(function(){
 
 			var tmpLocation = _core.Underas.getLocation();
 			//tmpLocation = tmpLocation.replace("8080","8330");
-			tmpLocation = tmpLocation.substring(0,tmpLocation.indexOf("8099"))+"8330/";
+			tmpLocation = tmpLocation.substring(0,tmpLocation.indexOf("8299"))+"8330/";
 
 			_net.RequestManager.setRootUrl(tmpLocation);
 			//console.log(m);

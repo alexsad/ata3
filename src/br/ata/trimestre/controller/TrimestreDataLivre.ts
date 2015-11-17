@@ -55,5 +55,11 @@ export class TrimestreDataLivre {
 			res.status(400).json(err);
 		});
 	}
-
+	deleteByData(p_data:Date){
+		return 	TrimestreDataLivreDAO.destroy({
+				where: {
+					momento:p_data
+				}
+			});
+	}
 }
