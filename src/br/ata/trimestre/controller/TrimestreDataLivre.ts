@@ -18,6 +18,7 @@ export class TrimestreDataLivre {
 		TrimestreDataLivreDAO.findAll({
 			where: {
 				idTrimestre: req.params.idtrimestre
+				,snDisponivel:"S"
 			}
 		}).then(function(dta: ITrimestreDataLivre[]) {
 			res.json(dta);
@@ -55,10 +56,13 @@ export class TrimestreDataLivre {
 			res.status(400).json(err);
 		});
 	}
-	deleteByData(p_data:Date){
-		return 	TrimestreDataLivreDAO.destroy({
+	disponivel(p_iddata:number,p_disponivel:boolean){
+		return 	TrimestreDataLivreDAO.update(
+			{
+				'sn_disponivel':(p_disponivel)?"S":"N"
+			},{
 				where: {
-					momento:p_data
+					id:p_iddata
 				}
 			});
 	}

@@ -18,7 +18,7 @@ export class Atividade extends ModWindow {
 	itDetalhes: TextArea;
 	itCodRefMLS: InputText;
 	itLocal: InputText;
-	itMomento: DatePicker;
+	itIdData: InputText;
 	itHora: InputTime;
 	itIdResponsavel: Select;
 	itOrcamento: NumericStepper;
@@ -98,20 +98,20 @@ export class Atividade extends ModWindow {
 
 		this.itDtDisponivel = new Select("datas disponiveis");
 		this.itDtDisponivel.setLabel("Dts. Livres");
-		this.itDtDisponivel.setValueField("momento");
+		this.itDtDisponivel.setValueField("id");
 		this.itDtDisponivel.setLabelField("dsData");
 		this.itDtDisponivel.setEnable(true);
 		this.itDtDisponivel.setSize(5);
 		this.append(this.itDtDisponivel);
 
 
-		this.itMomento = new DatePicker();
-		this.itMomento.setColumn("@momento");
-		this.itMomento.setPlaceHolder("ex. 31-12-2015");
-		this.itMomento.setLabel("data");
-		this.itMomento.setEnable(false);
-		this.itMomento.setSize(4);
-		this.append(this.itMomento);
+		this.itIdData = new InputText();
+		this.itIdData.setColumn("@idData");
+		this.itIdData.setPlaceHolder("ex. 31-12-2015");
+		this.itIdData.setLabel("data");
+		this.itIdData.setEnable(false);
+		this.itIdData.setSize(4);
+		this.append(this.itIdData);
 
 
 		this.itHora = new InputTime("19:00");
@@ -258,7 +258,7 @@ export class Atividade extends ModWindow {
 		this.itOrcamento.setValue(this._modTrimestreView.getSaldo()+"");
 		this.itOrcamento.setMax(this._modTrimestreView.getSaldo());
 		//console.log(this.itOrcamento.maxvl);
-		this.itMomento.setValue(this.itDtDisponivel.getValue());
+		this.itIdData.setValue(this.itDtDisponivel.getValue());
 		this.btSubmeter.setEnable(false);
 	}
 	onChangeItem(p_item:IAtividade):IAtividade{
@@ -291,7 +291,7 @@ export class Atividade extends ModWindow {
 		this.mainTb.btSave.setEnable(on);
 	}
 	setDtEvento(evt:Event):void{
-		this.itMomento.setValue(this.itDtDisponivel.getValue());
+		this.itIdData.setValue(this.itDtDisponivel.getValue());
 	}
 	beforeSave(p_obj:IAtividade):IAtividade{
 		if (p_obj.local == "") {

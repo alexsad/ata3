@@ -1,5 +1,5 @@
 import {ModWindow} from "../../../../lib/container";
-import {InputText,AlertMsg,DatePicker,ListView,ItemView} from "../../../../lib/controller";
+import {CheckBox,InputText,DatePicker,ListView,ItemView} from "../../../../lib/controller";
 import {RequestManager, IDefaultRequest, ToolBar} from "../../../../lib/net";
 import {ITrimestreDataLivre} from "../model/ITrimestre";
 
@@ -11,9 +11,10 @@ momento:Date;
 
 @ItemView("assets/html/trimestredatalivre.html")
 export class TrimestreDataLivre extends ModWindow{
-  	itIdData:InputText;
+  itIdData:InputText;
 	itIdTrimestre: InputText;
 	itMomento:DatePicker;
+  itSnDisponivel:CheckBox;
 	mainTb: ToolBar;
 	mainList:ListView;
 	constructor(){
@@ -26,7 +27,7 @@ export class TrimestreDataLivre extends ModWindow{
 
 		this.itIdData = new InputText();
 		this.itIdData.setLabel("Cod:");
-    	this.itIdData.setColumn("$id");
+    this.itIdData.setColumn("$id");
 		this.itIdData.setEnable(false);
 		this.itIdData.setSize(12);
 		this.append(this.itIdData);
@@ -38,12 +39,16 @@ export class TrimestreDataLivre extends ModWindow{
 		this.itIdTrimestre.setSize(12);
 		this.append(this.itIdTrimestre);
 
-	    this.itMomento = new DatePicker();
-	    this.itMomento.setLabel("Data:");
-	    this.itMomento.setColumn("@momento");
-	    this.itMomento.setSize(12);
-	    this.append(this.itMomento);
+    this.itMomento = new DatePicker();
+    this.itMomento.setLabel("Data:");
+    this.itMomento.setColumn("@momento");
+    this.itMomento.setSize(12);
+    this.append(this.itMomento);
 
+    this.itSnDisponivel = new CheckBox("disponivel?","sim");
+    this.itSnDisponivel.setSize(12);
+    this.itSnDisponivel.setColumn("@snDisponivel");
+    this.append(this.itSnDisponivel);
 
 		this.mainList = new ListView("perfis");
 		//this.setMainList("mainList");

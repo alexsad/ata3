@@ -93,7 +93,7 @@ export class Atividade {
 		var natividade: IAtividade = <IAtividade>req.body;
 		AtividadeDAO.create(natividade).then(function(p_natividade: IAtividade) {
 			var tmpDats:TrimestreDataLivre = new TrimestreDataLivre();
-			tmpDats.deleteByData(natividade.momento).then(function(p_datalivre:ITrimestreDataLivre){
+			tmpDats.disponivel(natividade.idData,false).then(function(p_datalivre:ITrimestreDataLivre){
 					res.json(p_natividade.id);
 			}).catch(function(err:any) {
 				res.status(400).json(err);
@@ -107,7 +107,7 @@ export class Atividade {
 		var natividade: IAtividade = <IAtividade>req.body;
 		AtividadeDAO.upsert(natividade).then(function(p_natividade: IAtividade) {
 			var tmpDats:TrimestreDataLivre = new TrimestreDataLivre();
-			tmpDats.deleteByData(natividade.momento).then(function(p_datalivre:ITrimestreDataLivre){
+			tmpDats.disponivel(natividade.idData,false).then(function(p_datalivre:ITrimestreDataLivre){
 					res.send(true);
 			}).catch(function(err:any) {
 				res.status(400).json(err);
