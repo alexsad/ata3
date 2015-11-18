@@ -1,6 +1,6 @@
-import { Component } from "core";
-import { Label, Button } from "controller";
-import { ModWindow } from "container";
+import { Component } from "./core";
+import { Label, Button } from "./controller";
+import { ModWindow } from "./container";
 export interface ITaskConfig {
     s: string;
     t?: number;

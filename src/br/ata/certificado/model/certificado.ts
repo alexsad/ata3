@@ -8,5 +8,9 @@ var CertificadoDAO = sequelize.define('certificado', {
 	"timestamps": false
 	, "freezeTableName": true
 });
-
+/*
+sequelize.sync({
+    force: true
+});
+*/
 export = CertificadoDAO;

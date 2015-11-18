@@ -18,7 +18,7 @@ export class Atividade extends ModWindow {
 	itDetalhes: TextArea;
 	itCodRefMLS: InputText;
 	itLocal: InputText;
-	itMomento: DatePicker;
+	itIdData: InputText;
 	itHora: InputTime;
 	itIdResponsavel: Select;
 	itOrcamento: NumericStepper;
@@ -38,7 +38,7 @@ export class Atividade extends ModWindow {
 		this.setRevision("$Revision: 140 $");
 		this.setSize(8);
 
-		this.mainTb = new ToolBar({ "domain": "trimestre/atividade" });
+		this.mainTb = new ToolBar({ "domain": "atividade" });
 		this.mainTb.btDel.getEle().hide();
 		this.append(this.mainTb);
 
@@ -98,20 +98,20 @@ export class Atividade extends ModWindow {
 
 		this.itDtDisponivel = new Select("datas disponiveis");
 		this.itDtDisponivel.setLabel("Dts. Livres");
-		this.itDtDisponivel.setValueField("momento");
+		this.itDtDisponivel.setValueField("id");
 		this.itDtDisponivel.setLabelField("dsData");
 		this.itDtDisponivel.setEnable(true);
 		this.itDtDisponivel.setSize(5);
 		this.append(this.itDtDisponivel);
 
 
-		this.itMomento = new DatePicker();
-		this.itMomento.setColumn("@momento");
-		this.itMomento.setPlaceHolder("ex. 31-12-2015");
-		this.itMomento.setLabel("data");
-		this.itMomento.setEnable(false);
-		this.itMomento.setSize(4);
-		this.append(this.itMomento);
+		this.itIdData = new InputText();
+		this.itIdData.setColumn("@idData");
+		this.itIdData.setPlaceHolder("ex. 31-12-2015");
+		this.itIdData.setLabel("data");
+		this.itIdData.setEnable(false);
+		this.itIdData.setSize(4);
+		this.append(this.itIdData);
 
 
 		this.itHora = new InputTime("19:00");
@@ -258,7 +258,7 @@ export class Atividade extends ModWindow {
 		this.itOrcamento.setValue(this._modTrimestreView.getSaldo()+"");
 		this.itOrcamento.setMax(this._modTrimestreView.getSaldo());
 		//console.log(this.itOrcamento.maxvl);
-		this.itMomento.setValue(this.itDtDisponivel.getValue());
+		this.itIdData.setValue(this.itDtDisponivel.getValue());
 		this.btSubmeter.setEnable(false);
 	}
 	onChangeItem(p_item:IAtividade):IAtividade{
@@ -291,7 +291,7 @@ export class Atividade extends ModWindow {
 		this.mainTb.btSave.setEnable(on);
 	}
 	setDtEvento(evt:Event):void{
-		this.itMomento.setValue(this.itDtDisponivel.getValue());
+		this.itIdData.setValue(this.itDtDisponivel.getValue());
 	}
 	beforeSave(p_obj:IAtividade):IAtividade{
 		if (p_obj.local == "") {
@@ -303,7 +303,7 @@ export class Atividade extends ModWindow {
 		this.itOrcamento.setMax(p_obj.orcamento);
 		return p_obj;
 	}
-	getIcone(p_idStatus:number):string{	
+	getIcone(p_idStatus:number):string{
 		var tpAlert: string = "info";
 		if (p_idStatus == EAtividadeStatus.PENDENTE) {
 			tpAlert = "danger";
@@ -315,10 +315,10 @@ export class Atividade extends ModWindow {
 		return tpAlert;
 	}
 	beforeInsert(p_req_obj:IDefaultRequest): IDefaultRequest{
-		p_req_obj.data.idStatus = 1;
-		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
-		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre.id;
-		tmpTrimestre.vtSaldo = tmpTrimestre.vtSaldo - this.itOrcamento.getVL();
+		p_req_obj.data.idStatus = EAtividadeStatus.ELABORADA;
+		//var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
+		//p_req_obj.url = "trimestre/atividade/" + tmpTrimestre.id;
+		//tmpTrimestre.vtSaldo = tmpTrimestre.vtSaldo - this.itOrcamento.getVL();
 		p_req_obj.data.iconStatus = "info";
 		//tmpTrimestre.atividades.push(p_req_obj.data);
 		return p_req_obj;
@@ -327,8 +327,6 @@ export class Atividade extends ModWindow {
 		if(p_old_obj.snEditavel=="N"){
 			return null;
 		};
-		var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
-		p_req_obj.url = "trimestre/atividade/" + tmpTrimestre.id;
 		p_old_obj.iconStatus = this.getIcone(p_old_obj.idStatus);
 		//tmpTrimestre.atividades.push(p_req_obj.data);
 		return p_req_obj;
@@ -351,7 +349,7 @@ export class Atividade extends ModWindow {
 			}
 			var tmpTrimestre: ITrimestre = <ITrimestre>this._modTrimestreView.mainList.getSelectedItem();
 			RequestManager.addRequest({
-				url: "trimestre/atividade/" + tmpTrimestre.id
+				url: "atividade/" + tmpTrimestre.id
 				,method:"PUT"
 				,data:tmpItemAtiv
 				,onLoad:function(rt_save:boolean):void{

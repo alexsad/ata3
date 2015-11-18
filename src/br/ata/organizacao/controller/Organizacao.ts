@@ -9,7 +9,7 @@ export class Organizacao {
 	get(req: express.Request, res: express.Response): void {
 		OrganizacaoDAO.findAll().then(function(dta: IOrganizacao[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -18,7 +18,7 @@ export class Organizacao {
 		var norganizacao: IOrganizacao = <IOrganizacao>req.body;
 		OrganizacaoDAO.create(norganizacao).then(function(p_norganizacao: IOrganizacao) {
 			res.json(p_norganizacao.id);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -27,7 +27,7 @@ export class Organizacao {
 		var norganizacao: IOrganizacao = <IOrganizacao>req.body;
 		OrganizacaoDAO.upsert(norganizacao).then(function(p_norganizacao: IOrganizacao) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -39,7 +39,7 @@ export class Organizacao {
 			}
 		}).then(function(p_norganizacao: IOrganizacao) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}

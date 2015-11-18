@@ -11,8 +11,9 @@ var AtividadeDAO = sequelize.define('atividade', {
 	, "local": {
 		type: sequelize.constructor.STRING
 	}
-	, "momento": {
-		type: sequelize.constructor.DATE
+	, "idData": {
+		type: sequelize.constructor.INTEGER
+		,field:"id_data"
 	}
 	, "hora": {
 		type: sequelize.constructor.STRING
@@ -84,5 +85,9 @@ var AtividadeDAO = sequelize.define('atividade', {
 		"timestamps": false
 		, "freezeTableName": true
 	});
-
+	/*
+sequelize.sync({
+    force: true
+});
+*/
 export = AtividadeDAO;

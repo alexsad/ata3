@@ -3,7 +3,7 @@ import {ItemView,NumericStepper,InputText,Select,ListView} from "../../../../lib
 import {ToolBar,IDefaultRequest,RequestManager} from "../../../../lib/net";
 import {Underas} from "../../../../lib/core";
 import {IItemMenu,IMenu} from "../model/IPerfil";
-import {Menu} from "Menu";
+import {Menu} from "./Menu";
 
 @ItemView("assets/html/itemmenu.html")
 export class ItemMenu extends ModWindow{
@@ -37,7 +37,7 @@ export class ItemMenu extends ModWindow{
 		this.itIdMenu.setLabel("menu");
 		this.itIdMenu.setEnable(false);
 		this.itIdMenu.setSize(3);
-		this.append(this.itIdMenu);		
+		this.append(this.itIdMenu);
 
 		this.itLabel = new InputText("");
 		this.itLabel.setColumn("@label");

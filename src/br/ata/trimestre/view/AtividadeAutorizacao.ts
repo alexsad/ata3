@@ -246,14 +246,14 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.itCodRefMLS.setValue(p_item.codRefMLS + "");
 		this.itIdStatus.setValue(p_item.idStatus + "");
 		this.itSnEditavel.setValue(p_item.snEditavel);
-		this.itMomento.setValue(p_item.momento+"");	
+		this.itMomento.setValue(p_item.momento+"");
 		this.itHora.setValue(p_item.hora);
-		this.itLocal.setValue(p_item.local);		
+		this.itLocal.setValue(p_item.local);
 		this.itIdResponsavel.setValue(p_item.idResponsavel + "");
 		this.itOrcamento.setValue(p_item.orcamento + "");
 		this.itPublicoAlvo.setValue(p_item.publicoAlvo);
 		this.itVestuario.setValue(p_item.vestuario);
-		this.itProposito.setValue(p_item.proposito);		
+		this.itProposito.setValue(p_item.proposito);
 		this.itDetalhes.setValue(p_item.detalhes);
 
 		return p_item;

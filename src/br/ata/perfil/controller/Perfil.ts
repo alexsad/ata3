@@ -11,7 +11,7 @@ export class Perfil{
 			function(dta:IPerfil[]){
 				res.json(dta);
 			}
-		).catch(function(err) {
+		).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -27,7 +27,7 @@ export class Perfil{
 			function(dta:IPerfil){
 				res.json(dta);
 			}
-		).catch(function(err) {
+		).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -37,7 +37,7 @@ export class Perfil{
 			function(dta: IPerfil[]) {
 				res.json(dta);
 			}
-		).catch(function(err) {
+		).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -47,7 +47,7 @@ export class Perfil{
 			function(dta:IPerfil[]){
 				res.json(dta);
 			}
-		).catch(function(err) {
+		).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -56,7 +56,7 @@ export class Perfil{
 		var nperfil: IPerfil = <IPerfil>req.body;
 		PerfilDAO.create(nperfil).then(function(p_nperfil: IPerfil) {
 			res.json(p_nperfil.id);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -65,7 +65,7 @@ export class Perfil{
 		var nperfil: IPerfil = <IPerfil>req.body;
 		PerfilDAO.upsert(nperfil).then(function(p_nperfil: IPerfil) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -77,7 +77,7 @@ export class Perfil{
 			}
 		}).then(function(p_nperfil: IPerfil) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}

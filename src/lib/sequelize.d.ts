@@ -4,8 +4,8 @@ declare module SequelizeModule
 {
     export interface SequelizeStaticAndInstance {
 
- 
-       
+
+
 
         /**
          * A modified version of bluebird promises, that allows listening for sql events.
@@ -244,7 +244,7 @@ declare module SequelizeModule
          *
          * @param schema Name of the schema.
          */
-        dropSchema(schema):EventEmitter;
+        dropSchema(schema:string):EventEmitter;
 
         /**
          * Drop all schemas.
@@ -1005,7 +1005,7 @@ declare module SequelizeModule
         changeColumn(tableName:string, attributeName:string, dataTypeOrOptions:any):EventEmitter;
         renameColumn(tableName:string, attrNameBefore:string, attrNameAfter:string):EventEmitter;
         addIndex(tableName:string, attributes:Array<any>, options?:QueryOptions):EventEmitter;
-        showIndex(tableName, options?:QueryOptions):EventEmitter;
+        showIndex(tableName:string, options?:QueryOptions):EventEmitter;
         getForeignKeysForTables(tableNames:Array<string>):EventEmitter;
         removeIndex(tableName:string, attributes:Array<string>):EventEmitter;
         removeIndex(tableName:string, indexName:string):EventEmitter;
@@ -1088,7 +1088,7 @@ declare module SequelizeModule
         deleteQuery<TInstance, TPojo>(tableName:string, where:any, options:DestroyOptions, model:Model<TInstance, TPojo>):string;
         /**
          * Creates a query to increment a value. Note "options" here is an additional hash of values to update.
-         * 
+         *
          * @param tableName
          * @param attrValueHash
          * @param where
@@ -1107,7 +1107,7 @@ declare module SequelizeModule
         attributesToSQL(attributes:Array<any>):string;
         findAutoIncrementField<TInstance,TPojo>(factory:Model<TInstance,TPojo>):Array<string>;
         quoteTable(param:any, as:boolean):string;
-        quote(obj, parent, force):string;
+        quote(obj:any, parent:string, force:boolean):string;
         createTrigger(tableName:string, triggerName:string, timingType:string, fireOnArray:TriggerOptions, functionName:string, functionParams:Array<TriggerParam>):string;
         dropTrigger(tableName:string, triggerName:string):string;
         renameTrigger(tableName:string, oldTriggerName:string, newTriggerName:string):string;
@@ -1155,7 +1155,7 @@ declare module SequelizeModule
         getConditionalJoins<TInstance, TPojo>(options:{where?:any}, originalDao:Model<TInstance, TPojo>):string;
         arrayValue(value:Array<string>, key:string, _key:string, factory?:any, logicResult?:any):string;
         hashToWhereConditions<TInstance, TPojo>(hash:any, dao:Model<TInstance, TPojo>, options?:HashToWhereConditionsOption):string;
-        booleanValue(value):string;
+        booleanValue(value:boolean):string;
     }
 
     export interface Schema
@@ -1242,7 +1242,7 @@ declare module SequelizeModule
         getFormattedDateString(s:string):string;
         stringToDate(s:string):Date;
         saveSuccessfulMigration(from:Migration, to:Migration, callback:(metaData:MetaInstance) => void):void;
-        deleteUndoneMigration(from:Migration, to:Migration, callback:() => void);
+        deleteUndoneMigration(from:Migration, to:Migration, callback:() => void):void;
         execute(options?:MigrationExecuteOptions):EventEmitter;
         isBefore(date:Date, options?:MigrationCompareOptions):boolean;
         isAfter(date:Date, options?:MigrationCompareOptions):boolean;
@@ -1856,14 +1856,14 @@ declare module SequelizeModule
         force:boolean;
     }
 
-    export interface InsertOptions 
+    export interface InsertOptions
     {
         limit?:number;
         returning?:string;
-        allowNull?:string;        
+        allowNull?:string;
     }
-    
-    export interface UpdateOptions 
+
+    export interface UpdateOptions
     {
         /**
          * Should each row be subject to validation before it is inserted. The whole insert will fail if one row fails
@@ -1933,7 +1933,7 @@ declare module SequelizeModule
         indexName?:string;
         parser?:any;
     }
-    
+
     export interface ProxyOptions {
         /**
          * An array of the events to proxy. Defaults to sql, error and success.

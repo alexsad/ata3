@@ -1,4 +1,4 @@
-import { ModWindow } from "container";
+import { ModWindow } from "./container";
 export interface IConfMod {
     mod: string;
     act?: string;

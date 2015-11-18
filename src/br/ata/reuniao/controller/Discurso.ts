@@ -15,7 +15,7 @@ export class Discurso {
 			this.contteste++;
 			dta[0].tempo += this.contteste;
 			res.json(dta);
-		}.bind(this)).catch(function(err) {
+		}.bind(this)).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -34,7 +34,7 @@ export class Discurso {
 			}
 		}).then(function(dta: IDiscurso[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -43,7 +43,7 @@ export class Discurso {
 		var ndiscurso: IDiscurso = <IDiscurso>req.body;
 		DiscursoDAO.create(ndiscurso).then(function(p_ndiscurso: IDiscurso) {
 			res.json(p_ndiscurso.id);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -52,7 +52,7 @@ export class Discurso {
 		var ndiscurso: IDiscurso = <IDiscurso>req.body;
 		DiscursoDAO.upsert(ndiscurso).then(function(p_ndiscurso: IDiscurso) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -64,7 +64,7 @@ export class Discurso {
 			}
 		}).then(function(p_ndiscurso: IDiscurso) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}

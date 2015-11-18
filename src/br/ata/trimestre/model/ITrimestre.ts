@@ -16,6 +16,7 @@ export interface ITrimestreDataLivre{
 	id?: number;
 	idTrimestre: number;
 	momento:Date;
+	snDisponivel:string;
 }
 export interface IAtividade {
 	id?: number;
@@ -23,7 +24,7 @@ export interface IAtividade {
 	descricao:  string;
 	detalhes:string;
 	local:string;
-	momento: Date;
+	idData:number;
 	hora: string;
 	idResponsavel:string;
 	idPerfil: string;
@@ -42,6 +43,6 @@ export enum EAtividadeStatus{
 	ELABORADA = 1
     ,ENVIADA = 2
     ,APROVADA = 3
-    ,PENDENTE = 4 
-    ,LIBERADA = 5  
+    ,PENDENTE = 4
+    ,LIBERADA = 5
 }

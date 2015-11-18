@@ -9,7 +9,7 @@ export class ItemMenu {
 	get(req: express.Request, res: express.Response): void {
 		ItemMenuDAO.findAll().then(function(dta: IItemMenu[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -21,7 +21,7 @@ export class ItemMenu {
 			}
 		}).then(function(dta: IItemMenu[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -30,7 +30,7 @@ export class ItemMenu {
 		var nitemmenu: IItemMenu = <IItemMenu>req.body;
 		ItemMenuDAO.create(nitemmenu).then(function(p_nitemmenu: IItemMenu) {
 			res.json(p_nitemmenu.id);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -39,7 +39,7 @@ export class ItemMenu {
 		var nitemmenu: IItemMenu = <IItemMenu>req.body;
 		ItemMenuDAO.upsert(nitemmenu).then(function(p_nitemmenu: IItemMenu) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -51,7 +51,7 @@ export class ItemMenu {
 			}
 		}).then(function(p_nitemmenu: IItemMenu) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}

@@ -1,9 +1,10 @@
 import express = require('express');
 import {Get, Post, Put, Delete, Controller} from "../../../../lib/router";
 import AtividadeDAO = require("../model/atividade");
-import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
+import {IAtividade, EAtividadeStatus,ITrimestreDataLivre} from "../model/ITrimestre";
 import {PerfilAutorizacao} from "../../perfil/controller/PerfilAutorizacao";
 import {IPerfilAutorizacao,EPerfilAutorizacaoTP} from "../../perfil/model/IPerfil";
+import {TrimestreDataLivre} from "./TrimestreDataLivre";
 
 @Controller()
 export class Atividade {
@@ -11,7 +12,7 @@ export class Atividade {
 	get(req: express.Request, res: express.Response): void {
 		AtividadeDAO.findAll().then(function(dta: IAtividade[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -24,7 +25,7 @@ export class Atividade {
 			}
 		}).then(function(dta: IAtividade[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -36,7 +37,7 @@ export class Atividade {
 			tpAuto = EPerfilAutorizacaoTP.APROVACAO;
 		}
 		perfilAuto.getByIdPerfilTpAutorizacao(req.params.idperfil, tpAuto)
-		.then(function(dta1:IPerfilAutorizacao[]){			
+		.then(function(dta1:IPerfilAutorizacao[]){
 			if(dta1.length==0){
 				res.json([]);
 			}else{
@@ -53,12 +54,12 @@ export class Atividade {
 					}
 				}).then(function(dta: IAtividade[]) {
 					res.json(dta);
-				}).catch(function(err) {
+				}).catch(function(err:any) {
 					res.status(400).json(err);
 				});
 			}
 		})
-		.catch(function(err) {
+		.catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -79,7 +80,7 @@ export class Atividade {
 		};
 		res.json(tmpArr);
 	}
-	getTotalOrcamentoByIdTrimestreAndIdPerfil(p_idTrimestre,p_idPerfil) {
+	getTotalOrcamentoByIdTrimestreAndIdPerfil(p_idTrimestre:number,p_idPerfil:number) {
 		return AtividadeDAO.sum('orcamento', {
 			where:{
 				"id_perfil":p_idPerfil
@@ -91,8 +92,13 @@ export class Atividade {
 	add(req: express.Request, res: express.Response): void {
 		var natividade: IAtividade = <IAtividade>req.body;
 		AtividadeDAO.create(natividade).then(function(p_natividade: IAtividade) {
-			res.json(p_natividade.id);
-		}).catch(function(err) {
+			var tmpDats:TrimestreDataLivre = new TrimestreDataLivre();
+			tmpDats.disponivel(natividade.idData,false).then(function(p_datalivre:ITrimestreDataLivre){
+					res.json(p_natividade.id);
+			}).catch(function(err:any) {
+				res.status(400).json(err);
+			});
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -100,8 +106,13 @@ export class Atividade {
 	atualizar(req: express.Request, res: express.Response): void {
 		var natividade: IAtividade = <IAtividade>req.body;
 		AtividadeDAO.upsert(natividade).then(function(p_natividade: IAtividade) {
-			res.send(true);
-		}).catch(function(err) {
+			var tmpDats:TrimestreDataLivre = new TrimestreDataLivre();
+			tmpDats.disponivel(natividade.idData,false).then(function(p_datalivre:ITrimestreDataLivre){
+					res.send(true);
+			}).catch(function(err:any) {
+				res.status(400).json(err);
+			});
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -113,7 +124,7 @@ export class Atividade {
 			}
 		}).then(function(p_natividade: IAtividade) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}

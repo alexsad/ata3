@@ -10,7 +10,7 @@ export class Reuniao {
 	get(req: express.Request, res: express.Response): void {
 		ReuniaoDAO.findAll().then(function(dta: IReuniao[]) {
 			res.json(dta);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -31,7 +31,7 @@ export class Reuniao {
 			function(dta: IReuniao[]) {
 				res.json(dta);
 			}
-		).catch(function(err) {
+		).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}	
@@ -40,7 +40,7 @@ export class Reuniao {
 		var nreuniao: IReuniao = <IReuniao>req.body;
 		ReuniaoDAO.create(nreuniao).then(function(p_nreuniao: IReuniao) {
 			res.json(p_nreuniao.id);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -49,7 +49,7 @@ export class Reuniao {
 		var nreuniao: IReuniao = <IReuniao>req.body;
 		ReuniaoDAO.upsert(nreuniao).then(function(p_nreuniao: IReuniao) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
@@ -61,7 +61,7 @@ export class Reuniao {
 			}
 		}).then(function(p_nreuniao: IReuniao) {
 			res.send(true);
-		}).catch(function(err) {
+		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
 	}
