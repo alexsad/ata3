@@ -1515,7 +1515,7 @@ define(["require", "exports", "./util", "./core", "./net"], function (require, e
 
                 //urlModuleLoad.replace(/\./g, "/")
                 var tmpModPath = urlModuleLoad.replace(/\./g, "/");
-                console.log(tmpModPath);
+                //console.log(tmpModPath);
                 requirejs(['container', tmpModPath], function (_container, _modwindow) {
                     var tmp_modwindow = new _modwindow[varModuleToLoadTmpCapt]();
                     var mdw_tmp = new _container.ModView(_linkM.attr("data-titlemod"));

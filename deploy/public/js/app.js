@@ -17,29 +17,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 requirejs.config({
 		baseUrl:'js/lib'
-		//,urlArgs : "bust="+new Date().getTime()
-		/*
-		paths: {
-        "some": "some/v1.0"
-    },
-		*/
 		,paths:{
 			'br':'../br'
+			,'jquery-ui':'jqueryui/jquery-ui.min'
+			,'jquery': 'jquery/jquery-2.1.4.min'
 			,'net':'underas/net'
 			,'util':'underas/util'
 			,'core':'underas/core'
 			,'container':'underas/container'
 			,'controller':'underas/controller'
 		}
+		,shim: {
+        'jquery.treeview': ['jquery']
+    }
 		,waitSeconds:15
 });
 
-//var _app = {"loaded":{}};
-
 var perfilBoxContainer = null;
-
-$(function(){
-
+window.onload=function(){
 	requirejs(
 		[
 		'br/ata/main/view/main'
@@ -47,11 +42,9 @@ $(function(){
 		,function(
 			_modmain
 		){
-
 			_modmain.initApp();
 		}
 	);
-
 /*
 
 	requirejs(
@@ -88,4 +81,4 @@ $(function(){
 		}
 	);
 */
-});
+};

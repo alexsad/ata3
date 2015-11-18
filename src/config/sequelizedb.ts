@@ -16,11 +16,13 @@ var sequelize = new Sequelize('database', 'username', 'password', {
   // SQLite only
   //,storage: '/mnt/arquivos/workspace/db/sqlite/ata3.sqlite'
   ,storage: 'C:\\sistemas\\db\\sqlite\\ata3.sqlite'
+  //,storage: 'C:\\sistemas\\db\\sqlite\\ata4.sqlite'
 });
-
+//criar base automagicamente
+//sequelize.sync({force:true});
 process.on("SIGINT", function() {
-	sequelize.close();
 	console.log("sequelize fechado!");
+  sequelize.close();
 	process.exit(0);
 });
 
