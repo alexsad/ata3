@@ -28,7 +28,7 @@ requirejs.config({
 			,'controller':'underas/controller'
 		}
 		,shim: {
-        'jquery.treeview': ['jquery']
+        'br/ata/reuniao/view/ReuniaoPorPeriodo': ['jquery-ui']
     }
 		,waitSeconds:15
 });
@@ -38,6 +38,7 @@ window.onload=function(){
 	requirejs(
 		[
 		'br/ata/main/view/main'
+		,'jquery'
 		]
 		,function(
 			_modmain
