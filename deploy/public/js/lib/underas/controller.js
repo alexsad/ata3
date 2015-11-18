@@ -1512,9 +1512,11 @@ define(["require", "exports", "./util", "./core", "./net"], function (require, e
             ;
             if (nextload) {
                 var urlModuleLoad = _linkM.attr("data-varmod");
-                
+
                 //urlModuleLoad.replace(/\./g, "/")
-                requirejs(['container', '../../usuario/view/Usuario'], function (_container, _modwindow) {
+                var tmpModPath = urlModuleLoad.replace(/\./g, "/");
+                console.log(tmpModPath);
+                requirejs(['container', tmpModPath], function (_container, _modwindow) {
                     var tmp_modwindow = new _modwindow[varModuleToLoadTmpCapt]();
                     var mdw_tmp = new _container.ModView(_linkM.attr("data-titlemod"));
                     mdw_tmp.setIcon(_linkM.attr("data-iconmod"));

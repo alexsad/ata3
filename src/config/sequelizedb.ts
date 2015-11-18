@@ -1,8 +1,11 @@
-//import {SequelizeModule} from "../lib/sequelize";
-import Sequelize = require("sequelize");
+
+
+var Sequelize = require('sequelize');
 declare var process: any;
 
-var sequelize: Sequelize = new Sequelize('database', 'username', 'password', {
+
+
+var sequelize = new Sequelize('database', 'username', 'password', {
   host: 'localhost'
   ,dialect: 'sqlite'
   ,pool: {
@@ -11,8 +14,8 @@ var sequelize: Sequelize = new Sequelize('database', 'username', 'password', {
     idle: 10000
   }
   // SQLite only
-  ,storage: '/mnt/arquivos/workspace/db/sqlite/ata3.sqlite'
-  //,storage: 'C:\\sistemas\\db\\sqlite\\ata3.sqlite'
+  //,storage: '/mnt/arquivos/workspace/db/sqlite/ata3.sqlite'
+  ,storage: 'C:\\sistemas\\db\\sqlite\\ata3.sqlite'
 });
 
 process.on("SIGINT", function() {

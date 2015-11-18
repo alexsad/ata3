@@ -16,40 +16,22 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 requirejs.config({
-		baseUrl:'js'
-		,urlArgs : "bust="+new Date().getTime()
+		baseUrl:'js/lib'
+		//,urlArgs : "bust="+new Date().getTime()
+		/*
+		paths: {
+        "some": "some/v1.0"
+    },
+		*/
 		,paths:{
-			/*
-			'./net':'../lib/underas/net'
-			,'./util':'lib/underas/util'
-			,'./core':'lib/underas/core'
-			,'./container':'lib/underas/container'
-			,'./controller':'lib/underas/controller'
-			*/
-			//br:'br'
-			/*
-			,'../../../../lib/underas/net':'lib/underas/net'
-			,'../../../../lib/underas/util':'lib/underas/util'
-			,'../../../../lib/underas/core':'lib/underas/core'
-			,'../../../../lib/underas/container':'lib/underas/container'
-			,'../../../../lib/underas/controller':'lib/underas/controller'
-			,'./net':'lib/underas/net'
-			,'./util':'lib/underas/util'
-			,'./core':'lib/underas/core'
-			,'./container':'lib/underas/container'
-			,'./controller':'lib/underas/controller'
-			'./net':'../../lib/underas/net'
-			,'./util':'../../lib/underas/util'
-			,'./core':'../../lib/underas/core'
-			,'./container':'../../lib/underas/container'
-			,'./controller':'../../lib/underas/controller'
-			*/
-			/*,util:'underas/util'
-			,core:'underas/core'
-			,container:'underas/container'
-			,controller:'underas/controller'
-			,net:'underas/net'*/
+			'br':'../br'
+			,'net':'underas/net'
+			,'util':'underas/util'
+			,'core':'underas/core'
+			,'container':'underas/container'
+			,'controller':'underas/controller'
 		}
+		,waitSeconds:15
 });
 
 //var _app = {"loaded":{}};

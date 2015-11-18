@@ -1,17 +1,17 @@
 module.exports = function(grunt) {
-	grunt.initConfig({		
+	grunt.initConfig({
 		replace: {
 			viewjs:{
 				expand: true,
 				src: ['public/js/br/**/*.js'],// source files array (supports minimatch)
 				overwrite: true,
 				replacements: [{
-					  from: /..\/..\/..\/..\/lib\//g,// string replacement
-					  to: '../../lib/'
+					  from: /..\/..\/..\/..\/lib\/underas\//g,// string replacement
+					  to: ''
 					}
 				]
 		  }
-		}		
+		}
 		,copy: {
 			view:{
 				expand: true,
@@ -21,7 +21,7 @@ module.exports = function(grunt) {
 				//,"**/model/I[A-Z]*.js"
 				],
 				dest: 'public/js/br'
-			}		
+			}
 			,viewAssets:{
 				expand: true,
 				cwd: '../src/br',
@@ -30,7 +30,7 @@ module.exports = function(grunt) {
 				//,"**/model/I[A-Z]*.js"
 				],
 				dest: 'public/js/br'
-			}		
+			}
 		}
 		,clean: {
 			server: {
@@ -44,7 +44,7 @@ module.exports = function(grunt) {
 			options: {
 				separator: ';'
 			}
-		}	 
+		}
 		,uglify: {
 			view: {
 				files: [{
@@ -73,7 +73,7 @@ module.exports = function(grunt) {
 		  ,server : {
 			tsconfig: "../tsconfigserver.json"
 		  }
-		}	
+		}
 });
 
 
@@ -109,16 +109,16 @@ module.exports = function(grunt) {
 
 
 	grunt.registerTask('default', ['build-dev']);
-	//grunt.registerTask('dist', ['clean', 'copy']);		
-	grunt.registerTask('build-server-dev', ['clean:server','ts:server']);	
+	//grunt.registerTask('dist', ['clean', 'copy']);
+	grunt.registerTask('build-server-dev', ['clean:server','ts:server']);
 	grunt.registerTask('build-server-deploy', ['build-server-dev','uglify:server']);
-	grunt.registerTask('build-view-dev', ['clean:client','ts:view','copy:viewAssets','build-view-pos']);//,'replace:viewjs'
+	grunt.registerTask('build-view-dev', ['clean:client','ts:view','copy:viewAssets','replace:viewjs','build-view-pos']);//,'replace:viewjs'
 	grunt.registerTask('build-view-deploy', ['build-view-dev','uglify:view']);
-	grunt.registerTask('build-dev', ['build-server-dev','build-view-dev']);	
+	grunt.registerTask('build-dev', ['build-server-dev','build-view-dev']);
 	grunt.registerTask('build-deploy', ['build-server-deploy','build-view-deploy']);
-	
+
 	//grunt.registerTask('build-deploy', ['build-all','uglify:minview']);
-	
+
 
 
 };
