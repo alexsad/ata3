@@ -2,7 +2,7 @@
 var express = require('express');
 var load = require('express-load');
 var bodyParser = require('body-parser');
-var dinRoute = require("../app/lib/DinRoute");
+var dinRoute = require("../app/lib/router/DinRoute");
 var fs = require('fs');
 //var fs = require('fs.extra');
 

@@ -1,11 +1,11 @@
 import {IReuniao} from "../model/IReuniao";
 import {IDiscurso} from "../model/IDiscurso";
-import {ModWindow} from "../../../../lib/container";
-import {Button, ListViewItemRender, InputText, Select, TextArea, NumericStepper, DatePicker, DatePartType, ListView, ItemView} from "../../../../lib/controller";
-import {SimpleToolBar,RequestManager,IDefaultRequest} from "../../../../lib/net";
+import {ModWindow} from "../../../../lib/underas/container";
+import {Button, ListViewItemRender, InputText, Select, TextArea, NumericStepper, DatePicker, DatePartType, ListView, ItemView} from "../../../../lib//underas/controller";
+import {SimpleToolBar,RequestManager,IDefaultRequest} from "../../../../lib/underas/net";
 import {Discursante} from "./Discursante";
 import {FastMembro} from "../../organizacao/view/FastMembro";
-import {Droppable} from "../../../../lib/jqueryui";
+import {Droppable} from "../../../../lib/jqueryui/jqueryui";
 
 @ItemView("assets/html/reuniaoporperiodo.html")
 export class ReuniaoPorPeriodo extends ModWindow{

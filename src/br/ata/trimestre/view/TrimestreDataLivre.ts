@@ -1,6 +1,6 @@
-import {ModWindow} from "../../../../lib/container";
-import {CheckBox,InputText,DatePicker,ListView,ItemView} from "../../../../lib/controller";
-import {RequestManager, IDefaultRequest, ToolBar} from "../../../../lib/net";
+import {ModWindow} from "../../../../lib/underas/container";
+import {CheckBox, InputText, DatePicker, ListView, ItemView} from "../../../../lib/underas/controller";
+import {RequestManager, IDefaultRequest, ToolBar} from "../../../../lib/underas/net";
 import {ITrimestreDataLivre} from "../model/ITrimestre";
 
 /*

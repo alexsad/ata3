@@ -1,7 +1,7 @@
-import {ModWindow} from "../../../../lib/container";
-import {ItemView,NumericStepper,InputText,Select,ListView} from "../../../../lib/controller";
-import {ToolBar,IDefaultRequest,RequestManager} from "../../../../lib/net";
-import {Underas} from "../../../../lib/core";
+import {ModWindow} from "../../../../lib/underas/container";
+import {ItemView,NumericStepper,InputText,Select,ListView} from "../../../../lib/underas/controller";
+import {ToolBar,IDefaultRequest,RequestManager} from "../../../../lib/underas/net";
+import {Underas} from "../../../../lib/underas/core";
 import {IItemMenu,IMenu} from "../model/IPerfil";
 import {Menu} from "./Menu";
 

@@ -1,5 +1,5 @@
-import {MenuTab} from "../../../../lib/controller";
-import {RequestManager} from "../../../../lib/net";
+import {MenuTab} from "../../../../lib/underas/controller";
+import {RequestManager} from "../../../../lib/underas/net";
 import {IPerfil,IMenu, IItemMenu} from "../model/IPerfil";
 import {IUsuarioPerfil} from "../../usuario/model/IUsuario";
 import {Login} from "../../usuario/view/Login";
@@ -71,12 +71,12 @@ export class PerfilBox{
 				var tmpPerfis: IUsuarioPerfil[] = this.getPerfisUsuario();
 				for (var i: number = 0; i < tmpPerfis.length; i++) {
 					var tmpIcon: string = '';
-					if (tmpPerfis[i].id == this.getIdPerfil()) {
+					if (tmpPerfis[i].idPerfil == this.getIdPerfil()) {
 						tmpIcon = 'ok';
 					};
 					tmpChildrens.push({
 						label: tmpPerfis[i].dsPerfil
-						, funcao: '' + tmpPerfis[i].id
+						, funcao: '' + tmpPerfis[i].idPerfil
 						, tela: 'tela'
 						, icone: tmpIcon
 						, ordem: i
@@ -108,25 +108,27 @@ export class PerfilBox{
 					'<img style="border: 2px solid #fff;border-radius: 100%;margin: -4px 8px 0 0;max-width: 30px;" alt="Photo" src="http://i.imgur.com/RLiDK.png" class="nav-user-photo">'
 					+ '<small class="hidden-xs">' + tmpLogin + '</small>'
 				);
+				//console.log(tmpIdM);
 				$("#tabmenu_" + tmpIdM + "_l li").removeClass("elegibleToClick").not(":last").on('click', function(evt: Event) {
 					evt.preventDefault();
 					//this.logOff();
 					var tmpEle: JQuery = $(evt.target);
 					//console.log(tmpEle);
-					var tmpIdPerfil: string = tmpEle.attr("data-actmod");
+					var tmpIdPerfil: string = null;
 					if (!tmpEle.hasClass("LinkButton")) {
 						tmpIdPerfil = tmpEle.parents(".LinkButton").attr("data-actmod");
+					}else{
+						tmpIdPerfil = tmpEle.attr("data-actmod");
 					};
-					//var tmpIdPerfil: string = tmpEle.attr("data-actmod");
-					if (tmpIdPerfil) {
-
+					//console.log(tmpIdPerfil);
+					if (tmpIdPerfil){
 						//console.log(tmpEle);
 						//console.log(tmpIdPerfil);
-
 						if (tmpIdPerfil != this.getIdPerfil()) {
-							this.setIdPerfil(tmpIdPerfil);
+							//this.setIdPerfil(tmpIdPerfil);
 							this._modLogin.clearAll();
-							//this.filtrarPerfis(tmpIdPerfil, this.getPerfis());
+							//console.log(tmpIdPerfil);
+							this.getMenusByIdPerfil(tmpIdPerfil);
 						};
 
 					};

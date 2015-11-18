@@ -1,6 +1,6 @@
-import {ModWindow} from "../../../../lib/container";
-import {InputText,DatePicker,ListView,ItemView} from "../../../../lib/controller";
-import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/net";
+import {ModWindow} from "../../../../lib/underas/container";
+import {InputText,DatePicker,ListView,ItemView} from "../../../../lib/underas/controller";
+import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
 import {IOrganizacao} from "../model/IOrganizacao";
 import {Membro} from "./Membro";
 
