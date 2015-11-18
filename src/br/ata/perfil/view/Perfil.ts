@@ -1,6 +1,6 @@
-import {ModWindow} from "../../../../lib/container";
-import {ItemView,InputText,CheckBox,ListView} from "../../../../lib/controller";
-import {ToolBar,RequestManager} from "../../../../lib/net";
+import {ModWindow} from "../../../../lib/underas/container";
+import {ItemView, InputText, CheckBox, ListView} from "../../../../lib/underas/controller";
+import {ToolBar,RequestManager} from "../../../../lib/underas/net";
 import {Menu} from "./Menu";
 import {IPerfil} from "../model/IPerfil";
 

@@ -1,5 +1,5 @@
 /// <reference path="../../lib/jquery2.d.ts"/>
-define(["require", "exports", "core", "controller"], function (require, exports, core_1, controller_1) {
+define(["require", "exports", "./core", "./controller"], function (require, exports, core_1, controller_1) {
     var Task = (function (_super) {
         __extends(Task, _super);
         function Task(p_dts) {

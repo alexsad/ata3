@@ -1,10 +1,9 @@
 import express = require('express');
-import {Get, Post, Put, Delete, Controller} from "../../../../lib/router";
+import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router";
 import AtividadeDAO = require("../model/atividade");
-import {IAtividade, EAtividadeStatus,ITrimestreDataLivre} from "../model/ITrimestre";
+import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
 import {PerfilAutorizacao} from "../../perfil/controller/PerfilAutorizacao";
 import {IPerfilAutorizacao,EPerfilAutorizacaoTP} from "../../perfil/model/IPerfil";
-import {TrimestreDataLivre} from "./TrimestreDataLivre";
 
 @Controller()
 export class Atividade {
@@ -88,33 +87,30 @@ export class Atividade {
 			}
 		});
 	}
+	getByIdTrimestre(p_idTrimestre: number) {
+		return AtividadeDAO.findAll({
+			where: {
+				"idTrimestre": p_idTrimestre
+			}
+		});
+	}
 	@Post()
 	add(req: express.Request, res: express.Response): void {
 		var natividade: IAtividade = <IAtividade>req.body;
 		AtividadeDAO.create(natividade).then(function(p_natividade: IAtividade) {
-			var tmpDats:TrimestreDataLivre = new TrimestreDataLivre();
-			tmpDats.disponivel(natividade.idData,false).then(function(p_datalivre:ITrimestreDataLivre){
-					res.json(p_natividade.id);
-			}).catch(function(err:any) {
-				res.status(400).json(err);
-			});
-		}).catch(function(err:any) {
+			res.json(p_natividade.id);			
+		}).catch(function(err:any){
 			res.status(400).json(err);
 		});
 	}
 	@Put()
 	atualizar(req: express.Request, res: express.Response): void {
-		var natividade: IAtividade = <IAtividade>req.body;
+		var natividade: IAtividade = <IAtividade>req.body;		
 		AtividadeDAO.upsert(natividade).then(function(p_natividade: IAtividade) {
-			var tmpDats:TrimestreDataLivre = new TrimestreDataLivre();
-			tmpDats.disponivel(natividade.idData,false).then(function(p_datalivre:ITrimestreDataLivre){
-					res.send(true);
-			}).catch(function(err:any) {
-				res.status(400).json(err);
-			});
-		}).catch(function(err:any) {
+			res.send(true);
+		}).catch(function(err: any) {
 			res.status(400).json(err);
-		});
+		});			
 	}
 	@Delete("/:id")
 	delete(req: express.Request, res: express.Response): void {

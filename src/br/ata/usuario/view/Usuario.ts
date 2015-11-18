@@ -1,7 +1,7 @@
 import {IUsuario} from "../model/IUsuario";
-import {ModWindow} from "../../../../lib/container";
-import {InputText,CheckBox,TextArea,Select,InputPassWord,InputEmail,ListView,ItemView} from "../../../../lib/controller";
-import {ToolBar,RequestManager,IDefaultRequest} from "../../../../lib/net";
+import {ModWindow} from "../../../../lib/underas/container";
+import {InputText,CheckBox,TextArea,Select,InputPassWord,InputEmail,ListView,ItemView} from "../../../../lib/underas/controller";
+import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
 import {UsuarioPerfil} from "./UsuarioPerfil";
 
 @ItemView("assets/html/usuario.html")

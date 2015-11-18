@@ -3,11 +3,11 @@ module.exports = function(grunt) {
 		replace: {
 			viewjs:{
 				expand: true,
-				src: ['public/js/br/**/*.js'],             // source files array (supports minimatch)
-				overwrite: true,             // destination directory or file
+				src: ['public/js/br/**/*.js'],// source files array (supports minimatch)
+				overwrite: true,
 				replacements: [{
-					  from: /..\/..\/..\/..\/lib\//g,                   // string replacement
-					  to: ''
+					  from: /..\/..\/..\/..\/lib\//g,// string replacement
+					  to: '../../lib/'
 					}
 				]
 		  }
@@ -112,7 +112,7 @@ module.exports = function(grunt) {
 	//grunt.registerTask('dist', ['clean', 'copy']);		
 	grunt.registerTask('build-server-dev', ['clean:server','ts:server']);	
 	grunt.registerTask('build-server-deploy', ['build-server-dev','uglify:server']);
-	grunt.registerTask('build-view-dev', ['clean:client','ts:view','copy:viewAssets','replace:viewjs','build-view-pos']);
+	grunt.registerTask('build-view-dev', ['clean:client','ts:view','copy:viewAssets','build-view-pos']);//,'replace:viewjs'
 	grunt.registerTask('build-view-deploy', ['build-view-dev','uglify:view']);
 	grunt.registerTask('build-dev', ['build-server-dev','build-view-dev']);	
 	grunt.registerTask('build-deploy', ['build-server-deploy','build-view-deploy']);

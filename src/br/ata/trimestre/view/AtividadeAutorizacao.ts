@@ -1,6 +1,6 @@
-import {ModWindow} from "../../../../lib/container";
-import {InputTime, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, InputText, ListView, ItemView} from "../../../../lib/controller";
-import {SimpleToolBar, RequestManager, IDefaultRequest} from "../../../../lib/net";
+import {ModWindow} from "../../../../lib/underas/container";
+import {InputTime, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, InputText, ListView, ItemView} from "../../../../lib/underas/controller";
+import {SimpleToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
 
@@ -15,7 +15,7 @@ export class AtividadeAutorizacao extends ModWindow {
 	itDetalhes: TextArea;
 	itCodRefMLS: InputText;
 	itLocal: InputText;
-	itMomento: DatePicker;
+	itMomento: Select;
 	itHora: InputTime;
 	itIdResponsavel: Select;
 	itOrcamento: NumericStepper;
@@ -30,6 +30,7 @@ export class AtividadeAutorizacao extends ModWindow {
 	btPrintAta: Button;
 	btSubmeter: Button;
 	btCancelar: Button;
+	_idStatus: EAtividadeStatus;
 	constructor() {
 		super("Atividades");
 		this.setRevision("$Revision: 140 $");
@@ -94,12 +95,14 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itDescricao);
 
 
-		this.itMomento = new DatePicker();
-		this.itMomento.setColumn("@momento");
+		this.itMomento = new Select("data");
+		this.itMomento.setColumn("@idData");
 		this.itMomento.setPlaceHolder("ex. 31-12-2015");
 		this.itMomento.setLabel("data");
 		this.itMomento.setEnable(false);
 		this.itMomento.setSize(4);
+		this.itMomento.setValueField("id");
+		this.itMomento.setLabelField("dsData");
 		this.append(this.itMomento);
 
 
@@ -216,11 +219,10 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.itIdPerfil.fromService({
 			"url": "perfil/getbysnativo/S"
 		});
-
-
 	}
 
 	getByIdStatus(p_idStatus:EAtividadeStatus):void{
+		this._idStatus = p_idStatus;
 		RequestManager.addRequest({
 			url: "atividade/getbyidperfilidstatus/" + perfilBoxContainer.getIdPerfil() + "/" + p_idStatus
 			, onLoad: function(dta: IAtividade[]) {
@@ -236,7 +238,10 @@ export class AtividadeAutorizacao extends ModWindow {
 	}
 
 	onChangeItem(p_item: IAtividade): IAtividade {
-		var on = (p_item.snEditavel == "S");
+		var on = (p_item.idStatus == this._idStatus);
+		this.itMomento.fromService({
+			"url": "trimestredatalivre/getbyidtrimestre/" + p_item.idTrimestre
+		});
 		this.habilitarCampos(on);
 		this.itIdEvento.setValue(p_item.id+"");
 		this.itIdTrimestre.setValue(p_item.idTrimestre + "");
@@ -246,7 +251,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.itCodRefMLS.setValue(p_item.codRefMLS + "");
 		this.itIdStatus.setValue(p_item.idStatus + "");
 		this.itSnEditavel.setValue(p_item.snEditavel);
-		this.itMomento.setValue(p_item.momento+"");
+		this.itMomento.setValue(p_item.idData+"");
 		this.itHora.setValue(p_item.hora);
 		this.itLocal.setValue(p_item.local);
 		this.itIdResponsavel.setValue(p_item.idResponsavel + "");
@@ -291,8 +296,8 @@ export class AtividadeAutorizacao extends ModWindow {
 	}
 	submeter(): void {
 		var tmpItemAtiv: IAtividade = <IAtividade>this.mainList.getSelectedItem();
-		if (tmpItemAtiv.snEditavel == "S") {
-			tmpItemAtiv.snEditavel = "N";
+		if (tmpItemAtiv.idStatus == this._idStatus) {
+			//tmpItemAtiv.snEditavel = "N";
 			if (tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA) {
 				tmpItemAtiv.idStatus = EAtividadeStatus.APROVADA;
 			} else if (tmpItemAtiv.idStatus == EAtividadeStatus.APROVADA) {
@@ -310,10 +315,12 @@ export class AtividadeAutorizacao extends ModWindow {
 						if (tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA) {
 							tmpStatus = "aprovada";
 						};
-						this.itDsObservacao.setText("Atividade enviada com sucesso, em breve sua atividade sera analisada e se tudo estiver correto ela sera " + tmpStatus + "!");
+						tmpItemAtiv.dsObservacao = "Atividade enviada com sucesso, em breve sua atividade sera analisada e se tudo estiver correto ela sera " + tmpStatus + "!";
+						this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
 						this.itDsObservacao.setType(AlertMsg.TP_INFO);
 					} else {
-						this.itDsObservacao.setText("A atividade nao pode ser " + tmpStatus + ", entre em contato com o bispado em caso de duvidas!");
+						tmpItemAtiv.dsObservacao = "A atividade nao pode ser " + tmpStatus + ", entre em contato com o bispado em caso de duvidas!";
+						this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
 						this.itDsObservacao.setType(AlertMsg.TP_ERROR);
 					}
 				}.bind(this)

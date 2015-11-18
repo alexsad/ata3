@@ -1,4 +1,4 @@
-define(["require", "exports", "core", "net"], function (require, exports, core_1, net_1) {
+define(["require", "exports", "./core", "./net"], function (require, exports, core_1, net_1) {
     var AlertWindow = (function (_super) {
         __extends(AlertWindow, _super);
         function AlertWindow(p_title, p_msg) {

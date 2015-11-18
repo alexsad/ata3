@@ -1,5 +1,5 @@
 import express = require('express');
-import {Get, Post, Put, Delete, Controller} from "../../../../lib/router";
+import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router";
 import MenuDAO = require("../model/menu");
 import ItemMenuDAO = require("../model/itemmenu");
 import {IMenu,IItemMenu} from "../model/IPerfil";

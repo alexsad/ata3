@@ -1,7 +1,7 @@
-import {Underas} from "../../../../lib/core";
-import {ModWindow} from "../../../../lib/container";
-import {Button,InputPassWord,InputEmail,Notify,AlertMsg} from "../../../../lib/controller";
-import {RequestManager} from "../../../../lib/net";
+import {Underas} from "../../../../lib/underas/core";
+import {ModWindow} from "../../../../lib/underas/container";
+import {Button, InputPassWord, InputEmail, Notify, AlertMsg} from "../../../../lib/underas/controller";
+import {RequestManager} from "../../../../lib/underas/net";
 import {IUsuario} from "../model/IUsuario";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
 

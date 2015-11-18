@@ -16,10 +16,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 requirejs.config({
-		baseUrl:'js/lib'
+		baseUrl:'js'
 		,urlArgs : "bust="+new Date().getTime()
 		,paths:{
-			br:'../br'
+			/*
+			'./net':'../lib/underas/net'
+			,'./util':'lib/underas/util'
+			,'./core':'lib/underas/core'
+			,'./container':'lib/underas/container'
+			,'./controller':'lib/underas/controller'
+			*/
+			//br:'br'
+			/*
+			,'../../../../lib/underas/net':'lib/underas/net'
+			,'../../../../lib/underas/util':'lib/underas/util'
+			,'../../../../lib/underas/core':'lib/underas/core'
+			,'../../../../lib/underas/container':'lib/underas/container'
+			,'../../../../lib/underas/controller':'lib/underas/controller'
+			,'./net':'lib/underas/net'
+			,'./util':'lib/underas/util'
+			,'./core':'lib/underas/core'
+			,'./container':'lib/underas/container'
+			,'./controller':'lib/underas/controller'
+			'./net':'../../lib/underas/net'
+			,'./util':'../../lib/underas/util'
+			,'./core':'../../lib/underas/core'
+			,'./container':'../../lib/underas/container'
+			,'./controller':'../../lib/underas/controller'
+			*/
 			/*,util:'underas/util'
 			,core:'underas/core'
 			,container:'underas/container'
@@ -35,24 +59,14 @@ var perfilBoxContainer = null;
 $(function(){
 
 	requirejs(
-		['core','container','net','br/ata/usuario/view/Login']
-		,function(_core,_container,_net,_modlogin){
+		[
+		'br/ata/main/view/main'
+		]
+		,function(
+			_modmain
+		){
 
-			var tmpLocation = _core.Underas.getLocation();
-			//tmpLocation = tmpLocation.replace("8080","8330");
-			tmpLocation = tmpLocation.substring(0,tmpLocation.indexOf("8299"))+"8330/";
-
-			_net.RequestManager.setRootUrl(tmpLocation);
-			//console.log(m);
-			//var t = new sub.SubB(45);
-			//t.doAnyThing("nova instancia!!!!");
-			//$("body").append("<div>!teste</div>");
-			var teste = new _modlogin.Login();
-			var mdw = new _container.ModView("cadastro de teste!!!");
-			mdw.getEle().addClass("mdwLogin");
-			mdw.setIcon("key");
-			mdw.show(true);
-			mdw.append(teste);
+			_modmain.initApp();
 		}
 	);
 

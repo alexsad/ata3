@@ -1,5 +1,5 @@
 import express = require('express');
-import {Get,Post,Put,Delete,Controller} from "../../../../lib/router";
+import {Get,Post,Put,Delete,Controller} from "../../../../lib/router/router";
 import PerfilAutorizacaoDAO = require("../model/perfilautorizacao");
 import {IPerfilAutorizacao,EPerfilAutorizacaoTP} from "../model/IPerfil";
 

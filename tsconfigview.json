@@ -21,17 +21,14 @@
         "./src/br/**/model/I[A-Z]*.ts",
         "!./node_modules/**/*.ts",
         "!./deploy/node_modules/**/*.ts",
-        "./src/lib/container.d.ts",
-        "./src/lib/net.d.ts",
-        "./src/lib/util.d.ts",
-        "./src/lib/core.d.ts",
-        "./src/lib/controller.d.ts",
-        "./src/lib/jquery2.d.ts",
-        "./src/lib/jqueryui.d.ts"
+        "./src/lib/underas/*.d.ts",
+        "./src/lib/jquery/jquery2.d.ts",
+        "./src/lib/jqueryui/jqueryui.d.ts"
     ],
     "reference": [],
     "files": [
         "src/br/ata/certificado/view/Certificado.ts",
+        "src/br/ata/main/view/main.ts",
         "src/br/ata/organizacao/view/FastMembro.ts",
         "src/br/ata/organizacao/view/Membro.ts",
         "src/br/ata/organizacao/view/Organizacao.ts",
@@ -61,12 +58,12 @@
         "src/br/ata/reuniao/model/IReuniao.ts",
         "src/br/ata/trimestre/model/ITrimestre.ts",
         "src/br/ata/usuario/model/IUsuario.ts",
-        "src/lib/container.d.ts",
-        "src/lib/net.d.ts",
-        "src/lib/util.d.ts",
-        "src/lib/core.d.ts",
-        "src/lib/controller.d.ts",
-        "src/lib/jquery2.d.ts",
-        "src/lib/jqueryui.d.ts"
+        "src/lib/underas/container.d.ts",
+        "src/lib/underas/controller.d.ts",
+        "src/lib/underas/core.d.ts",
+        "src/lib/underas/net.d.ts",
+        "src/lib/underas/util.d.ts",
+        "src/lib/jquery/jquery2.d.ts",
+        "src/lib/jqueryui/jqueryui.d.ts"
     ]
 }

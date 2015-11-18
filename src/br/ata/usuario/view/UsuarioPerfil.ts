@@ -1,6 +1,6 @@
-import {ModWindow} from "../../../../lib/container";
-import {InputText,AlertMsg,Select,ListView,ItemView} from "../../../../lib/controller";
-import {RequestManager, ToolBar, IDefaultRequest} from "../../../../lib/net";
+import {ModWindow} from "../../../../lib/underas/container";
+import {InputText, AlertMsg, Select, ListView, ItemView} from "../../../../lib/underas/controller";
+import {RequestManager, ToolBar, IDefaultRequest} from "../../../../lib/underas/net";
 import {IUsuarioPerfil} from "../model/IUsuario";
 
 @ItemView("assets/html/usuarioperfil.html")

@@ -1,7 +1,7 @@
 import {IReuniao} from "../model/IReuniao";
-import {ModWindow} from "../../../../lib/container";
-import {InputText,TextArea,NumericStepper,DatePicker,ListView,ItemView} from "../../../../lib/controller";
-import {ToolBar,RequestManager} from "../../../../lib/net";
+import {ModWindow} from "../../../../lib/underas/container";
+import {InputText, TextArea, NumericStepper, DatePicker, ListView, ItemView} from "../../../../lib/underas/controller";
+import {ToolBar, RequestManager} from "../../../../lib/underas/net";
 import {Discursante} from "./Discursante";
 
 @ItemView("assets/html/reuniao.html")

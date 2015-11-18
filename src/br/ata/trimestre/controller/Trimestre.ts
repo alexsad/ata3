@@ -1,5 +1,5 @@
 import express = require('express');
-import {Get,Post,Put,Delete,Controller} from "../../../../lib/router";
+import {Get,Post,Put,Delete,Controller} from "../../../../lib/router/router";
 import TrimestreDAO = require("../model/trimestre");
 import {Atividade} from "./Atividade";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
@@ -48,13 +48,12 @@ export class Trimestre{
 							//dta[indx].vtTotalLancado = total || 0;
 							lancctrl.getTotalByIdTrimestreIdPerfil(ptrimestre.id, pidperfil).then(function(ptotal_lanc: number) {
 								dta[indx].vtTotalLancado = ptotal_lanc||0;
+								dta[indx].vtSaldo = dta[indx].vtTotalLancado - dta[indx].vtSaldo;
 								tmade++;
 								if (tmade == dta.length) {
 									res.json(dta);
 								};	
-							});
-
-						
+							});						
 						}).catch(function(err:any) {
 							console.log(err);
 						});

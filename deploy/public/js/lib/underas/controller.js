@@ -1,5 +1,5 @@
 /// <reference path="../../lib/jquery2.d.ts"/>
-define(["require", "exports", "util", "core", "net"], function (require, exports, util_1, core_1, net_1) {
+define(["require", "exports", "./util", "./core", "./net"], function (require, exports, util_1, core_1, net_1) {
     var Controller = (function () {
         function Controller(tagh, tagc) {
             this._uid = 0;
@@ -1512,7 +1512,9 @@ define(["require", "exports", "util", "core", "net"], function (require, exports
             ;
             if (nextload) {
                 var urlModuleLoad = _linkM.attr("data-varmod");
-                requirejs(['container', urlModuleLoad.replace(/\./g, "/")], function (_container, _modwindow) {
+                
+                //urlModuleLoad.replace(/\./g, "/")
+                requirejs(['container', '../../usuario/view/Usuario'], function (_container, _modwindow) {
                     var tmp_modwindow = new _modwindow[varModuleToLoadTmpCapt]();
                     var mdw_tmp = new _container.ModView(_linkM.attr("data-titlemod"));
                     mdw_tmp.setIcon(_linkM.attr("data-iconmod"));

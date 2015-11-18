@@ -1,6 +1,6 @@
 import express = require('express');
 import url = require('url');
-import {Get,Post,Put,Delete,Controller} from "../../../../lib/router";
+import {Get,Post,Put,Delete,Controller} from "../../../../lib/router/router";
 import UsuarioDAO = require("../model/usuario");
 import {IUsuario} from "../model/IUsuario";
 

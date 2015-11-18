@@ -1,5 +1,5 @@
 import express = require('express');
-import {Get, Post, Put, Delete, Controller} from "../../../../lib/router";
+import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router";
 import UsuarioPerfilDAO = require("../model/usuarioperfil");
 import {IUsuarioPerfil} from "../model/IUsuario";
 
