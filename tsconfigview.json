@@ -39,6 +39,7 @@
         "src/br/ata/perfil/view/Perfil.ts",
         "src/br/ata/perfil/view/PerfilAutorizacao.ts",
         "src/br/ata/perfil/view/PerfilBox.ts",
+        "src/br/ata/perfil/view/PerfilNotificacao.ts",
         "src/br/ata/perfil/view/PerfilView.ts",
         "src/br/ata/reuniao/view/Discursante.ts",
         "src/br/ata/reuniao/view/Reuniao.ts",

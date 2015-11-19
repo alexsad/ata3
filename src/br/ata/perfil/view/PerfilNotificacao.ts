@@ -27,7 +27,7 @@ export class ItemMenu extends ModWindow{
 		this.setRevision("$Revision: 138 $");
 		this.setSize(4);
 
-		this.mainTb = new ToolBar({"domain":"itemmenu"});
+		this.mainTb = new ToolBar({"domain":"perfilnotificacao"});
 		this.append(this.mainTb);
 
 		this.itIdPerfilNotificacao = new InputText("");
@@ -129,6 +129,9 @@ export class ItemMenu extends ModWindow{
 		this.itServicoList.fromService({
 			rootUrl: tmpUrl
 			,url: "assets/modulo.json"
+		});
+		this.itTpNotificacao.fromService({
+			url: "perfilnotificacao/tiposnotificaco"
 		});
 	}
 	getByIdPerfil(p_idPerfil: number): void {
