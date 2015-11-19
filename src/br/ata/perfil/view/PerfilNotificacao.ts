@@ -31,68 +31,98 @@ export class ItemMenu extends ModWindow{
 		this.mainTb = new ToolBar({"domain":"itemmenu"});
 		this.append(this.mainTb);
 
-		this.itIdItemMenu = new InputText("");
-		this.itIdItemMenu.setColumn("$id");
-		this.itIdItemMenu.setLabel("cod.");
-		this.itIdItemMenu.setEnable(false);
-		this.itIdItemMenu.setSize(3);
-		this.append(this.itIdItemMenu);
+		this.itIdPerfilNotificacao = new InputText("");
+		this.itIdPerfilNotificacao.setColumn("$id");
+		this.itIdPerfilNotificacao.setLabel("cod.");
+		this.itIdPerfilNotificacao.setEnable(false);
+		this.itIdPerfilNotificacao.setSize(3);
+		this.append(this.itIdPerfilNotificacao);
 
-		this.itIdMenu = new InputText("");
-		this.itIdMenu.setColumn("!idMenu");
-		this.itIdMenu.setLabel("menu");
-		this.itIdMenu.setEnable(false);
-		this.itIdMenu.setSize(3);
-		this.append(this.itIdMenu);
+		this.itIdPerfil = new InputText("");
+		this.itIdPerfil.setColumn("!idPerfil");
+		this.itIdPerfil.setLabel("perfil");
+		this.itIdPerfil.setEnable(false);
+		this.itIdPerfil.setSize(3);
+		this.append(this.itIdPerfil);
 
-		this.itLabel = new InputText("");
-		this.itLabel.setColumn("@label");
-		this.itLabel.setLabel("label");
-		this.itLabel.setSize(6);
-		this.append(this.itLabel);
+		this.itDescricao = new InputText("");
+		this.itDescricao.setColumn("@descricao");
+		this.itDescricao.setLabel("label");
+		this.itDescricao.setSize(6);
+		this.append(this.itDescricao);
 
-		this.itFuncao = new InputText("");
-		this.itFuncao.setColumn("#funcao");
-		this.itFuncao.setLabel("funcao");
-		this.itFuncao.setSize(12);
-		this.append(this.itFuncao);
+		this.itMascara = new InputText("");
+		this.itMascara.setColumn("@mascara");
+		this.itMascara.setLabel("mascara");
+		this.itMascara.setSize(12);
+		this.append(this.itMascara);
 
-		this.itTela = new Select("selecione uma tela");
-		this.itTela.setLabel("tela");
-		this.itTela.setColumn("@tela");
-		this.itTela.setSize(12);
-		this.itTela.setValueField("modulo");
-		this.itTela.setLabelField("descricao");
-		this.append(this.itTela);
+		this.itServicoList = new Select("selecione uma tela");
+		this.itServicoList.setLabel("tela");
+		this.itServicoList.setColumn("@servicoList");
+		this.itServicoList.setSize(12);
+		this.itServicoList.setValueField("modulo");
+		this.itServicoList.setLabelField("descricao");
+		this.append(this.itServicoList);
 
-		this.itIcone = new Select("selecione um icone");
-		this.itIcone.setLabel("icone");
-		this.itIcone.setColumn("@icone");
-		this.itIcone.setSize(8);
-		this.itIcone.setValueField("icon");
-		this.itIcone.setLabelField("desc");
-		this.append(this.itIcone);
+		this.itDtInicial = new DatePicker();
+		this.itDtInicial.setLabel("Inicio");
+		this.itDtInicial.setColumn("@dtInicial");
+		this.itDtInicial.setSize(8);
+		this.append(this.itDtInicial);
 
-		this.itOrdem = new NumericStepper(5);
-		this.itOrdem.setEnable(false,2);
-		this.itOrdem.setSize(4);
-		this.itOrdem.setLabel("ordem");
-		this.itOrdem.setMin(1);
-		this.itOrdem.setMax(100);
-		this.itOrdem.setStep(1);
-		this.itOrdem.setColumn("@ordem");
-		this.append(this.itOrdem);
+		this.itDtFinal = new DatePicker();
+		this.itDtFinal.setLabel("Inicio");
+		this.itDtFinal.setColumn("@dtFinal");
+		this.itDtFinal.setSize(8);
+		this.append(this.itDtFinal);
+
+		this.itLimiteMax = new NumericStepper(5);
+		this.itLimiteMax.setEnable(false,2);
+		this.itLimiteMax.setSize(4);
+		this.itLimiteMax.setLabel("Limite Max.");
+		this.itLimiteMax.setMin(1);
+		this.itLimiteMax.setMax(100);
+		this.itLimiteMax.setStep(1);
+		this.itLimiteMax.setColumn("@limiteMax");
+		this.append(this.itLimiteMax);
+
+		this.itLimiteMin = new NumericStepper(5);
+		this.itLimiteMin.setEnable(false,2);
+		this.itLimiteMin.setSize(4);
+		this.itLimiteMin.setLabel("Limite Min.");
+		this.itLimiteMin.setMin(1);
+		this.itLimiteMin.setMax(100);
+		this.itLimiteMin.setStep(1);
+		this.itLimiteMin.setColumn("@limiteMin");
+		this.append(this.itLimiteMin);
+
+
+		this.itServicoListAcao = new InputText("");
+		this.itServicoListAcao.setColumn("#servicoListAcao");
+		this.itServicoListAcao.setLabel("acao do modulo");
+		this.itServicoListAcao.setSize(6);
+		this.append(this.itServicoListAcao);
+
+
+		this.itServicoContagem = new InputText("");
+		this.itServicoContagem.setColumn("@servicoContagem");
+		this.itServicoContagem.setLabel("servico de contagem");
+		this.itServicoContagem.setSize(6);
+		this.append(this.itServicoContagem);
+
+	
+		itTpNotificacao:InputText;
+
+
+
 
 		this.mainList = new ListView("ItemMenu");
 		this.append(this.mainList);
 	}
 	onStart():void{
 		var tmpUrl:string= Underas.getLocation();
-		this.itIcone.fromService({
-			rootUrl: tmpUrl
-			,url: "assets/icons.json"
-		});
-		this.itTela.fromService({
+		this.itServicoList.fromService({
 			rootUrl: tmpUrl
 			,url: "assets/modulo.json"
 		});
