@@ -2,47 +2,47 @@ import {IPerfilNotificacao} from "./IPerfil";
 import sequelize = require("../../../../config/sequelizedb");
 
 var PerfilNotificacaoDAO = sequelize.define('perfil_notificacao', {
-  "descricao": {
+  "idPerfil":{
+    type: sequelize.constructor.INTEGER
+    ,field:"id_perfil"
+  }
+  ,"descricao":{
     type: sequelize.constructor.STRING
   }
-  , "mascara": {
+  ,"mascara":{
     type: sequelize.constructor.STRING
   }
-  , "dtInicial": {
+  ,"dtInicial":{
     type: sequelize.constructor.DATE
-    , field: "dt_inicial"
+    ,field:"dt_inicial"
   }
-  , "dtFinal": {
+  ,"dtFinal":{
     type: sequelize.constructor.DATE
-    , field: "dt_final"
+    ,field:"dt_final"
   }
-  , "limiteMax": {
+  ,"limiteMax":{
     type: sequelize.constructor.INTEGER
-    , field: "limite_max"
+    ,field:"limite_max"
   }
-  , "limiteMin": {
+  ,"limiteMin":{
     type: sequelize.constructor.INTEGER
-    , field: "limite_min"
+    ,field:"limite_min"
   }
-  , "servicoList": {
+  ,"servicoList":{
     type: sequelize.constructor.STRING
-    , field: "servico_list"
+    ,field:"servico_list"
   }
-  , "servicoListAct": {
+  ,"servicoListAcao":{
     type: sequelize.constructor.STRING
-    , field: "servico_list_act"
+    ,field:"servico_list_acao"
   }
-  , "servicoCount": {
+  ,"servicoContagem":{
     type: sequelize.constructor.STRING
-    , field: "servico_count"
+    ,field:"servico_contagem"
   }
-  , "tpNotificacao": {
+  ,"tpNotificacao":{
     type: sequelize.constructor.INTEGER
-    , field: "tp_notificacao"
-  }
-  , "idPerfil": {
-    type: sequelize.constructor.INTEGER
-    , field: "id_perfil"
+    ,field:"tp_notificacao"
   }
 }, {
     "timestamps": false

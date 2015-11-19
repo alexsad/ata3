@@ -29,28 +29,30 @@ requirejs.config({
 			,'jspdf':'jspdf/jspdf.debug'
 			,'pdfrender':'jspdf/pdfrender'
 		}
+
 		,shim: {
 	        'br/ata/reuniao/view/ReuniaoPorPeriodo': ['jquery-ui']
 	        ,"jspdf" : { exports : "jsPDF" }
     	}
+
 		,waitSeconds:15
 });
 
 var perfilBoxContainer = null;
 window.onload=function(){
+
 	requirejs(
 		[
 		'br/ata/main/view/main'
 		,'jquery'
 		]
-		,function(
-			_modmain
-		){
+		,function(_modmain){
 			_modmain.initApp();
 		}
 	);
-/*
 
+
+/*
 	requirejs(
 		[
 		'core'
@@ -58,6 +60,7 @@ window.onload=function(){
 		,'net'
 		,'br/ata/usuario/view/Usuario'
 		,'br/ata/perfil/view/Perfil'
+		,'jquery'
 		]
 		,function(_core,_container,_net,_mod,_mod2){
 			var tmpLocation = _core.Underas.getLocation();

@@ -14,7 +14,7 @@ export interface IMenu{
 
 export interface IItemMenu{
   id?:number;
-  _ind?:string; 
+  _ind?:string;
   label:string;
   funcao:string;
   tela:string;
@@ -32,8 +32,8 @@ export interface IPerfilNotificacao {
   limiteMax:number;
   limiteMin:number;
   servicoList:string;
-  servicoListAct:string;
-  servicoCount:string;
+  servicoListAcao:string;
+  servicoContagem:string;
   tpNotificacao:number;
 }
 export interface IPerfil{
