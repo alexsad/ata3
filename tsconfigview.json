@@ -22,6 +22,8 @@
         "!./node_modules/**/*.ts",
         "!./deploy/node_modules/**/*.ts",
         "./src/lib/underas/*.d.ts",
+        "./src/lib/jspdf/*.ts",
+        "./src/lib/jspdf/*.d.ts",
         "./src/lib/jquery/jquery2.d.ts",
         "./src/lib/jqueryui/jqueryui.d.ts"
     ],
@@ -63,6 +65,8 @@
         "src/lib/underas/core.d.ts",
         "src/lib/underas/net.d.ts",
         "src/lib/underas/util.d.ts",
+        "src/lib/jspdf/jspdf.d.ts",
+        "src/lib/jspdf/pdfrender.ts",
         "src/lib/jquery/jquery2.d.ts",
         "src/lib/jqueryui/jqueryui.d.ts"
     ]

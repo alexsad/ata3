@@ -26,10 +26,13 @@ requirejs.config({
 			,'core':'underas/core'
 			,'container':'underas/container'
 			,'controller':'underas/controller'
+			,'jspdf':'jspdf/jspdf.debug'
+			,'pdfrender':'jspdf/pdfrender'
 		}
 		,shim: {
-        'br/ata/reuniao/view/ReuniaoPorPeriodo': ['jquery-ui']
-    }
+	        'br/ata/reuniao/view/ReuniaoPorPeriodo': ['jquery-ui']
+	        ,"jspdf" : { exports : "jsPDF" }
+    	}
 		,waitSeconds:15
 });
 

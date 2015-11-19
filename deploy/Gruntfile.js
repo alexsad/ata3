@@ -6,7 +6,7 @@ module.exports = function(grunt) {
 				src: ['public/js/br/**/*.js'],// source files array (supports minimatch)
 				overwrite: true,
 				replacements: [{
-					  from: /..\/..\/..\/..\/lib\/underas\//g,// string replacement
+					  from: /..\/..\/..\/..\/lib\/(underas|jspdf)\//g,// string replacement
 					  to: ''
 					}
 				]

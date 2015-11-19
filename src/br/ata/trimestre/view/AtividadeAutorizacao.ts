@@ -3,6 +3,8 @@ import {InputTime, Button, TextArea, NumericStepper, DatePicker, Select, AlertMs
 import {SimpleToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
+import {PDFRender, IConfigColumnPrint, IConfigPrint} from "../../../../lib/jspdf/pdfrender"
+
 
 declare var perfilBoxContainer: PerfilBox;
 
@@ -202,8 +204,8 @@ export class AtividadeAutorizacao extends ModWindow {
 
 		this.btPrintAta = new Button("Ata");
 		this.btPrintAta.setIcon("print");
-		this.btPrintAta.setEnable(false);
-		//this.btPrintAta.addEvent('click', this.printAta.bind(this));
+		//this.btPrintAta.setEnable(false);
+		this.btPrintAta.addEvent('click', this.printAta.bind(this));
 		this.mainTb.addButton(this.btPrintAta);
 
 		this.mainList = new ListView("Evento");
@@ -220,7 +222,25 @@ export class AtividadeAutorizacao extends ModWindow {
 			"url": "perfil/getbysnativo/S"
 		});
 	}
+	printAta():void{
+		var pdfRender: PDFRender = new PDFRender();
+		pdfRender.setConfig({
+			title:"teste"
+			,subtitle:"teste2"
+			,plusLines:0
+			,orientation:""
+			,render:[
+				{column:"id",label:"cod",width:20}
+				, { column: "descricao", label: "descricao", width: 50 }
+				, { column: "hora", label: "hora", width: 20 }
+				, { column: "orcamento", label: "orcamento", width: 20 }
+				
+			]
+		});
+		pdfRender.setData(this.mainList.getDataProvider());
+		pdfRender.render();
 
+	}
 	getByIdStatus(p_idStatus:EAtividadeStatus):void{
 		this._idStatus = p_idStatus;
 		RequestManager.addRequest({

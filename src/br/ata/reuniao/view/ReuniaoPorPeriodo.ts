@@ -5,7 +5,7 @@ import {IReuniao} from "../model/IReuniao";
 import {IDiscurso} from "../model/IDiscurso";
 import {Discursante} from "./Discursante";
 import {FastMembro} from "../../organizacao/view/FastMembro";
-//import {Droppable} from "../../../../lib/jqueryui/jqueryui";
+
 
 @ItemView("assets/html/reuniaoporperiodo.html")
 export class ReuniaoPorPeriodo extends ModWindow{
