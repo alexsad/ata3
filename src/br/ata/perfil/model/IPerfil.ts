@@ -22,6 +22,13 @@ export interface IItemMenu{
   ordem:number;
   idMenu: number;
 }
+
+export enum EPerfilNotificacaoTP{
+  SUCESSO
+  ,ADVERTENCIA
+  ,ERRO
+}
+
 export interface IPerfilNotificacao {
   id?:number;
   idPerfil: number;

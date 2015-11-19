@@ -4,7 +4,6 @@ import {ToolBar,IDefaultRequest,RequestManager} from "../../../../lib/underas/ne
 import {Underas} from "../../../../lib/underas/core";
 import {IPerfilNotificacao} from "../model/IPerfil";
 
-
 @ItemView("assets/html/perfilnotificacao.html")
 export class ItemMenu extends ModWindow{
 	itIdPerfilNotificacao:InputText;
@@ -18,7 +17,7 @@ export class ItemMenu extends ModWindow{
   itServicoList:Select;
   itServicoListAcao:InputText;
   itServicoContagem:InputText;
-  itTpNotificacao:InputText;
+  itTpNotificacao:Select;
 
 	mainTb:ToolBar;
 	mainList:ListView;
@@ -111,9 +110,14 @@ export class ItemMenu extends ModWindow{
 		this.itServicoContagem.setSize(6);
 		this.append(this.itServicoContagem);
 
-	
-		itTpNotificacao:InputText;
 
+		this.itTpNotificacao = new Select("tipo de notificacao");
+		this.itTpNotificacao.setLabel("tipo de notificacao");
+		this.itTpNotificacao.setColumn("@tpNotificacao");
+		this.itTpNotificacao.setSize(12);
+		this.itTpNotificacao.setValueField("id");
+		this.itTpNotificacao.setLabelField("descricao");
+		this.append(this.itTpNotificacao);
 
 
 
@@ -127,29 +131,29 @@ export class ItemMenu extends ModWindow{
 			,url: "assets/modulo.json"
 		});
 	}
-	getByIdMenu(p_idMenu: number): void {
-		this.itIdMenu.setValue(p_idMenu+"");
+	getByIdPerfil(p_idPerfil: number): void {
+		this.itIdPerfil.setValue(p_idPerfil+"");
 		RequestManager.addRequest({
-			"url": "itemmenu/getbyidmenu/" + p_idMenu
-			, "onLoad": function(dta: IItemMenu[]) {
+			"url": "perfilnotificacao/getbyidperfil/" + p_idPerfil
+			, "onLoad": function(dta: IPerfilNotificacao[]) {
 				this.mainList.setDataProvider(dta);
 			}.bind(this)
 		});
 	}
 	beforeInsert(p_req_obj: IDefaultRequest): IDefaultRequest{
-		if (!this.itIdMenu.getValue()) {
+		if (!this.itIdPerfil.getValue()) {
 			return null;
 		};
 		return p_req_obj;
 	}
-	beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: IItemMenu): IDefaultRequest{
-		if (!this.itIdMenu.getValue()) {
+	beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: IPerfilNotificacao): IDefaultRequest{
+		if (!this.itIdPerfil.getValue()) {
 			return null;
 		};
 		return p_req_new_obj;
 	}
-	beforeDelete(p_req_delete: IDefaultRequest, p_old_obj: IItemMenu): IDefaultRequest {
-		if (!this.itIdMenu.getValue()) {
+	beforeDelete(p_req_delete: IDefaultRequest, p_old_obj: IPerfilNotificacao): IDefaultRequest {
+		if (!this.itIdPerfil.getValue()) {
 			return null;
 		};
 		return p_req_delete;
