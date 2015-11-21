@@ -105,7 +105,7 @@ export class PerfilBox{
 				var tmpIdM: number = dta.length - 1;
 				$("#tabmenu_" + tmpIdM + ",#tabmenu_" + tmpIdM + "_l").addClass("pull-right");
 				$("#tabmenu_" + tmpIdM + " a").html(
-					'<img style="border: 2px solid #fff;border-radius: 100%;margin: -4px 8px 0 0;max-width: 30px;" alt="Photo" src="http://i.imgur.com/RLiDK.png" class="nav-user-photo">'
+					'<img style="border: 2px solid #04dd90;border-radius: 100%;margin: -4px 8px 0 0;max-width: 30px;" alt="Photo" src="http://i.imgur.com/RLiDK.png" class="nav-user-photo">'
 					+ '<small class="hidden-xs">' + tmpLogin + '</small>'
 				);
 				//console.log(tmpIdM);

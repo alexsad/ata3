@@ -41,6 +41,8 @@ requirejs.config({
 var perfilBoxContainer = null;
 window.onload=function(){
 
+
+
 	requirejs(
 		[
 		'br/ata/main/view/main'

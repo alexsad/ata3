@@ -13,6 +13,20 @@ export class PerfilNotificacao {
 			res.status(400).json(err);
 		});
 	}
+
+	@Get("/getbyidperfil/:idperfil")
+	getByIdPerfil(req: express.Request, res: express.Response): void {
+		PerfilNotificacaoDAO.findAll({
+			where:{
+				idPerfil:req.params.idperfil
+			}
+		}).then(function(dta: IPerfilNotificacao[]) {
+			res.json(dta);
+		}).catch(function(err:any) {
+			res.status(400).json(err);
+		});
+	}	
+
 	@Get("/tiposnotificaco")
 	getTiposNotificacao(req: express.Request, res: express.Response): void {
 		var tmpLista:{id:number,descricao:string}[] = [];
