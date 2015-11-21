@@ -1,7 +1,7 @@
 import express = require('express');
 import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router";
 import PerfilNotificacaoDAO = require("../model/perfilnotificacao");
-import {IPerfilNotificacao} from "../model/IPerfil";
+import {IPerfilNotificacao,EPerfilNotificacaoTP} from "../model/IPerfil";
 
 @Controller()
 export class PerfilNotificacao {
@@ -12,6 +12,37 @@ export class PerfilNotificacao {
 		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
+	}
+
+	@Get("/getbyidperfil/:idperfil")
+	getByIdPerfil(req: express.Request, res: express.Response): void {
+		PerfilNotificacaoDAO.findAll({
+			where:{
+				idPerfil:req.params.idperfil
+			}
+		}).then(function(dta: IPerfilNotificacao[]) {
+			res.json(dta);
+		}).catch(function(err:any) {
+			res.status(400).json(err);
+		});
+	}	
+
+	@Get("/tiposnotificaco")
+	getTiposNotificacao(req: express.Request, res: express.Response): void {
+		var tmpLista:{id:number,descricao:string}[] = [];
+		tmpLista.push({
+			id:EPerfilNotificacaoTP.SUCESSO
+			, descricao: EPerfilNotificacaoTP[EPerfilNotificacaoTP.SUCESSO]
+		});
+		tmpLista.push({
+			id: EPerfilNotificacaoTP.ERRO
+			, descricao: EPerfilNotificacaoTP[EPerfilNotificacaoTP.ERRO]
+		});
+		tmpLista.push({
+			id: EPerfilNotificacaoTP.ADVERTENCIA
+			, descricao: EPerfilNotificacaoTP[EPerfilNotificacaoTP.ADVERTENCIA]
+		});
+		res.json(tmpLista);
 	}
 	@Post()
 	add(req: express.Request, res: express.Response): void {

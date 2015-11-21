@@ -19,7 +19,7 @@ export class FastMembro extends ModWindow{
 	}
 	getMembros():void{
 		RequestManager.addRequest({
-			"url": "organizacao/membro/getbysnativo/S"
+			"url": "membro/getbysnativo/S"
 	        ,"onLoad":function(dta:IMembro[]){        	
 	        	this.getMainList().setDataProvider(dta);
 	        	this.getMainList().getEle(".tilecell .discursante_drag").draggable({

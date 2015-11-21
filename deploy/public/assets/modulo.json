@@ -1,6 +1,7 @@
 [
 {"modulo":"br.ata.reuniao.view.Reuniao","descricao":"Reuniao"}
 ,{"modulo":"br.ata.perfil.view.Perfil","descricao":"Perfis"}
+,{"modulo":"br.ata.perfil.view.PerfilViewNotificacao","descricao":"Notificacoes"}
 ,{"modulo":"br.ata.perfil.view.PerfilView","descricao":"Perfis Atividades"}
 ,{"modulo":"br.ata.organizacao.view.Organizacao","descricao":"Organizacao"}
 ,{"modulo":"br.ata.trimestre.view.Trimestre","descricao":"Trimestres"}

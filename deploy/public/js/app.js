@@ -16,62 +16,45 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 requirejs.config({
-		baseUrl:'js'
-		,urlArgs : "bust="+new Date().getTime()
+		baseUrl:'js/lib'
 		,paths:{
-			/*
-			'./net':'../lib/underas/net'
-			,'./util':'lib/underas/util'
-			,'./core':'lib/underas/core'
-			,'./container':'lib/underas/container'
-			,'./controller':'lib/underas/controller'
-			*/
-			//br:'br'
-			/*
-			,'../../../../lib/underas/net':'lib/underas/net'
-			,'../../../../lib/underas/util':'lib/underas/util'
-			,'../../../../lib/underas/core':'lib/underas/core'
-			,'../../../../lib/underas/container':'lib/underas/container'
-			,'../../../../lib/underas/controller':'lib/underas/controller'
-			,'./net':'lib/underas/net'
-			,'./util':'lib/underas/util'
-			,'./core':'lib/underas/core'
-			,'./container':'lib/underas/container'
-			,'./controller':'lib/underas/controller'
-			'./net':'../../lib/underas/net'
-			,'./util':'../../lib/underas/util'
-			,'./core':'../../lib/underas/core'
-			,'./container':'../../lib/underas/container'
-			,'./controller':'../../lib/underas/controller'
-			*/
-			/*,util:'underas/util'
-			,core:'underas/core'
-			,container:'underas/container'
-			,controller:'underas/controller'
-			,net:'underas/net'*/
+			'br':'../br'
+			,'jquery-ui':'jqueryui/jquery-ui.min'
+			,'jquery': 'jquery/jquery-2.1.4.min'
+			,'net':'underas/net'
+			,'util':'underas/util'
+			,'core':'underas/core'
+			,'container':'underas/container'
+			,'controller':'underas/controller'
+			,'jspdf':'jspdf/jspdf.debug'
+			,'pdfrender':'jspdf/pdfrender'
 		}
+
+		,shim: {
+	        'br/ata/reuniao/view/ReuniaoPorPeriodo': ['jquery-ui']
+	        ,"jspdf" : { exports : "jsPDF" }
+    	}
+
+		,waitSeconds:15
 });
 
-//var _app = {"loaded":{}};
-
 var perfilBoxContainer = null;
+window.onload=function(){
 
-$(function(){
+
 
 	requirejs(
 		[
 		'br/ata/main/view/main'
+		,'jquery'
 		]
-		,function(
-			_modmain
-		){
-
+		,function(_modmain){
 			_modmain.initApp();
 		}
 	);
 
-/*
 
+/*
 	requirejs(
 		[
 		'core'
@@ -79,6 +62,7 @@ $(function(){
 		,'net'
 		,'br/ata/usuario/view/Usuario'
 		,'br/ata/perfil/view/Perfil'
+		,'jquery'
 		]
 		,function(_core,_container,_net,_mod,_mod2){
 			var tmpLocation = _core.Underas.getLocation();
@@ -106,4 +90,4 @@ $(function(){
 		}
 	);
 */
-});
+};

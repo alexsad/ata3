@@ -365,13 +365,25 @@ define(["require", "exports", "./util", "./core", "./net"], function (require, e
             return null;
         };
         DatePicker.prototype.setValue = function (p_value) {
-            var dtaTxt = "";
-            if (p_value) {
-                this.dtaA = new Date(p_value);
-                dtaTxt = this.dtaA.getDate() + "-" + (this.dtaA.getMonth() + 1) + "-" + this.dtaA.getFullYear();
+            if(p_value){                
+                this.dtaA = new Date();
+                if (util_1.ValidationType.USDATE.test(p_value)){
+                    var tmpres = p_value.match(util_1.ValidationType.USDATE);              
+                    this.dtaA.setFullYear(tmpres[1]);
+                    this.dtaA.setMonth(tmpres[2]-1);
+                    this.dtaA.setDate(tmpres[3]);            
+                }else if(util_1.ValidationType.DATE.test(p_value)){
+                    var tmpres = p_value.match(util_1.ValidationType.DATE);              
+                    this.dtaA.setFullYear(tmpres[3]);
+                    this.dtaA.setMonth(tmpres[2]);
+                    this.dtaA.setDate(tmpres[1]); 
+                }
+                ;
+                var dtaTxt = this.dtaA.getDate() + "-" + (this.dtaA.getMonth() + 1) + "-" + this.dtaA.getFullYear();    
+                this.getInput().val(dtaTxt);
             }
-            ;
-            this.getInput().val(dtaTxt);
+            
+            
         };
         DatePicker.prototype.getDate = function () {
             return this.dtaA;
@@ -1512,9 +1524,11 @@ define(["require", "exports", "./util", "./core", "./net"], function (require, e
             ;
             if (nextload) {
                 var urlModuleLoad = _linkM.attr("data-varmod");
-                
+
                 //urlModuleLoad.replace(/\./g, "/")
-                requirejs(['container', '../../usuario/view/Usuario'], function (_container, _modwindow) {
+                var tmpModPath = urlModuleLoad.replace(/\./g, "/");
+                //console.log(tmpModPath);
+                requirejs(['container', tmpModPath], function (_container, _modwindow) {
                     var tmp_modwindow = new _modwindow[varModuleToLoadTmpCapt]();
                     var mdw_tmp = new _container.ModView(_linkM.attr("data-titlemod"));
                     mdw_tmp.setIcon(_linkM.attr("data-iconmod"));

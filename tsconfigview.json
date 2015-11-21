@@ -22,6 +22,8 @@
         "!./node_modules/**/*.ts",
         "!./deploy/node_modules/**/*.ts",
         "./src/lib/underas/*.d.ts",
+        "./src/lib/jspdf/*.ts",
+        "./src/lib/jspdf/*.d.ts",
         "./src/lib/jquery/jquery2.d.ts",
         "./src/lib/jqueryui/jqueryui.d.ts"
     ],
@@ -37,7 +39,9 @@
         "src/br/ata/perfil/view/Perfil.ts",
         "src/br/ata/perfil/view/PerfilAutorizacao.ts",
         "src/br/ata/perfil/view/PerfilBox.ts",
+        "src/br/ata/perfil/view/PerfilNotificacao.ts",
         "src/br/ata/perfil/view/PerfilView.ts",
+        "src/br/ata/perfil/view/PerfilViewNotificacao.ts",
         "src/br/ata/reuniao/view/Discursante.ts",
         "src/br/ata/reuniao/view/Reuniao.ts",
         "src/br/ata/reuniao/view/ReuniaoPorPeriodo.ts",
@@ -63,6 +67,8 @@
         "src/lib/underas/core.d.ts",
         "src/lib/underas/net.d.ts",
         "src/lib/underas/util.d.ts",
+        "src/lib/jspdf/jspdf.d.ts",
+        "src/lib/jspdf/pdfrender.ts",
         "src/lib/jquery/jquery2.d.ts",
         "src/lib/jqueryui/jqueryui.d.ts"
     ]
