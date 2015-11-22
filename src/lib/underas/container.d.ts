@@ -2,7 +2,7 @@ import { Component } from "./core";
 import { Controller, Button, IListView } from "./controller";
 import { IDefaultRequest } from "./net";
 export declare class AlertWindow extends Component {
-    _title: string;
+    private _title;
     constructor(p_title: string, p_msg: string);
     addButton(p_ele: Button): void;
     setTitle(p_title: string): void;
@@ -17,22 +17,21 @@ export interface IConfigsLists {
     url: string;
 }
 export interface IConfigModWindow {
-    _urlmodule: string;
-    _revision: string;
-    _subtitle: string;
-    _dmap: IModWindowColumn[];
-    _dmaplenth: number;
-    _modview?: ModView;
-    _maintoolbar?: string;
-    _mainlist?: string;
-    _embedItem?: string;
-    _embedFather?: string;
-    _modName?: string;
-    _configListsViews?: IConfigsLists[];
+    urlmodule: string;
+    revision: string;
+    subtitle: string;
+    dmap: IModWindowColumn[];
+    dmaplenth: number;
+    modview?: ModView;
+    maintoolbar?: string;
+    mainlist?: string;
+    modName?: string;
+    configListsViews?: IConfigsLists[];
 }
 export declare class ModWindow extends Component {
-    _configModWindow: IConfigModWindow;
+    private _configModWindow;
     constructor(p_subtitle: string);
+    getConfigModWindow(): IConfigModWindow;
     setTitle(p_title: string): void;
     getTitle(): string;
     _onStart(): void;
@@ -62,10 +61,10 @@ export declare class ModWindow extends Component {
     beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: Object): IDefaultRequest;
 }
 export declare class ModView extends Component {
-    _title: string;
-    _icone: string;
-    _childrenMods: string[];
-    _appended: boolean;
+    private _title;
+    private _icone;
+    private _childrenMods;
+    private _appended;
     constructor(p_title: string);
     append(p_ele: ModWindow): void;
     destroy(): void;

@@ -58,8 +58,8 @@ body{
 }
 .navitem_simple{
 }
-.navitem_simple a{
-	color:#222;
+.navitem_simple a.btnmenu{
+	/*color:#222;*/
 	background-image:url(../img/img16x16/triangulo_AAA10x10.png);
 	background-repeat:no-repeat;
 	background-position:center bottom;

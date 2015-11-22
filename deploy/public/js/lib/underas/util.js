@@ -4,7 +4,7 @@ define(["require", "exports"], function (require, exports) {
         }
         ValidationType.EMAIL = /^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$/;
         ValidationType.TIME = /((?:[01]\d)|(?:2[0-3])):([0-5]\d)/;
-        ValidationType.DATE = /^(\d+)\D(\d+)\D(\d{4})/;
+        ValidationType.DATE = /^(\d+)\D(\d+)\D(\d{4})$/;
         ValidationType.USDATE = /^(\d{4})\D(\d{1,2})\D(\d{1,2})/;
         ValidationType.ONLY_TEXT = /\D+/;
         ValidationType.ONLY_NUMBER = /\d+/;

@@ -228,48 +228,44 @@ export declare class ListView extends Component implements IListView {
     onChangeSelectedItem(evt: Event): void;
     changeSelectedItem(tgt: JQuery): void;
 }
+export declare enum ENotifyType {
+    SUCCESS = 0,
+    INFO = 1,
+    PRIMARY = 2,
+    WARNING = 3,
+    ERROR = 4,
+}
 export interface IItemNotify {
     title: string;
     subtitle: string;
     count: number;
-    type: string;
-    varmod: string;
-    actmod?: string;
-    titlemod: string;
-    iconmod: string;
+    type: ENotifyType;
+    icon: string;
+    module: string;
+    moduleAction?: string;
+    moduleTitle: string;
+    moduleIcon: string;
 }
 export declare class DefaultNotifyItemRender extends Component {
     constructor(p_obj: IItemNotify);
 }
-export declare class Notify {
-    static TP_SUCCESS: string;
-    static TP_INFO: string;
-    static TP_PRIMARY: string;
-    static TP_WARNING: string;
-    static TP_ERROR: string;
-    _item: IItemNotify;
-    _itemRender: string;
-    constructor(p_item: IItemNotify);
-    getItemRender(): string;
-    setItemRender(p_item_render: string): void;
-    setItem(p_item: IItemNotify): void;
-    getItem(): IItemNotify;
+export declare enum ENotifyPoolType {
+    SUCCESS = 0,
+    INFO = 1,
+    PRIMARY = 2,
+    WARNING = 3,
+    ERROR = 4,
+    DEFAULT = 5,
 }
 export declare class NotifyPool extends Component {
-    static TP_SUCCESS: string;
-    static TP_INFO: string;
-    static TP_PRIMARY: string;
-    static TP_WARNING: string;
-    static TP_ERROR: string;
-    static TP_DEFAULT: string;
     _vlcount: number;
     constructor(p_title: string);
     executeActionNotify(evt: Event): void;
     showNotifications(evt: Event): void;
-    addNotify(p_notify: Notify): void;
+    addNotify(p_notify: IItemNotify): void;
     setValue(p_vl: number): void;
     getValue(): number;
-    setType(ptype: string): void;
+    setType(ptype: ENotifyPoolType): void;
     setIcon(p_icon: string): void;
 }
 export declare class NumericStepper extends InputTextDouble {

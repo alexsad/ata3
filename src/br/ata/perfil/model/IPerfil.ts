@@ -24,9 +24,11 @@ export interface IItemMenu{
 }
 
 export enum EPerfilNotificacaoTP{
-  SUCESSO
-  ,ADVERTENCIA
-  ,ERRO
+  SUCESSO = 0,
+  INFORMACAO = 1,
+  AVISO = 2,
+  ADVERTENCIA = 3,
+  ERRO = 4
 }
 
 export interface IPerfilNotificacao {
@@ -34,14 +36,16 @@ export interface IPerfilNotificacao {
   idPerfil: number;
   descricao:string;
   mascara:string;
+  icone: string;
   dtInicial:Date;
   dtFinal:Date;
   limiteMax:number;
   limiteMin:number;
-  servicoList:string;
-  servicoListAcao:string;
+  modulo:string;
+  moduloAcao: string;
+  moduloIcone: string;
   servicoContagem:string;
-  tpNotificacao:number;
+  tpNotificacao:number;  
 }
 export interface IPerfil{
   id?:number;

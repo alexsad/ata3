@@ -11,11 +11,11 @@ export class Reuniao {
 		ReuniaoDAO.findAll().then(function(dta: IReuniao[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Get("/getbyperiodo")
-	getByPeriodo(req: express.Request, res: express.Response) {
+	getByPeriodo(req: express.Request, res: express.Response):void{
 		var queryParams = url.parse(req.url, true).query;
 		ReuniaoDAO.findAll({
 			order: [
@@ -32,16 +32,47 @@ export class Reuniao {
 				res.json(dta);
 			}
 		).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
+		});
+	}
+	@Get("/getatuais")
+	getAtuaisServico(req: express.Request, res: express.Response) {
+		ReuniaoDAO.findAll({
+			order: [
+				["momento", "asc"]
+			]
+			, where: {
+				"momento": {
+					$gte: new Date()
+				}
+			}
+		}).then(
+			function(dta: IReuniao[]) {
+				res.json(dta);
+			}
+		).catch(function(err: any) {
+			res.sendStatus(400).json(err);
 		});
 	}	
+	getAtuais() {
+		return ReuniaoDAO.findAll({
+			order: [
+				["momento", "asc"]
+			]
+			, where: {
+				"momento": {
+					$gte: new Date()
+				}
+			}
+		});
+	}
 	@Post()
 	add(req: express.Request, res: express.Response): void {
 		var nreuniao: IReuniao = <IReuniao>req.body;
 		ReuniaoDAO.create(nreuniao).then(function(p_nreuniao: IReuniao) {
 			res.json(p_nreuniao.id);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Put()
@@ -50,7 +81,7 @@ export class Reuniao {
 		ReuniaoDAO.upsert(nreuniao).then(function(p_nreuniao: IReuniao) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Delete("/:id")
@@ -62,7 +93,7 @@ export class Reuniao {
 		}).then(function(p_nreuniao: IReuniao) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 

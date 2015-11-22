@@ -43,7 +43,7 @@ export class Menu extends ModWindow{
 		this.itLabel.setSize(7);
 		this.append(this.itLabel);
 
-		this.itIcone = new Select("selecione um icone");
+		this.itIcone = new Select("icone");
 		this.itIcone.setLabel("icone");
 		this.itIcone.setColumn("@icone");
 		this.itIcone.setSize(9);

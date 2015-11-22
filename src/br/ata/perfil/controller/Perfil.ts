@@ -12,7 +12,7 @@ export class Perfil{
 				res.json(dta);
 			}
 		).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	getAutorizacao():any{
@@ -28,7 +28,7 @@ export class Perfil{
 				res.json(dta);
 			}
 		).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Get("/getbyidusuario/:idusuario")
@@ -38,7 +38,7 @@ export class Perfil{
 				res.json(dta);
 			}
 		).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Get("/getbysnativo/:snativo")
@@ -48,7 +48,7 @@ export class Perfil{
 				res.json(dta);
 			}
 		).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Post()
@@ -57,7 +57,7 @@ export class Perfil{
 		PerfilDAO.create(nperfil).then(function(p_nperfil: IPerfil) {
 			res.json(p_nperfil.id);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Put()
@@ -66,7 +66,7 @@ export class Perfil{
 		PerfilDAO.upsert(nperfil).then(function(p_nperfil: IPerfil) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Delete("/:id")
@@ -78,7 +78,7 @@ export class Perfil{
 		}).then(function(p_nperfil: IPerfil) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 }

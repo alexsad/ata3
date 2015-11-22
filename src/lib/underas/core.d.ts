@@ -1,25 +1,11 @@
+/// <reference path="../../../src/lib/jquery2.d.ts" />
 import { ModWindow } from "./container";
-export interface IConfMod {
-    mod: string;
-    act?: string;
-    puid?: string;
-    p?: any[];
-    icon?: string;
-    title?: string;
-    url?: string;
-    extmod?: string;
-    obj?: string;
-    embed?: string;
-    onLoad?: Function;
-}
 export declare class Underas {
     static _uid: number;
-    static _cache: boolean;
     static _version: string;
     static getUid(): number;
     static getLastUid(): number;
     static getNextUid(): number;
-    static cache(p_on: boolean): void;
     static setProjectVersion(p_version: string): void;
     static getUrlParam(p_name: string): string;
     static getLocation(): string;
