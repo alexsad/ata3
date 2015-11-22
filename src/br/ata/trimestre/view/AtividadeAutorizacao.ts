@@ -3,6 +3,7 @@ import {InputTime, Button, TextArea, NumericStepper, DatePicker, Select, AlertMs
 import {SimpleToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
+import jsPDF = require("../../../../lib/jspdf/jspdf");
 import {PDFRender, IConfigColumnPrint, IConfigPrint} from "../../../../lib/jspdf/pdfrender"
 
 
@@ -223,6 +224,9 @@ export class AtividadeAutorizacao extends ModWindow {
 		});
 	}
 	printAta():void{
+		
+		/*
+
 		var pdfRender: PDFRender = new PDFRender();
 		pdfRender.setConfig({
 			title:"teste"
@@ -239,6 +243,18 @@ export class AtividadeAutorizacao extends ModWindow {
 		});
 		pdfRender.setData(this.mainList.getDataProvider());
 		pdfRender.render();
+
+		*/
+
+		//var pdfRender:any = 
+
+		var jspdfdoc = new jsPDF();
+
+		jspdfdoc.setJereport("ddd");
+
+		jspdfdoc.save("relatorio_" + "name_report2" + ".pdf");	
+
+		//jsPDF.setJereport(222);
 
 	}
 	getByIdStatus(p_idStatus:EAtividadeStatus):void{

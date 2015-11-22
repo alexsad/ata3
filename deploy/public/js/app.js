@@ -28,12 +28,15 @@ requirejs.config({
 			,'container':'underas/container'
 			,'controller':'underas/controller'
 			,'jspdf':'jspdf/jspdf.debug'
+			,'jspdfreport':'jspdf/jspdfreport'
 			,'pdfrender':'jspdf/pdfrender'
 		}
 
-		,shim: {
-	        'br/ata/reuniao/view/ReuniaoPorPeriodo': ['jquery-ui']
-	        ,"jspdf" : { exports : "jsPDF" }
+		,shim: {	        
+	        "jspdf" : { exports : "jsPDF" }
+	        ,'jspdfreport':['jspdf']
+	        ,'br/ata/trimestre/view/AtividadeAutorizacao': ['jspdfreport']
+	        ,'br/ata/reuniao/view/ReuniaoPorPeriodo': ['jquery-ui']
     	}
 
 		,waitSeconds:15
