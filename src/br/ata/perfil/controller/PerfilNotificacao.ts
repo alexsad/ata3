@@ -10,7 +10,7 @@ export class PerfilNotificacao {
 		PerfilNotificacaoDAO.findAll().then(function(dta: IPerfilNotificacao[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 
@@ -23,7 +23,7 @@ export class PerfilNotificacao {
 		}).then(function(dta: IPerfilNotificacao[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}	
 
@@ -35,13 +35,21 @@ export class PerfilNotificacao {
 			, descricao: EPerfilNotificacaoTP[EPerfilNotificacaoTP.SUCESSO]
 		});
 		tmpLista.push({
-			id: EPerfilNotificacaoTP.ERRO
-			, descricao: EPerfilNotificacaoTP[EPerfilNotificacaoTP.ERRO]
+			id: EPerfilNotificacaoTP.INFORMACAO
+			, descricao: EPerfilNotificacaoTP[EPerfilNotificacaoTP.INFORMACAO]
+		});
+		tmpLista.push({
+			id: EPerfilNotificacaoTP.AVISO
+			, descricao: EPerfilNotificacaoTP[EPerfilNotificacaoTP.AVISO]
 		});
 		tmpLista.push({
 			id: EPerfilNotificacaoTP.ADVERTENCIA
 			, descricao: EPerfilNotificacaoTP[EPerfilNotificacaoTP.ADVERTENCIA]
 		});
+		tmpLista.push({
+			id: EPerfilNotificacaoTP.ERRO
+			, descricao: EPerfilNotificacaoTP[EPerfilNotificacaoTP.ERRO]
+		});		
 		res.json(tmpLista);
 	}
 	@Post()
@@ -50,7 +58,7 @@ export class PerfilNotificacao {
 		PerfilNotificacaoDAO.create(nperfilnotificacao).then(function(p_nperfilnotificacao: IPerfilNotificacao) {
 			res.json(p_nperfilnotificacao.id);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Put()
@@ -59,7 +67,7 @@ export class PerfilNotificacao {
 		PerfilNotificacaoDAO.upsert(nperfilnotificacao).then(function(p_nperfilnotificacao: IPerfilNotificacao) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Delete("/:id")
@@ -71,7 +79,7 @@ export class PerfilNotificacao {
 		}).then(function(p_nperfilnotificacao: IPerfilNotificacao) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 

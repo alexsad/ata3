@@ -10,7 +10,7 @@ export class Organizacao {
 		OrganizacaoDAO.findAll().then(function(dta: IOrganizacao[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Post()
@@ -19,7 +19,7 @@ export class Organizacao {
 		OrganizacaoDAO.create(norganizacao).then(function(p_norganizacao: IOrganizacao) {
 			res.json(p_norganizacao.id);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Put()
@@ -28,7 +28,7 @@ export class Organizacao {
 		OrganizacaoDAO.upsert(norganizacao).then(function(p_norganizacao: IOrganizacao) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Delete("/:_id")
@@ -40,7 +40,7 @@ export class Organizacao {
 		}).then(function(p_norganizacao: IOrganizacao) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 

@@ -1,6 +1,6 @@
 import {Underas} from "../../../../lib/underas/core";
 import {ModWindow} from "../../../../lib/underas/container";
-import {Button, InputPassWord, InputEmail, Notify, AlertMsg} from "../../../../lib/underas/controller";
+import {Button, InputPassWord, InputEmail, AlertMsg} from "../../../../lib/underas/controller";
 import {RequestManager} from "../../../../lib/underas/net";
 import {IUsuario} from "../model/IUsuario";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
@@ -9,7 +9,6 @@ declare var perfilBoxContainer: PerfilBox;
 
 export class Login extends ModWindow{
 	amAviso:AlertMsg;
-	notifys:Notify;
 	itlogin:InputEmail;
 	itsenha:InputPassWord;
 	btEntrar:Button;
@@ -116,80 +115,5 @@ export class Login extends ModWindow{
 			this.itsenha.setValue(ts);
 			this.logar();
 		}
-	}
-	getNotificaoes():void{
-		RequestManager.addRequest({
-			//"s" : "notificacao.business.ConfigNotificacaoBLL.getValidasByIdGrupo",
-			//"m":"notificacao",
-			"url":"notificacoes"
-			//data:this.idGrupo,
-			,"onLoad":function(dtas:IUsuario[]) {
-				/*
-				login.notifys = new ArrayList(dtas.rs);
-				var tmL = login.notifys.size();
-				if(tmL > 0){
-					var plogin = login.itlogin.getValue();
-					var pidOrganizacao = login.idOrganizacao;
-					var pidGrupo = login.idGrupo;
-					var	pidUsuario = login.idUsuario;
-
-					for(var y = 0;y < tmL;y++){
-						  var tmpS = login.notifys.get(y)["servicoCount"];
-						  var tmpM = 'none';
-						  if(tmpS.match(/\.*?\./g).length > 1){
-							  tmpS = tmpS.substring(tmpS.indexOf('.')+1,tmpS.length);
-						   	  tmpM = login.notifys.get(y)["servicoCount"].substring(0,login.notifys.get(y)["servicoCount"].indexOf('.'));
-						  }
-						  js.underas.net.RequestManager.addRequest({
-							"s" : tmpM+".business."+tmpS,
-							"t"  : (y+1),
-							"puid":"login",
-							//"idRequest":(y+1),
-							"idGrupo" : pidGrupo,
-							"email":plogin,
-							"idUsuario":pidUsuario,
-							"idOrganizacao":pidOrganizacao,
-							"onLoad":function(dtasL){
-									//funcao chamada deve retornar um inteiro com o total do servico
-									var totalRs = dtasL.rs;
-									if(totalRs > 0){
-										var x = parseInt(dtasL.t);
-										x--;
-										var sList = login.notifys.get(x)["servicoList"];
-										var mody = sList;
-										var fnACT = "";
-										if(sList.indexOf(":")>-1){
-											var posiFn = sList.indexOf(":");
-											fnACT = sList.substring(posiFn+1,sList.length);
-											mody = sList.substring(0,posiFn);
-										}
-
-
-
-										var tp_notic_obj = login.notifys.get(x)["tpNotificacao"];
-										var tipoN =js.underas.controller.Notify.TP_SUCCESS;
-										if(tp_notic_obj==2){
-											tipoN = js.underas.controller.Notify.TP_WARNING;
-										}else if(tp_notic_obj==3){
-											tipoN = js.underas.controller.Notify.TP_ERROR;
-										}
-
-										mainNotifyPool.addNotify(new js.underas.controller.Notify({
-											"title":login.notifys.get(x)["descricao"]
-											,"subtitle":login.notifys.get(x)["mascara"]
-											,"count":totalRs
-											,"type":tipoN
-											,"varmod":mody
-											,"actmod":fnACT
-											,"titlemod":login.notifys.get(x)["descricao"]
-											,"iconmo":"file"
-										}));
-									}
-							}});
-					}
-				}
-			 */
-			}.bind(this)
-		});
 	}
 }

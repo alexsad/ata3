@@ -10,7 +10,7 @@ export class TrimestreLancamentoAtividade{
 			TrimestreLancamentoAtividadeDAO.findAll().then(function(dta:ITrimestreLancamentoAtividade[]) {
 				res.json(dta);
 			}).catch(function(err:any) {
-				res.status(400).json(err);
+				res.sendStatus(400).json(err);
 			});
 		}	
 		@Get("/getbyidtrimestre/:idtrimestre")
@@ -22,7 +22,7 @@ export class TrimestreLancamentoAtividade{
 			}).then(function(dta: ITrimestreLancamentoAtividade[]) {
 				res.json(dta);
 			}).catch(function(err:any) {
-				res.status(400).json(err);
+				res.sendStatus(400).json(err);
 			});
 		}
 		getTotalByIdTrimestreIdPerfil(p_idTrimestre:number,p_idPerfil:number){
@@ -39,7 +39,7 @@ export class TrimestreLancamentoAtividade{
 			TrimestreLancamentoAtividadeDAO.create(ntrimestrelancamentoatividade).then(function(p_ntrimestrelancamentoatividade: ITrimestreLancamentoAtividade) {
 				res.json(p_ntrimestrelancamentoatividade.id);
 			}).catch(function(err:any) {
-				res.status(400).json(err);
+				res.sendStatus(400).json(err);
 			});
 		}		
 		@Put()
@@ -48,7 +48,7 @@ export class TrimestreLancamentoAtividade{
 			TrimestreLancamentoAtividadeDAO.upsert(ntrimestrelancamentoatividade).then(function(p_ntrimestrelancamentoatividade: ITrimestreLancamentoAtividade) {
 				res.send(true);
 			}).catch(function(err:any) {
-				res.status(400).json(err);
+				res.sendStatus(400).json(err);
 			});
 		}
 		@Delete("/:id")
@@ -60,7 +60,7 @@ export class TrimestreLancamentoAtividade{
 			}).then(function(p_ntrimestrelancamentoatividade: ITrimestreLancamentoAtividade) {
 				res.send(true);
 			}).catch(function(err:any) {
-				res.status(400).json(err);
+				res.sendStatus(400).json(err);
 			});
 		}
 		

@@ -1,4 +1,3 @@
-/// <reference path="../../lib/jquery2.d.ts"/>
 define(["require", "exports", "./core", "./controller"], function (require, exports, core_1, controller_1) {
     var Task = (function (_super) {
         __extends(Task, _super);
@@ -92,7 +91,7 @@ define(["require", "exports", "./core", "./controller"], function (require, expo
         RequestManager.addRequest = function (req) {
             //console.log(arguments.callee.caller);
             req.url = req.url || this.url;
-            if (req.rootUrl) {
+            if (req.rootUrl || req.rootUrl == "") {
                 req.url = req.rootUrl + req.url;
             }
             else {

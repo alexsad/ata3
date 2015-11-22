@@ -11,7 +11,7 @@ export class TrimestreDataLivre {
 		TrimestreDataLivreDAO.findAll().then(function(dta: ITrimestreDataLivre[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Get("/getdisponiveisbyidtrimestre/:idtrimestre")
@@ -35,10 +35,10 @@ export class TrimestreDataLivre {
 			}).then(function(dta: ITrimestreDataLivre[]) {
 				res.json(dta);
 			}).catch(function(err: any) {
-				res.status(400).json(err);
+				res.sendStatus(400).json(err);
 			});
 		}).catch(function(err: any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Get("/getbyidtrimestre/:idtrimestre")
@@ -50,7 +50,7 @@ export class TrimestreDataLivre {
 		}).then(function(dta: ITrimestreDataLivre[]) {
 			res.json(dta);
 		}).catch(function(err: any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Post()
@@ -59,7 +59,7 @@ export class TrimestreDataLivre {
 		TrimestreDataLivreDAO.create(ntrimestredatalivre).then(function(p_ntrimestredatalivre: ITrimestreDataLivre) {
 			res.json(p_ntrimestredatalivre.id);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Put()
@@ -68,7 +68,7 @@ export class TrimestreDataLivre {
 		TrimestreDataLivreDAO.upsert(ntrimestredatalivre).then(function(p_ntrimestredatalivre: ITrimestreDataLivre) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Delete("/:id")
@@ -80,7 +80,7 @@ export class TrimestreDataLivre {
 		}).then(function(p_ntrimestredatalivre: ITrimestreDataLivre) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 }

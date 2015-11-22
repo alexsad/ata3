@@ -17,6 +17,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 requirejs.config({
 		baseUrl:'js/lib'
+		,urlArgs : "bust="+new Date().getTime()
 		,paths:{
 			'br':'../br'
 			,'jquery-ui':'jqueryui/jquery-ui.min'

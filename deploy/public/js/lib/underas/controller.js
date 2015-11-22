@@ -1,4 +1,3 @@
-/// <reference path="../../lib/jquery2.d.ts"/>
 define(["require", "exports", "./util", "./core", "./net"], function (require, exports, util_1, core_1, net_1) {
     var Controller = (function () {
         function Controller(tagh, tagc) {
@@ -365,25 +364,25 @@ define(["require", "exports", "./util", "./core", "./net"], function (require, e
             return null;
         };
         DatePicker.prototype.setValue = function (p_value) {
-            if(p_value){                
+            if (p_value) {
                 this.dtaA = new Date();
-                if (util_1.ValidationType.USDATE.test(p_value)){
-                    var tmpres = p_value.match(util_1.ValidationType.USDATE);              
-                    this.dtaA.setFullYear(tmpres[1]);
-                    this.dtaA.setMonth(tmpres[2]-1);
-                    this.dtaA.setDate(tmpres[3]);            
-                }else if(util_1.ValidationType.DATE.test(p_value)){
-                    var tmpres = p_value.match(util_1.ValidationType.DATE);              
-                    this.dtaA.setFullYear(tmpres[3]);
-                    this.dtaA.setMonth(tmpres[2]);
-                    this.dtaA.setDate(tmpres[1]); 
+                if (util_1.ValidationType.USDATE.test(p_value)) {
+                    var tmpres = p_value.match(util_1.ValidationType.USDATE);
+                    this.dtaA.setFullYear(parseInt(tmpres[1]));
+                    this.dtaA.setMonth(parseInt(tmpres[2]) - 1);
+                    this.dtaA.setDate(parseInt(tmpres[3]));
+                }
+                else if (util_1.ValidationType.DATE.test(p_value)) {
+                    var tmpres = p_value.match(util_1.ValidationType.DATE);
+                    this.dtaA.setFullYear(parseInt(tmpres[3]));
+                    this.dtaA.setMonth(parseInt(tmpres[2]));
+                    this.dtaA.setDate(parseInt(tmpres[1]));
                 }
                 ;
-                var dtaTxt = this.dtaA.getDate() + "-" + (this.dtaA.getMonth() + 1) + "-" + this.dtaA.getFullYear();    
+                var dtaTxt = this.dtaA.getDate() + "-" + (this.dtaA.getMonth() + 1) + "-" + this.dtaA.getFullYear();
                 this.getInput().val(dtaTxt);
             }
-            
-            
+            ;
         };
         DatePicker.prototype.getDate = function () {
             return this.dtaA;
@@ -589,7 +588,7 @@ define(["require", "exports", "./util", "./core", "./net"], function (require, e
             this._config = p_config;
         }
         MenuTab.prototype.addTab = function (label, boxM, iconeM, tmItens, tabid) {
-            var menuToPut = $('<li id="tabmenu_' + tabid + '" class="navitem"><a class="" href="#"><span class="imgI glyphicon iconeinput glyphicon-' + iconeM + '"></span><label class="hidden-xs">' + label + '</label></a></li>');
+            var menuToPut = $('<li id="tabmenu_' + tabid + '" class="navitem"><a class="btnmenu" href="#"><span class="imgI glyphicon iconeinput glyphicon-' + iconeM + '"></span><label class="hidden-xs">' + label + '</label></a></li>');
             $(this._config.target).parent("div.menu_main").find(".tab_content_menu").append(boxM);
             $(this._config.target).append(menuToPut);
         };
@@ -1161,12 +1160,22 @@ define(["require", "exports", "./util", "./core", "./net"], function (require, e
         return ListView;
     })(core_1.Component);
     exports.ListView = ListView;
+    (function (ENotifyType) {
+        ENotifyType[ENotifyType["SUCCESS"] = 0] = "SUCCESS";
+        ENotifyType[ENotifyType["INFO"] = 1] = "INFO";
+        ENotifyType[ENotifyType["PRIMARY"] = 2] = "PRIMARY";
+        ENotifyType[ENotifyType["WARNING"] = 3] = "WARNING";
+        ENotifyType[ENotifyType["ERROR"] = 4] = "ERROR";
+    })(exports.ENotifyType || (exports.ENotifyType = {}));
+    var ENotifyType = exports.ENotifyType;
     var DefaultNotifyItemRender = (function (_super) {
         __extends(DefaultNotifyItemRender, _super);
         function DefaultNotifyItemRender(p_obj) {
-            _super.call(this, 'div', '<a href="#" data-varmod="' + p_obj.varmod + '" data-titlemod="' + p_obj.titlemod + '" data-iconmod="' + p_obj.iconmod + '"><strong>' + p_obj.title + '</strong></a><span class="badge pull-right alert-' + p_obj.type + '">' + p_obj.count + '</span><br><span class="text-' + p_obj.type + '">' + p_obj.subtitle + '</span>');
-            if (!p_obj.actmod) {
-                this.getEle("a").attr("data-actmod", p_obj.actmod);
+            _super.call(this, 'div', '<a href="#" data-varmod="' + p_obj.module + '" data-titlemod="' + p_obj.moduleTitle + '" data-iconmod="' + p_obj.moduleIcon + '"><strong>' + p_obj.title + '</strong></a>'
+                + '<span class="glyphicon glyphicon-' + p_obj.icon + ' badge pull-right alert-' + ENotifyType[p_obj.type].toLowerCase() + '"><span class="notifycount">' + p_obj.count + '</span></span>'
+                + '<br><span class="text-' + p_obj.type + '">' + p_obj.subtitle + '</span>');
+            if (!p_obj.moduleAction) {
+                this.getEle("a").attr("data-actmod", p_obj.moduleAction);
             }
             ;
             this.getEle().addClass("divnotificao");
@@ -1174,32 +1183,15 @@ define(["require", "exports", "./util", "./core", "./net"], function (require, e
         return DefaultNotifyItemRender;
     })(core_1.Component);
     exports.DefaultNotifyItemRender = DefaultNotifyItemRender;
-    var Notify = (function () {
-        function Notify(p_item) {
-            this._item = null;
-            this._itemRender = "DefaultNotifyItemRender";
-            this._item = p_item;
-        }
-        Notify.prototype.getItemRender = function () {
-            return this._itemRender;
-        };
-        Notify.prototype.setItemRender = function (p_item_render) {
-            this._itemRender = p_item_render;
-        };
-        Notify.prototype.setItem = function (p_item) {
-            this._item = p_item;
-        };
-        Notify.prototype.getItem = function () {
-            return this._item;
-        };
-        Notify.TP_SUCCESS = "success";
-        Notify.TP_INFO = "info";
-        Notify.TP_PRIMARY = "primary";
-        Notify.TP_WARNING = "warning";
-        Notify.TP_ERROR = "danger";
-        return Notify;
-    })();
-    exports.Notify = Notify;
+    (function (ENotifyPoolType) {
+        ENotifyPoolType[ENotifyPoolType["SUCCESS"] = 0] = "SUCCESS";
+        ENotifyPoolType[ENotifyPoolType["INFO"] = 1] = "INFO";
+        ENotifyPoolType[ENotifyPoolType["PRIMARY"] = 2] = "PRIMARY";
+        ENotifyPoolType[ENotifyPoolType["WARNING"] = 3] = "WARNING";
+        ENotifyPoolType[ENotifyPoolType["ERROR"] = 4] = "ERROR";
+        ENotifyPoolType[ENotifyPoolType["DEFAULT"] = 5] = "DEFAULT";
+    })(exports.ENotifyPoolType || (exports.ENotifyPoolType = {}));
+    var ENotifyPoolType = exports.ENotifyPoolType;
     var NotifyPool = (function (_super) {
         __extends(NotifyPool, _super);
         function NotifyPool(p_title) {
@@ -1227,7 +1219,7 @@ define(["require", "exports", "./util", "./core", "./net"], function (require, e
                 var varModuleToLoadTmpM = tmpPathModule.split(".");
                 var varModuleToLoadTmp = varModuleToLoadTmpM[varModuleToLoadTmpM.length - 1];
                 var varModuleToLoadTmpCapt = varModuleToLoadTmp;
-                requirejs(['container', 'app/' + tmpPathModule.replace(/\./g, "/")], function (_container, _modwindow) {
+                requirejs(['container', tmpPathModule.replace(/\./g, "/")], function (_container, _modwindow) {
                     var tmp_modwindow = new _modwindow[varModuleToLoadTmpCapt]();
                     var mdw_tmp = new _container.ModView(_linkM.attr("data-titlemod"));
                     mdw_tmp.setIcon(_linkM.attr("data-iconmod"));
@@ -1255,10 +1247,10 @@ define(["require", "exports", "./util", "./core", "./net"], function (require, e
             pop_tmp.css({ "display": display_tmp });
         };
         NotifyPool.prototype.addNotify = function (p_notify) {
-            if (p_notify.getItem()) {
+            if (p_notify) {
                 this._vlcount++;
                 this.setValue(this._vlcount);
-                var itemTmp = new DefaultNotifyItemRender(p_notify.getItem());
+                var itemTmp = new DefaultNotifyItemRender(p_notify);
                 $("#popover_" + this._uid + " div.popover-content").append(itemTmp.getEle());
             }
         };
@@ -1271,7 +1263,7 @@ define(["require", "exports", "./util", "./core", "./net"], function (require, e
         };
         NotifyPool.prototype.setType = function (ptype) {
             var classes = this.getEle(".glyphicon").attr("class");
-            var ns = classes.replace(/alert\-([^\s]*)/, "alert-" + ptype);
+            var ns = classes.replace(/alert\-([^\s]*)/, "alert-" + ENotifyPoolType[ptype].toLowerCase());
             this.getEle(".glyphicon").attr('class', ns);
         };
         NotifyPool.prototype.setIcon = function (p_icon) {
@@ -1279,12 +1271,6 @@ define(["require", "exports", "./util", "./core", "./net"], function (require, e
             var ns = classes.replace(/glyphicon\-([^\s]*)/, "glyphicon-" + p_icon);
             this.getEle(".glyphicon").attr('class', ns);
         };
-        NotifyPool.TP_SUCCESS = "success";
-        NotifyPool.TP_INFO = "info";
-        NotifyPool.TP_PRIMARY = "primary";
-        NotifyPool.TP_WARNING = "warning";
-        NotifyPool.TP_ERROR = "danger";
-        NotifyPool.TP_DEFAULT = "default";
         return NotifyPool;
     })(core_1.Component);
     exports.NotifyPool = NotifyPool;
@@ -1461,21 +1447,21 @@ define(["require", "exports", "./util", "./core", "./net"], function (require, e
             var tmpClass = target.prototype;
             if (!tmpClass._configModWindow) {
                 tmpClass._configModWindow = {
-                    _urlmodule: "",
-                    _revision: "",
-                    _dmap: [],
-                    _dmaplenth: 0,
-                    _subtitle: "",
-                    _configListsViews: []
+                    urlmodule: "",
+                    revision: "",
+                    dmap: [],
+                    dmaplenth: 0,
+                    subtitle: "",
+                    configListsViews: []
                 };
             }
             ;
-            if (!tmpClass._configModWindow._configListsViews) {
-                tmpClass._configModWindow._configListsViews = [];
+            if (!tmpClass._configModWindow.configListsViews) {
+                tmpClass._configModWindow.configListsViews = [];
             }
             ;
-            tmpClass._configModWindow._modName = target.name;
-            tmpClass._configModWindow._configListsViews.push({ list: p_mainlist_name, url: p_url_source });
+            tmpClass._configModWindow.modName = target.name;
+            tmpClass._configModWindow.configListsViews.push({ list: p_mainlist_name, url: p_url_source });
         };
     }
     exports.ItemView = ItemView;
@@ -1524,11 +1510,7 @@ define(["require", "exports", "./util", "./core", "./net"], function (require, e
             ;
             if (nextload) {
                 var urlModuleLoad = _linkM.attr("data-varmod");
-
-                //urlModuleLoad.replace(/\./g, "/")
-                var tmpModPath = urlModuleLoad.replace(/\./g, "/");
-                //console.log(tmpModPath);
-                requirejs(['container', tmpModPath], function (_container, _modwindow) {
+                requirejs(['container', urlModuleLoad.replace(/\./g, "/")], function (_container, _modwindow) {
                     var tmp_modwindow = new _modwindow[varModuleToLoadTmpCapt]();
                     var mdw_tmp = new _container.ModView(_linkM.attr("data-titlemod"));
                     mdw_tmp.setIcon(_linkM.attr("data-iconmod"));

@@ -28,18 +28,24 @@ var PerfilNotificacaoDAO = sequelize.define('perfil_notificacao', {
     type: sequelize.constructor.INTEGER
     ,field:"limite_min"
   }
-  ,"servicoList":{
+  ,"modulo":{
     type: sequelize.constructor.STRING
-    ,field:"servico_list"
   }
-  ,"servicoListAcao":{
+  ,"moduloAcao":{
     type: sequelize.constructor.STRING
-    ,field:"servico_list_acao"
+    ,field:"modulo_acao"
+  }
+  , "moduloIcone": {
+    type: sequelize.constructor.STRING
+    , field: "modulo_icone"
   }
   ,"servicoContagem":{
     type: sequelize.constructor.STRING
     ,field:"servico_contagem"
   }
+  , "icone": {
+    type: sequelize.constructor.STRING
+  }  
   ,"tpNotificacao":{
     type: sequelize.constructor.INTEGER
     ,field:"tp_notificacao"

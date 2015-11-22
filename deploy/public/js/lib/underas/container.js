@@ -44,26 +44,29 @@ define(["require", "exports", "./core", "./net"], function (require, exports, co
                 '<h5 class="col-xs-12 col-sm-12 column block_module_details"><span></span></h5>');
             if (!this._configModWindow) {
                 this._configModWindow = {
-                    _urlmodule: "",
-                    _revision: "",
-                    _dmap: [],
-                    _dmaplenth: 0,
-                    _subtitle: p_subtitle
+                    urlmodule: "",
+                    revision: "",
+                    dmap: [],
+                    dmaplenth: 0,
+                    subtitle: p_subtitle
                 };
             }
             ;
             this.getEle().addClass("col-sm-12 col-xs-12 column windowC ModWindow").css({ "z-index": (this._uid + 1) });
         }
+        ModWindow.prototype.getConfigModWindow = function () {
+            return this._configModWindow;
+        };
         ModWindow.prototype.setTitle = function (p_title) {
-            this._configModWindow._subtitle = p_title;
+            this._configModWindow.subtitle = p_title;
             this.getEle('h3.subtitlemodwindow:first').text(p_title);
         };
         ModWindow.prototype.getTitle = function () {
-            return this._configModWindow._subtitle;
+            return this._configModWindow.subtitle;
         };
         ModWindow.prototype._onStart = function () {
             var _this = this;
-            var tmList = this._configModWindow._dmaplenth;
+            var tmList = this._configModWindow.dmaplenth;
             $.each(this, function (key) {
                 if (tmList == 0) {
                     return true;
@@ -72,7 +75,7 @@ define(["require", "exports", "./core", "./net"], function (require, exports, co
                 if (!key.match("_configModWindow|_configListsViews|$caller|caller|_uid|_html")) {
                     if (this[key]["getColumn"]) {
                         if (this[key].getColumn()) {
-                            this._configModWindow._dmap.push({ column: this[key].getColumn(), field: key });
+                            this._configModWindow.dmap.push({ column: this[key].getColumn(), field: key });
                             if (this[key].isPrimaryKey()) {
                                 this.setIdField(key);
                             }
@@ -82,10 +85,10 @@ define(["require", "exports", "./core", "./net"], function (require, exports, co
                         ;
                     }
                     else if (this[key]["_istoolbar"]) {
-                        this._configModWindow._maintoolbar = key;
+                        this._configModWindow.maintoolbar = key;
                     }
                     else if (this[key]["_islistview"]) {
-                        if (!this._configModWindow._mainlist) {
+                        if (!this._configModWindow.mainlist) {
                             this.setMainList(key);
                             tmList--;
                         }
@@ -95,19 +98,19 @@ define(["require", "exports", "./core", "./net"], function (require, exports, co
                 }
                 ;
             }.bind(this));
-            if (this._configModWindow._maintoolbar) {
-                this[this._configModWindow._maintoolbar].activate(true);
-                if (this._configModWindow._mainlist) {
+            if (this._configModWindow.maintoolbar) {
+                this[this._configModWindow.maintoolbar].activate(true);
+                if (this._configModWindow.mainlist) {
                     this.getMainList().changeToIndex(0);
                 }
                 ;
             }
             ;
-            if (this._configModWindow._configListsViews) {
-                this._configModWindow._configListsViews.forEach(function (listconfig) {
+            if (this._configModWindow.configListsViews) {
+                this._configModWindow.configListsViews.forEach(function (listconfig) {
                     if (listconfig.list == "") {
-                        if (_this._configModWindow._mainlist) {
-                            listconfig.list = _this._configModWindow._mainlist;
+                        if (_this._configModWindow.mainlist) {
+                            listconfig.list = _this._configModWindow.mainlist;
                         }
                         ;
                     }
@@ -155,10 +158,10 @@ define(["require", "exports", "./core", "./net"], function (require, exports, co
             });
         };
         ModWindow.prototype.setRevision = function (p_txt_revision) {
-            this._configModWindow._revision = p_txt_revision.replace(/[^\d]+/g, '');
+            this._configModWindow.revision = p_txt_revision.replace(/[^\d]+/g, '');
         };
         ModWindow.prototype.getRevision = function () {
-            return this._configModWindow._revision;
+            return this._configModWindow.revision;
         };
         ModWindow.prototype.getDsModule = function () {
             var urltmp = this.getUrlModule().toUpperCase();
@@ -172,13 +175,13 @@ define(["require", "exports", "./core", "./net"], function (require, exports, co
             this.getEle().addClass(lstPart);
         };
         ModWindow.prototype.setUrlModule = function (p_url_m) {
-            this._configModWindow._urlmodule = p_url_m;
+            this._configModWindow.urlmodule = p_url_m;
         };
         ModWindow.prototype.getUrlModule = function () {
-            return this._configModWindow._urlmodule;
+            return this._configModWindow.urlmodule;
         };
         ModWindow.prototype.getModView = function () {
-            return this._configModWindow._modview;
+            return this._configModWindow.modview;
         };
         ModWindow.prototype.append = function (childtoappend) {
             childtoappend._modwindow = this;
@@ -187,14 +190,14 @@ define(["require", "exports", "./core", "./net"], function (require, exports, co
             }
             else if (childtoappend.getEle().hasClass("ListView") || childtoappend.getEle().hasClass("ListViewAdv")) {
                 this.getEle("div.conteudo_form").append(childtoappend.getEle());
-                this._configModWindow._dmaplenth++;
+                this._configModWindow.dmaplenth++;
             }
             else {
                 this.getEle("div.fbody").append(childtoappend.getEle());
                 if (childtoappend["getColumn"]) {
                     var column = childtoappend["getColumn"]();
                     if (column) {
-                        this._configModWindow._dmaplenth++;
+                        this._configModWindow.dmaplenth++;
                     }
                     ;
                 }
@@ -206,7 +209,7 @@ define(["require", "exports", "./core", "./net"], function (require, exports, co
             this.getEle("h5.block_module_details").html("<span>" + this.getDsModule() + " :" + this.getRevision() + "</span>");
         };
         ModWindow.prototype.getColumns = function () {
-            return this._configModWindow._dmap;
+            return this._configModWindow.dmap;
         };
         ModWindow.prototype.setIdField = function (p_field) {
             this.getEle().attr("data-idfieldcod", p_field);
@@ -226,10 +229,10 @@ define(["require", "exports", "./core", "./net"], function (require, exports, co
             return this.getEle().attr("data-idfieldcod");
         };
         ModWindow.prototype.getMainList = function () {
-            return this[this._configModWindow._mainlist];
+            return this[this._configModWindow.mainlist];
         };
         ModWindow.prototype.setMainList = function (p_main_list) {
-            this._configModWindow._mainlist = p_main_list;
+            this._configModWindow.mainlist = p_main_list;
         };
         ModWindow.prototype.show = function (on) {
             if (on) {
@@ -329,7 +332,7 @@ define(["require", "exports", "./core", "./net"], function (require, exports, co
                 }
                 ;
                 p_ele.getEle().attr("data-modview", this._uid);
-                p_ele._configModWindow._modview = this;
+                p_ele.getConfigModWindow().modview = this;
                 this.getEle().append(p_ele.getEle());
                 p_ele._onStart();
                 p_ele.onStart();

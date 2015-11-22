@@ -2,6 +2,8 @@ import express = require('express');
 import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router";
 import DiscursoDAO = require("../model/discurso");
 import {IDiscurso} from "../model/IDiscurso";
+import {IReuniao} from "../model/IReuniao";
+import {Reuniao} from "./Reuniao";
 
 @Controller()
 export class Discurso {
@@ -16,7 +18,7 @@ export class Discurso {
 			dta[0].tempo += this.contteste;
 			res.json(dta);
 		}.bind(this)).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	getByIdReuniao(p_idReuniao: number) {
@@ -24,6 +26,32 @@ export class Discurso {
 			where: {
 				idReuniao: p_idReuniao
 			}
+		});
+	}	
+	@Get("/getultimosdiscursos")
+	getUltimosDiscursosTotal(req: express.Request, res: express.Response): void {
+		var tmpReuniaoCtrl: Reuniao = new Reuniao();
+		tmpReuniaoCtrl.getAtuais().then(
+			function(dtaReuniao: IReuniao[]) {
+				var tmpIdsReuniaoArray: number[] = [0];
+				dtaReuniao.forEach(function(itReuniao:IReuniao){
+					tmpIdsReuniaoArray.push(itReuniao.id);
+				});
+				DiscursoDAO.count({
+					where: {
+						idReuniao: {
+							$in: tmpIdsReuniaoArray
+						}
+					}
+				}).then(function(total:number) {
+					res.json(total);
+				}).catch(function(err: any) {
+					res.sendStatus(400).json(err);
+				});
+				//res.json(dta);
+			}
+		).catch(function(err: any) {
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Get("/getbyidreuniao/:idreuniao")
@@ -35,7 +63,7 @@ export class Discurso {
 		}).then(function(dta: IDiscurso[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Post()
@@ -44,7 +72,7 @@ export class Discurso {
 		DiscursoDAO.create(ndiscurso).then(function(p_ndiscurso: IDiscurso) {
 			res.json(p_ndiscurso.id);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Put()
@@ -53,7 +81,7 @@ export class Discurso {
 		DiscursoDAO.upsert(ndiscurso).then(function(p_ndiscurso: IDiscurso) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 	@Delete("/:id")
@@ -65,7 +93,7 @@ export class Discurso {
 		}).then(function(p_ndiscurso: IDiscurso) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.sendStatus(400).json(err);
 		});
 	}
 

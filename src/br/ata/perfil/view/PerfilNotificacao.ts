@@ -10,15 +10,16 @@ export class PerfilNotificacao extends ModWindow{
 	itIdPerfil: Select;
 	itDescricao:InputText;
 	itMascara:InputText;
-  itDtInicial:DatePicker;
-  itDtFinal:DatePicker;
-  itLimiteMax:NumericStepper;
-  itLimiteMin:NumericStepper;
-  itServicoList:Select;
-  itServicoListAcao:InputText;
-  itServicoContagem:InputText;
-  itTpNotificacao:Select;
-
+	itDtInicial:DatePicker;
+	itDtFinal:DatePicker;
+	itLimiteMax:NumericStepper;
+	itLimiteMin:NumericStepper;
+	itModulo:Select;
+	itModuloAcao:InputText;
+	itServicoContagem:InputText;
+	itTpNotificacao:Select;
+	itIcone: Select;
+	itModuloIcone: Select;
 	mainTb:ToolBar;
 	mainList:ListView;
 
@@ -56,9 +57,17 @@ export class PerfilNotificacao extends ModWindow{
 		this.itMascara = new InputText("");
 		this.itMascara.setColumn("@mascara");
 		this.itMascara.setLabel("mascara");
-		this.itMascara.setSize(9);
+		this.itMascara.setSize(6);
 		this.itMascara.setEnable(true);
 		this.append(this.itMascara);
+
+		this.itIcone = new Select("icone");
+		this.itIcone.setLabel("icone");
+		this.itIcone.setColumn("@icone");
+		this.itIcone.setSize(3);
+		this.itIcone.setValueField("icon");
+		this.itIcone.setLabelField("desc");
+		this.append(this.itIcone);
 
 		this.itTpNotificacao = new Select("tipo de notificacao");
 		this.itTpNotificacao.setLabel("tipo de notificacao");
@@ -74,20 +83,37 @@ export class PerfilNotificacao extends ModWindow{
 		this.itServicoContagem.setSize(12);
 		this.append(this.itServicoContagem);
 
-		this.itServicoList = new Select("selecione uma tela");
-		this.itServicoList.setLabel("tela");
-		this.itServicoList.setColumn("@servicoList");
-		this.itServicoList.setSize(6);
-		this.itServicoList.setValueField("modulo");
-		this.itServicoList.setLabelField("descricao");
-		this.append(this.itServicoList);
+		this.itModulo = new Select("selecione uma tela");
+		this.itModulo.setLabel("tela");
+		this.itModulo.setColumn("@modulo");
+		this.itModulo.setSize(5);
+		this.itModulo.setValueField("modulo");
+		this.itModulo.setLabelField("descricao");
+		this.append(this.itModulo);
 
-		this.itServicoListAcao = new InputText("");
-		this.itServicoListAcao.setColumn("#servicoListAcao");
-		this.itServicoListAcao.setLabel("acao do modulo");
-		this.itServicoListAcao.setSize(6);
-		this.append(this.itServicoListAcao);
+		this.itModuloAcao = new InputText("");
+		this.itModuloAcao.setColumn("#moduloAcao");
+		this.itModuloAcao.setLabel("acao do modulo");
+		this.itModuloAcao.setSize(4);
+		this.append(this.itModuloAcao);		
 
+		this.itModuloIcone = new Select("icone");
+		this.itModuloIcone.setLabel("icone da tela");
+		this.itModuloIcone.setColumn("@moduloIcone");
+		this.itModuloIcone.setSize(3);
+		this.itModuloIcone.setValueField("icon");
+		this.itModuloIcone.setLabelField("desc");
+		this.append(this.itModuloIcone);
+
+		this.itLimiteMin = new NumericStepper(5);
+		this.itLimiteMin.setEnable(false, 2);
+		this.itLimiteMin.setSize(3);
+		this.itLimiteMin.setLabel("Limite Min.");
+		this.itLimiteMin.setMin(1);
+		this.itLimiteMin.setMax(100);
+		this.itLimiteMin.setStep(1);
+		this.itLimiteMin.setColumn("@limiteMin");
+		this.append(this.itLimiteMin);
 
 		this.itLimiteMax = new NumericStepper(5);
 		this.itLimiteMax.setEnable(false,2);
@@ -98,16 +124,6 @@ export class PerfilNotificacao extends ModWindow{
 		this.itLimiteMax.setStep(1);
 		this.itLimiteMax.setColumn("@limiteMax");
 		this.append(this.itLimiteMax);
-
-		this.itLimiteMin = new NumericStepper(5);
-		this.itLimiteMin.setEnable(false,2);
-		this.itLimiteMin.setSize(3);
-		this.itLimiteMin.setLabel("Limite Min.");
-		this.itLimiteMin.setMin(1);
-		this.itLimiteMin.setMax(100);
-		this.itLimiteMin.setStep(1);
-		this.itLimiteMin.setColumn("@limiteMin");
-		this.append(this.itLimiteMin);
 
 		this.itDtInicial = new DatePicker();
 		this.itDtInicial.setLabel("Inicio");
@@ -126,7 +142,7 @@ export class PerfilNotificacao extends ModWindow{
 	}
 	onStart():void{
 		var tmpUrl:string= Underas.getLocation();
-		this.itServicoList.fromService({
+		this.itModulo.fromService({
 			rootUrl: tmpUrl
 			,url: "assets/modulo.json"
 		});
@@ -136,6 +152,14 @@ export class PerfilNotificacao extends ModWindow{
 		this.itIdPerfil.fromService({
 			"url": "perfil/getbysnativo/S"
 		});
+		this.itIcone.fromService({
+			rootUrl: tmpUrl
+			,url: "assets/icons.json"
+		});
+		this.itModuloIcone.fromService({
+			rootUrl: tmpUrl
+			, url: "assets/icons.json"
+		});		
 	}
 	getByIdPerfil(p_idPerfil: number): void {
 		this.itIdPerfil.setValue(p_idPerfil+"");

@@ -1,4 +1,4 @@
-/// <reference path="../../lib/jquery2.d.ts"/>
+/// <reference path="../lib/jquery2.d.ts"/>
 define(["require", "exports"], function (require, exports) {
     var Underas = (function () {
         function Underas() {
@@ -12,9 +12,6 @@ define(["require", "exports"], function (require, exports) {
         };
         Underas.getNextUid = function () {
             return this._uid + 1;
-        };
-        Underas.cache = function (p_on) {
-            this._cache = p_on;
         };
         Underas.setProjectVersion = function (p_version) {
             this._version = p_version;
@@ -49,7 +46,6 @@ define(["require", "exports"], function (require, exports) {
             });
         };
         Underas._uid = 571;
-        Underas._cache = true;
         Underas._version = "1";
         return Underas;
     })();

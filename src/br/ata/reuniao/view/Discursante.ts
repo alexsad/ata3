@@ -3,6 +3,7 @@ import {ModWindow} from "../../../../lib/underas/container";
 import {Select, InputText, TextArea, NumericStepper, DatePicker, ListView, ItemView} from "../../../../lib/underas/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
 
+
 @ItemView("assets/html/discursante.html")
 export class Discursante extends ModWindow{
 	itIdDiscurso:InputText;
