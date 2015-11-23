@@ -26,8 +26,9 @@ export interface IAtividade {
 	local:string;
 	idData:number;
 	hora: string;
-	idResponsavel:string;
-	idPerfil: string;
+	idResponsavel:number;
+	idPerfil: number;
+	idOrganizacao: number;
 	orcamento:number;
 	codRefMLS: number;
 	publicoAlvo:string;
@@ -37,6 +38,9 @@ export interface IAtividade {
 	vestuario: string;
 	snEditavel?:string;
 	iconStatus?:string;
+	momento?: string;
+	nmResponsavel?: string;
+	dsOrganizacao?: string;
 }
 
 export enum EAtividadeStatus{

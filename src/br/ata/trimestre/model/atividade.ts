@@ -22,6 +22,10 @@ var AtividadeDAO = sequelize.define('atividade', {
 		type: sequelize.constructor.INTEGER
 		,field:"id_responsavel"
 	}
+	, "idOrganizacao": {
+		type: sequelize.constructor.INTEGER
+		, field: "id_organizacao"
+	}	
 	, "idPerfil": {
 		type: sequelize.constructor.INTEGER
 		, field: "id_perfil"

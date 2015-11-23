@@ -40,7 +40,7 @@ export class PDFRender{
 		this._limitLinhas = 39;
 		this._pagA = 1;
 		if(!this._doc){
-			this._doc = new jsPDF();
+			this._doc = new jsPDF('p', 'pt', 'a4');
 		}
 	}
 	getTotalPags():number{
