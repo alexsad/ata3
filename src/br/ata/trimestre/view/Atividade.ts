@@ -20,6 +20,7 @@ export class Atividade extends ModWindow {
 	itLocal: InputText;
 	itIdData: Select;
 	itHora: InputTime;
+	itIdOrganizacao: Select;
 	itIdResponsavel: Select;
 	itOrcamento: NumericStepper;
 	itPublicoAlvo: InputText;
@@ -130,7 +131,7 @@ export class Atividade extends ModWindow {
 		this.itLocal.setSize(12);
 		this.append(this.itLocal);
 
-		this.itIdPerfil = new Select("selecione uma pefil");
+		this.itIdPerfil = new Select("pefil");
 		this.itIdPerfil.setColumn("@idPerfil");
 		this.itIdPerfil.setLabel("perfil:");
 		this.itIdPerfil.setValueField("id");
@@ -138,6 +139,15 @@ export class Atividade extends ModWindow {
 		this.itIdPerfil.setSize(4);
 		this.itIdPerfil.setEnable(false);
 		this.append(this.itIdPerfil);
+
+		this.itIdOrganizacao = new Select("organizacao");
+		this.itIdOrganizacao.setColumn("@idOrganizacao");
+		this.itIdOrganizacao.setLabel("organizacao:");
+		this.itIdOrganizacao.setValueField("id");
+		this.itIdOrganizacao.setLabelField("descricao");
+		this.itIdOrganizacao.setSize(4);
+		this.itIdOrganizacao.setEnable(false);
+		this.append(this.itIdOrganizacao);		
 
 		this.itIdResponsavel = new Select("responsavel");
 		this.itIdResponsavel.setColumn("@idResponsavel");
@@ -217,6 +227,9 @@ export class Atividade extends ModWindow {
 		this.itIdPerfil.fromService({
 			"url": "perfil/getbysnativo/S"
 		});
+		this.itIdOrganizacao.fromService({
+			"url": "organizacao"
+		});
 		this.itDtDisponivel.getInput().on("change", this.setDtEvento.bind(this));
 	}
 	getByIdTrimestreIdPerfil(p_idTrimestre:number,p_idPerfil:number):void{
@@ -292,6 +305,7 @@ export class Atividade extends ModWindow {
 		this.btSubmeter.setEnable(on);
 		this.itOrcamento.setEnable(on, 1);
 		this.itOrcamento.setEnable(on, 3);
+		this.itIdOrganizacao.setEnable(on);
 		this.mainTb.btSave.setEnable(on);
 	}
 	setDtEvento(evt:Event):void{

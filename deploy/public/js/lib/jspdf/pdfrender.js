@@ -10,7 +10,7 @@ define(["require", "exports", "./jspdf"], function (require, exports, jsPDF) {
             this._limitLinhas = 39;
             this._pagA = 1;
             if (!this._doc) {
-                this._doc = new jsPDF();
+                this._doc = new jsPDF('p', 'pt', 'a4');
             }
         }
         PDFRender.prototype.getTotalPags = function () {

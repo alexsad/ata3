@@ -96,6 +96,7 @@
         "./src/lib/express/express.d.ts",
         "./src/lib/jquery/jquery2.d.ts",
         "./src/lib/jqueryui/jqueryui.d.ts",
+        "./src/lib/jspdf/ijspdf.ts",
         "./src/lib/jspdf/jspdf.d.ts",
         "./src/lib/node/node.d.ts",
         "./src/lib/router/DinRoute.d.ts",
