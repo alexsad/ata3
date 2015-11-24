@@ -37,6 +37,7 @@ export declare class ModWindow extends Component {
     _onStart(): void;
     onStart(): void;
     getFormItem(): Object;
+    setFormItem(p_item: Object): void;
     clearFormItem(): void;
     setRevision(p_txt_revision: string): void;
     getRevision(): string;
@@ -65,7 +66,11 @@ export declare class ModView extends Component {
     private _icone;
     private _childrenMods;
     private _appended;
+    private _indexmodule;
     constructor(p_title: string);
+    nextModule(evt?: Event): void;
+    prevModule(evt?: Event): void;
+    showModule(p_indexModule: number): void;
     append(p_ele: ModWindow): void;
     destroy(): void;
     setIcon(p_icon: string): void;

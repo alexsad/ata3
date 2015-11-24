@@ -94,6 +94,5 @@ export declare class ToolBar extends SimpleToolBar {
     deleteItem(event: Event): void;
     activate(p_on: boolean): void;
     reloadItens(event?: Event): void;
-    syncItem(): Object;
     saveItem(event: Event): void;
 }
