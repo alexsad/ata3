@@ -2,6 +2,7 @@ import {Underas} from "../../../../lib/underas/core";
 import {ModView} from "../../../../lib/underas/container";
 import {RequestManager} from "../../../../lib/underas/net";
 import {Login} from "../../usuario/view/Login";
+import {AtividadeAutorizacao} from "../../trimestre/view/AtividadeAutorizacao";
 
 
 class Main{
@@ -22,6 +23,14 @@ class Main{
 		mdw.setIcon("key");
 		mdw.show(true);
 		mdw.append(teste);
+
+
+		var tmpAtiv:AtividadeAutorizacao = new AtividadeAutorizacao();
+
+
+		mdw.append(tmpAtiv);
+
+
 	}
 
 }
