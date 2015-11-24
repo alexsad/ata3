@@ -31,6 +31,25 @@ module.exports = function(grunt) {
 				],
 				dest: 'public/js/br'
 			}
+			,jsLibs:{
+				expand: true,
+				cwd: './bower_components',
+				src: [
+					'!underas/'
+					,"**/*min.js"
+					,"**/require.js"
+				],
+				dest: 'public/js/lib'
+			}
+			,jsLibsNotMin:{
+				expand: true,
+				cwd: './bower_components/underas/dist/js/lib',
+				src: [
+					"bootstrap/**/*.*"
+					,"underas/**/*.*"
+				],
+				dest: 'public/js/lib'
+			}
 		}
 		,clean: {
 			server: {
@@ -74,15 +93,20 @@ module.exports = function(grunt) {
 			tsconfig: "../tsconfigserver.json"
 		  }
 		}
+		,bower: {
+			install: {
+				 //just run 'grunt bower:install' and you'll see files from your Bower packages in lib directory
+			}
+		}
 });
 
-
-	//console.log( grunt.option( "target" ) );
-
-	//var targetFile = grunt.option( "target" );
-
-	//global[targetFile] = grunt.option( "target" );
-
+	grunt.loadNpmTasks("grunt-ts");
+	grunt.loadNpmTasks('grunt-text-replace');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-bower-task');
 
 	grunt.registerTask('build-view-pos', function(){
 		grunt.file.recurse("public/js/br/", function(abspath, rootdir, subdir, filename){
@@ -99,15 +123,6 @@ module.exports = function(grunt) {
 	});
 
 
-
-	grunt.loadNpmTasks("grunt-ts");
-	grunt.loadNpmTasks('grunt-text-replace');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-
-
 	grunt.registerTask('default', ['build-dev']);
 	//grunt.registerTask('dist', ['clean', 'copy']);
 	grunt.registerTask('build-server-dev', ['clean:server','ts:server']);
@@ -116,6 +131,10 @@ module.exports = function(grunt) {
 	grunt.registerTask('build-view-deploy', ['build-view-dev','uglify:view']);
 	grunt.registerTask('build-dev', ['build-server-dev','build-view-dev']);
 	grunt.registerTask('build-deploy', ['build-server-deploy','build-view-deploy']);
+
+	grunt.registerTask('install-libs', ['bower:install','copy:jsLibs','copy:jsLibsNotMin']);
+
+
 
 	//grunt.registerTask('build-deploy', ['build-all','uglify:minview']);
 

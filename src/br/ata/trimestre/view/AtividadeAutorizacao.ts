@@ -5,7 +5,6 @@ import {SimpleToolBar, RequestManager, IDefaultRequest} from "../../../../lib/un
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
 import jsPDF = require("../../../../lib/jspdf/jspdf");
-import {PDFRender, IConfigColumnPrint, IConfigPrint} from "../../../../lib/jspdf/pdfrender"
 import {IReportTemplate, IReportTemplateItem} from "../../../../lib/jspdf/ijspdf";
 
 declare var perfilBoxContainer: PerfilBox;
@@ -132,7 +131,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.itIdPerfil.setLabel("perfil:");
 		this.itIdPerfil.setValueField("id");
 		this.itIdPerfil.setLabelField("descricao");
-		this.itIdPerfil.setSize(4);
+		this.itIdPerfil.setSize(3);
 		this.itIdPerfil.setEnable(false);
 		this.append(this.itIdPerfil);
 
@@ -141,7 +140,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.itIdOrganizacao.setLabel("organizacao:");
 		this.itIdOrganizacao.setValueField("id");
 		this.itIdOrganizacao.setLabelField("descricao");
-		this.itIdOrganizacao.setSize(4);
+		this.itIdOrganizacao.setSize(3);
 		this.itIdOrganizacao.setEnable(false);
 		this.append(this.itIdOrganizacao);
 
@@ -150,7 +149,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.itIdResponsavel.setLabel("responsavel");
 		this.itIdResponsavel.setValueField("id");
 		this.itIdResponsavel.setLabelField("nome");
-		this.itIdResponsavel.setSize(5);
+		this.itIdResponsavel.setSize(3);
 		this.itIdResponsavel.setEnable(false);
 		this.append(this.itIdResponsavel);
 
@@ -237,26 +236,20 @@ export class AtividadeAutorizacao extends ModWindow {
 			"url": "organizacao"
 		});
 	}
-	printAta():void{	
-
-		
+	printAta():void{
 		RequestManager.addRequest({
 			rootUrl: Underas.getLocation()
 			, url: "assets/reports/ata_atividade2.json"
 			, onLoad: function(reporttemplate: IReportTemplate) {
 				var tmpAtiv:IAtividade  = <IAtividade>this.mainList.getSelectedItem();
-				
 				tmpAtiv.nmResponsavel = this.itIdResponsavel.getDescFromServiceByValue(tmpAtiv.idResponsavel);
 				tmpAtiv.momento = this.itMomento.getDescFromServiceByValue(tmpAtiv.idData);
 				tmpAtiv.momento = tmpAtiv.momento.substring(0,10);
-
 				tmpAtiv.dsOrganizacao = this.itIdOrganizacao.getDescFromServiceByValue(tmpAtiv.idOrganizacao);
-
 				reporttemplate.dataSets[0].itens.push(<IReportTemplateItem>tmpAtiv);
-				//reporttemplate["dataSets"][0]["itens"] = ;
 				var jspdfdoc = new jsPDF('p','pt','a4');
 				jspdfdoc.setJereport(reporttemplate);
-				jspdfdoc.save("ata_" +tmpAtiv.codRefMLS+".pdf");	
+				jspdfdoc.save("ata_" +tmpAtiv.codRefMLS+".pdf");
 			}.bind(this)
 		});
 
@@ -281,7 +274,13 @@ export class AtividadeAutorizacao extends ModWindow {
 		var on = (p_item.idStatus == this._idStatus);
 
 		this.habilitarCampos(on);
+
+		this.setFormItem(p_item);
+
+		/*
 		this.itIdEvento.setValue(p_item.id+"");
+		this.itIdOrganizacao.setValue(p_item.idOrganizacao+"");
+		this.itMomento.setValue(p_item.idData+"");
 		this.itIdTrimestre.setValue(p_item.idTrimestre + "");
 		this.itIdPerfil.setValue(p_item.idPerfil + "");
 		this.itDescricao.setValue(p_item.descricao);
@@ -289,7 +288,6 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.itCodRefMLS.setValue(p_item.codRefMLS + "");
 		this.itIdStatus.setValue(p_item.idStatus + "");
 		this.itSnEditavel.setValue(p_item.snEditavel);
-		this.itMomento.setValue(p_item.idData+"");
 		this.itHora.setValue(p_item.hora);
 		this.itLocal.setValue(p_item.local);
 		this.itIdResponsavel.setValue(p_item.idResponsavel + "");
@@ -298,6 +296,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.itVestuario.setValue(p_item.vestuario);
 		this.itProposito.setValue(p_item.proposito);
 		this.itDetalhes.setValue(p_item.detalhes);
+		*/
 
 		this.itMomento.fromService({
 			"url": "trimestredatalivre/getbyidtrimestre/" + p_item.idTrimestre

@@ -166,8 +166,10 @@ export declare class MenuTab extends Component {
     criarTabNova(label: string, picone: string, childrens: IItemMenuTab[], tabid: number): void;
 }
 export declare class Select extends InputDouble {
-    _valuefield: string;
-    _labelfield: string;
+    private _valuefield;
+    private _labelfield;
+    private _urlservice;
+    private _rooturlservice;
     constructor(p_placeholder?: string);
     onNotFound(evt: Event): void;
     reSizeList(evt: Event): void;
@@ -184,7 +186,7 @@ export declare class Select extends InputDouble {
     isValid(): boolean;
     setValue(p_vl: string): void;
     getDescFromServiceByValue(p_vl: string): string;
-    reloadService(): void;
+    reloadService(evt?: Event): void;
     fromService(p_req_service: IRequestConf): void;
 }
 export declare class ListView extends Component implements IListView {

@@ -136,7 +136,7 @@ export class Atividade extends ModWindow {
 		this.itIdPerfil.setLabel("perfil:");
 		this.itIdPerfil.setValueField("id");
 		this.itIdPerfil.setLabelField("descricao");
-		this.itIdPerfil.setSize(4);
+		this.itIdPerfil.setSize(3);
 		this.itIdPerfil.setEnable(false);
 		this.append(this.itIdPerfil);
 
@@ -145,7 +145,7 @@ export class Atividade extends ModWindow {
 		this.itIdOrganizacao.setLabel("organizacao:");
 		this.itIdOrganizacao.setValueField("id");
 		this.itIdOrganizacao.setLabelField("descricao");
-		this.itIdOrganizacao.setSize(4);
+		this.itIdOrganizacao.setSize(3);
 		this.itIdOrganizacao.setEnable(false);
 		this.append(this.itIdOrganizacao);		
 
@@ -154,7 +154,7 @@ export class Atividade extends ModWindow {
 		this.itIdResponsavel.setLabel("responsavel");
 		this.itIdResponsavel.setValueField("id");
 		this.itIdResponsavel.setLabelField("nome");
-		this.itIdResponsavel.setSize(5);
+		this.itIdResponsavel.setSize(3);
 		this.append(this.itIdResponsavel);
 
 		this.itOrcamento = new NumericStepper(0);

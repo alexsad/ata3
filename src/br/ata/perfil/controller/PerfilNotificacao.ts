@@ -25,7 +25,7 @@ export class PerfilNotificacao {
 		}).catch(function(err:any) {
 			res.sendStatus(400).json(err);
 		});
-	}	
+	}
 
 	@Get("/tiposnotificaco")
 	getTiposNotificacao(req: express.Request, res: express.Response): void {
@@ -49,7 +49,7 @@ export class PerfilNotificacao {
 		tmpLista.push({
 			id: EPerfilNotificacaoTP.ERRO
 			, descricao: EPerfilNotificacaoTP[EPerfilNotificacaoTP.ERRO]
-		});		
+		});
 		res.json(tmpLista);
 	}
 	@Post()

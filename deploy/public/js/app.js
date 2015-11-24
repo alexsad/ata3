@@ -21,18 +21,17 @@ requirejs.config({
 		,paths:{
 			'br':'../br'
 			,'jquery-ui':'jqueryui/jquery-ui.min'
-			,'jquery': 'jquery/jquery-2.1.4.min'
+			,'jquery': 'jquery/dist/jquery.min'
 			,'net':'underas/net'
 			,'util':'underas/util'
 			,'core':'underas/core'
 			,'container':'underas/container'
 			,'controller':'underas/controller'
-			,'jspdf':'jspdf/jspdf.debug'
+			,'jspdf':'jspdf/jspdf.min'
 			,'jspdfreport':'jspdf/jspdfreport'
-			,'pdfrender':'jspdf/pdfrender'
+			//,'pdfrender':'jspdf/pdfrender'
 		}
-
-		,shim: {	        
+		,shim: {
 	        "jspdf" : { exports : "jsPDF" }
 	        ,'jspdfreport':['jspdf']
 	        ,'br/ata/trimestre/view/AtividadeAutorizacao': ['jspdfreport']
@@ -45,7 +44,7 @@ requirejs.config({
 var perfilBoxContainer = null;
 window.onload=function(){
 
-
+/*
 
 	requirejs(
 		[
@@ -56,9 +55,9 @@ window.onload=function(){
 			_modmain.initApp();
 		}
 	);
+*/
 
 
-/*
 	requirejs(
 		[
 		'core'
@@ -71,11 +70,10 @@ window.onload=function(){
 		,function(_core,_container,_net,_mod,_mod2){
 			var tmpLocation = _core.Underas.getLocation();
 			//tmpLocation = tmpLocation.replace("8080","8330");
-			tmpLocation = tmpLocation.substring(0,tmpLocation.indexOf("8080"))+"8330/";
+			tmpLocation = tmpLocation.substring(0,tmpLocation.indexOf("8299"))+"8330/";
 
 			_net.RequestManager.setRootUrl(tmpLocation);
 
-			_net.RequestManager.setRootUrl("http://127.0.0.1:8330/");
 			//console.log(m);
 			//var t = new sub.SubB(45);
 			//t.doAnyThing("nova instancia!!!!");
@@ -93,5 +91,5 @@ window.onload=function(){
 			mdw2.append(teste2);
 		}
 	);
-*/
+
 };

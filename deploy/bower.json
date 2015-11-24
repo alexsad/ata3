@@ -1,0 +1,15 @@
+{
+  "name": "ata3-js",
+  "description": "",
+  "version": "0.1.0",
+  "private": true,
+  "ignore": [],
+  "dependencies": {
+    "cookies-js":"~1.2"
+    ,"jquery": "~1.11.3"
+    ,"requirejs":"~2.1.8"
+    ,"sockjs":"~0.3"
+    ,"stomp-websocket":"~2.3"
+    ,"underas":"https://github.com/alexsad/underas.git"
+  }
+}
