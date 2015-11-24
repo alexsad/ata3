@@ -1,4 +1,4 @@
-/// <reference path="../../../src/lib/jquery2.d.ts" />
+/// <reference path="../../src/lib/jquery/jquery2.d.ts" />
 import { ModWindow } from "./container";
 export declare class Underas {
     static _uid: number;

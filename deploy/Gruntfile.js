@@ -47,6 +47,8 @@ module.exports = function(grunt) {
 				src: [
 					"bootstrap/**/*.*"
 					,"underas/**/*.*"
+					,"util/**/*.*"
+					,"jspdf/**/*.*"
 				],
 				dest: 'public/js/lib'
 			}
