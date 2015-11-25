@@ -1,4 +1,5 @@
-import jsPDF = require("./jspdf");
+//import jsPDF = require("./jspdf");
+import {jsPDF} from "./jsPDF";
 
 export interface IConfigColumnPrint{
 	column: string;

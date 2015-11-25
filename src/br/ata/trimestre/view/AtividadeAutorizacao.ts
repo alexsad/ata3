@@ -4,7 +4,7 @@ import {InputTime, Button, TextArea, NumericStepper, DatePicker, Select, AlertMs
 import {SimpleToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
-import jsPDF = require("../../../../lib/jspdf/jspdf");
+import {jsPDF} from "../../../../lib/jspdf/jsPDF";
 import {IReportTemplate, IReportTemplateItem} from "../../../../lib/jspdf/ijspdf";
 
 declare var perfilBoxContainer: PerfilBox;
@@ -247,7 +247,8 @@ export class AtividadeAutorizacao extends ModWindow {
 				tmpAtiv.momento = tmpAtiv.momento.substring(0,10);
 				tmpAtiv.dsOrganizacao = this.itIdOrganizacao.getDescFromServiceByValue(tmpAtiv.idOrganizacao);
 				reporttemplate.dataSets[0].itens.push(<IReportTemplateItem>tmpAtiv);
-				var jspdfdoc = new jsPDF('p','pt','a4');
+				
+				var jspdfdoc = new jsPDF('p', 'pt', 'a4');
 				jspdfdoc.setJereport(reporttemplate);
 				jspdfdoc.save("ata_" +tmpAtiv.codRefMLS+".pdf");
 			}.bind(this)
@@ -272,32 +273,8 @@ export class AtividadeAutorizacao extends ModWindow {
 
 	onChangeItem(p_item: IAtividade): IAtividade {
 		var on = (p_item.idStatus == this._idStatus);
-
 		this.habilitarCampos(on);
-
 		this.setFormItem(p_item);
-
-		/*
-		this.itIdEvento.setValue(p_item.id+"");
-		this.itIdOrganizacao.setValue(p_item.idOrganizacao+"");
-		this.itMomento.setValue(p_item.idData+"");
-		this.itIdTrimestre.setValue(p_item.idTrimestre + "");
-		this.itIdPerfil.setValue(p_item.idPerfil + "");
-		this.itDescricao.setValue(p_item.descricao);
-		this.itDsObservacao.setValue(p_item.dsObservacao);
-		this.itCodRefMLS.setValue(p_item.codRefMLS + "");
-		this.itIdStatus.setValue(p_item.idStatus + "");
-		this.itSnEditavel.setValue(p_item.snEditavel);
-		this.itHora.setValue(p_item.hora);
-		this.itLocal.setValue(p_item.local);
-		this.itIdResponsavel.setValue(p_item.idResponsavel + "");
-		this.itOrcamento.setValue(p_item.orcamento + "");
-		this.itPublicoAlvo.setValue(p_item.publicoAlvo);
-		this.itVestuario.setValue(p_item.vestuario);
-		this.itProposito.setValue(p_item.proposito);
-		this.itDetalhes.setValue(p_item.detalhes);
-		*/
-
 		this.itMomento.fromService({
 			"url": "trimestredatalivre/getbyidtrimestre/" + p_item.idTrimestre
 		});

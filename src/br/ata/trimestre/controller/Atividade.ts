@@ -25,7 +25,7 @@ export class Atividade {
 		}).then(function(dta: IAtividade[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Get("/gettotalbyidstatus/:idstatus")
@@ -37,7 +37,7 @@ export class Atividade {
 		}).then(function(result:number) {
 			res.json(result||0);
 		}).catch(function(err: any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Get("/getbyidperfilidstatus/:idperfil/:idstatus")
@@ -66,7 +66,15 @@ export class Atividade {
 				}).then(function(dta: IAtividade[]) {
 					res.json(dta);
 				}).catch(function(err:any) {
-					res.sendStatus(400).json(err);
+
+					//new Error("Can't divide by zero" + err);
+
+					throw new Error('Elsewhere has failed:' +err);
+
+
+					//console.log();
+
+					//res.sendStatus(400).json(err);
 				});
 			}
 		})
