@@ -11,8 +11,9 @@ requirejs.config({
 			,'core':'underas/core'
 			,'container':'underas/container'
 			,'controller':'underas/controller'
-			,'jspdf':'jspdf/jspdf.debug'
+			,'jsPDF':'jspdf/jspdf.debug'
 			,'jspdfreport':'jspdf/jspdfreport'
+			//,'jspdf':'jspdf/jspdf.debug'
 			//,'pdfrender':'jspdf/pdfrender'
 		}
 		,shim: {
@@ -32,7 +33,7 @@ var perfilBoxContainer = null;
 			//jsPDF = jspdf;
 
 			$jq(function(){
-				console.log("teste");
+				//console.log("teste");
 				requirejs(['br/ata/main/view/main']	,function(_modmain){
 						_modmain.initApp();
 					}
