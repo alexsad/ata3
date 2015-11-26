@@ -10,7 +10,7 @@ class Main{
 		var tmpLocation:string = Underas.getLocation();
 		//tmpLocation = tmpLocation.replace("8080","8330");
 		//tmpLocation = tmpLocation.substring(0,tmpLocation.indexOf("8299"))+"8330/";
-		tmpLocation = tmpLocation.substring(0, tmpLocation.indexOf("8080")) + "8330/";
+		tmpLocation = tmpLocation.substring(0, tmpLocation.indexOf("8330")) + "8299/";
 
 		RequestManager.setRootUrl(tmpLocation);
 		//console.log(m);
