@@ -27,7 +27,7 @@ global.__metadata=function (k, v) {
 module.exports = function() {
 var app = express();
 // configuracao de ambiente
-app.set('port', 8330);
+app.set('port', 8299);
 app.set("jsonp callback", true);
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
