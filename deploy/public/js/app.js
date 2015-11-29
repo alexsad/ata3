@@ -13,24 +13,20 @@ requirejs.config({
 			,'controller':'underas/controller'
 			,'jsPDF':'jspdf/jspdf.debug'
 			,'jspdfreport':'jspdf/jspdfreport'
-			//,'jspdf':'jspdf/jspdf.debug'
-			//,'pdfrender':'jspdf/pdfrender'
+			,'cookies':'cookies-js/dist/cookies.min'
 		}
 		,shim: {
 	        //"jspdf" : { exports : "jsPDF" }	   
 	        'br/ata/trimestre/view/AtividadeAutorizacao': ['jspdfreport']
 	        ,'br/ata/reuniao/view/ReuniaoPorPeriodo': ['jquery-ui']
     	}
-
 		,waitSeconds:15
 });
 
 var perfilBoxContainer = null;
-	requirejs(['jquery'],function($jq){
+	requirejs(['jquery','cookies'],function($jq,_cookie){
 			window.$ = window.jQuery = $jq;
-			//window.$ = window.jQuery = $jq;
-
-			//jsPDF = jspdf;
+			window.Cookies = _cookie;
 
 			$jq(function(){
 				//console.log("teste");

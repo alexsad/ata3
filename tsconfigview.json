@@ -23,7 +23,7 @@
         "!./deploy/node_modules/**/*.ts",
         "./src/lib/underas/*.d.ts",
         "./src/lib/jspdf/*.ts",
-        "./src/lib/jspdf/*.d.ts",
+        "./src/lib/cookies/*.ts",
         "./src/lib/jquery/jquery2.d.ts",
         "./src/lib/jqueryui/jqueryui.d.ts"
     ],
@@ -70,6 +70,7 @@
         "src/lib/jspdf/ijspdf.ts",
         "src/lib/jspdf/jsPDF.d.ts",
         "src/lib/jspdf/pdfrender.ts",
+        "src/lib/cookies/cookies.d.ts",
         "src/lib/jquery/jquery2.d.ts",
         "src/lib/jqueryui/jqueryui.d.ts"
     ]

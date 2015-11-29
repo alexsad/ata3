@@ -1,5 +1,4 @@
-import express = require('express');
-import url = require('url');
+import server = require('restify');
 import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router";
 import ReuniaoDAO = require("../model/reuniao");
 import {IReuniao} from "../model/IReuniao";
@@ -7,16 +6,16 @@ import {IReuniao} from "../model/IReuniao";
 @Controller()
 export class Reuniao {
 	@Get()
-	get(req: express.Request, res: express.Response): void {
+	get(req: server.Request, res: server.Response): void {
 		ReuniaoDAO.findAll().then(function(dta: IReuniao[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Get("/getbyperiodo")
-	getByPeriodo(req: express.Request, res: express.Response):void{
-		var queryParams = url.parse(req.url, true).query;
+	getByPeriodo(req: server.Request, res: server.Response):void{
+		var queryParams = req.query;
 		ReuniaoDAO.findAll({
 			order: [
 				["momento","asc"]
@@ -32,26 +31,17 @@ export class Reuniao {
 				res.json(dta);
 			}
 		).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Get("/getatuais")
-	getAtuaisServico(req: express.Request, res: express.Response) {
-		ReuniaoDAO.findAll({
-			order: [
-				["momento", "asc"]
-			]
-			, where: {
-				"momento": {
-					$gte: new Date()
-				}
-			}
-		}).then(
+	getAtuaisServico(req: server.Request, res: server.Response) {
+		this.getAtuais().then(
 			function(dta: IReuniao[]) {
 				res.json(dta);
 			}
 		).catch(function(err: any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}	
 	getAtuais() {
@@ -67,25 +57,25 @@ export class Reuniao {
 		});
 	}
 	@Post()
-	add(req: express.Request, res: express.Response): void {
+	add(req: server.Request, res: server.Response): void {
 		var nreuniao: IReuniao = <IReuniao>req.body;
 		ReuniaoDAO.create(nreuniao).then(function(p_nreuniao: IReuniao) {
-			res.json(p_nreuniao.id);
+			res.json(p_nreuniao);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Put()
-	atualizar(req: express.Request, res: express.Response): void {
+	atualizar(req: server.Request, res: server.Response): void {
 		var nreuniao: IReuniao = <IReuniao>req.body;
 		ReuniaoDAO.upsert(nreuniao).then(function(p_nreuniao: IReuniao) {
-			res.send(true);
+			res.json(nreuniao);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Delete("/:id")
-	delete(req: express.Request, res: express.Response): void {
+	delete(req: server.Request, res: server.Response): void {
 		ReuniaoDAO.destroy({
 			where: {
 				id: req.params.id
@@ -93,7 +83,7 @@ export class Reuniao {
 		}).then(function(p_nreuniao: IReuniao) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 

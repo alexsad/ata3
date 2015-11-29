@@ -1,4 +1,4 @@
-import express = require('express');
+import server = require('restify');
 import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router";
 import AtividadeDAO = require("../model/atividade");
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
@@ -8,15 +8,15 @@ import {IPerfilAutorizacao,EPerfilAutorizacaoTP} from "../../perfil/model/IPerfi
 @Controller()
 export class Atividade {
 	@Get()
-	get(req: express.Request, res: express.Response): void {
+	get(req: server.Request, res: server.Response): void {
 		AtividadeDAO.findAll().then(function(dta: IAtividade[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Get("/getbyidtrimestreidperfil/:idtrimestre/:idperfil")
-	getByIdTrimestreIdPerfil(req: express.Request, res: express.Response): void {
+	getByIdTrimestreIdPerfil(req: server.Request, res: server.Response): void {
 		AtividadeDAO.findAll({
 			where:{
 				idTrimestre:req.params.idtrimestre
@@ -29,19 +29,19 @@ export class Atividade {
 		});
 	}
 	@Get("/gettotalbyidstatus/:idstatus")
-	getByTotalByIdStatus(req: express.Request, res: express.Response): void {
+	getByTotalByIdStatus(req: server.Request, res: server.Response): void {
 		AtividadeDAO.count({
 			where: {
 				idStatus: req.params.idstatus
 			}
 		}).then(function(result:number) {
-			res.json(result||0);
+			res.json({ count: result || 0 });
 		}).catch(function(err: any) {
 			res.status(400).json(err);
 		});
 	}
 	@Get("/getbyidperfilidstatus/:idperfil/:idstatus")
-	getByIdPerfilIdStatus(req: express.Request, res: express.Response): void {
+	getByIdPerfilIdStatus(req: server.Request, res: server.Response): void {
 		var perfilAuto: PerfilAutorizacao = new PerfilAutorizacao();
 		var tpAuto: EPerfilAutorizacaoTP = EPerfilAutorizacaoTP.LIBERACAO;
 		if(req.params.idstatus==EAtividadeStatus.APROVADA){
@@ -74,18 +74,18 @@ export class Atividade {
 
 					//console.log();
 
-					//res.sendStatus(400).json(err);
+					//res.status(400).json(err);
 				});
 			}
 		})
 		.catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 
 
 	@Get("/getatividadestatus")
-	getAtividadeStatus(req: express.Request, res: express.Response): void {
+	getAtividadeStatus(req: server.Request, res: server.Response): void {
 		var tmpArr: {
 			idStatus: number
 			, descricao: string
@@ -115,25 +115,25 @@ export class Atividade {
 		});
 	}
 	@Post()
-	add(req: express.Request, res: express.Response): void {
+	add(req: server.Request, res: server.Response): void {
 		var natividade: IAtividade = <IAtividade>req.body;
 		AtividadeDAO.create(natividade).then(function(p_natividade: IAtividade) {
-			res.json(p_natividade.id);			
+			res.json(p_natividade);			
 		}).catch(function(err:any){
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Put()
-	atualizar(req: express.Request, res: express.Response): void {
+	atualizar(req: server.Request, res: server.Response): void {
 		var natividade: IAtividade = <IAtividade>req.body;		
 		AtividadeDAO.upsert(natividade).then(function(p_natividade: IAtividade) {
-			res.send(true);
+			res.json(natividade);
 		}).catch(function(err: any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});			
 	}
 	@Delete("/:id")
-	delete(req: express.Request, res: express.Response): void {
+	delete(req: server.Request, res: server.Response): void {
 		AtividadeDAO.destroy({
 			where: {
 				id: req.params.id
@@ -141,7 +141,7 @@ export class Atividade {
 		}).then(function(p_natividade: IAtividade) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 

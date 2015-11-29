@@ -1,6 +1,6 @@
 import {Underas} from "../../../../lib/underas/core";
 import {ModWindow} from "../../../../lib/underas/container";
-import {Button, InputPassWord, InputEmail, AlertMsg} from "../../../../lib/underas/controller";
+import {Button,CheckBox, InputPassWord, InputEmail, AlertMsg} from "../../../../lib/underas/controller";
 import {RequestManager} from "../../../../lib/underas/net";
 import {IUsuario} from "../model/IUsuario";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
@@ -11,7 +11,9 @@ export class Login extends ModWindow{
 	amAviso:AlertMsg;
 	itlogin:InputEmail;
 	itsenha:InputPassWord;
+	chlembrar: CheckBox;
 	btEntrar:Button;
+	btBaixarAplicativo: Button;
 	constructor(){
 		super("Login");
 		this.setRevision("$Revision: 140 $");
@@ -36,15 +38,40 @@ export class Login extends ModWindow{
 		this.itsenha.setSize(12);
 		this.append(this.itsenha);
 
+		this.chlembrar = new CheckBox("Lembrar login:","Sim, desejo lembrar o login nesse computador.");
+		this.chlembrar.setCheckedValue("S");
+		this.chlembrar.setUnCheckedValue("N");
+		this.chlembrar.setSize(12);
+		this.append(this.chlembrar);
+
+
 		this.btEntrar = new Button("Logar");
 		this.btEntrar.addEvent("click",this.logar.bind(this));
 		this.append(this.btEntrar);
 
+		this.btBaixarAplicativo = new Button("Baixar Aplicativo");
+		this.btBaixarAplicativo.setIcon("phone");
+		this.btBaixarAplicativo.setSize(4)
+		this.btBaixarAplicativo.getEle()
+			.removeClass("btn-default")
+			.addClass("btn-primary pull-right col-xs-8 visible-xs")
+			.attr("href", "assets/bin/nav4.1.apk");
+		this.append(this.btBaixarAplicativo);
+
 	}
 	onStart():void{
 		this.getModView().showNav(false);
-		this.autoLogin();
+		//this.autoLogin();
 		perfilBoxContainer = new PerfilBox(this);
+		if (Cookies.get("clogin")){
+			this.chlembrar.setValue("S");
+			this.itlogin.setValue(Cookies.get("clogin"));
+		};	
+
+		var agentAppVersion: string = Underas.getUrlParam("nav");
+		if (agentAppVersion != "") {
+			this.btBaixarAplicativo.getEle().hide().removeClass("visible-xs");
+		};
 	}
 	logar():void{
 	   if(!this.itlogin.isValid()){
@@ -68,6 +95,8 @@ export class Login extends ModWindow{
 		   this.amAviso.show(false);
 	   }
 
+
+
 	   RequestManager.addRequest({
 		   "url":"usuario/logar"
 		   ,"method":"post"
@@ -77,8 +106,16 @@ export class Login extends ModWindow{
 		   }
 		   ,"onLoad":function(dta:boolean){
 		   	if(dta==true){
+				if (this.chlembrar.getValue()=="S") {
+					Cookies.set("clogin", this.itlogin.getValue());
+		   	   	}else{
+					Cookies.set("clogin","");
+		   	   	};			  
 	           this.amAviso.show(false);
 	           this.getDados();
+
+			   $("#logo_menu").addClass("hidden-xs");
+
 		   	}else{
 		   		this.amAviso.setText("Login ou senha invalidos!");
 		   		this.amAviso.setType(AlertMsg.TP_ERROR);

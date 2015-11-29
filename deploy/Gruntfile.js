@@ -134,7 +134,7 @@ module.exports = function(grunt) {
 	grunt.registerTask('build-dev', ['build-server-dev','build-view-dev']);
 	grunt.registerTask('build-deploy', ['build-server-deploy','build-view-deploy']);
 
-	grunt.registerTask('install-libs', ['bower:install','copy:jsLibs','copy:jsLibsNotMin']);
+	grunt.registerTask('install-deps', ['bower:install','copy:jsLibs','copy:jsLibsNotMin']);
 
 
 
