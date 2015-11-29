@@ -1,4 +1,4 @@
-import express = require('express');
+import server = require('restify');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router/router";
 import PerfilAutorizacaoDAO = require("../model/perfilautorizacao");
 import {IPerfilAutorizacao,EPerfilAutorizacaoTP} from "../model/IPerfil";
@@ -6,15 +6,15 @@ import {IPerfilAutorizacao,EPerfilAutorizacaoTP} from "../model/IPerfil";
 @Controller()
 export class PerfilAutorizacao{
 	@Get()
-	get(req:express.Request,res:express.Response):void{
+	get(req:server.Request,res:server.Response):void{
 		PerfilAutorizacaoDAO.findAll().then(function(dta:IPerfilAutorizacao[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Get("/getbyidperfil/:idperfil")
-	getByIdPerfil(req: express.Request, res: express.Response): void {
+	getByIdPerfil(req: server.Request, res: server.Response): void {
 		PerfilAutorizacaoDAO.findAll({
 			where:{
 				idPerfil:req.params.idperfil
@@ -22,7 +22,7 @@ export class PerfilAutorizacao{
 		}).then(function(dta: IPerfilAutorizacao[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}	
 	getByIdPerfilTpAutorizacao(p_idPerfil:number,p_tpAutorizacao:EPerfilAutorizacaoTP){
@@ -34,25 +34,25 @@ export class PerfilAutorizacao{
 		});
 	}	
 	@Post()
-	add(req:express.Request,res:express.Response):void{
+	add(req:server.Request,res:server.Response):void{
 		var nperfilautorizacao:IPerfilAutorizacao = <IPerfilAutorizacao>req.body;
 		PerfilAutorizacaoDAO.create(nperfilautorizacao).then(function(p_nperfilautorizacao: IPerfilAutorizacao) {
-			res.json(p_nperfilautorizacao.id);
+			res.json(p_nperfilautorizacao);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}		
 	@Put()
-	atualizar(req:express.Request,res:express.Response):void{
+	atualizar(req:server.Request,res:server.Response):void{
 		var nperfilautorizacao: IPerfilAutorizacao = <IPerfilAutorizacao>req.body;
 		PerfilAutorizacaoDAO.upsert(nperfilautorizacao).then(function(p_nperfilautorizacao: IPerfilAutorizacao) {
-			res.send(true);
+			res.json(p_nperfilautorizacao);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Delete("/:id")
-	delete(req:express.Request,res:express.Response):void{
+	delete(req:server.Request,res:server.Response):void{
 		PerfilAutorizacaoDAO.destroy({
 			where: {
 				id:req.params.id
@@ -60,7 +60,7 @@ export class PerfilAutorizacao{
 		}).then(function(p_nperfilautorizacao: IPerfilAutorizacao) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 		

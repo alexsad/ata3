@@ -1,4 +1,4 @@
-import express = require('express');
+import server = require('restify');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router/router";
 import TrimestreDAO = require("../model/trimestre");
 import {Atividade} from "./Atividade";
@@ -10,29 +10,29 @@ import {Perfil} from "../../perfil/controller/Perfil";
 @Controller()
 export class Trimestre{
 	@Get()
-	get(req:express.Request,res:express.Response):void{
+	get(req:server.Request,res:server.Response):void{
 		TrimestreDAO.findAll().then(
 			function(dta:ITrimestre[]){
 				res.json(dta);
 			}
 		).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 
 	@Get("/getdisponiveis")
-	getDisponiveis(req: express.Request, res: express.Response): void {
+	getDisponiveis(req: server.Request, res: server.Response): void {
 		TrimestreDAO.findAll({where:{"snAberto": "S" }}).then(
 			function(dta: ITrimestre[]) {
 				res.json(dta);
 			}
 		).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	
 	@Get('/getbyidperfil/:idperfil')
-	getByIdPerfil(req: express.Request, res: express.Response): void {
+	getByIdPerfil(req: server.Request, res: server.Response): void {
 		var pidperfil: number = parseInt(req.params.idperfil);
 		TrimestreDAO.findAll({ where: { "snAberto": "S" } }).then(
 			function(dta: ITrimestre[]) {
@@ -61,30 +61,30 @@ export class Trimestre{
 				};
 			}
 		).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 
 	@Post()
-	add(req: express.Request, res: express.Response): void {
+	add(req: server.Request, res: server.Response): void {
 		var ntrimestre: ITrimestre = <ITrimestre>req.body;
 		TrimestreDAO.create(ntrimestre).then(function(p_ntrimestre: ITrimestre) {
-			res.json(p_ntrimestre.id);
+			res.json(p_ntrimestre);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Put()
-	atualizar(req: express.Request, res: express.Response): void {
+	atualizar(req: server.Request, res: server.Response): void {
 		var ntrimestre: ITrimestre = <ITrimestre>req.body;
 		TrimestreDAO.upsert(ntrimestre).then(function(p_ntrimestre: ITrimestre) {
-			res.send(true);
+			res.json(ntrimestre);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Delete("/:id")
-	delete(req: express.Request, res: express.Response): void {
+	delete(req: server.Request, res: server.Response): void {
 		TrimestreDAO.destroy({
 			where: {
 				id: req.params.id
@@ -92,12 +92,12 @@ export class Trimestre{
 		}).then(function(p_ntrimestre: ITrimestre) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 /*
 	@Get("/getDisponiveisByIdPerfil/:idPerfil")
-	getDisponiveisByIdPerfil(req: express.Request, res: express.Response): void {
+	getDisponiveisByIdPerfil(req: server.Request, res: server.Response): void {
 		var tmpIdPerfilReq: string = req.params.idPerfil;
 		TrimestreDAO.find({ "snAberto": "S" }).exec().then(
 			function(dtaTrimestre: ITrimestre[]) {
@@ -184,12 +184,12 @@ export class Trimestre{
 						res.json(tmpTrimestreLst);
 					}
 					, function(err: any) {
-						res.sendStatus(500).json(err);
+						res.status(500).json(err);
 					}
 				);
 			}
 			, function(err:any) {
-				res.sendStatus(400).json(err);
+				res.status(400).json(err);
 			}
 		);
 	}

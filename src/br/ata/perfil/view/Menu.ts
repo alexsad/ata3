@@ -16,7 +16,7 @@ export class Menu extends ModWindow{
 	mainList:ListView;
 	_items: ItemMenu;
 	constructor(){
-		super("*cadastro e configuracao dos menus.");
+		super("Menus do Perfil");
 		this.setRevision("$Revision: 138 $");
 		this.setSize(5);
 

@@ -1,4 +1,4 @@
-import express = require('express');
+import server = require('restify');
 import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router";
 import DiscursoDAO = require("../model/discurso");
 import {IDiscurso} from "../model/IDiscurso";
@@ -12,24 +12,17 @@ export class Discurso {
 		this.contteste = 1;
 	}
 	@Get()
-	get(req: express.Request, res: express.Response): void {
+	get(req: server.Request, res: server.Response): void {
 		DiscursoDAO.findAll().then(function(dta: IDiscurso[]) {
 			this.contteste++;
 			dta[0].tempo += this.contteste;
 			res.json(dta);
 		}.bind(this)).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
-	getByIdReuniao(p_idReuniao: number) {
-		return DiscursoDAO.findAll({
-			where: {
-				idReuniao: p_idReuniao
-			}
-		});
-	}	
 	@Get("/getultimosdiscursos")
-	getUltimosDiscursosTotal(req: express.Request, res: express.Response): void {
+	getUltimosDiscursosTotal(req: server.Request, res: server.Response): void {
 		var tmpReuniaoCtrl: Reuniao = new Reuniao();
 		tmpReuniaoCtrl.getAtuais().then(
 			function(dtaReuniao: IReuniao[]) {
@@ -44,48 +37,52 @@ export class Discurso {
 						}
 					}
 				}).then(function(total:number) {
-					res.json(total);
+					res.json({count:total||0});
 				}).catch(function(err: any) {
-					res.sendStatus(400).json(err);
+					res.status(400).json(err);
 				});
 				//res.json(dta);
 			}
 		).catch(function(err: any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
-	@Get("/getbyidreuniao/:idreuniao")
-	getByIdReuniaoService(req: express.Request, res: express.Response): void {
-		DiscursoDAO.findAll({
+	getByIdReuniao(p_idReuniao: number){
+		return DiscursoDAO.findAll({
 			where: {
-				idReuniao: req.params.idreuniao
+				idReuniao: p_idReuniao
 			}
-		}).then(function(dta: IDiscurso[]) {
+		});
+	}	
+	@Get("/getbyidreuniao/:idreuniao")
+	getByIdReuniaoService(req: server.Request, res: server.Response): void {
+		this.getByIdReuniao(req.params.idreuniao)
+		.then(function(dta: IDiscurso[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Post()
-	add(req: express.Request, res: express.Response): void {
+	add(req: server.Request, res: server.Response): void {
 		var ndiscurso: IDiscurso = <IDiscurso>req.body;
 		DiscursoDAO.create(ndiscurso).then(function(p_ndiscurso: IDiscurso) {
-			res.json(p_ndiscurso.id);
+			res.json(p_ndiscurso);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Put()
-	atualizar(req: express.Request, res: express.Response): void {
+	atualizar(req: server.Request, res: server.Response): void {
 		var ndiscurso: IDiscurso = <IDiscurso>req.body;
 		DiscursoDAO.upsert(ndiscurso).then(function(p_ndiscurso: IDiscurso) {
-			res.send(true);
+			res.json(ndiscurso);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Delete("/:id")
-	delete(req: express.Request, res: express.Response): void {
+	delete(req: server.Request, res: server.Response): void {
 		DiscursoDAO.destroy({
 			where: {
 				id: req.params.id
@@ -93,7 +90,7 @@ export class Discurso {
 		}).then(function(p_ndiscurso: IDiscurso) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 

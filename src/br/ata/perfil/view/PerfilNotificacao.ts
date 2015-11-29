@@ -109,7 +109,7 @@ export class PerfilNotificacao extends ModWindow{
 		this.itLimiteMin.setEnable(false, 2);
 		this.itLimiteMin.setSize(3);
 		this.itLimiteMin.setLabel("Limite Min.");
-		this.itLimiteMin.setMin(1);
+		this.itLimiteMin.setMin(0);
 		this.itLimiteMin.setMax(100);
 		this.itLimiteMin.setStep(1);
 		this.itLimiteMin.setColumn("@limiteMin");

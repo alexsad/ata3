@@ -1,4 +1,4 @@
-import express = require('express');
+import server = require('restify');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router/router";
 import TrimestreLancamentoAtividadeDAO = require("../model/trimestrelancamentoatividade");
 import {ITrimestreLancamentoAtividade} from "../model/ITrimestre";
@@ -6,15 +6,15 @@ import {ITrimestreLancamentoAtividade} from "../model/ITrimestre";
 @Controller()
 export class TrimestreLancamentoAtividade{
 		@Get()
-		get(req:express.Request,res:express.Response):void{
+		get(req:server.Request,res:server.Response):void{
 			TrimestreLancamentoAtividadeDAO.findAll().then(function(dta:ITrimestreLancamentoAtividade[]) {
 				res.json(dta);
 			}).catch(function(err:any) {
-				res.sendStatus(400).json(err);
+				res.status(400).json(err);
 			});
 		}	
 		@Get("/getbyidtrimestre/:idtrimestre")
-		getByIdTrimestre(req: express.Request, res: express.Response): void {
+		getByIdTrimestre(req: server.Request, res: server.Response): void {
 			TrimestreLancamentoAtividadeDAO.findAll({
 				where:{
 					idTrimestre:req.params.idtrimestre
@@ -22,7 +22,7 @@ export class TrimestreLancamentoAtividade{
 			}).then(function(dta: ITrimestreLancamentoAtividade[]) {
 				res.json(dta);
 			}).catch(function(err:any) {
-				res.sendStatus(400).json(err);
+				res.status(400).json(err);
 			});
 		}
 		getTotalByIdTrimestreIdPerfil(p_idTrimestre:number,p_idPerfil:number){
@@ -34,25 +34,25 @@ export class TrimestreLancamentoAtividade{
 			})
 		}			
 		@Post()
-		add(req:express.Request,res:express.Response):void{
+		add(req:server.Request,res:server.Response):void{
 			var ntrimestrelancamentoatividade:ITrimestreLancamentoAtividade = <ITrimestreLancamentoAtividade>req.body;
 			TrimestreLancamentoAtividadeDAO.create(ntrimestrelancamentoatividade).then(function(p_ntrimestrelancamentoatividade: ITrimestreLancamentoAtividade) {
-				res.json(p_ntrimestrelancamentoatividade.id);
+				res.json(p_ntrimestrelancamentoatividade);
 			}).catch(function(err:any) {
-				res.sendStatus(400).json(err);
+				res.status(400).json(err);
 			});
 		}		
 		@Put()
-		atualizar(req:express.Request,res:express.Response):void{
+		atualizar(req:server.Request,res:server.Response):void{
 			var ntrimestrelancamentoatividade: ITrimestreLancamentoAtividade = <ITrimestreLancamentoAtividade>req.body;
 			TrimestreLancamentoAtividadeDAO.upsert(ntrimestrelancamentoatividade).then(function(p_ntrimestrelancamentoatividade: ITrimestreLancamentoAtividade) {
-				res.send(true);
+				res.json(p_ntrimestrelancamentoatividade);
 			}).catch(function(err:any) {
-				res.sendStatus(400).json(err);
+				res.status(400).json(err);
 			});
 		}
 		@Delete("/:id")
-		delete(req:express.Request,res:express.Response):void{
+		delete(req:server.Request,res:server.Response):void{
 			TrimestreLancamentoAtividadeDAO.destroy({
 				where: {
 					id:req.params.id
@@ -60,7 +60,7 @@ export class TrimestreLancamentoAtividade{
 			}).then(function(p_ntrimestrelancamentoatividade: ITrimestreLancamentoAtividade) {
 				res.send(true);
 			}).catch(function(err:any) {
-				res.sendStatus(400).json(err);
+				res.status(400).json(err);
 			});
 		}
 		

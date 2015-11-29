@@ -1,4 +1,4 @@
-import express = require('express');
+import server = require('restify');
 import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router";
 import MenuDAO = require("../model/menu");
 import ItemMenuDAO = require("../model/itemmenu");
@@ -7,15 +7,15 @@ import {IMenu,IItemMenu} from "../model/IPerfil";
 @Controller()
 export class Menu {
 	@Get()
-	get(req: express.Request, res: express.Response): void {
+	get(req: server.Request, res: server.Response): void {
 		MenuDAO.findAll().then(function(dta: IMenu[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Get("/getbyidperfil/:idperfil")
-	getByIdPerfil(req: express.Request, res: express.Response): void {
+	getByIdPerfil(req: server.Request, res: server.Response): void {
 		MenuDAO.findAll({
 			where:{
 				idPerfil:req.params.idperfil
@@ -23,11 +23,11 @@ export class Menu {
 		}).then(function(dta: IMenu[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Get("/getfullbyidperfil/:idperfil")
-	getFullByIdPerfil(req: express.Request, res: express.Response): void {
+	getFullByIdPerfil(req: server.Request, res: server.Response): void {
 		//MenuDAO.hasMany(ItemMenu);
 		MenuDAO.findAll({
 			where: {
@@ -48,35 +48,35 @@ export class Menu {
 						res.json(dta);
 					}
 				}).catch(function(err:any) {
-					res.sendStatus(400).json(err);
+					res.status(400).json(err);
 				});
 				//dta[0].children = [];
 			});
 			
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Post()
-	add(req: express.Request, res: express.Response): void {
+	add(req: server.Request, res: server.Response): void {
 		var nmenu: IMenu = <IMenu>req.body;
 		MenuDAO.create(nmenu).then(function(p_nmenu: IMenu) {
-			res.json(p_nmenu.id);
+			res.json(p_nmenu);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Put()
-	atualizar(req: express.Request, res: express.Response): void {
+	atualizar(req: server.Request, res: server.Response): void {
 		var nmenu: IMenu = <IMenu>req.body;
 		MenuDAO.upsert(nmenu).then(function(p_nmenu: IMenu) {
-			res.send(true);
+			res.json(nmenu);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 	@Delete("/:id")
-	delete(req: express.Request, res: express.Response): void {
+	delete(req: server.Request, res: server.Response): void {
 		MenuDAO.destroy({
 			where: {
 				id: req.params.id
@@ -84,7 +84,7 @@ export class Menu {
 		}).then(function(p_nmenu: IMenu) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.sendStatus(400).json(err);
+			res.status(400).json(err);
 		});
 	}
 

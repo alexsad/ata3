@@ -18,7 +18,7 @@ export class ItemMenu extends ModWindow{
 	mainList:ListView;
 	_menu: Menu;
 	constructor(p_menu:Menu){
-		super("*Itens do menu.");
+		super("Itens do Menu");
 		this.setRevision("$Revision: 138 $");
 		this.setSize(4);
 

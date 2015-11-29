@@ -68,7 +68,7 @@ export class PerfilBox{
 		$(this._idbox)
 		.html("")
 		.addClass("pull-right")
-			.append(this._notificacoes.getEle());	
+		.append(this._notificacoes.getEle());	
 
 		RequestManager.addRequest({
 			url: "perfilnotificacao/getbyidperfil/"+this.getIdPerfil()
@@ -77,12 +77,12 @@ export class PerfilBox{
 					RequestManager.addRequest({
 						url:itemPerfilNotificacao.servicoContagem
 						,rootUrl:""
-						,onLoad:function(result:number):void{
-							if(result > itemPerfilNotificacao.limiteMin && result < itemPerfilNotificacao.limiteMax){
+						,onLoad:function(result:{count:number}):void{
+							if(result.count >= itemPerfilNotificacao.limiteMin && result.count <= itemPerfilNotificacao.limiteMax){
 								this._notificacoes.addNotify({
 									"title": itemPerfilNotificacao.descricao
-									, "subtitle": itemPerfilNotificacao.mascara.replace(/\{total\}/g, result + "")
-									, "count": result
+									, "subtitle": itemPerfilNotificacao.mascara.replace(/\{total\}/g, result.count + "")
+									, "count": result.count
 									, "type": itemPerfilNotificacao.tpNotificacao
 									, "icon": itemPerfilNotificacao.icone
 									, "module": itemPerfilNotificacao.modulo
@@ -138,29 +138,30 @@ export class PerfilBox{
 				});
 				dta.push({
 					//id:'2344jfjfel'
-					icone: ''
-					, label: ''
-					, ordem: 23
-					, children: tmpChildrens
-					, idPerfil: this.getIdPerfil()
-				});
-				dta.push({
-					//id:'2344jfjfel'
 					icone: 'bell'
 					, label: 'teste 222'
 					, ordem: 25
 					, children: []
 					, idPerfil: this.getIdPerfil()
 				});
+				dta.push({
+					//id:'2344jfjfel'
+					icone: ''
+					, label: ''
+					, ordem: 23
+					, children: tmpChildrens
+					, idPerfil: this.getIdPerfil()
+				});
+
 				tmpMenu.setDataProvider(dta);
 				var tmpLogin: string = this._modLogin.itlogin.getValue();
 				tmpLogin = tmpLogin.substring(0, tmpLogin.indexOf("@"));
-				var tmpIdM: number = dta.length - 1;
+				var tmpIdM: number = dta.length - 2;
 				this._idbox = "#tabmenu_" + (tmpIdM);
-				tmpIdM--;
+				tmpIdM++;
 				$("#tabmenu_" + tmpIdM + ",#tabmenu_" + tmpIdM + "_l").addClass("pull-right");
 				$("#tabmenu_" + tmpIdM + " a").html(
-					'<img style="border: 2px solid #04dd90;border-radius: 100%;margin: -4px 8px 0 0;max-width: 30px;" alt="Photo" src="http://i.imgur.com/RLiDK.png" class="nav-user-photo">'
+					'<img style="border: 2px solid #04dd90;border-radius: 100%;margin: -4px 8px 0 0;max-width: 30px;" alt="Photo" src="assets/avatars/RLiDK.png" class="nav-user-photo">'
 					+ '<small class="hidden-xs">' + tmpLogin + '</small>'
 				);
 				this.loadNotificacoesPerfil();
