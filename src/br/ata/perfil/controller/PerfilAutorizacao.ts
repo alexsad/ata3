@@ -46,7 +46,7 @@ export class PerfilAutorizacao{
 	atualizar(req:server.Request,res:server.Response):void{
 		var nperfilautorizacao: IPerfilAutorizacao = <IPerfilAutorizacao>req.body;
 		PerfilAutorizacaoDAO.upsert(nperfilautorizacao).then(function(p_nperfilautorizacao: IPerfilAutorizacao) {
-			res.json(p_nperfilautorizacao);
+			res.json(nperfilautorizacao);
 		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});

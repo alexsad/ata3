@@ -24,7 +24,7 @@ export class PerfilNotificacao extends ModWindow{
 	mainList:ListView;
 
 	constructor(){
-		super("*Nofificacoes do Perfil.");
+		super("Nofificacoes do Perfil");
 		this.setRevision("$Revision: 138 $");
 		this.setSize(8);
 
@@ -51,7 +51,7 @@ export class PerfilNotificacao extends ModWindow{
 		this.itIdPerfil.setValueField("id");
 		this.itIdPerfil.setLabelField("descricao");
 		this.itIdPerfil.setSize(4);
-		this.itIdPerfil.setEnable(false);
+		this.itIdPerfil.setEnable(true);
 		this.append(this.itIdPerfil);
 
 		this.itMascara = new InputText("");
@@ -106,7 +106,7 @@ export class PerfilNotificacao extends ModWindow{
 		this.append(this.itModuloIcone);
 
 		this.itLimiteMin = new NumericStepper(5);
-		this.itLimiteMin.setEnable(false, 2);
+		//this.itLimiteMin.setEnable(false, 2);
 		this.itLimiteMin.setSize(3);
 		this.itLimiteMin.setLabel("Limite Min.");
 		this.itLimiteMin.setMin(0);
@@ -116,7 +116,7 @@ export class PerfilNotificacao extends ModWindow{
 		this.append(this.itLimiteMin);
 
 		this.itLimiteMax = new NumericStepper(5);
-		this.itLimiteMax.setEnable(false,2);
+		//this.itLimiteMax.setEnable(false,2);
 		this.itLimiteMax.setSize(3);
 		this.itLimiteMax.setLabel("Limite Max.");
 		this.itLimiteMax.setMin(1);
@@ -128,12 +128,14 @@ export class PerfilNotificacao extends ModWindow{
 		this.itDtInicial = new DatePicker();
 		this.itDtInicial.setLabel("Inicio");
 		this.itDtInicial.setColumn("@dtInicial");
+		this.itDtInicial.setEnable(false);
 		this.itDtInicial.setSize(3);
 		this.append(this.itDtInicial);
 
 		this.itDtFinal = new DatePicker();
 		this.itDtFinal.setLabel("Inicio");
 		this.itDtFinal.setColumn("@dtFinal");
+		this.itDtFinal.setEnable(false);
 		this.itDtFinal.setSize(3);
 		this.append(this.itDtFinal);
 

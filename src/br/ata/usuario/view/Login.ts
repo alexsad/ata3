@@ -44,7 +44,6 @@ export class Login extends ModWindow{
 		this.chlembrar.setSize(12);
 		this.append(this.chlembrar);
 
-
 		this.btEntrar = new Button("Logar");
 		this.btEntrar.addEvent("click",this.logar.bind(this));
 		this.append(this.btEntrar);
@@ -107,10 +106,8 @@ export class Login extends ModWindow{
 		   ,"onLoad":function(dta:boolean){
 		   	if(dta==true){
 				if (this.chlembrar.getValue()=="S") {
-					Cookies.set("clogin", this.itlogin.getValue());
-		   	   	}else{
-					Cookies.set("clogin","");
-		   	   	};			  
+					Cookies.set("clogin", this.itlogin.getValue(), { expires: Infinity });
+				};			  
 	           this.amAviso.show(false);
 	           this.getDados();
 
