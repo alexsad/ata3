@@ -44,7 +44,7 @@ export class Atividade {
 	getByIdPerfilIdStatus(req: server.Request, res: server.Response): void {
 		var perfilAuto: PerfilAutorizacao = new PerfilAutorizacao();
 		var tpAuto: EPerfilAutorizacaoTP = EPerfilAutorizacaoTP.LIBERACAO;
-		if(req.params.idstatus==EAtividadeStatus.APROVADA){
+		if(req.params.idstatus==EAtividadeStatus.ENVIADA){
 			tpAuto = EPerfilAutorizacaoTP.APROVACAO;
 		}
 		perfilAuto.getByIdPerfilTpAutorizacao(req.params.idperfil, tpAuto)
@@ -52,7 +52,7 @@ export class Atividade {
 			if(dta1.length==0){
 				res.json([]);
 			}else{
-				var perfisAlvos: number[] = [];
+				var perfisAlvos: number[] = [0];
 				dta1.forEach(function(itemPerfilAuto:IPerfilAutorizacao){
 					perfisAlvos.push(itemPerfilAuto.idPerfilAlvo);
 				});

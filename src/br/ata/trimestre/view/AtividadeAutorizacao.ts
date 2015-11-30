@@ -268,6 +268,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.getByIdStatus(EAtividadeStatus.ENVIADA);
 	}
 	getAtividadesAprovadas(): void {
+		this.itCodRefMLS.setColumn("@codRefMLS");
 		this.getByIdStatus(EAtividadeStatus.APROVADA);
 	}
 
@@ -316,33 +317,44 @@ export class AtividadeAutorizacao extends ModWindow {
 		var tmpItemAtiv: IAtividade = <IAtividade>this.mainList.getSelectedItem();
 		if (tmpItemAtiv.idStatus == this._idStatus) {
 			//tmpItemAtiv.snEditavel = "N";
-			if (tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA) {
-				tmpItemAtiv.idStatus = EAtividadeStatus.APROVADA;
-			} else if (tmpItemAtiv.idStatus == EAtividadeStatus.APROVADA) {
-				tmpItemAtiv.idStatus = EAtividadeStatus.LIBERADA;
-			} else {
-				tmpItemAtiv.idStatus = EAtividadeStatus.ENVIADA;
+
+			if(this.itCodRefMLS.isValid()){
+				this.itCodRefMLS.setValid(true);
+
+				if (tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA) {
+					tmpItemAtiv.idStatus = EAtividadeStatus.APROVADA;
+				} else if (tmpItemAtiv.idStatus == EAtividadeStatus.APROVADA) {
+					tmpItemAtiv.idStatus = EAtividadeStatus.LIBERADA;
+				} else {
+					tmpItemAtiv.idStatus = EAtividadeStatus.ENVIADA;
+				};
+
+				if(this.itCodRefMLS.getValue()){
+					tmpItemAtiv.codRefMLS = parseInt(this.itCodRefMLS.getValue());
+				};
+
+				RequestManager.addRequest({
+					url: "atividade"
+					, method: "PUT"
+					, data: tmpItemAtiv
+					, onLoad: function(rt_atividade: IAtividade): void {
+						var tmpStatus: string = EAtividadeStatus[rt_atividade.idStatus].toLowerCase();
+						if (rt_atividade.idStatus == EAtividadeStatus.LIBERADA || rt_atividade.idStatus == EAtividadeStatus.APROVADA) {
+							//tmpStatus = "aprovada";
+							//tmpItemAtiv.codRefMLS = rt_atividade.codRefMLS;
+							tmpItemAtiv.dsObservacao = "Atividade enviada com sucesso, em breve sua atividade sera analisada e se tudo estiver correto ela sera " + tmpStatus + "!";
+							this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
+							this.itDsObservacao.setType(AlertMsg.TP_INFO);
+						} else {
+							tmpItemAtiv.dsObservacao = "A atividade nao pode ser " + tmpStatus + ", entre em contato com o bispado em caso de duvidas!";
+							this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
+							this.itDsObservacao.setType(AlertMsg.TP_ERROR);
+						}
+					}.bind(this)
+				});
+			}else{
+				this.itCodRefMLS.setValid(false);
 			}
-			RequestManager.addRequest({
-				url: "atividade"
-				, method: "PUT"
-				, data: tmpItemAtiv
-				, onLoad: function(rt_save: boolean): void {
-					var tmpStatus: string = EAtividadeStatus[tmpItemAtiv.idStatus].toLowerCase();
-					if (rt_save) {
-						if (tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA) {
-							tmpStatus = "aprovada";
-						};
-						tmpItemAtiv.dsObservacao = "Atividade enviada com sucesso, em breve sua atividade sera analisada e se tudo estiver correto ela sera " + tmpStatus + "!";
-						this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
-						this.itDsObservacao.setType(AlertMsg.TP_INFO);
-					} else {
-						tmpItemAtiv.dsObservacao = "A atividade nao pode ser " + tmpStatus + ", entre em contato com o bispado em caso de duvidas!";
-						this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
-						this.itDsObservacao.setType(AlertMsg.TP_ERROR);
-					}
-				}.bind(this)
-			});
 		};
 	}
 

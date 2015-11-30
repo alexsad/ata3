@@ -55,7 +55,7 @@ export class Perfil{
 	add(req: server.Request, res: server.Response): void {
 		var nperfil: IPerfil = <IPerfil>req.body;
 		PerfilDAO.create(nperfil).then(function(p_nperfil: IPerfil) {
-			res.json(nperfil);
+			res.json(p_nperfil);
 		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
@@ -64,7 +64,7 @@ export class Perfil{
 	atualizar(req: server.Request, res: server.Response): void {
 		var nperfil: IPerfil = <IPerfil>req.body;
 		PerfilDAO.upsert(nperfil).then(function(p_nperfil: IPerfil) {
-			res.json(p_nperfil);
+			res.json(nperfil);
 		}).catch(function(err:any) {
 			res.status(400).json(err);
 		});
