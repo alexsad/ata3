@@ -2,22 +2,56 @@ import server = require('restify');
 import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router";
 import ReuniaoDAO = require("../model/reuniao");
 import {IReuniao} from "../model/IReuniao";
+import DiscursoDAO = require("../model/discurso");
 
 @Controller()
 export class Reuniao {
 	@Get()
-	get(req: server.Request, res: server.Response): void {
-		ReuniaoDAO.findAll().then(function(dta: IReuniao[]) {
+	get(req: server.Request, res: server.Response): void {	
+		ReuniaoDAO.findAll({
+			include: [ {
+				all: true
+				,nested: false
+				,model:DiscursoDAO
+				,required: true
+			}]		
+		}).then(function(dta: IReuniao[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Get("/getbyperiodo")
 	getByPeriodo(req: server.Request, res: server.Response):void{
 		var queryParams = req.query;
+		
+		/*
+		ReuniaoDAO.findAll({ 
+			include: [ {
+				all: true
+				,nested: false
+				,model:DiscursoDAO
+				,required: true
+				,as:'discuros'
+				,foreignKey: 'id_reuniao' 
+				//,where:{id_reuniao: 1 }
+			}]
+		}).then(function (dta) {
+            res.json(dta);
+        }).catch(function (err) {
+			res.status(400);
+            			res.json(err);
+        });
+		*/		
 		ReuniaoDAO.findAll({
-			order: [
+			include: [ {
+				all: true
+				,nested: false
+				,model:DiscursoDAO
+				,required: true
+			}]
+			,order: [
 				["momento","asc"]
 			]
 			,where:{
@@ -31,7 +65,8 @@ export class Reuniao {
 				res.json(dta);
 			}
 		).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Get("/getatuais")
@@ -41,7 +76,8 @@ export class Reuniao {
 				res.json(dta);
 			}
 		).catch(function(err: any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}	
 	getAtuais() {
@@ -62,7 +98,8 @@ export class Reuniao {
 		ReuniaoDAO.create(nreuniao).then(function(p_nreuniao: IReuniao) {
 			res.json(p_nreuniao);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Put()
@@ -71,7 +108,8 @@ export class Reuniao {
 		ReuniaoDAO.upsert(nreuniao).then(function(p_nreuniao: IReuniao) {
 			res.json(nreuniao);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Delete("/:id")
@@ -83,7 +121,8 @@ export class Reuniao {
 		}).then(function(p_nreuniao: IReuniao) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 

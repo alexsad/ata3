@@ -12,7 +12,8 @@ export class Atividade {
 		AtividadeDAO.findAll().then(function(dta: IAtividade[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Get("/getbyidtrimestreidperfil/:idtrimestre/:idperfil")
@@ -25,7 +26,8 @@ export class Atividade {
 		}).then(function(dta: IAtividade[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Get("/gettotalbyidstatus/:idstatus")
@@ -37,7 +39,8 @@ export class Atividade {
 		}).then(function(result:number) {
 			res.json({ count: result || 0 });
 		}).catch(function(err: any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Get("/getbyidperfilidstatus/:idperfil/:idstatus")
@@ -74,12 +77,14 @@ export class Atividade {
 
 					//console.log();
 
-					//res.status(400).json(err);
+					//res.status(400);
+			res.json(err);
 				});
 			}
 		})
 		.catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 
@@ -120,7 +125,8 @@ export class Atividade {
 		AtividadeDAO.create(natividade).then(function(p_natividade: IAtividade) {
 			res.json(p_natividade);			
 		}).catch(function(err:any){
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Put()
@@ -129,7 +135,8 @@ export class Atividade {
 		AtividadeDAO.upsert(natividade).then(function(p_natividade: IAtividade) {
 			res.json(natividade);
 		}).catch(function(err: any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});			
 	}
 	@Delete("/:id")
@@ -141,7 +148,8 @@ export class Atividade {
 		}).then(function(p_natividade: IAtividade) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 

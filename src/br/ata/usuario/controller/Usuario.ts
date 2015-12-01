@@ -13,7 +13,8 @@ export class Usuario{
 		UsuarioDAO.findAll().then(function(dta: IUsuario[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 
@@ -29,7 +30,8 @@ export class Usuario{
 				res.send(((dta)?true:false));
 			}
 		).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 
@@ -43,7 +45,8 @@ export class Usuario{
 		).then(
 			(dta:IUsuario[]) => res.send(dta)
 		).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 
@@ -56,7 +59,8 @@ export class Usuario{
 				res.send(dta);
 			}
 		).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 
@@ -66,7 +70,8 @@ export class Usuario{
 		UsuarioDAO.create(nusuario).then(function(p_nusuario: IUsuario) {
 			res.json(p_nusuario);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Put()
@@ -75,7 +80,8 @@ export class Usuario{
 		UsuarioDAO.upsert(nusuario).then(function(p_nusuario: IUsuario) {
 			res.json(nusuario);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Delete("/:_id")
@@ -87,7 +93,8 @@ export class Usuario{
 		}).then(function(p_nusuario: IUsuario) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 

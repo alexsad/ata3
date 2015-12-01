@@ -10,7 +10,8 @@ export class PerfilNotificacao {
 		PerfilNotificacaoDAO.findAll().then(function(dta: IPerfilNotificacao[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 
@@ -23,7 +24,8 @@ export class PerfilNotificacao {
 		}).then(function(dta: IPerfilNotificacao[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 
@@ -58,7 +60,8 @@ export class PerfilNotificacao {
 		PerfilNotificacaoDAO.create(nperfilnotificacao).then(function(p_nperfilnotificacao: IPerfilNotificacao) {
 			res.json(p_nperfilnotificacao);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Put()
@@ -67,7 +70,8 @@ export class PerfilNotificacao {
 		PerfilNotificacaoDAO.upsert(nperfilnotificacao).then(function(p_nperfilnotificacao: IPerfilNotificacao) {
 			res.json(nperfilnotificacao);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Delete("/:id")
@@ -79,7 +83,8 @@ export class PerfilNotificacao {
 		}).then(function(p_nperfilnotificacao: IPerfilNotificacao) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 

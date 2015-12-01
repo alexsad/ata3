@@ -2,6 +2,7 @@ import {Underas} from "../../../../lib/underas/core";
 import {ModView} from "../../../../lib/underas/container";
 import {RequestManager} from "../../../../lib/underas/net";
 import {Login} from "../../usuario/view/Login";
+import {ReuniaoPorPeriodo} from "../../reuniao/view/ReuniaoPorPeriodo";
 //import {AtividadeAutorizacao} from "../../trimestre/view/AtividadeAutorizacao";
 
 
@@ -17,7 +18,7 @@ class Main{
 		//var t = new sub.SubB(45);
 		//t.doAnyThing("nova instancia!!!!");
 		//$("body").append("<div>!teste</div>");
-		var teste:Login = new Login();
+		var teste:ReuniaoPorPeriodo = new ReuniaoPorPeriodo();
 		var mdw: ModView = new ModView("cadastro de teste!!!");
 		mdw.getEle().addClass("mdwLogin");
 		mdw.setIcon("key");

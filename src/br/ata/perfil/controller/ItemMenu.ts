@@ -10,7 +10,8 @@ export class ItemMenu {
 		ItemMenuDAO.findAll().then(function(dta: IItemMenu[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Get("/getbyidmenu/:idmenu")
@@ -22,7 +23,8 @@ export class ItemMenu {
 		}).then(function(dta: IItemMenu[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Post()
@@ -31,7 +33,8 @@ export class ItemMenu {
 		ItemMenuDAO.create(nitemmenu).then(function(p_nitemmenu: IItemMenu) {
 			res.json(p_nitemmenu);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Put()
@@ -40,7 +43,8 @@ export class ItemMenu {
 		ItemMenuDAO.upsert(nitemmenu).then(function(p_nitemmenu: IItemMenu) {
 			res.json(nitemmenu);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Delete("/:id")
@@ -52,7 +56,8 @@ export class ItemMenu {
 		}).then(function(p_nitemmenu: IItemMenu) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 

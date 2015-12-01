@@ -10,7 +10,8 @@ export class Membro {
 		MembroDAO.findAll().then(function(dta: IMembro[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Get("/getbysnativo/:p_snativo")
@@ -20,7 +21,8 @@ export class Membro {
 		}).then(function(dta: IMembro[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Get("/getbyidorganizacao/:idOrganizacao")
@@ -30,7 +32,8 @@ export class Membro {
 		}).then(function(dta: IMembro[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Post()
@@ -39,7 +42,8 @@ export class Membro {
 		MembroDAO.create(nmembro).then(function(p_nmembro: IMembro) {
 			res.json(p_nmembro);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Put()
@@ -48,7 +52,8 @@ export class Membro {
 		MembroDAO.upsert(nmembro).then(function(p_nmembro: IMembro) {
 			res.json(nmembro);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Delete("/:_id")
@@ -60,7 +65,8 @@ export class Membro {
 		}).then(function(p_nmembro: IMembro) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 

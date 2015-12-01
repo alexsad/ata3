@@ -6,7 +6,7 @@ declare module "restify"{
       }
       export interface Response {
             send(p_res: any): void;
-            status(p_status: number): Response;
+            status(p_status: number): void;
             json(p_res: any): void;
       }
 }
