@@ -18,7 +18,8 @@ export class Discurso {
 			dta[0].tempo += this.contteste;
 			res.json(dta);
 		}.bind(this)).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Get("/getultimosdiscursos")
@@ -39,12 +40,14 @@ export class Discurso {
 				}).then(function(total:number) {
 					res.json({count:total||0});
 				}).catch(function(err: any) {
-					res.status(400).json(err);
+					res.status(400);
+			res.json(err);
 				});
 				//res.json(dta);
 			}
 		).catch(function(err: any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	getByIdReuniao(p_idReuniao: number){
@@ -60,7 +63,8 @@ export class Discurso {
 		.then(function(dta: IDiscurso[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Post()
@@ -69,7 +73,8 @@ export class Discurso {
 		DiscursoDAO.create(ndiscurso).then(function(p_ndiscurso: IDiscurso) {
 			res.json(p_ndiscurso);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Put()
@@ -78,7 +83,8 @@ export class Discurso {
 		DiscursoDAO.upsert(ndiscurso).then(function(p_ndiscurso: IDiscurso) {
 			res.json(ndiscurso);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Delete("/:id")
@@ -90,7 +96,8 @@ export class Discurso {
 		}).then(function(p_ndiscurso: IDiscurso) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 

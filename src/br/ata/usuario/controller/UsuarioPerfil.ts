@@ -10,7 +10,8 @@ export class UsuarioPerfil {
 		UsuarioPerfilDAO.findAll().then(function(dta: IUsuarioPerfil[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Get("/getbyidusuario/:idusuario")
@@ -22,7 +23,8 @@ export class UsuarioPerfil {
 		}).then(function(dta: IUsuarioPerfil[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Post()
@@ -31,7 +33,8 @@ export class UsuarioPerfil {
 		UsuarioPerfilDAO.create(nusuarioPerfil).then(function(p_nusuarioPerfil: IUsuarioPerfil) {
 			res.json(p_nusuarioPerfil);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Put()
@@ -40,7 +43,8 @@ export class UsuarioPerfil {
 		UsuarioPerfilDAO.upsert(nusuarioPerfil).then(function(p_nusuarioPerfil: IUsuarioPerfil) {
 			res.json(nusuarioPerfil);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Delete("/:id")
@@ -52,7 +56,8 @@ export class UsuarioPerfil {
 		}).then(function(p_nusuarioPerfil: IUsuarioPerfil) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 

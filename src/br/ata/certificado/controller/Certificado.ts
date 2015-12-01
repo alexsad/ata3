@@ -10,7 +10,8 @@ export class Certificado{
 			CertificadoDAO.findAll().then(function(dta:ICertificado[]) {
 				res.json(dta);
 			}).catch(function(err:any) {
-				res.status(400).json(err);
+				res.status(400);
+			res.json(err);
 			});
 		}
 		@Post()
@@ -19,7 +20,8 @@ export class Certificado{
 			CertificadoDAO.create(ncertificado).then(function(p_ncertificado: ICertificado) {
 				res.json(p_ncertificado);
 			}).catch(function(err:any) {
-				res.status(400).json(err);
+				res.status(400);
+			res.json(err);
 			});
 		}
 		@Put()
@@ -28,7 +30,8 @@ export class Certificado{
 			CertificadoDAO.upsert(ncertificado).then(function(p_ncertificado: ICertificado) {
 				res.json(ncertificado);
 			}).catch(function(err:any) {
-				res.status(400).json(err);
+				res.status(400);
+			res.json(err);
 			});
 		}
 		@Delete("/:id")
@@ -40,7 +43,8 @@ export class Certificado{
 			}).then(function(p_ncertificado: ICertificado) {
 				res.send(true);
 			}).catch(function(err:any) {
-				res.status(400).json(err);
+				res.status(400);
+			res.json(err);
 			});
 		}
 

@@ -16,7 +16,8 @@ export class Trimestre{
 				res.json(dta);
 			}
 		).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 
@@ -27,7 +28,8 @@ export class Trimestre{
 				res.json(dta);
 			}
 		).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	
@@ -61,7 +63,8 @@ export class Trimestre{
 				};
 			}
 		).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 
@@ -71,7 +74,8 @@ export class Trimestre{
 		TrimestreDAO.create(ntrimestre).then(function(p_ntrimestre: ITrimestre) {
 			res.json(p_ntrimestre);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Put()
@@ -80,7 +84,8 @@ export class Trimestre{
 		TrimestreDAO.upsert(ntrimestre).then(function(p_ntrimestre: ITrimestre) {
 			res.json(ntrimestre);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Delete("/:id")
@@ -92,7 +97,8 @@ export class Trimestre{
 		}).then(function(p_ntrimestre: ITrimestre) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 /*
@@ -189,7 +195,8 @@ export class Trimestre{
 				);
 			}
 			, function(err:any) {
-				res.status(400).json(err);
+				res.status(400);
+			res.json(err);
 			}
 		);
 	}

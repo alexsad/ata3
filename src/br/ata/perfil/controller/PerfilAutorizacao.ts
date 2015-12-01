@@ -10,7 +10,8 @@ export class PerfilAutorizacao{
 		PerfilAutorizacaoDAO.findAll().then(function(dta:IPerfilAutorizacao[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Get("/getbyidperfil/:idperfil")
@@ -22,7 +23,8 @@ export class PerfilAutorizacao{
 		}).then(function(dta: IPerfilAutorizacao[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}	
 	getByIdPerfilTpAutorizacao(p_idPerfil:number,p_tpAutorizacao:EPerfilAutorizacaoTP){
@@ -39,7 +41,8 @@ export class PerfilAutorizacao{
 		PerfilAutorizacaoDAO.create(nperfilautorizacao).then(function(p_nperfilautorizacao: IPerfilAutorizacao) {
 			res.json(p_nperfilautorizacao);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}		
 	@Put()
@@ -48,7 +51,8 @@ export class PerfilAutorizacao{
 		PerfilAutorizacaoDAO.upsert(nperfilautorizacao).then(function(p_nperfilautorizacao: IPerfilAutorizacao) {
 			res.json(nperfilautorizacao);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Delete("/:id")
@@ -60,7 +64,8 @@ export class PerfilAutorizacao{
 		}).then(function(p_nperfilautorizacao: IPerfilAutorizacao) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 		

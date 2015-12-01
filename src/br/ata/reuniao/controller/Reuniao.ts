@@ -18,7 +18,8 @@ export class Reuniao {
 		}).then(function(dta: IReuniao[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Get("/getbyperiodo")
@@ -40,7 +41,7 @@ export class Reuniao {
             res.json(dta);
         }).catch(function (err) {
 			res.status(400);
-            res.json(err);
+            			res.json(err);
         });
 		*/		
 		ReuniaoDAO.findAll({
@@ -64,7 +65,8 @@ export class Reuniao {
 				res.json(dta);
 			}
 		).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Get("/getatuais")
@@ -74,7 +76,8 @@ export class Reuniao {
 				res.json(dta);
 			}
 		).catch(function(err: any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}	
 	getAtuais() {
@@ -95,7 +98,8 @@ export class Reuniao {
 		ReuniaoDAO.create(nreuniao).then(function(p_nreuniao: IReuniao) {
 			res.json(p_nreuniao);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Put()
@@ -104,7 +108,8 @@ export class Reuniao {
 		ReuniaoDAO.upsert(nreuniao).then(function(p_nreuniao: IReuniao) {
 			res.json(nreuniao);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 	@Delete("/:id")
@@ -116,7 +121,8 @@ export class Reuniao {
 		}).then(function(p_nreuniao: IReuniao) {
 			res.send(true);
 		}).catch(function(err:any) {
-			res.status(400).json(err);
+			res.status(400);
+			res.json(err);
 		});
 	}
 
