@@ -1,4 +1,4 @@
-/// <reference path="../../src/lib/jquery/jquery2.d.ts" />
+/// <reference path="../../../src/lib/jquery/jquery2.d.ts" />
 import { ModWindow } from "./container";
 export declare class Underas {
     static _uid: number;
@@ -11,7 +11,8 @@ export declare class Underas {
     static getLocation(): string;
     static printDataProvider(p_dta: any[], p_url_template: string): void;
     static getInstanceOf<T>(context: Object, name: string, args: any[]): T;
-    static templateCompile(template: string, data: Object): string;
+    static preCompileTemplate(template: string): string;
+    static compileTemplate(str: string, data: Object): string;
 }
 export declare class Component {
     _uid: number;

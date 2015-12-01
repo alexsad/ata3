@@ -34,15 +34,6 @@ export declare class Controller {
     getColumn(): string;
     getModule(): ModWindow;
 }
-export declare class ListViewItemRender extends Component {
-    _maxCells: number;
-    _maxRows: number;
-    constructor(p_obj: Object, p_html: string);
-    getMaxCells(): number;
-    getMaxRows(): number;
-    setMaxCells(p_maxcells: number): void;
-    setMaxRows(p_maxrows: number): void;
-}
 export interface IListView {
     getSelectedItem(): Object;
     updateItem(p_item: Object): void;
@@ -191,6 +182,7 @@ export declare class Select extends InputDouble {
 }
 export declare class ListView extends Component implements IListView {
     dataProvider: any[];
+    private tmpDataProvider;
     _urlTemplate: string;
     _itemTemplateHtml: string;
     _ind: number;
@@ -198,19 +190,17 @@ export declare class ListView extends Component implements IListView {
     _itOrderBy: Select;
     itemChange: Function;
     _islistview: boolean;
-    _rowhtml: string;
+    private _pag;
     constructor(p_title: string);
     getPaginationParam(): IPaginationParam;
     setDataProvider(p_dta: any[]): ListView;
     getDataProvider(): any[];
     setHeight(p_height: number): void;
-    setRow(p_html: string): void;
-    addRow(p_pg: number, p_html?: string): void;
-    setHeadGrid(p_html: string): void;
-    getRow(p_index?: number): JQuery;
     clear(): void;
+    private changePg(evt);
+    private setPage(p_page);
     refresh(): ListView;
-    _getTmpUrl(fnAfter: Function): void;
+    private getTmpUrl(fnAfter);
     setFilter(evt: JQueryEventObject): void;
     setOrderField(evt: Event): void;
     setOrder(evt: Event): void;
@@ -226,7 +216,6 @@ export declare class ListView extends Component implements IListView {
     insertItem(p_item: Object, p_where?: string): void;
     removeSelectedItem(): void;
     removeItem(p_item: Object): void;
-    changePg(evt: Event): boolean;
     onChangeSelectedItem(evt: Event): void;
     changeSelectedItem(tgt: JQuery): void;
 }

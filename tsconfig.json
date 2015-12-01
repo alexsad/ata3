@@ -94,7 +94,9 @@
         "./src/lib/cookies/cookies.d.ts",
         "./src/lib/jquery/jquery2.d.ts",
         "./src/lib/jqueryui/jqueryui.d.ts",
+        "./src/lib/jspdf/ijspdf.ts",
         "./src/lib/jspdf/jsPDF.d.ts",
+        "./src/lib/jspdf/pdfrender.ts",
         "./src/lib/node/node.d.ts",
         "./src/lib/restify/restify.d.ts",
         "./src/lib/router/router.d.ts",
@@ -104,8 +106,6 @@
         "./src/lib/underas/core.d.ts",
         "./src/lib/underas/net.d.ts",
         "./src/lib/underas/util.d.ts",
-        "./src/lib/websocket/websocket.d.ts",
-        "./src/lib/jspdf/ijspdf.ts",
-        "./src/lib/jspdf/pdfrender.ts"
+        "./src/lib/websocket/websocket.d.ts"
     ]
 }

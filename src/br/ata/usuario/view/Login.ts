@@ -65,7 +65,7 @@ export class Login extends ModWindow{
 		if (Cookies.get("clogin")){
 			this.chlembrar.setValue("S");
 			this.itlogin.setValue(Cookies.get("clogin"));
-		};	
+		};
 
 		var agentAppVersion: string = Underas.getUrlParam("nav");
 		if (agentAppVersion != "") {
@@ -82,6 +82,7 @@ export class Login extends ModWindow{
 	   }else{
 		   this.itlogin.setValid(true);
 		   this.amAviso.show(false);
+			 this.itlogin.setValue(this.itlogin.getValue().toLowerCase());
 	   }
 	   if(!this.itsenha.isValid()){
 		   this.itsenha.setValid(false);
@@ -94,8 +95,6 @@ export class Login extends ModWindow{
 		   this.amAviso.show(false);
 	   }
 
-
-
 	   RequestManager.addRequest({
 		   "url":"usuario/logar"
 		   ,"method":"post"
@@ -107,7 +106,7 @@ export class Login extends ModWindow{
 		   	if(dta==true){
 				if (this.chlembrar.getValue()=="S") {
 					Cookies.set("clogin", this.itlogin.getValue(), { expires: Infinity });
-				};			  
+				};
 	           this.amAviso.show(false);
 	           this.getDados();
 
