@@ -89,9 +89,5 @@ var AtividadeDAO = sequelize.define('atividade', {
 		"timestamps": false
 		, "freezeTableName": true
 	});
-	/*
-sequelize.sync({
-    force: true
-});
-*/
+
 export = AtividadeDAO;

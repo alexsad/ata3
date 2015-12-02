@@ -14,7 +14,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	itTempo:NumericStepper;
 	itTema:InputText;
 	itFonte:TextArea;
-	itLinkFonte:InputText;
+	itLinkFonte:InputText;	
 	itDtaF:DatePicker;
 	itDtaI:DatePicker;
 	btPesquisar:Button;
@@ -124,23 +124,15 @@ export class ReuniaoPorPeriodo extends ModWindow{
 		this.getModView().append(this._modMembros);
 		this.getMainList().setDataProvider([]);
 		//this.pesquisar();
-
+		/*
 		this.mainList.getEle(".tilecellgrid").on("mouseenter", ".convite_reuniao", function(evt:Event) {
-			//console.log(this);
-			//this.mainList.getEle(".tilecellgrid .convite_reuniao").removeClass("selectedLine active");
-			//$(evt.target).addClass("selectedLine active");
-			//_this.addClass("selectedLine active");
 			var _this:JQuery = $(evt.target);
 			if (_this.hasClass("convite_reuniao")) {
 				var tmpIndex: number = parseInt(_this.attr("data-ind"));
 				this.getMainList().changeToIndex(tmpIndex);
 			};
-
-			//this.getMainList()._ind = tmpIndex;
-
-
 		}.bind(this));
-
+		*/
 	}
 	addDroppableEvent(){
 		/*
@@ -249,15 +241,8 @@ export class ReuniaoPorPeriodo extends ModWindow{
 
 		//this.mainList.get
 	}
-	onChangeItem(p_obj:IDiscurso):IDiscurso{
-
-		this.itIdDiscurso.setValue(p_obj.id+"");
-		this.itLinkFonte.setValue(p_obj.linkFonte);
-		this.itFonte.setValue(p_obj.fonte);
-		this.itTema.setValue(p_obj.tema);
-		this.itTempo.setValue(p_obj.tempo+"");
-		this.itIdMembro.setValue(p_obj.idMembro+"");
-
+	onChangeItem(p_obj: IReuniao): IReuniao {
+		this.setFormItem(p_obj.discursos[0]);
 		return p_obj;
 	}
 	inserir(p_novo:IDiscurso):void{
@@ -285,55 +270,16 @@ export class ReuniaoPorPeriodo extends ModWindow{
 		if(evt){
 			evt.preventDefault();
 		};
-		/*
-	    RequestManager.addRequest({
-	    	"url":"reuniao/getbyperiodo"
-	    	,"data":{
-	    		"inicio":this.itDtaI.getValue()
-	    		,"fim":this.itDtaF.getValue()
-	    	}
-	    	,"onLoad":function(dta:IReuniao[]){
-		    	//discursante.getMainList().setDataProvider(dta.rs);
-		    	this.getMainList().setDataProvider([]);
-				var tm:number = dta.length;
-				var olddate:string = "";
-				//usuario.historico.addRow(1,'<div class="amigodiv col-sm-12 col-sx-12" style="border:1px solid red"><div>');
-				for(var i:number = 0;i<tm;i++){
-
-					if(olddate != dta[i].momento.toString()){
-						olddate=dta[i].momento.toString();
-						var tmpDateF:string[] = olddate.substring(0,10).split("-");
-						this.getMainList().addRow(i,'<div class="convitedivfordate" style=""><h3 class="col-xs-12" style="text-align:center">'+tmpDateF[2]+'-'+tmpDateF[1]+'-'+tmpDateF[0]+'</h3></div>');
-					};
-					var tmL:number = dta[i].discursos.length;
-					//console.log(tmL);
-					//console.log(dta[i].discursos);
-					var temposRest:number[] = [5,10,15];
-					for(var x:number=0;x<tmL;x++){
-						//console.log(dta[i].discursos[x]);
-						dta[i].discursos[x].nmMembro = this.itIdMembro.getDescFromServiceByValue(dta[i].discursos[x].idMembro);
-						dta[i].discursos[x].idReuniao = dta[i]._id;
-						this.getMainList().insertItem(dta[i].discursos[x],'bottom');
-						var indexTempo:number =  temposRest.indexOf(dta[i].discursos[x].tempo);
-						if (indexTempo > -1) {
-							temposRest.splice(indexTempo, 1);
-						};
-					};
-					var totalRestante:number = temposRest.length;
-					if(totalRestante>0){
-						for(var x:number=0;x<totalRestante;x++){
-							//console.log(dta[i].discursos[x]);
-							var tmpDiscurso:IDiscurso = {"_id":"","linkFonte":"","fonte":"","tema":"","tempo":temposRest[x],"idMembro":""};
-							tmpDiscurso.nmMembro = "";
-							tmpDiscurso.idReuniao = dta[i]._id;
-							this.getMainList().insertItem(tmpDiscurso,'bottom');
-						};
-					};
-				};
-				this.addDroppableEvent();
-	    	}.bind(this)
+		RequestManager.addRequest({
+			"url": "reuniao/getbyperiodo"
+			, "data": {
+				"inicio": this.itDtaI.getValue()
+				, "fim": this.itDtaF.getValue()
+			}
+			, "onLoad": function(dta: IReuniao[]) {
+				this.getMainList().setDataProvider(dta);
+			}.bind(this)
 		});
-	*/
 	}
 	printSintetico(evt:Event):void{
 		evt.preventDefault();

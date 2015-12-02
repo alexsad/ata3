@@ -1,5 +1,6 @@
 import {IMenu,IItemMenu} from "./IPerfil";
 import sequelize = require("../../../../config/sequelizedb");
+import ItemMenuDAO = require("../model/itemmenu");
 
 var MenuDAO = sequelize.define('menu', {
     "icone": {
@@ -15,19 +16,12 @@ var MenuDAO = sequelize.define('menu', {
         type: sequelize.constructor.INTEGER
         , field: "id_perfil"
     }
-    , "children":{        
-        type: sequelize.constructor.VIRTUAL
-        ,get: function():IItemMenu[]{
-            return this.getDataValue('children')||[];
-        }
-        , set: function(p_itemmenu: IItemMenu[]):void{
-            this.setDataValue('children', p_itemmenu);
-        }
-    }
 }, {
         "timestamps": false
         , "freezeTableName": true
     });
+
+MenuDAO.hasMany(ItemMenuDAO, { as: 'children', foreignKey: 'id_menu' });
 
 export = MenuDAO;
 

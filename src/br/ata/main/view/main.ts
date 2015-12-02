@@ -18,7 +18,7 @@ class Main{
 		//var t = new sub.SubB(45);
 		//t.doAnyThing("nova instancia!!!!");
 		//$("body").append("<div>!teste</div>");
-		var teste:ReuniaoPorPeriodo = new ReuniaoPorPeriodo();
+		var teste: Login = new Login();
 		var mdw: ModView = new ModView("cadastro de teste!!!");
 		mdw.getEle().addClass("mdwLogin");
 		mdw.setIcon("key");

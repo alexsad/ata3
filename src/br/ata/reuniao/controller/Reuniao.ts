@@ -24,26 +24,7 @@ export class Reuniao {
 	}
 	@Get("/getbyperiodo")
 	getByPeriodo(req: server.Request, res: server.Response):void{
-		var queryParams = req.query;
-		
-		/*
-		ReuniaoDAO.findAll({ 
-			include: [ {
-				all: true
-				,nested: false
-				,model:DiscursoDAO
-				,required: true
-				,as:'discuros'
-				,foreignKey: 'id_reuniao' 
-				//,where:{id_reuniao: 1 }
-			}]
-		}).then(function (dta) {
-            res.json(dta);
-        }).catch(function (err) {
-			res.status(400);
-            			res.json(err);
-        });
-		*/		
+		var queryParams:{inicio:string,fim:string} = req.query;	
 		ReuniaoDAO.findAll({
 			include: [ {
 				all: true

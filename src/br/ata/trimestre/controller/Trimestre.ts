@@ -3,9 +3,12 @@ import {Get,Post,Put,Delete,Controller} from "../../../../lib/router/router";
 import TrimestreDAO = require("../model/trimestre");
 import {Atividade} from "./Atividade";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
-import {ITrimestre,EAtividadeStatus, IAtividade, ITrimestreLancamentoAtividade} from "../model/ITrimestre";
+import {ITremestreQuery, ITrimestre, EAtividadeStatus, IAtividade, ITrimestreLancamentoAtividade} from "../model/ITrimestre";
 import {IPerfil} from "../../perfil/model/IPerfil";
 import {Perfil} from "../../perfil/controller/Perfil";
+import AtividadeDAO = require("../model/atividade");
+import TrimestreDataLivreDAO = require("../model/trimestredatalivre");
+
 
 @Controller()
 export class Trimestre{
@@ -32,6 +35,47 @@ export class Trimestre{
 			res.json(err);
 		});
 	}
+
+	@Get("/getaprovadaseliberadasbyperiodo")
+	getAprovadasLiberadasByPeriodo(req: server.Request, res: server.Response): void {
+		var queryParams:ITremestreQuery = req.query;
+		TrimestreDAO.findAll({
+			include: [{
+				all: true
+				, nested: false
+				, model: AtividadeDAO
+				, required: true
+				,where:{
+					"id_status": { $in: [EAtividadeStatus.LIBERADA,EAtividadeStatus.APROVADA] }
+				}
+			}]
+			, order: [
+				["nr_trimestre", "asc"]
+			]
+			, where: {
+				"nr_trimestre": {
+					$between: [
+						queryParams.nrTrimestreInicio
+						,queryParams.nrTrimestreFim
+					]
+				}
+				,"ano": {
+					$between: [
+						queryParams.anoInicio
+						,queryParams.anoFim
+					]
+				}
+			}
+		}).then(
+		function(dta: ITrimestre[]) {
+			res.json(dta);
+		}
+		).catch(function(err: any) {
+			res.status(400);
+			res.json(err);
+		});
+	}
+
 	
 	@Get('/getbyidperfil/:idperfil')
 	getByIdPerfil(req: server.Request, res: server.Response): void {

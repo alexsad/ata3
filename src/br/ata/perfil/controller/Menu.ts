@@ -30,33 +30,19 @@ export class Menu {
 	}
 	@Get("/getfullbyidperfil/:idperfil")
 	getFullByIdPerfil(req: server.Request, res: server.Response): void {
-		//MenuDAO.hasMany(ItemMenu);
 		MenuDAO.findAll({
-			where: {
+			include: [{
+				all: true
+				, nested: false
+				, model: ItemMenuDAO
+				, required: true
+			}]
+			, where: {
 				idPerfil: req.params.idperfil
 			}
-		}).then(function(dta: IMenu[]) {
-			var tmade: number = 0;
-			dta.forEach(function(menu:IMenu,indx:number){
-				ItemMenuDAO.findAll({
-					where:{
-						idMenu:menu.id
-					}
-				}).then(function(dta2:IItemMenu[]){
-					tmade++;
-					menu.children = dta2;
-					//console.log(tmade);
-					if (tmade == dta.length) {
-						res.json(dta);
-					}
-				}).catch(function(err:any) {
-					res.status(400);
-			res.json(err);
-				});
-				//dta[0].children = [];
-			});
-			
-		}).catch(function(err:any) {
+		}).then(function(dta:IMenu[]) {
+			res.json(dta);
+		}).catch(function(err: any) {
 			res.status(400);
 			res.json(err);
 		});

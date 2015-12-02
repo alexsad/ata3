@@ -1,6 +1,6 @@
-
 import {ITrimestre} from "./ITrimestre";
 import sequelize = require("../../../../config/sequelizedb");
+import AtividadeDAO = require("../model/atividade");
 
 var TrimestreDAO = sequelize.define('trimestre', {
 	"ano": {
@@ -42,5 +42,7 @@ var TrimestreDAO = sequelize.define('trimestre', {
 		"timestamps": false
 		, "freezeTableName": true
 	});
+
+TrimestreDAO.hasMany(AtividadeDAO, { as: 'atividades', foreignKey: 'id_trimestre' });
 
 export = TrimestreDAO;

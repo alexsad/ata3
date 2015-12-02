@@ -47,6 +47,7 @@
         "src/br/ata/reuniao/view/ReuniaoPorPeriodo.ts",
         "src/br/ata/trimestre/view/Atividade.ts",
         "src/br/ata/trimestre/view/AtividadeAutorizacao.ts",
+        "src/br/ata/trimestre/view/AtividadePorPeriodo.ts",
         "src/br/ata/trimestre/view/Trimestre.ts",
         "src/br/ata/trimestre/view/TrimestreDataLivre.ts",
         "src/br/ata/trimestre/view/TrimestreLancamentoAtividade.ts",

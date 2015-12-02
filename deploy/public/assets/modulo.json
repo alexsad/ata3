@@ -7,9 +7,9 @@
 ,{"modulo":"br.ata.trimestre.view.Trimestre","descricao":"Trimestres"}
 ,{"modulo":"br.ata.trimestre.view.AtividadeAutorizacao","descricao":"Aprovacao de Atividade"}
 ,{"modulo":"br.ata.trimestre.view.TrimestreView","descricao":"Edicao de Atividade"}
+,{"modulo":"br.ata.trimestre.view.AtividadePorPeriodo","descricao":"Calendario da Ala"}
 ,{"modulo":"br.ata.certificado.view.Certificado","descricao":"Certificado"}
 ,{"modulo":"br.ata.reuniao.view.Convite","descricao":"Convites"}
-,{"modulo":"br.ata.atividade.view.EventoPorPeriodo","descricao":"Calendario de Atividades"}
 ,{"modulo":"br.ata.reuniao.view.ReuniaoPorPeriodo","descricao":"Discusantes por Periodo"}
 ,{"modulo":"br.ata.usuario.view.Usuario","descricao":"Usuarios"}
 ]
