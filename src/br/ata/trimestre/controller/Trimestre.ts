@@ -24,6 +24,31 @@ export class Trimestre{
 		});
 	}
 
+	@Get("/getfull")
+	getFull(req:server.Request,res:server.Response):void{
+		TrimestreDAO.findAll({
+			include: [{
+				all: true
+				, nested: false
+				, model: AtividadeDAO
+				, required: true
+				,include: [
+					{ model:TrimestreDataLivreDAO, as: 'datalivre'}
+				]
+			}]
+			, order: [
+				["nr_trimestre", "asc"]
+			]
+		}).then(
+			function(dta:ITrimestre[]){
+				res.json(dta);
+			}
+		).catch(function(err:any) {
+			res.status(400);
+			res.json(err);
+		});
+	}
+	
 	@Get("/getdisponiveis")
 	getDisponiveis(req: server.Request, res: server.Response): void {
 		TrimestreDAO.findAll({where:{"snAberto": "S" }}).then(
@@ -48,6 +73,9 @@ export class Trimestre{
 				,where:{
 					"id_status": { $in: [EAtividadeStatus.LIBERADA,EAtividadeStatus.APROVADA] }
 				}
+				,include: [
+					{ model:TrimestreDataLivreDAO, as: 'datalivre'}
+				]
 			}]
 			, order: [
 				["nr_trimestre", "asc"]

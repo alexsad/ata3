@@ -1,5 +1,6 @@
 import {IAtividade, EAtividadeStatus} from "./ITrimestre";
 import sequelize = require("../../../../config/sequelizedb");
+import TrimestreDataLivreDAO = require("../model/trimestredatalivre");
 
 var AtividadeDAO = sequelize.define('atividade', {
 	"descricao": {
@@ -89,5 +90,11 @@ var AtividadeDAO = sequelize.define('atividade', {
 		"timestamps": false
 		, "freezeTableName": true
 	});
+	
+TrimestreDataLivreDAO.belongsTo(AtividadeDAO,{
+		as: 'datalivre', foreignKey: 'id'
+});	
+AtividadeDAO.hasOne(TrimestreDataLivreDAO, {as: 'datalivre', foreignKey: 'id'});
+
 
 export = AtividadeDAO;
