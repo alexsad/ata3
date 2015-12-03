@@ -78,19 +78,13 @@ export class Trimestre{
 				]
 			}]
 			, order: [
-				["nr_trimestre", "asc"]
+				["id", "asc"]
 			]
 			, where: {
-				"nr_trimestre": {
+				"id": {
 					$between: [
-						queryParams.nrTrimestreInicio
-						,queryParams.nrTrimestreFim
-					]
-				}
-				,"ano": {
-					$between: [
-						queryParams.anoInicio
-						,queryParams.anoFim
+						queryParams.idInicio
+						,queryParams.idFim
 					]
 				}
 			}

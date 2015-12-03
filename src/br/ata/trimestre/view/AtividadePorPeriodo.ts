@@ -1,5 +1,5 @@
 import {ModWindow} from "../../../../lib/underas/container";
-import {Button,DatePartType, DatePicker, ListView, ItemView} from "../../../../lib/underas/controller";
+import {Button, DatePartType, Select, ListView, ItemView} from "../../../../lib/underas/controller";
 import {SimpleToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
 import {ITrimestre, ITremestreQuery} from "../model/ITrimestre";
 
@@ -11,8 +11,8 @@ export class AtividadePorPeriodo extends ModWindow{
 	btPesquisar: Button;
 	btLimpar: Button;
 	btPrintAta: Button;
-	itDtaI: DatePicker;
-	itDtaF: DatePicker;
+	itTrimestreI: Select;
+	itTrimestreF: Select;
 
 	constructor(){
 	    super("Calendario da Ala");
@@ -29,8 +29,8 @@ export class AtividadePorPeriodo extends ModWindow{
 	    this.btLimpar = new Button("Limpar");
 		this.btLimpar.setIcon("remove");
 	    this.btLimpar.addEvent('click',function(){
-	    	this.itDtaI.setValue("");
-	    	this.itDtaF.setValue("");
+			this.itTrimestreI.setValue("");
+			this.itTrimestreF.setValue("");
 	    }.bind(this));
 		this.mainTb.addButton(this.btLimpar);
 	    
@@ -41,34 +41,40 @@ export class AtividadePorPeriodo extends ModWindow{
 		//this.btPrintAta.setEnable(false);
 		this.mainTb.addButton(this.btPrintAta);
 	    
-	    this.itDtaI = new DatePicker();
-	    this.itDtaI.setLabel("inicio:");
-		this.itDtaI.setSize(6);
-		this.append(this.itDtaI);
+		this.itTrimestreI = new Select("escolha um trimestre");
+		this.itTrimestreI.setLabel("trimestre inicio:");
+		this.itTrimestreI.setSize(6);
+		this.itTrimestreI.setValueField("id");
+		this.itTrimestreI.setLabelField("dsTrimestre");
+		this.append(this.itTrimestreI);
 
-	    this.itDtaF = new DatePicker();
-	    this.itDtaF.setLabel("fim:");
-	    this.itDtaF.addDate(DatePartType.month,3);
-		this.itDtaF.setSize(6);	
-		this.append(this.itDtaF);
+		this.itTrimestreF = new Select("escolha um trimestre");
+		this.itTrimestreF.setLabel("trimestre fim:");
+	    //this.itDtaF.addDate(DatePartType.month,3);
+		this.itTrimestreF.setSize(6);	
+		this.itTrimestreF.setValueField("id");
+		this.itTrimestreF.setLabelField("dsTrimestre");
+		this.append(this.itTrimestreF);
 
 		this.mainList = new ListView("Evento");	    
 	    this.append(this.mainList);
+	}
+	onStart():void{
+		this.itTrimestreI.fromService({url:"trimestre"});
+		this.itTrimestreF.fromService({ url: "trimestre" });
 	}
 	pesquisar():void{
 
 		//this.itDtaF.refresh();
 		//this.itDtaI.refresh();
 
-		this.itDtaF.setValue(this.itDtaF.getValue());
+		//this.itDtaF.setValue(this.itDtaF.getValue());
 
-		this.itDtaI.setValue(this.itDtaI.getValue());
+		//this.itDtaI.setValue(this.itDtaI.getValue());
 
 		var tmpPara:ITremestreQuery = {
-			nrTrimestreInicio:parseInt(((this.itDtaI.getDate().getMonth()+3)/3)+"")
-			,anoInicio:this.itDtaI.getDate().getFullYear()
-			,nrTrimestreFim: parseInt(((this.itDtaF.getDate().getMonth()+3)/3)+"")
-			,anoFim:this.itDtaF.getDate().getFullYear()
+			idInicio:this.itTrimestreI.getValue()
+			,idFim:this.itTrimestreF.getValue()
 		};
 
 	    RequestManager.addRequest({	    

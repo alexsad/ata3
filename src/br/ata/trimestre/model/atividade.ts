@@ -90,11 +90,14 @@ var AtividadeDAO = sequelize.define('atividade', {
 		"timestamps": false
 		, "freezeTableName": true
 	});
-	
-TrimestreDataLivreDAO.belongsTo(AtividadeDAO,{
-		as: 'datalivre', foreignKey: 'id'
-});	
-AtividadeDAO.hasOne(TrimestreDataLivreDAO, {as: 'datalivre', foreignKey: 'id'});
 
+
+TrimestreDataLivreDAO.hasMany(AtividadeDAO, {
+	foreignKey: 'id_data'
+});
+AtividadeDAO.belongsTo(TrimestreDataLivreDAO, {
+	as: 'datalivre'
+	,foreignKey: 'id_data'
+});
 
 export = AtividadeDAO;

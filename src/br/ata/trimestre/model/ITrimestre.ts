@@ -53,8 +53,6 @@ export enum EAtividadeStatus{
 }
 
 export interface ITremestreQuery{
-	anoInicio: number;
-	nrTrimestreInicio: number;
-	anoFim: number;
-	nrTrimestreFim: number;
+	idInicio:string;
+	idFim:string;
 }
