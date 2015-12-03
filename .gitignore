@@ -1,5 +1,6 @@
 deploy/node_modules
 deploy/bower_components
+deploy/lib
 deploy/public/js/lib
 deploy/public/js/br
 deploy/app/br
@@ -7,5 +8,6 @@ deploy/.tscache
 deploy/public/app/config
 deploy/app/.baseDir.js
 deploy/public/js/.baseDir.js
+src/config
 src/.baseDir.ts
 ata3.sublime-workspace

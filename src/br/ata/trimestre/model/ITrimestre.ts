@@ -5,6 +5,7 @@ export interface ITrimestre{
 	snAberto:string;
 	vtSaldo?: number;
 	vtTotalLancado?: number;
+	atividades?:IAtividade[];
 }
 export interface ITrimestreLancamentoAtividade {
 	id?: number;
@@ -49,4 +50,9 @@ export enum EAtividadeStatus{
     ,APROVADA = 3
     ,PENDENTE = 4
     ,LIBERADA = 5
+}
+
+export interface ITremestreQuery{
+	idInicio:string;
+	idFim:string;
 }

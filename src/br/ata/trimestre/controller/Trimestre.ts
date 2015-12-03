@@ -3,9 +3,12 @@ import {Get,Post,Put,Delete,Controller} from "../../../../lib/router/router";
 import TrimestreDAO = require("../model/trimestre");
 import {Atividade} from "./Atividade";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
-import {ITrimestre,EAtividadeStatus, IAtividade, ITrimestreLancamentoAtividade} from "../model/ITrimestre";
+import {ITremestreQuery, ITrimestre, EAtividadeStatus, IAtividade, ITrimestreLancamentoAtividade} from "../model/ITrimestre";
 import {IPerfil} from "../../perfil/model/IPerfil";
 import {Perfil} from "../../perfil/controller/Perfil";
+import AtividadeDAO = require("../model/atividade");
+import TrimestreDataLivreDAO = require("../model/trimestredatalivre");
+
 
 @Controller()
 export class Trimestre{
@@ -21,6 +24,31 @@ export class Trimestre{
 		});
 	}
 
+	@Get("/getfull")
+	getFull(req:server.Request,res:server.Response):void{
+		TrimestreDAO.findAll({
+			include: [{
+				all: true
+				, nested: false
+				, model: AtividadeDAO
+				, required: true
+				,include: [
+					{ model:TrimestreDataLivreDAO, as: 'datalivre'}
+				]
+			}]
+			, order: [
+				["nr_trimestre", "asc"]
+			]
+		}).then(
+			function(dta:ITrimestre[]){
+				res.json(dta);
+			}
+		).catch(function(err:any) {
+			res.status(400);
+			res.json(err);
+		});
+	}
+	
 	@Get("/getdisponiveis")
 	getDisponiveis(req: server.Request, res: server.Response): void {
 		TrimestreDAO.findAll({where:{"snAberto": "S" }}).then(
@@ -32,6 +60,44 @@ export class Trimestre{
 			res.json(err);
 		});
 	}
+
+	@Get("/getaprovadaseliberadasbyperiodo")
+	getAprovadasLiberadasByPeriodo(req: server.Request, res: server.Response): void {
+		var queryParams:ITremestreQuery = req.query;
+		TrimestreDAO.findAll({
+			include: [{
+				all: true
+				, nested: false
+				, model: AtividadeDAO
+				, required: true
+				,where:{
+					"id_status": { $in: [EAtividadeStatus.LIBERADA,EAtividadeStatus.APROVADA] }
+				}
+				,include: [
+					{ model:TrimestreDataLivreDAO, as: 'datalivre'}
+				]
+			}]
+			, order: [
+				["id", "asc"]
+			]
+			, where: {
+				"id": {
+					$between: [
+						queryParams.idInicio
+						,queryParams.idFim
+					]
+				}
+			}
+		}).then(
+		function(dta: ITrimestre[]) {
+			res.json(dta);
+		}
+		).catch(function(err: any) {
+			res.status(400);
+			res.json(err);
+		});
+	}
+
 	
 	@Get('/getbyidperfil/:idperfil')
 	getByIdPerfil(req: server.Request, res: server.Response): void {

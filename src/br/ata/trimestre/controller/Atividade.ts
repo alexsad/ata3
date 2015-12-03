@@ -4,12 +4,17 @@ import AtividadeDAO = require("../model/atividade");
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
 import {PerfilAutorizacao} from "../../perfil/controller/PerfilAutorizacao";
 import {IPerfilAutorizacao,EPerfilAutorizacaoTP} from "../../perfil/model/IPerfil";
+import TrimestreDataLivreDAO = require("../model/trimestredatalivre");
 
 @Controller()
 export class Atividade {
 	@Get()
 	get(req: server.Request, res: server.Response): void {
-		AtividadeDAO.findAll().then(function(dta: IAtividade[]) {
+		AtividadeDAO.findAll({
+			include: [
+				{ model:TrimestreDataLivreDAO, as: 'datalivre'}
+			]
+		}).then(function(dta: IAtividade[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
 			res.status(400);
@@ -23,6 +28,9 @@ export class Atividade {
 				idTrimestre:req.params.idtrimestre
 				,idPerfil:req.params.idperfil
 			}
+			,include: [
+				{ model:TrimestreDataLivreDAO, as: 'datalivre'}
+			]
 		}).then(function(dta: IAtividade[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
@@ -66,18 +74,13 @@ export class Atividade {
 							$in: perfisAlvos
 						}
 					}
+					,include: [
+						{ model:TrimestreDataLivreDAO, as: 'datalivre'}
+					]
 				}).then(function(dta: IAtividade[]) {
 					res.json(dta);
 				}).catch(function(err:any) {
-
-					//new Error("Can't divide by zero" + err);
-
 					throw new Error('Elsewhere has failed:' +err);
-
-
-					//console.log();
-
-					//res.status(400);
 			res.json(err);
 				});
 			}
@@ -123,7 +126,7 @@ export class Atividade {
 	add(req: server.Request, res: server.Response): void {
 		var natividade: IAtividade = <IAtividade>req.body;
 		AtividadeDAO.create(natividade).then(function(p_natividade: IAtividade) {
-			res.json(p_natividade);			
+			res.json(p_natividade);
 		}).catch(function(err:any){
 			res.status(400);
 			res.json(err);
@@ -131,13 +134,13 @@ export class Atividade {
 	}
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
-		var natividade: IAtividade = <IAtividade>req.body;		
+		var natividade: IAtividade = <IAtividade>req.body;
 		AtividadeDAO.upsert(natividade).then(function(p_natividade: IAtividade) {
 			res.json(natividade);
 		}).catch(function(err: any) {
 			res.status(400);
 			res.json(err);
-		});			
+		});
 	}
 	@Delete("/:id")
 	delete(req: server.Request, res: server.Response): void {

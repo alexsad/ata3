@@ -19,7 +19,7 @@ var TrimestreDataLivreDAO = sequelize.define('trimestre_data_livre', {
 				, 'Quarta-Feira', 'Quinta-Feira', 'Sexta-Feira'
 				, 'Sabado'
 			];
-			var tmpData: Date = this.get('momento');
+			var tmpData: Date = new Date(this.get('momento'));
 			var tmpDataSimples: string = tmpData.toISOString();
 			tmpDataSimples = tmpDataSimples.replace(/^(\d{4})\D(\d{1,2})\D(\d{1,2})\D.*/, "$3-$2-$1");
 			tmpDataSimples += " - " + tmpDiaSemana[tmpData.getDay()];

@@ -43,7 +43,7 @@ export class Discursante extends ModWindow{
 		this.itIdReuniao.setColumn("@idReuniao");
 		this.itIdReuniao.setLabel("reuniao");
 		this.itIdReuniao.setValueField("id");
-		this.itIdReuniao.setLabelField("momento");
+		this.itIdReuniao.setLabelField("dsData");
 		this.itIdReuniao.setSize(3);
 		this.append(this.itIdReuniao);
 

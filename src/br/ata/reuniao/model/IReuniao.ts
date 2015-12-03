@@ -4,5 +4,6 @@ export interface IReuniao{
 	momento: Date;
 	frequencia: number;
 	obs: string;
+	dsData?: string;
 	discursos?:IDiscurso[];
 }
