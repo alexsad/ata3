@@ -1,5 +1,5 @@
 import {ModWindow} from "../../../../lib/underas/container";
-import {NumericStepper, CheckBox, InputText, ListView, ItemView} from "../../../../lib/underas/controller";
+import {NumericStepper, CheckBox, TextInput, ListView, ItemView} from "../../../../lib/underas/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
 import {ITrimestre} from "../model/ITrimestre";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
@@ -8,7 +8,7 @@ import {TrimestreDataLivre} from "./TrimestreDataLivre";
 
 @ItemView("assets/html/trimestre.html")
 export class Trimestre extends ModWindow{
-	itIdTrimestre:InputText	; 
+	itIdTrimestre:TextInput	; 
 	itAno:NumericStepper;	 
 	itNrTrimestre:NumericStepper;	 
 	itSnAberto:CheckBox;	
@@ -24,11 +24,11 @@ export class Trimestre extends ModWindow{
 		this.mainTb = new ToolBar({"domain":"trimestre"});
 		this.append(this.mainTb);
 
-		this.itIdTrimestre = new InputText("");
+		this.itIdTrimestre = new TextInput("");
 		this.itIdTrimestre.setColumn("$id");
 		this.itIdTrimestre.setLabel("cod.");
 		this.itIdTrimestre.setEnable(false);	
-		this.itIdTrimestre.setSize(3);	
+		this.itIdTrimestre.setSize(2);	
 		this.append(this.itIdTrimestre);
 
 		this.itAno = new NumericStepper(2015);
@@ -38,7 +38,7 @@ export class Trimestre extends ModWindow{
 		this.itAno.setMin(2014);
 		this.itAno.setMax(2050);
 		this.itAno.setEnable(false,2);
-		this.itAno.setSize(5);	
+		this.itAno.setSize(3);	
 		this.append(this.itAno);
 
 		this.itNrTrimestre = new NumericStepper(1);
@@ -48,13 +48,13 @@ export class Trimestre extends ModWindow{
 		this.itNrTrimestre.setMin(1);
 		this.itNrTrimestre.setMax(4);		
 		this.itNrTrimestre.setEnable(false,2);
-		this.itNrTrimestre.setSize(4);
+		this.itNrTrimestre.setSize(3);
 		this.append(this.itNrTrimestre);
 
 		this.itSnAberto = new CheckBox("Disponivel","Sim");
 		this.itSnAberto.setColumn("@snAberto");
 		this.itSnAberto.setLabel("disponivel");
-		this.itSnAberto.setSize(12);	
+		this.itSnAberto.setSize(4);	
 		this.append(this.itSnAberto);
 		
 		this.mainList = new ListView("Trimestre");

@@ -1,12 +1,12 @@
 import {IReuniao} from "../model/IReuniao";
 import {ModWindow} from "../../../../lib/underas/container";
-import {InputText, TextArea, NumericStepper, DatePicker, ListView, ItemView} from "../../../../lib/underas/controller";
+import {TextInput, TextArea, NumericStepper, DatePicker, ListView, ItemView} from "../../../../lib/underas/controller";
 import {ToolBar, RequestManager} from "../../../../lib/underas/net";
 import {Discursante} from "./Discursante";
 
 @ItemView("assets/html/reuniao.html")
 export class Reuniao extends ModWindow{
-	itIdReuniao:InputText;
+	itIdReuniao:TextInput;
 	itMomento:DatePicker;
 	itFrequencia:NumericStepper;
 	itObs:TextArea;
@@ -21,7 +21,7 @@ export class Reuniao extends ModWindow{
 		this.mainTb = new ToolBar({"domain":"reuniao"});
 		this.append(this.mainTb);
 
-		this.itIdReuniao = new InputText();
+		this.itIdReuniao = new TextInput();
 		this.itIdReuniao.setColumn("$id");
 		this.itIdReuniao.setLabel("cod.");
 		this.itIdReuniao.setEnable(false);

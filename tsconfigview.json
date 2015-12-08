@@ -55,6 +55,7 @@
         "src/br/ata/usuario/view/Login.ts",
         "src/br/ata/usuario/view/Usuario.ts",
         "src/br/ata/usuario/view/UsuarioPerfil.ts",
+        "src/br/ata/usuario/view/UsuarioUploadAvatar.ts",
         "src/br/ata/certificado/model/ICertificado.ts",
         "src/br/ata/organizacao/model/IMembro.ts",
         "src/br/ata/organizacao/model/IOrganizacao.ts",

@@ -69,6 +69,7 @@ export declare class RequestManager {
     static setFormat(p_format: string): void;
     static setUrl(p_url: string): void;
     static setRootUrl(p_rootUrl: string): void;
+    static getRootUrl(): string;
     static enableDisplayLoad(p_on: boolean): void;
     static removeAllTasks(p_idWinMod: string): void;
 }

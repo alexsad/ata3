@@ -48,7 +48,22 @@ fs.readdir(baseDir, function (err, files) { // '/' denotes the root folder
 		});
    });
 });
+/*
+server.post( { path:'/file/upload' }, function(req, res, next){
+    console.log(req.files);
+    var uploadPath = __dirname+"/public/assets/avatars/";
+    console.log(uploadPath);
 
+    var fs = require('fs');
+    var tempFile = req.files.fileUploaded;
+
+    fs.createReadStream(tempFile.path).pipe(fs.createWriteStream(uploadPath+tempFile.name));
+
+    res.json(req.files);
+    //var tempPath = req.files.fileUploaded.path;
+    //res.json({status:"ok",name:tempPath});
+});
+*/
 server.listen(8299, function () {
   console.log('%s listening at %s', server.name, server.url);
 });

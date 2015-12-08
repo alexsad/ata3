@@ -1,12 +1,12 @@
 import {ModWindow} from "../../../../lib/underas/container";
-import {InputText, AlertMsg, Select, ListView, ItemView} from "../../../../lib/underas/controller";
+import {TextInput, AlertMsg, Select, ListView, ItemView} from "../../../../lib/underas/controller";
 import {RequestManager, ToolBar, IDefaultRequest} from "../../../../lib/underas/net";
 import {IUsuarioPerfil} from "../model/IUsuario";
 
 @ItemView("assets/html/usuarioperfil.html")
 export class UsuarioPerfil extends ModWindow{
-	itIdUsuarioPerfil: InputText;
-	itIdUsuario: InputText;
+	itIdUsuarioPerfil: TextInput;
+	itIdUsuario: TextInput;
 	itPerfil:Select;
 	aviso:AlertMsg;
 	mainList:ListView;
@@ -24,14 +24,14 @@ export class UsuarioPerfil extends ModWindow{
 		this.aviso.show(true);
 		this.append(this.aviso);
 
-		this.itIdUsuarioPerfil = new InputText("");
+		this.itIdUsuarioPerfil = new TextInput("");
 		this.itIdUsuarioPerfil.setColumn("$id");
 		this.itIdUsuarioPerfil.setLabel("cod.");
 		this.itIdUsuarioPerfil.setEnable(false);
 		this.itIdUsuarioPerfil.setSize(6);
 		this.append(this.itIdUsuarioPerfil);
 
-		this.itIdUsuario = new InputText("");
+		this.itIdUsuario = new TextInput("");
 		this.itIdUsuario.setColumn("!idUsuario");
 		this.itIdUsuario.setLabel("usua.");
 		this.itIdUsuario.setEnable(false);

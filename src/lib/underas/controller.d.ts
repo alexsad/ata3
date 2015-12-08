@@ -57,15 +57,15 @@ export declare class Input extends Controller {
     setIcon(p_src: string): void;
     setAddonText(p_txt: string): void;
 }
-export declare class InputDouble extends Controller {
+export declare class DoubleInput extends Controller {
     constructor(tipo: string, valor: string);
     setIcon(psrc: string, posi?: number): void;
     setAddonText(ptxt: string, posi?: number): void;
 }
-export declare class InputText extends Input {
+export declare class TextInput extends Input {
     constructor(p_text?: string);
 }
-export declare class InputTextDouble extends InputDouble {
+export declare class DoubleTextInput extends DoubleInput {
     constructor(p_text?: string);
 }
 export declare class CheckBox extends Controller {
@@ -83,7 +83,7 @@ export declare enum DatePartType {
     month = 1,
     year = 2,
 }
-export declare class DatePicker extends InputText {
+export declare class DatePicker extends TextInput {
     dtaA: Date;
     constructor();
     getValue(): string;
@@ -95,23 +95,23 @@ export declare class DatePicker extends InputText {
     refresh(): void;
     isValid(): boolean;
 }
-export declare class InputPassWord extends Input {
+export declare class PassWordInput extends Input {
     constructor(p_text?: string);
 }
-export declare class InputPercent extends InputText {
+export declare class PercentInput extends TextInput {
     constructor(p_text?: string);
 }
-export declare class InputMoney extends InputText {
+export declare class MoneyInput extends TextInput {
     constructor(p_text?: string);
 }
-export declare class InputTime extends InputText {
+export declare class TimeInput extends TextInput {
     constructor(p_text?: string);
 }
-export declare class InputEmail extends InputText {
+export declare class EmailInput extends TextInput {
     constructor(p_text?: string);
     isValid(): boolean;
 }
-export declare class InputPhone extends InputText {
+export declare class PhoneInput extends TextInput {
     constructor(p_text?: string);
 }
 export declare class Label extends Controller {
@@ -156,7 +156,15 @@ export declare class MenuTab extends Component {
     setDataProvider(p_dta: any[]): void;
     criarTabNova(label: string, picone: string, childrens: IItemMenuTab[], tabid: number): void;
 }
-export declare class Select extends InputDouble {
+export declare class FileInput extends DoubleTextInput {
+    private isvalid;
+    constructor(p_placeholder?: string);
+    isValid(): boolean;
+    setValue(p_vl: string): void;
+    getValue(): string;
+    setName(p_name: any): void;
+}
+export declare class Select extends DoubleInput {
     private _valuefield;
     private _labelfield;
     private _urlservice;
@@ -183,10 +191,11 @@ export declare class Select extends InputDouble {
 export declare class ListView extends Component implements IListView {
     dataProvider: any[];
     private tmpDataProvider;
+    private maxCells;
     _urlTemplate: string;
     _itemTemplateHtml: string;
     _ind: number;
-    _itFilter: InputText;
+    _itFilter: TextInput;
     _itOrderBy: Select;
     itemChange: Function;
     _islistview: boolean;
@@ -198,6 +207,7 @@ export declare class ListView extends Component implements IListView {
     setHeight(p_height: number): void;
     clear(): void;
     private changePg(evt);
+    private getRowCell();
     private setPage(p_page);
     refresh(): ListView;
     private getTmpUrl(fnAfter);
@@ -224,7 +234,7 @@ export declare enum ENotifyType {
     INFO = 1,
     PRIMARY = 2,
     WARNING = 3,
-    ERROR = 4,
+    DANGER = 4,
 }
 export interface IItemNotify {
     title: string;
@@ -245,7 +255,7 @@ export declare enum ENotifyPoolType {
     INFO = 1,
     PRIMARY = 2,
     WARNING = 3,
-    ERROR = 4,
+    DANGER = 4,
     DEFAULT = 5,
 }
 export declare class NotifyPool extends Component {
@@ -259,7 +269,7 @@ export declare class NotifyPool extends Component {
     setType(ptype: ENotifyPoolType): void;
     setIcon(p_icon: string): void;
 }
-export declare class NumericStepper extends InputTextDouble {
+export declare class NumericStepper extends DoubleTextInput {
     maxvl: number;
     minvl: number;
     stepvl: number;

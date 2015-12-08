@@ -1,5 +1,5 @@
 import {ModWindow} from "../../../../lib/underas/container";
-import {ItemView,NumericStepper,InputText,Select,ListView} from "../../../../lib/underas/controller";
+import {ItemView,NumericStepper,TextInput,Select,ListView} from "../../../../lib/underas/controller";
 import {ToolBar,IDefaultRequest,RequestManager} from "../../../../lib/underas/net";
 import {Underas} from "../../../../lib/underas/core";
 import {IItemMenu,IMenu} from "../model/IPerfil";
@@ -7,10 +7,10 @@ import {Menu} from "./Menu";
 
 @ItemView("assets/html/itemmenu.html")
 export class ItemMenu extends ModWindow{
-	itIdItemMenu:InputText;
-	itIdMenu: InputText;
-	itLabel:InputText;
-	itFuncao:InputText;
+	itIdItemMenu:TextInput;
+	itIdMenu: TextInput;
+	itLabel:TextInput;
+	itFuncao:TextInput;
 	itTela:Select;
 	itIcone:Select;
 	itOrdem:NumericStepper;
@@ -20,62 +20,63 @@ export class ItemMenu extends ModWindow{
 	constructor(p_menu:Menu){
 		super("Itens do Menu");
 		this.setRevision("$Revision: 138 $");
-		this.setSize(4);
+		this.setSize(8);
 
 		this.mainTb = new ToolBar({"domain":"itemmenu"});
 		this.append(this.mainTb);
 
-		this.itIdItemMenu = new InputText("");
+		this.itIdItemMenu = new TextInput("");
 		this.itIdItemMenu.setColumn("$id");
 		this.itIdItemMenu.setLabel("cod.");
 		this.itIdItemMenu.setEnable(false);
-		this.itIdItemMenu.setSize(3);
+		this.itIdItemMenu.setSize(2);
 		this.append(this.itIdItemMenu);
 
-		this.itIdMenu = new InputText("");
+		this.itIdMenu = new TextInput("");
 		this.itIdMenu.setColumn("!idMenu");
 		this.itIdMenu.setLabel("menu");
 		this.itIdMenu.setEnable(false);
-		this.itIdMenu.setSize(3);
+		this.itIdMenu.setSize(2);
 		this.append(this.itIdMenu);
 
-		this.itLabel = new InputText("");
+		this.itLabel = new TextInput("");
 		this.itLabel.setColumn("@label");
 		this.itLabel.setLabel("label");
-		this.itLabel.setSize(6);
+		this.itLabel.setSize(8);
 		this.append(this.itLabel);
-
-		this.itFuncao = new InputText("");
-		this.itFuncao.setColumn("#funcao");
-		this.itFuncao.setLabel("funcao");
-		this.itFuncao.setSize(12);
-		this.append(this.itFuncao);
 
 		this.itTela = new Select("selecione uma tela");
 		this.itTela.setLabel("tela");
 		this.itTela.setColumn("@tela");
-		this.itTela.setSize(12);
+		this.itTela.setSize(5);
 		this.itTela.setValueField("modulo");
 		this.itTela.setLabelField("descricao");
 		this.append(this.itTela);
 
+
 		this.itIcone = new Select("selecione um icone");
 		this.itIcone.setLabel("icone");
 		this.itIcone.setColumn("@icone");
-		this.itIcone.setSize(8);
+		this.itIcone.setSize(4);
 		this.itIcone.setValueField("icon");
 		this.itIcone.setLabelField("desc");
 		this.append(this.itIcone);
 
 		this.itOrdem = new NumericStepper(5);
 		this.itOrdem.setEnable(false,2);
-		this.itOrdem.setSize(4);
+		this.itOrdem.setSize(3);
 		this.itOrdem.setLabel("ordem");
 		this.itOrdem.setMin(1);
 		this.itOrdem.setMax(100);
 		this.itOrdem.setStep(1);
 		this.itOrdem.setColumn("@ordem");
 		this.append(this.itOrdem);
+
+		this.itFuncao = new TextInput("");
+		this.itFuncao.setColumn("#funcao");
+		this.itFuncao.setLabel("funcao");
+		this.itFuncao.setSize(12);
+		this.append(this.itFuncao);
 
 		this.mainList = new ListView("ItemMenu");
 		this.append(this.mainList);

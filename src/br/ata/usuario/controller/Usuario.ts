@@ -1,5 +1,6 @@
 import server = require('restify');
-import url = require('url');
+//import url = require('url');
+import fs = require('fs');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router/router";
 import UsuarioDAO = require("../model/usuario");
 import {IUsuario} from "../model/IUsuario";
@@ -16,6 +17,29 @@ export class Usuario{
 			res.status(400);
 			res.json(err);
 		});
+	}
+
+	@Post("/upload_avatar/:iduser")
+	uploadAvatar(req: server.Request, res: server.Response): void {
+		//http://127.0.0.1:8299/usuario/upload_avatar/:iduser
+		/*
+		<form target="itarget" action="http://127.0.0.1:8299/usuario/upload_avatar/1234" method= "post" enctype= "multipart/form-data" >
+			Select image to upload:
+			<input type="file" name= "fileUploaded" id="fileUploaded" >
+			<input type="submit" value= "Upload Image" name= "submit" >
+		</form>
+		<iframe name="itarget" id="itarget"></iframe>
+		*/
+
+		//console.log(req.files);
+		var uploadPath = "./public/assets/avatars/";
+		//__dirname + 
+		//console.log(uploadPath);
+		var tempFile = req.files.fileUploaded;
+		fs.createReadStream(tempFile.path).pipe(fs.createWriteStream(uploadPath + 'avatar_' + req.params.iduser +'.png'));
+		//res.json(req.files);
+    	//var tempPath = req.files.fileUploaded.path;
+		res.json({ status: "ok", name: tempFile.name });
 	}
 
 	@Post("/logar")

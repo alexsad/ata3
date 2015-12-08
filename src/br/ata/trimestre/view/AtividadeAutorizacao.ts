@@ -1,6 +1,6 @@
 import {Underas} from "../../../../lib/underas/core";
 import {ModWindow} from "../../../../lib/underas/container";
-import {InputTime, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, InputText, ListView, ItemView} from "../../../../lib/underas/controller";
+import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput, ListView, ItemView} from "../../../../lib/underas/controller";
 import {SimpleToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
@@ -11,24 +11,24 @@ declare var perfilBoxContainer: PerfilBox;
 
 @ItemView("assets/html/evento.html")
 export class AtividadeAutorizacao extends ModWindow {
-	itIdEvento: InputText;
-	itIdTrimestre: InputText;
+	itIdEvento: TextInput;
+	itIdTrimestre: TextInput;
 	itSnEditavel: CheckBox;
-	itDescricao: InputText;
+	itDescricao: TextInput;
 	itDetalhes: TextArea;
-	itCodRefMLS: InputText;
-	itLocal: InputText;
+	itCodRefMLS: TextInput;
+	itLocal: TextInput;
 	itMomento: Select;
-	itHora: InputTime;
+	itHora: TimeInput;
 	itIdOrganizacao: Select;
 	itIdResponsavel: Select;
 	itOrcamento: NumericStepper;
-	itPublicoAlvo: InputText;
-	itProposito: InputText;
+	itPublicoAlvo: TextInput;
+	itProposito: TextInput;
 	itIdStatus: Select;
 	itIdPerfil: Select;
 	itDsObservacao: AlertMsg;
-	itVestuario: InputText;
+	itVestuario: TextInput;
 	mainTb: SimpleToolBar;
 	mainList: ListView;
 	btPrintAta: Button;
@@ -50,21 +50,21 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itDsObservacao);
 
 
-		this.itIdEvento = new InputText("");
+		this.itIdEvento = new TextInput("");
 		this.itIdEvento.setColumn("$id");
 		this.itIdEvento.setLabel("cod.");
 		this.itIdEvento.setEnable(false);
 		this.itIdEvento.setSize(2);
 		this.append(this.itIdEvento);
 
-		this.itIdTrimestre = new InputText("");
+		this.itIdTrimestre = new TextInput("");
 		this.itIdTrimestre.setColumn("!idTrimestre");
 		this.itIdTrimestre.setLabel("tri.");
 		this.itIdTrimestre.setEnable(false);
 		this.itIdTrimestre.setSize(2);
 		this.append(this.itIdTrimestre);
 
-		this.itCodRefMLS = new InputText("");
+		this.itCodRefMLS = new TextInput("");
 		this.itCodRefMLS.setColumn("#codRefMLS");
 		this.itCodRefMLS.setLabel("ref. MLS");
 		this.itCodRefMLS.setPlaceHolder("cod. ref. MLS");
@@ -90,7 +90,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.itSnEditavel.setEnable(false);
 		this.append(this.itSnEditavel);
 
-		this.itDescricao = new InputText("");
+		this.itDescricao = new TextInput("");
 		this.itDescricao.setColumn("@descricao");
 		this.itDescricao.setLabel("descricao");
 		this.itDescricao.setPlaceHolder("digite a descricao da atividade");
@@ -110,7 +110,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itMomento);
 
 
-		this.itHora = new InputTime("19:00");
+		this.itHora = new TimeInput("19:00");
 		this.itHora.setColumn("@hora");
 		this.itHora.setPlaceHolder("hora da atividade ex. 19:00");
 		this.itHora.setLabel("hora");
@@ -118,7 +118,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.itHora.setEnable(false);
 		this.append(this.itHora);
 
-		this.itLocal = new InputText("capela");
+		this.itLocal = new TextInput("capela");
 		this.itLocal.setColumn("@local");
 		this.itLocal.setLabel("local");
 		this.itLocal.setPlaceHolder("local da atividade");
@@ -163,7 +163,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.itOrcamento.setSize(3);
 		this.append(this.itOrcamento);
 
-		this.itPublicoAlvo = new InputText("");
+		this.itPublicoAlvo = new TextInput("");
 		this.itPublicoAlvo.setColumn("@publicoAlvo");
 		this.itPublicoAlvo.setLabel("publico alvo");
 		this.itPublicoAlvo.setPlaceHolder("digite o publico da atividade ex. toda a ala");
@@ -172,7 +172,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.itPublicoAlvo.setEnable(false);
 		this.append(this.itPublicoAlvo);
 
-		this.itVestuario = new InputText("no padrao");
+		this.itVestuario = new TextInput("no padrao");
 		this.itVestuario.setColumn("@vestuario");
 		this.itVestuario.setLabel("vestuario");
 		this.itVestuario.setPlaceHolder("digite o vestuario da atividade ex. no esporte fino");
@@ -181,7 +181,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.itVestuario.setEnable(false);
 		this.append(this.itVestuario);
 
-		this.itProposito = new InputText("");
+		this.itProposito = new TextInput("");
 		this.itProposito.setColumn("@proposito");
 		this.itProposito.setPlaceHolder("digite o proposito da atividade");
 		this.itProposito.setLabel("proposito");

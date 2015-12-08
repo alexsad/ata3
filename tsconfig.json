@@ -91,6 +91,7 @@
         "./src/br/ata/usuario/model/usuarioperfil.ts",
         "./src/br/ata/usuario/view/Login.ts",
         "./src/br/ata/usuario/view/Usuario.ts",
+        "./src/br/ata/usuario/view/UsuarioUploadAvatar.ts",
         "./src/br/ata/usuario/view/UsuarioPerfil.ts",
         "./src/lib/cookies/cookies.d.ts",
         "./src/lib/jquery/jquery2.d.ts",

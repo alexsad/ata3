@@ -1,6 +1,6 @@
 import {PerfilView} from "./PerfilView";
 import {ModWindow} from "../../../../lib/underas/container";
-import {InputText, CheckBox, Button, AlertMsg, Select, ListView, ItemView} from "../../../../lib/underas/controller";
+import {TextInput, CheckBox, Button, AlertMsg, Select, ListView, ItemView} from "../../../../lib/underas/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
 import {IPerfil, IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfil";
 
@@ -8,7 +8,7 @@ import {IPerfil, IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfi
 @ItemView("assets/html/perfilautorizacao.html")
 export class PerfilAutorizacao extends ModWindow {
 	itPerfil: Select;
-	itIdPerfilAutorizacao: InputText;
+	itIdPerfilAutorizacao: TextInput;
 	itTpAutorizacao: CheckBox;
 	itPerfilAlvo: Select;
 	aviso: AlertMsg;
@@ -27,7 +27,7 @@ export class PerfilAutorizacao extends ModWindow {
 		this.aviso.show(true);
 		this.append(this.aviso);
 
-		this.itIdPerfilAutorizacao = new InputText("cod.");
+		this.itIdPerfilAutorizacao = new TextInput("cod.");
 		this.itIdPerfilAutorizacao.setLabel("cod.");
 		this.itIdPerfilAutorizacao.setSize(3);
 		this.itIdPerfilAutorizacao.setColumn("$id");
