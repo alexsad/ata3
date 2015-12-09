@@ -1,16 +1,16 @@
 import {ModWindow} from "../../../../lib/underas/container";
-import {InputText,CheckBox,TextArea,Select,InputPassWord,InputEmail,ListView,ItemView} from "../../../../lib/underas/controller";
+import {TextInput,CheckBox,TextArea,Select,PassWordInput,EmailInput,ListView,ItemView} from "../../../../lib/underas/controller";
 import {ToolBar,RequestManager,IDefaultRequest} from "../../../../lib/underas/net";
 import {IMembro} from "../model/IMembro";
 
 @ItemView("assets/html/membro.html")
 export class Membro extends ModWindow{
-	itIdMembro:InputText;
+	itIdMembro:TextInput;
 	itIdOrgnizacao: Select;
-	itNmMembro:InputText;
+	itNmMembro:TextInput;
 	itSnAtivo:CheckBox;
-	itTelefone:InputText;
-	itCelular:InputText;
+	itTelefone:TextInput;
+	itCelular:TextInput;
 	chSexo:CheckBox;
 	taObs:TextArea;
 	mainTb:ToolBar;
@@ -23,14 +23,14 @@ export class Membro extends ModWindow{
 		this.mainTb = new ToolBar({"domain":"membro"});
 		this.append(this.mainTb);
 
-		this.itIdMembro = new InputText("");
+		this.itIdMembro = new TextInput("");
 		this.itIdMembro.setColumn("$id");
 		this.itIdMembro.setLabel("cod.");
 		this.itIdMembro.setEnable(false);
 		this.itIdMembro.setSize(2);
 		this.append(this.itIdMembro);
 
-		this.itNmMembro = new InputText("");
+		this.itNmMembro = new TextInput("");
 		this.itNmMembro.setColumn("@nome");
 		this.itNmMembro.setLabel("Nome");
 		this.itNmMembro.setSize(5);
@@ -60,14 +60,14 @@ export class Membro extends ModWindow{
 		this.chSexo.setSize(4);
 		this.append(this.chSexo);
 
-		this.itTelefone = new InputText("");
+		this.itTelefone = new TextInput("");
 		this.itTelefone.setLabel("telefone:");
 		this.itTelefone.setMaxLength(14);
 		this.itTelefone.setColumn("@telefone");
 		this.itTelefone.setSize(4);
 		this.append(this.itTelefone);
 
-		this.itCelular = new InputText("");
+		this.itCelular = new TextInput("");
 		this.itCelular.setLabel("celular:");
 		this.itCelular.setMaxLength(14);
 		this.itCelular.setColumn("@celular");

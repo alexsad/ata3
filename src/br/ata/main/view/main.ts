@@ -14,6 +14,7 @@ class Main{
 		tmpLocation = tmpLocation.substring(0, tmpLocation.indexOf("8330")) + "8299/";
 
 		RequestManager.setRootUrl(tmpLocation);
+		
 		//console.log(m);
 		//var t = new sub.SubB(45);
 		//t.doAnyThing("nova instancia!!!!");

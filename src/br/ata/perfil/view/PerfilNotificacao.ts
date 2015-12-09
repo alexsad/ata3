@@ -1,22 +1,22 @@
 import {ModWindow} from "../../../../lib/underas/container";
-import {ItemView,DatePicker,NumericStepper,InputText,Select,ListView} from "../../../../lib/underas/controller";
+import {ItemView,DatePicker,NumericStepper,TextInput,Select,ListView} from "../../../../lib/underas/controller";
 import {ToolBar,IDefaultRequest,RequestManager} from "../../../../lib/underas/net";
 import {Underas} from "../../../../lib/underas/core";
 import {IPerfilNotificacao} from "../model/IPerfil";
 
 @ItemView("assets/html/perfilnotificacao.html")
 export class PerfilNotificacao extends ModWindow{
-	itIdPerfilNotificacao:InputText;
+	itIdPerfilNotificacao:TextInput;
 	itIdPerfil: Select;
-	itDescricao:InputText;
-	itMascara:InputText;
+	itDescricao:TextInput;
+	itMascara:TextInput;
 	itDtInicial:DatePicker;
 	itDtFinal:DatePicker;
 	itLimiteMax:NumericStepper;
 	itLimiteMin:NumericStepper;
 	itModulo:Select;
-	itModuloAcao:InputText;
-	itServicoContagem:InputText;
+	itModuloAcao:TextInput;
+	itServicoContagem:TextInput;
 	itTpNotificacao:Select;
 	itIcone: Select;
 	itModuloIcone: Select;
@@ -31,7 +31,7 @@ export class PerfilNotificacao extends ModWindow{
 		this.mainTb = new ToolBar({"domain":"perfilnotificacao"});
 		this.append(this.mainTb);
 
-		this.itIdPerfilNotificacao = new InputText("");
+		this.itIdPerfilNotificacao = new TextInput("");
 		this.itIdPerfilNotificacao.setColumn("$id");
 		this.itIdPerfilNotificacao.setLabel("cod.");
 		this.itIdPerfilNotificacao.setEnable(false);
@@ -39,7 +39,7 @@ export class PerfilNotificacao extends ModWindow{
 		this.append(this.itIdPerfilNotificacao);
 
 
-		this.itDescricao = new InputText("");
+		this.itDescricao = new TextInput("");
 		this.itDescricao.setColumn("@descricao");
 		this.itDescricao.setLabel("descricao");
 		this.itDescricao.setSize(6);
@@ -54,7 +54,7 @@ export class PerfilNotificacao extends ModWindow{
 		this.itIdPerfil.setEnable(true);
 		this.append(this.itIdPerfil);
 
-		this.itMascara = new InputText("");
+		this.itMascara = new TextInput("");
 		this.itMascara.setColumn("@mascara");
 		this.itMascara.setLabel("mascara");
 		this.itMascara.setSize(6);
@@ -77,7 +77,7 @@ export class PerfilNotificacao extends ModWindow{
 		this.itTpNotificacao.setLabelField("descricao");
 		this.append(this.itTpNotificacao);
 
-		this.itServicoContagem = new InputText("");
+		this.itServicoContagem = new TextInput("");
 		this.itServicoContagem.setColumn("@servicoContagem");
 		this.itServicoContagem.setLabel("servico de contagem");
 		this.itServicoContagem.setSize(12);
@@ -91,7 +91,7 @@ export class PerfilNotificacao extends ModWindow{
 		this.itModulo.setLabelField("descricao");
 		this.append(this.itModulo);
 
-		this.itModuloAcao = new InputText("");
+		this.itModuloAcao = new TextInput("");
 		this.itModuloAcao.setColumn("#moduloAcao");
 		this.itModuloAcao.setLabel("acao do modulo");
 		this.itModuloAcao.setSize(4);

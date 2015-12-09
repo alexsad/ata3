@@ -3,6 +3,7 @@ declare module "restify"{
             body: any;
             params: any;
             query: any;
+            files: any;
       }
       export interface Response {
             send(p_res: any): void;

@@ -3,6 +3,8 @@ import {RequestManager} from "../../../../lib/underas/net";
 import {IPerfil,IMenu, IItemMenu, IPerfilNotificacao} from "../model/IPerfil";
 import {IUsuarioPerfil} from "../../usuario/model/IUsuario";
 import {Login} from "../../usuario/view/Login";
+import {UsuarioUploadAvatar} from "../../usuario/view/UsuarioUploadAvatar";
+import {AlertWindow} from "../../../../lib/underas/container";
 
 export class PerfilBox{
 	_perfisUsuario: IUsuarioPerfil[];	
@@ -11,6 +13,7 @@ export class PerfilBox{
 	idUsuario: number;
 	idPerfil: number;
 	_notificacoes:NotifyPool;
+	_setAvatar: UsuarioUploadAvatar;
 	private _idbox: string;
 	constructor(p_modLogin:Login){
 		this._perfisUsuario = [];
@@ -100,7 +103,21 @@ export class PerfilBox{
 		});
 
 	}
+	setAvatar():void{
+		if(!this._setAvatar){
+			this._setAvatar = new UsuarioUploadAvatar(this.idUsuario);
+			//this._modLogin.append(this._setAvatar);
+			//this.getEle();
+			$("body").append(this._setAvatar.getEle());
 
+			this._setAvatar.getEle().on("avatarchanged", function() { 
+				console.log("teste, mudando icones!!");				
+				$("#user_avatar_icon").attr("src", 'assets/avatars/avatar_' + this.idUsuario + '.png?tbust=' + new Date().getTime());
+				this._setAvatar.show(false);
+			}.bind(this));
+		};
+		this._setAvatar.show(true);
+	}
 	getMenusByIdPerfil(p_idPerfil: number): void {
 
 		this.setIdPerfil(p_idPerfil);
@@ -129,21 +146,21 @@ export class PerfilBox{
 					});
 				};
 				tmpChildrens.push({
+					label: 'trocar foto'
+					, funcao: 'setAvatar'
+					, tela: 'setAvatar'
+					, icone: 'picture'
+					, ordem: 2
+					, idMenu: 0
+				});	
+				tmpChildrens.push({
 					label: 'sair'
 					, funcao: 'logOff'
 					, tela: 'br.ata.usuario.view.Login'
 					, icone: 'off'
 					, ordem: 1
 					,idMenu:0
-				});
-				dta.push({
-					//id:'2344jfjfel'
-					icone: 'bell'
-					, label: 'teste 222'
-					, ordem: 25
-					, children: []
-					, idPerfil: this.getIdPerfil()
-				});
+				});	
 				dta.push({
 					//id:'2344jfjfel'
 					icone: ''
@@ -152,16 +169,24 @@ export class PerfilBox{
 					, children: tmpChildrens
 					, idPerfil: this.getIdPerfil()
 				});
+				dta.push({
+					//id:'2344jfjfel'
+					icone: 'bell'
+					, label: 'Avisos'
+					, ordem: 25
+					, children: []
+					, idPerfil: this.getIdPerfil()
+				});
 
 				tmpMenu.setDataProvider(dta);
 				var tmpLogin: string = this._modLogin.itlogin.getValue();
 				tmpLogin = tmpLogin.substring(0, tmpLogin.indexOf("@"));
-				var tmpIdM: number = dta.length - 2;
+				var tmpIdM: number = dta.length - 1;
 				this._idbox = "#tabmenu_" + (tmpIdM);
-				tmpIdM++;
+				tmpIdM--;
 				$("#tabmenu_" + tmpIdM + ",#tabmenu_" + tmpIdM + "_l").addClass("pull-right");
 				$("#tabmenu_" + tmpIdM + " a").html(
-					'<img style="border: 2px solid #04dd90;border-radius: 100%;margin: -4px 8px 0 0;max-width: 30px;" alt="Photo" src="assets/avatars/RLiDK.png" class="nav-user-photo">'
+					'<img id="user_avatar_icon" style="border: 2px solid #04dd90;border-radius: 100%;margin: -4px 0px 0 0;max-width: 30px;width:30px;height:30px;" alt="Photo" src="assets/avatars/avatar_' + this.idUsuario + '.png" class="nav-user-photo">'
 					+ '<small class="hidden-xs">' + tmpLogin + '</small>'
 				);
 				this.loadNotificacoesPerfil();
@@ -181,7 +206,12 @@ export class PerfilBox{
 					if (tmpIdPerfil){
 						//console.log(tmpEle);
 						//console.log(tmpIdPerfil);
-						if (tmpIdPerfil != this.getIdPerfil()) {
+						
+						if (tmpIdPerfil == "setAvatar") {
+
+							this.setAvatar();
+
+						}else if (tmpIdPerfil != this.getIdPerfil()) {
 							//this.setIdPerfil(tmpIdPerfil);
 							this._modLogin.clearAll();
 							//console.log(tmpIdPerfil);

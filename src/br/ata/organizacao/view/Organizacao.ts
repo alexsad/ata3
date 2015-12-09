@@ -1,5 +1,5 @@
 import {ModWindow} from "../../../../lib/underas/container";
-import {InputText,DatePicker,ListView,ItemView} from "../../../../lib/underas/controller";
+import {TextInput,DatePicker,ListView,ItemView} from "../../../../lib/underas/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
 import {IOrganizacao} from "../model/IOrganizacao";
 import {Membro} from "./Membro";
@@ -7,8 +7,8 @@ import {Membro} from "./Membro";
 
 @ItemView("assets/html/organizacao.html")
 export class Organizacao extends ModWindow{
-	itIdOrganizacao:InputText;
-	itDescricao:InputText;
+	itIdOrganizacao:TextInput;
+	itDescricao:TextInput;
 	mainList:ListView;
 	mainTb:ToolBar;
 	_modMembro:Membro;
@@ -20,14 +20,14 @@ export class Organizacao extends ModWindow{
 		this.mainTb = new ToolBar({"domain":"organizacao"});
 		this.append(this.mainTb);
 
-		this.itIdOrganizacao = new InputText("");
+		this.itIdOrganizacao = new TextInput("");
 		this.itIdOrganizacao.setColumn("$id");
 		this.itIdOrganizacao.setLabel("cod.");
 		this.itIdOrganizacao.setEnable(false);
 		this.itIdOrganizacao.setSize(4);
 		this.append(this.itIdOrganizacao);
 
-		this.itDescricao = new InputText("");
+		this.itDescricao = new TextInput("");
 		this.itDescricao.setColumn("@descricao");
 		this.itDescricao.setLabel("descricao");
 		this.itDescricao.setSize(8);

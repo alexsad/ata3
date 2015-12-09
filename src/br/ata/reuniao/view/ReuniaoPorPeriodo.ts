@@ -1,5 +1,5 @@
 import {ModWindow} from "../../../../lib/underas/container";
-import {Button, InputText, Select, TextArea, NumericStepper, DatePicker, DatePartType, ListView, ItemView} from "../../../../lib/underas/controller";
+import {Button, TextInput, Select, TextArea, NumericStepper, DatePicker, DatePartType, ListView, ItemView} from "../../../../lib/underas/controller";
 import {SimpleToolBar,RequestManager,IDefaultRequest} from "../../../../lib/underas/net";
 import {IReuniao} from "../model/IReuniao";
 import {IDiscurso} from "../model/IDiscurso";
@@ -9,12 +9,12 @@ import {FastMembro} from "../../organizacao/view/FastMembro";
 
 @ItemView("assets/html/reuniaoporperiodo.html")
 export class ReuniaoPorPeriodo extends ModWindow{
-	itIdDiscurso:InputText;
+	itIdDiscurso:TextInput;
 	itIdMembro:Select;
 	itTempo:NumericStepper;
-	itTema:InputText;
+	itTema:TextInput;
 	itFonte:TextArea;
-	itLinkFonte:InputText;	
+	itLinkFonte:TextInput;	
 	itDtaF:DatePicker;
 	itDtaI:DatePicker;
 	btPesquisar:Button;
@@ -69,7 +69,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	    //this.itDtaF.show(false);
 	    this.append(this.itDtaF);
 
-		this.itIdDiscurso = new InputText("");
+		this.itIdDiscurso = new TextInput("");
 		this.itIdDiscurso.setColumn("$id");
 		this.itIdDiscurso.setLabel("cod.");
 		this.itIdDiscurso.setEnable(false);
@@ -94,7 +94,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	    this.itTempo.setEnable(false);
 	    this.append(this.itTempo);
 
-		this.itTema = new InputText("");
+		this.itTema = new TextInput("");
 		this.itTema.setColumn("@tema");
 		this.itTema.setLabel("tema");
 		this.itTema.setSize(12);
@@ -107,7 +107,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 		this.itFonte.setMaxLength(25);
 		this.append(this.itFonte);
 
-		this.itLinkFonte = new InputText("");
+		this.itLinkFonte = new TextInput("");
 		this.itLinkFonte.setColumn("@linkFonte");
 		this.itLinkFonte.setLabel("link");
 		this.itLinkFonte.setSize(12);

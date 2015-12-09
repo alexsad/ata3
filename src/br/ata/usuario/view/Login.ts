@@ -1,6 +1,6 @@
 import {Underas} from "../../../../lib/underas/core";
 import {ModWindow} from "../../../../lib/underas/container";
-import {Button,CheckBox, InputPassWord, InputEmail, AlertMsg} from "../../../../lib/underas/controller";
+import {Button,CheckBox, PassWordInput, EmailInput, AlertMsg} from "../../../../lib/underas/controller";
 import {RequestManager} from "../../../../lib/underas/net";
 import {IUsuario} from "../model/IUsuario";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
@@ -9,14 +9,14 @@ declare var perfilBoxContainer: PerfilBox;
 
 export class Login extends ModWindow{
 	amAviso:AlertMsg;
-	itlogin:InputEmail;
-	itsenha:InputPassWord;
+	itlogin:EmailInput;
+	itsenha:PassWordInput;
 	chlembrar: CheckBox;
 	btEntrar:Button;
 	btBaixarAplicativo: Button;
 	constructor(){
 		super("Login");
-		this.setRevision("$Revision: 140 $");
+		this.setRevision("$Revision: 144 $");
 		this.setSize(4);
 
 		this.getEle().addClass("col-sm-offset-4 col-xs-offset-0");
@@ -25,14 +25,14 @@ export class Login extends ModWindow{
 		this.amAviso.show(false);
 		this.append(this.amAviso);
 
-		this.itlogin = new InputEmail("");
+		this.itlogin = new EmailInput("");
 		this.itlogin.setLabel("login");
 		this.itlogin.setPlaceHolder("digite seu login");
 		this.itlogin.setSize(12);
 		this.itlogin.setIcon("user");
 		this.append(this.itlogin);
 
-		this.itsenha = new InputPassWord("");
+		this.itsenha = new PassWordInput("");
 		this.itsenha.setLabel("senha");
 		this.itsenha.setPlaceHolder("digite sua senha");
 		this.itsenha.setSize(12);

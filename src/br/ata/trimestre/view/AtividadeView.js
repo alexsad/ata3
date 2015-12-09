@@ -47,7 +47,7 @@ var EventoView = new Class({
 		this.parent("*Edicao de Atividades.");
 		this.setRevision("$Revision: 139 $");		
 
-		this.itIdEvento = new js.underas.controller.InputText("");
+		this.itIdEvento = new js.underas.controller.TextInput("");
 		this.itIdEvento.setColumn("$idEvento");
 		this.itIdEvento.setLabel("cod.");
 		this.itIdEvento.setEnable(false);	
@@ -62,12 +62,12 @@ var EventoView = new Class({
 		this.itIdTrimestre.setLabelField("dsTrimestre");		
 	
 
-		this.itDescricao = new js.underas.controller.InputText("");
+		this.itDescricao = new js.underas.controller.TextInput("");
 		this.itDescricao.setColumn("@descricao");
 		this.itDescricao.setLabel("descricao");
 		this.itDescricao.setSize(4);
 		
-		this.itCodRefMLS = new js.underas.controller.InputText("");
+		this.itCodRefMLS = new js.underas.controller.TextInput("");
 		this.itCodRefMLS.setColumn("#codRefMLS");
 		this.itCodRefMLS.setLabel("ref. MLS");
 		this.itCodRefMLS.setPlaceHolder("codigo ref. MLS");
@@ -80,7 +80,7 @@ var EventoView = new Class({
 		this.itIdStatus.setLabelField("descricao");		
 		this.itIdStatus.setSize(2);
 
-		this.itLocal = new js.underas.controller.InputText("");
+		this.itLocal = new js.underas.controller.TextInput("");
 		this.itLocal.setColumn("@local");
 		this.itLocal.setLabel("local");
 		this.itLocal.setSize(7);	
@@ -90,7 +90,7 @@ var EventoView = new Class({
 		this.itMomento.setLabel("data");
 		//this.itMomento.setSize(3);	
 
-		this.itHora = new js.underas.controller.InputTime("");
+		this.itHora = new js.underas.controller.TimeInput("");
 		this.itHora.setColumn("@hora");
 		this.itHora.setLabel("hora");
 		//this.itHora.setSize(2);	
@@ -114,13 +114,13 @@ var EventoView = new Class({
 		this.itOrcamento.setLabel("orcamento");
 		//this.itOrcamento.setSize(2);	
 
-		this.itPublicoAlvo = new js.underas.controller.InputText("");
+		this.itPublicoAlvo = new js.underas.controller.TextInput("");
 		this.itPublicoAlvo.setColumn("@publicoAlvo");
 		this.itPublicoAlvo.setLabel("publico alvo");
 		this.itPublicoAlvo.setSize(12);	
 		this.itPublicoAlvo.setMaxLength(220);
 		
-		this.itVestuario = new js.underas.controller.InputText("");
+		this.itVestuario = new js.underas.controller.TextInput("");
 		this.itVestuario.setColumn("@vestuario");
 		this.itVestuario.setLabel("vestuario");
 		this.itVestuario.setSize(12);	

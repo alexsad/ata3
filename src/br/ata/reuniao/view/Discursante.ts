@@ -1,18 +1,18 @@
 import {IDiscurso} from "../model/IDiscurso";
 import {ModWindow} from "../../../../lib/underas/container";
-import {Select, InputText, TextArea, NumericStepper, DatePicker, ListView, ItemView} from "../../../../lib/underas/controller";
+import {Select, TextInput, TextArea, NumericStepper, DatePicker, ListView, ItemView} from "../../../../lib/underas/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
 
 
 @ItemView("assets/html/discursante.html")
 export class Discursante extends ModWindow{
-	itIdDiscurso:InputText;
+	itIdDiscurso:TextInput;
 	itIdMembro:Select;
 	itIdReuniao:Select;
 	itTempo:NumericStepper;
-	itTema:InputText;
+	itTema:TextInput;
 	itFonte:TextArea;
-	itLinkFonte:InputText;
+	itLinkFonte:TextInput;
 	mainList:ListView;
 	mainTb:ToolBar;
 	
@@ -24,7 +24,7 @@ export class Discursante extends ModWindow{
 		this.mainTb = new ToolBar({"domain":"discurso"});
 		this.append(this.mainTb);
 
-		this.itIdDiscurso = new InputText("");
+		this.itIdDiscurso = new TextInput("");
 		this.itIdDiscurso.setColumn("$id");
 		this.itIdDiscurso.setLabel("cod.");
 		this.itIdDiscurso.setEnable(false);
@@ -57,7 +57,7 @@ export class Discursante extends ModWindow{
 	    this.itTempo.setEnable(false,2);
 		this.append(this.itTempo);
 
-		this.itTema = new InputText("");
+		this.itTema = new TextInput("");
 		this.itTema.setColumn("@tema");
 		this.itTema.setLabel("tema");
 		this.itTema.setSize(12);
@@ -70,7 +70,7 @@ export class Discursante extends ModWindow{
 		this.itFonte.setMaxLength(25);
 		this.append(this.itFonte);
 
-		this.itLinkFonte = new InputText("");
+		this.itLinkFonte = new TextInput("");
 		this.itLinkFonte.setColumn("@linkFonte");
 		this.itLinkFonte.setLabel("link");
 		this.itLinkFonte.setSize(12);

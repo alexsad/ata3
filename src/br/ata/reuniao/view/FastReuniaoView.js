@@ -1,6 +1,6 @@
 function ReuniaoView(){
 	Box.apply(this,[]);
-	//{"idConvite":"164","idMembro":10,"idReuniao":55,"nome":"VANESSA SOARES DE ARAUJO","sexo":"F","tema":"GRATIDAO","tempo":10,"momento":"18-08-2013","fonte":"ALIAHONA DE JUN. PAG 56"}
+	//{"idConvite":"124","idMembro":10,"idReuniao":55,"nome":"VANESSA SOARES DE ARAUJO","sexo":"F","tema":"GRATIDAO","tempo":10,"momento":"18-08-2013","fonte":"ALIAHONA DE JUN. PAG 56"}
 	var htmlT = '<div class="col-xs-12" style="padding:0px">'+
 	'<div class="col-xs-12" style="text-align:center"><h3>'+this.momento+'</h3></div>'+
 	'<div class="row">';	
@@ -64,36 +64,36 @@ function FastReuniaoView() {
     this.itDtaF.setLabel("fim:");
     this.itDtaF.addDate("month",3);
     //this.lbDados = new  Label("dados");
-    this.itNome = new js.underas.controller.InputText("");
+    this.itNome = new js.underas.controller.TextInput("");
     this.itNome.setLabel("discursante:");
     this.itNome.setEnable(false);
     this.itNome.setSize(7);
     this.itNome.htmlX.hide();
-    this.itDtaD = new js.underas.controller.InputText("");
+    this.itDtaD = new js.underas.controller.TextInput("");
     this.itDtaD.setLabel("data:");
     this.itDtaD.setEnable(false);
     this.itDtaD.setIcon("calendar");
     this.itDtaD.setSize(3);
     this.itDtaD.htmlX.hide();
-    this.itTempo = new js.underas.controller.InputText(5);
+    this.itTempo = new js.underas.controller.TextInput(5);
     this.itTempo.setLabel("duracao:");
     this.itTempo.setEnable(false);
     this.itTempo.setIcon("time");
     this.itTempo.setSize(2);
     this.itTempo.htmlX.hide();
-    this.itTema = new js.underas.controller.InputText("");
+    this.itTema = new js.underas.controller.TextInput("");
     this.itTema.setLabel("tema:");
     this.itTema.setSize(12); 
     this.itTema.setMaxLength(120);
     this.itTema.htmlX.hide();
     
-    this.itLinkFonte = new js.underas.controller.InputText("");  
+    this.itLinkFonte = new js.underas.controller.TextInput("");  
     this.itLinkFonte.setLabel("link:");
     this.itLinkFonte.setSize(12); 
     this.itLinkFonte.setMaxLength(300);
     this.itLinkFonte.htmlX.hide();    
     
-    this.taFonte = new js.underas.controller.InputText("Aliahona pg.");  
+    this.taFonte = new js.underas.controller.TextInput("Aliahona pg.");  
     this.taFonte.setLabel("ajuda:");
     this.taFonte.setSize(12); 
     this.taFonte.setMaxLength(120);
