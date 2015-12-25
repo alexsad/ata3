@@ -1,6 +1,6 @@
-import {ModWindow} from "../../../../lib/underas/container";
-import {NumericStepper, CheckBox, TextInput, ListView, ItemView} from "../../../../lib/underas/controller";
-import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
+import {ModWindow} from "lib/underas/container";
+import {NumericStepper, CheckBox, TextInput, ListView, ItemView} from "lib/underas/controller";
+import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {ITrimestre} from "../model/ITrimestre";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import {TrimestreDataLivre} from "./TrimestreDataLivre";

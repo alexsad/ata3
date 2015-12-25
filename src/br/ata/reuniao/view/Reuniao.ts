@@ -1,7 +1,7 @@
 import {IReuniao} from "../model/IReuniao";
-import {ModWindow} from "../../../../lib/underas/container";
-import {TextInput, TextArea, NumericStepper, DatePicker, ListView, ItemView} from "../../../../lib/underas/controller";
-import {ToolBar, RequestManager} from "../../../../lib/underas/net";
+import {ModWindow} from "lib/underas/container";
+import {TextInput, TextArea, NumericStepper, DatePicker, ListView, ItemView} from "lib/underas/controller";
+import {ToolBar, RequestManager} from "lib/underas/net";
 import {Discursante} from "./Discursante";
 
 @ItemView("assets/html/reuniao.html")
@@ -32,6 +32,10 @@ export class Reuniao extends ModWindow{
 		this.itMomento.setColumn("@momento");
 		this.itMomento.setLabel("data");
 		this.itMomento.setSize(4);
+		this.itMomento.setConfig({
+			daysOfWeekDisabled: "1,2,3,4,5,6",
+			daysOfWeekHighlighted: "0"
+		});
 		this.append(this.itMomento);
 
 		this.itFrequencia = new NumericStepper(0);

@@ -1,6 +1,6 @@
-import {AlertWindow} from "../../../../lib/underas/container";
-import {FileInput, AlertMsg,Button} from "../../../../lib/underas/controller";
-import {RequestManager} from "../../../../lib/underas/net";
+import {AlertWindow} from "lib/underas/container";
+import {FileInput, AlertMsg,Button} from "lib/underas/controller";
+import {RequestManager} from "lib/underas/net";
 
 export class UsuarioUploadAvatar extends AlertWindow{
 	private idUsuario: number;

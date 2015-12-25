@@ -1,6 +1,6 @@
-import {ModWindow} from "../../../../lib/underas/container";
-import {Button, DatePartType, Select, ListView, ItemView} from "../../../../lib/underas/controller";
-import {SimpleToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
+import {ModWindow} from "lib/underas/container";
+import {Button, DatePartType, Select, ListView, ItemView} from "lib/underas/controller";
+import {SimpleToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {ITrimestre, ITremestreQuery} from "../model/ITrimestre";
 
 @ItemView("assets/html/atividadetrimestreporperiodo.html")

@@ -951,6 +951,8 @@ interface JQuery {
     droppable(optionLiteral: string, optionName: string, optionValue: any): JQuery;
     droppable(optionLiteral: string, optionName: string): any;
     droppable(methodName: string): any;
+
+    datepicker(options:any):JQuery;
 }
 
 declare var jQuery: JQueryStatic;

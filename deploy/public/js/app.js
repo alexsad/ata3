@@ -1,19 +1,26 @@
 
 requirejs.config({
-		baseUrl:'js/lib'
+		baseUrl:'js'
 		,urlArgs : "bust="+new Date().getTime()
 		,paths:{
-			'br':'../br'
-			,'jquery-ui':'jqueryui/jquery-ui.min'
-			,'jquery': 'jquery/dist/jquery.min'
-			,'net':'underas/net'
-			,'util':'underas/util'
-			,'core':'underas/core'
-			,'container':'underas/container'
-			,'controller':'underas/controller'
-			,'jsPDF':'jspdf/jspdf.debug'
-			,'jspdfreport':'jspdf/jspdfreport'
-			,'cookies':'cookies-js/dist/cookies.min'
+			//'underas':'lib/underas'
+			//,'lib/underas':'lib/underas'
+			/*
+			'core':'lib/underas/core'
+			,'net':'lib/underas/net'
+			,'util':'lib/underas/util'
+			,'controller':'lib/underas/controller'
+			,'container':'lib/underas/container'
+			*/
+			'jquery-ui':'lib/jqueryui/jquery-ui.min'
+			,'jquery': 'lib/jquery/dist/jquery.min'
+			,'jsPDF':'lib/jspdf/jspdf.debug'
+			,'jspdfreport':'lib/jspdf/jspdfreport'
+			,'cookies':'lib/cookies-js/dist/cookies.min'
+			,'bootstrap-datepicker':'lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min'
+			,'bootstrap-datepicker-locale-pt-BR':'lib/bootstrap-datepicker/dist/locales/bootstrap-datepicker.pt-BR.min'
+			//,'container':'lib/underas/container'
+			
 		}
 		,shim: {
 	        //"jspdf" : { exports : "jsPDF" }	   
@@ -24,15 +31,12 @@ requirejs.config({
 });
 
 var perfilBoxContainer = null;
-	requirejs(['jquery','cookies'],function($jq,_cookie){
+	requirejs(['jquery','cookies','bootstrap-datepicker'],function($jq,_cookie){
 			window.$ = window.jQuery = $jq;
 			window.Cookies = _cookie;
 
 			$jq(function(){
-				//console.log("teste");
-				requirejs(['br/ata/main/view/main']	,function(_modmain){
-						_modmain.initApp();
-					}
+					requirejs(['br/ata/main/view/main','bootstrap-datepicker-locale-pt-BR'],function(){}
 				);
 			});
 		}

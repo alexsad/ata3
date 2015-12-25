@@ -1,10 +1,10 @@
-import {MenuTab,NotifyPool,ENotifyType,ENotifyPoolType} from "../../../../lib/underas/controller";
-import {RequestManager} from "../../../../lib/underas/net";
+import {MenuTab,NotifyPool,ENotifyType,ENotifyPoolType} from "lib/underas/controller";
+import {RequestManager} from "lib/underas/net";
 import {IPerfil,IMenu, IItemMenu, IPerfilNotificacao} from "../model/IPerfil";
 import {IUsuarioPerfil} from "../../usuario/model/IUsuario";
 import {Login} from "../../usuario/view/Login";
 import {UsuarioUploadAvatar} from "../../usuario/view/UsuarioUploadAvatar";
-import {AlertWindow} from "../../../../lib/underas/container";
+import {AlertWindow} from "lib/underas/container";
 
 export class PerfilBox{
 	_perfisUsuario: IUsuarioPerfil[];	

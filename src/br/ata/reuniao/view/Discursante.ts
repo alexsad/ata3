@@ -1,7 +1,7 @@
 import {IDiscurso} from "../model/IDiscurso";
-import {ModWindow} from "../../../../lib/underas/container";
-import {Select, TextInput, TextArea, NumericStepper, DatePicker, ListView, ItemView} from "../../../../lib/underas/controller";
-import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
+import {ModWindow} from "lib/underas/container";
+import {Select, TextInput, TextArea, NumericStepper, DatePicker, ListView, ItemView} from "lib/underas/controller";
+import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 
 
 @ItemView("assets/html/discursante.html")
