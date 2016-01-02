@@ -45,27 +45,18 @@ var perfilBoxContainer = null;
 /*
 	requirejs(
 		[
-		'core'
-		,'container'
-		,'net'
-		,'br/ata/usuario/view/Usuario'
-		,'br/ata/perfil/view/Perfil'
+		'lib/underas/core'
+		,'lib/underas/container'
+		,'br/underdesk/usuario/view/Usuario'
+		,'br/underdesk/perfil/view/Perfil'
 		]
-		,function(_core,_container,_net,_mod,_mod2){
-			var tmpLocation = _core.Underas.getLocation();
-			//tmpLocation = tmpLocation.replace("8080","8330");
-			tmpLocation = tmpLocation.substring(0,tmpLocation.indexOf("8299"))+"8330/";
-			_net.RequestManager.setRootUrl(tmpLocation);
-			//console.log(m);
-			//var t = new sub.SubB(45);
-			//t.doAnyThing("nova instancia!!!!");
-			//$("body").append("<div>!teste</div>");
+		,function(_core,_container,_mod,_mod2){
 			var teste = new _mod.Usuario();
 			var mdw = new _container.ModView("cadastro de teste!!!");
 			mdw.setIcon("key");
 			mdw.show(true);
 			mdw.append(teste);
-
+			
 			var teste2 = new _mod2.Perfil();
 			var mdw2 = new _container.ModView("cadastro de teste!!!");
 			mdw2.setIcon("key");
