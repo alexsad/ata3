@@ -25,6 +25,7 @@ requirejs.config({
 		,shim: {
 	        //"jspdf" : { exports : "jsPDF" }	   
 	        'br/ata/trimestre/view/AtividadeAutorizacao': ['jspdfreport']
+            ,'br/ata/trimestre/view/AtividadePorPeriodo': ['jspdfreport']
 	        ,'br/ata/reuniao/view/ReuniaoPorPeriodo': ['jquery-ui']
     	}
 		,waitSeconds:15

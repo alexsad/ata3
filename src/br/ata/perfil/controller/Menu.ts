@@ -60,7 +60,7 @@ export class Menu {
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var nmenu: IMenu = <IMenu>req.body;
-		MenuDAO.upsert(nmenu).then(function(p_nmenu: IMenu) {
+		MenuDAO.upsert(nmenu).then(function() {
 			res.json(nmenu);
 		}).catch(function(err:any) {
 			res.status(400);

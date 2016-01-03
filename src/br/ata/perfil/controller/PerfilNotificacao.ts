@@ -67,7 +67,7 @@ export class PerfilNotificacao {
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var nperfilnotificacao: IPerfilNotificacao = <IPerfilNotificacao>req.body;
-		PerfilNotificacaoDAO.upsert(nperfilnotificacao).then(function(p_nperfilnotificacao: IPerfilNotificacao) {
+		PerfilNotificacaoDAO.upsert(nperfilnotificacao).then(function() {
 			res.json(nperfilnotificacao);
 		}).catch(function(err:any) {
 			res.status(400);

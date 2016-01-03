@@ -13,6 +13,7 @@ export class Usuario extends ModWindow{
 	mainTb:ToolBar;
 	mainList:ListView;
 	_modPerfis: UsuarioPerfil;
+    
 
 	constructor(){
 	 	super("*Cadastro de usuarios.");
@@ -39,7 +40,7 @@ export class Usuario extends ModWindow{
 		this.itSenha.setColumn("@senha");
 		this.itSenha.setLabel("senha");
 		this.itSenha.setSize(3);
-		this.append(this.itSenha);
+		this.append(this.itSenha);        
 
 		this.itSnAtivo = new CheckBox("Ativo?","Sim");
 		this.itSnAtivo.setCheckedValue("S");

@@ -40,7 +40,7 @@ export class ItemMenu {
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var nitemmenu: IItemMenu = <IItemMenu>req.body;
-		ItemMenuDAO.upsert(nitemmenu).then(function(p_nitemmenu: IItemMenu) {
+		ItemMenuDAO.upsert(nitemmenu).then(function() {
 			res.json(nitemmenu);
 		}).catch(function(err:any) {
 			res.status(400);

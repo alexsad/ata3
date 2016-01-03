@@ -86,7 +86,7 @@ export class Reuniao {
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var nreuniao: IReuniao = <IReuniao>req.body;
-		ReuniaoDAO.upsert(nreuniao).then(function(p_nreuniao: IReuniao) {
+		ReuniaoDAO.upsert(nreuniao).then(function() {
 			res.json(nreuniao);
 		}).catch(function(err:any) {
 			res.status(400);
@@ -99,7 +99,7 @@ export class Reuniao {
 			where: {
 				id: req.params.id
 			}
-		}).then(function(p_nreuniao: IReuniao) {
+		}).then(function() {
 			res.send(true);
 		}).catch(function(err:any) {
 			res.status(400);

@@ -89,8 +89,8 @@ export interface IConfigDatePicker {
     startDate?: string;
     endDate?: string;
     todayBtn?: string;
-    daysOfWeekDisabled?: string;
-    daysOfWeekHighlighted?: string;
+    daysOfWeekDisabled?: number[];
+    daysOfWeekHighlighted?: number[];
     autoclose?: boolean;
     language?: string;
     todayHighlight?: boolean;

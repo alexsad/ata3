@@ -44,35 +44,36 @@ export declare class Task extends Component {
     getTaskDesc(): string;
     erroState(msge: string[]): void;
 }
-export declare class RequestManager {
-    static type: string;
-    static format: string;
-    static url: string;
-    static _rootUrl: string;
-    static _displayLoad: boolean;
+export declare class RequestManagerImpl {
+    private type;
+    format: string;
+    url: string;
+    private _rootUrl;
+    private _displayLoad;
     static TP_JSON: string;
     static TP_JSONP: string;
-    static _log_erro(args: {
+    _log_erro(args: {
         "s": string;
         "e": string[];
     }): void;
-    static _log_success(args: {
+    _log_success(args: {
         "s": string;
         "m": string;
     }): void;
-    static addRequest(req: IRequestConf): void;
-    static refresh(): void;
-    static finalizar(): void;
-    static notifyTaskErro(p_idView: string, erro: string): void;
-    static showAllTasks(p_idWiew: string): void;
-    static hideAllTasks(p_idWiew: string): void;
-    static setFormat(p_format: string): void;
-    static setUrl(p_url: string): void;
-    static setRootUrl(p_rootUrl: string): void;
-    static getRootUrl(): string;
-    static enableDisplayLoad(p_on: boolean): void;
-    static removeAllTasks(p_idWinMod: string): void;
+    addRequest(req: IRequestConf): void;
+    refresh(): void;
+    finalizar(): void;
+    notifyTaskErro(p_idView: string, erro: string): void;
+    showAllTasks(p_idWiew: string): void;
+    hideAllTasks(p_idWiew: string): void;
+    setFormat(p_format: string): void;
+    setUrl(p_url: string): void;
+    setRootUrl(p_rootUrl: string): void;
+    getRootUrl(): string;
+    enableDisplayLoad(p_on: boolean): void;
+    removeAllTasks(p_idWinMod: string): void;
 }
+export declare var RequestManager: RequestManagerImpl;
 export declare class SimpleToolBar extends Component {
     constructor();
     addButton(nbuttom: Button): void;

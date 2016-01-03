@@ -80,7 +80,7 @@ export class Discurso {
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var ndiscurso: IDiscurso = <IDiscurso>req.body;
-		DiscursoDAO.upsert(ndiscurso).then(function(p_ndiscurso: IDiscurso) {
+		DiscursoDAO.upsert(ndiscurso).then(function() {
 			res.json(ndiscurso);
 		}).catch(function(err:any) {
 			res.status(400);
@@ -93,7 +93,7 @@ export class Discurso {
 			where: {
 				id: req.params.id
 			}
-		}).then(function(p_ndiscurso: IDiscurso) {
+		}).then(function() {
 			res.send(true);
 		}).catch(function(err:any) {
 			res.status(400);

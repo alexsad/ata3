@@ -1,7 +1,9 @@
 import {ModWindow} from "lib/underas/container";
-import {Button, DatePartType, Select, ListView, ItemView} from "lib/underas/controller";
+import {Button,DatePartType, Select, ListView, ItemView} from "lib/underas/controller";
 import {SimpleToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {ITrimestre, ITremestreQuery} from "../model/ITrimestre";
+import {jsPDF} from "lib/jspdf/jsPDF";
+import {IReportTemplate, IReportTemplateItem} from "lib/jspdf/ijspdf";
 
 @ItemView("assets/html/atividadetrimestreporperiodo.html")
 export class AtividadePorPeriodo extends ModWindow{
@@ -38,7 +40,7 @@ export class AtividadePorPeriodo extends ModWindow{
 		this.btPrintAta = new Button("Ata");
 		this.btPrintAta.setIcon("print");
 		this.btPrintAta.addEvent('click',this.printAta.bind(this));
-		//this.btPrintAta.setEnable(false);
+		this.btPrintAta.setEnable(false);
 		this.mainTb.addButton(this.btPrintAta);
 	    
 		this.itTrimestreI = new Select("escolha um trimestre");
@@ -85,7 +87,7 @@ export class AtividadePorPeriodo extends ModWindow{
 	    	}.bind(this)
 		});
 	}
-	printAta():void{
+	printAta():void{        
 		//Underas.printDataProvider(this.getMainList().getDataProvider(),'assets/reports/calendario_sintetico.json');
 	}
 }

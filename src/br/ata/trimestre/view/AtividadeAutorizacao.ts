@@ -4,8 +4,8 @@ import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMs
 import {SimpleToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
 import {PerfilBox} from "../../perfil/view/PerfilBox";
-import {jsPDF} from "../../../../lib/jspdf/jsPDF";
-import {IReportTemplate, IReportTemplateItem} from "../../../../lib/jspdf/ijspdf";
+import {jsPDF} from "lib/jspdf/jsPDF";
+import {IReportTemplate, IReportTemplateItem} from "lib/jspdf/ijspdf";
 
 declare var perfilBoxContainer: PerfilBox;
 

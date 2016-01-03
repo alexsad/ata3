@@ -111,7 +111,7 @@ export class PerfilBox{
 			$("body").append(this._setAvatar.getEle());
 
 			this._setAvatar.getEle().on("avatarchanged", function() { 
-				console.log("teste, mudando icones!!");				
+				//console.log("teste, mudando icones!!");				
 				$("#user_avatar_icon").attr("src", 'assets/avatars/avatar_' + this.idUsuario + '.png?tbust=' + new Date().getTime());
 				this._setAvatar.show(false);
 			}.bind(this));

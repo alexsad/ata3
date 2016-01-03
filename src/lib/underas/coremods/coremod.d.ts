@@ -9,6 +9,7 @@ export declare class UnderasStatic {
     setProjectVersion(p_version: string): void;
     getUrlParam(p_name: string): string;
     getLocation(): string;
+    getDomain(): string;
     printDataProvider(p_dta: any[], p_url_template: string): void;
     getInstanceOf<T>(context: Object, name: string, args: any[]): T;
     preCompileTemplate(template: string): Function;

@@ -33,8 +33,8 @@ export class Reuniao extends ModWindow{
 		this.itMomento.setLabel("data");
 		this.itMomento.setSize(4);
 		this.itMomento.setConfig({
-			daysOfWeekDisabled: "1,2,3,4,5,6",
-			daysOfWeekHighlighted: "0"
+			daysOfWeekDisabled: [1,2,3,4,5,6],
+			daysOfWeekHighlighted:[0]
 		});
 		this.append(this.itMomento);
 
