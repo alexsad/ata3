@@ -1,7 +1,7 @@
-import {ModWindow} from "../../../../lib/underas/container";
-import {ItemView,DatePicker,NumericStepper,TextInput,Select,ListView} from "../../../../lib/underas/controller";
-import {ToolBar,IDefaultRequest,RequestManager} from "../../../../lib/underas/net";
-import {Underas} from "../../../../lib/underas/core";
+import {ModWindow} from "lib/underas/container";
+import {ItemView,DatePicker,NumericStepper,TextInput,Select,ListView} from "lib/underas/controller";
+import {ToolBar,IDefaultRequest,RequestManager} from "lib/underas/net";
+import {Underas} from "lib/underas/core";
 import {IPerfilNotificacao} from "../model/IPerfil";
 
 @ItemView("assets/html/perfilnotificacao.html")

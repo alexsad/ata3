@@ -1,6 +1,6 @@
-import {ModWindow} from "../../../../lib/underas/container";
-import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput, ListView, ItemView} from "../../../../lib/underas/controller";
-import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
+import {ModWindow} from "lib/underas/container";
+import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput, ListView, ItemView} from "lib/underas/controller";
+import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {IAtividade,EAtividadeStatus} from "../model/ITrimestre";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import {PerfilBox} from "../../perfil/view/PerfilBox";

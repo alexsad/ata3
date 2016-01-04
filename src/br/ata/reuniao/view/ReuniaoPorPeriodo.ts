@@ -1,6 +1,6 @@
-import {ModWindow} from "../../../../lib/underas/container";
-import {Button, TextInput, Select, TextArea, NumericStepper, DatePicker, DatePartType, ListView, ItemView} from "../../../../lib/underas/controller";
-import {SimpleToolBar,RequestManager,IDefaultRequest} from "../../../../lib/underas/net";
+import {ModWindow} from "lib/underas/container";
+import {Button, TextInput, Select, TextArea, NumericStepper, DatePicker, DatePartType, ListView, ItemView} from "lib/underas/controller";
+import {SimpleToolBar,RequestManager,IDefaultRequest} from "lib/underas/net";
 import {IReuniao} from "../model/IReuniao";
 import {IDiscurso} from "../model/IDiscurso";
 import {Discursante} from "./Discursante";

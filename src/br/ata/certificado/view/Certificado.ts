@@ -1,7 +1,7 @@
 import {ICertificado} from "../model/ICertificado";
-import {ModWindow} from "../../../../lib/underas/container";
-import {ItemView,TextInput,DatePicker,ListView} from "../../../../lib/underas/controller";
-import {ToolBar, RequestManager} from "../../../../lib/underas/net";
+import {ModWindow} from "lib/underas/container";
+import {ItemView,TextInput,DatePicker,ListView} from "lib/underas/controller";
+import {ToolBar, RequestManager} from "lib/underas/net";
 
 
 @ItemView("assets/html/certificado.html")

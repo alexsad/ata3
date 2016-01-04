@@ -9,5 +9,6 @@
     ,"jquery": "~1.11.3"
     ,"requirejs":"~2.1.8"
     ,"underas":"https://github.com/alexsad/underas.git"
+    ,"bootstrap-datepicker":"https://github.com/eternicode/bootstrap-datepicker.git"
   }
 }

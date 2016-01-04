@@ -1,7 +1,7 @@
 import {PerfilView} from "./PerfilView";
-import {ModWindow} from "../../../../lib/underas/container";
-import {TextInput, CheckBox, Button, AlertMsg, Select, ListView, ItemView} from "../../../../lib/underas/controller";
-import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
+import {ModWindow} from "lib/underas/container";
+import {TextInput, CheckBox, Button, AlertMsg, Select, ListView, ItemView} from "lib/underas/controller";
+import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {IPerfil, IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfil";
 
 

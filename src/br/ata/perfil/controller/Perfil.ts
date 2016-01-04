@@ -68,7 +68,7 @@ export class Perfil{
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var nperfil: IPerfil = <IPerfil>req.body;
-		PerfilDAO.upsert(nperfil).then(function(p_nperfil: IPerfil) {
+		PerfilDAO.upsert(nperfil).then(function() {
 			res.json(nperfil);
 		}).catch(function(err:any) {
 			res.status(400);

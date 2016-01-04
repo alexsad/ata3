@@ -27,7 +27,7 @@ export class Organizacao {
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var norganizacao: IOrganizacao = <IOrganizacao>req.body;
-		OrganizacaoDAO.upsert(norganizacao).then(function(p_norganizacao: IOrganizacao) {
+		OrganizacaoDAO.upsert(norganizacao).then(function() {
 			res.json(norganizacao);
 		}).catch(function(err:any) {
 			res.status(400);
@@ -40,7 +40,7 @@ export class Organizacao {
 			where: {
 				id: req.params._id
 			}
-		}).then(function(p_norganizacao: IOrganizacao) {
+		}).then(function() {
 			res.send(true);
 		}).catch(function(err:any) {
 			res.status(400);

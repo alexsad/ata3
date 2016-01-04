@@ -1,6 +1,6 @@
-import {ModWindow} from "../../../../lib/underas/container";
-import {TextInput,CheckBox,TextArea,Select,PassWordInput,EmailInput,ListView,ItemView} from "../../../../lib/underas/controller";
-import {ToolBar,RequestManager,IDefaultRequest} from "../../../../lib/underas/net";
+import {ModWindow} from "lib/underas/container";
+import {TextInput,CheckBox,TextArea,Select,PassWordInput,EmailInput,ListView,ItemView} from "lib/underas/controller";
+import {ToolBar,RequestManager,IDefaultRequest} from "lib/underas/net";
 import {IMembro} from "../model/IMembro";
 
 @ItemView("assets/html/membro.html")

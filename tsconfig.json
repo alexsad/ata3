@@ -103,11 +103,17 @@
         "./src/lib/restify/restify.d.ts",
         "./src/lib/router/router.d.ts",
         "./src/lib/sequelize/sequelize.d.ts",
-        "./src/lib/underas/container.d.ts",
-        "./src/lib/underas/controller.d.ts",
-        "./src/lib/underas/core.d.ts",
-        "./src/lib/underas/net.d.ts",
-        "./src/lib/underas/util.d.ts",
+        "src/lib/underas/container.d.ts",
+        "src/lib/underas/controller.d.ts",
+        "src/lib/underas/core.d.ts",
+        "src/lib/underas/net.d.ts",
+        "src/lib/underas/util.d.ts",
+        "src/lib/underas/containermods/containermod.d.ts",
+        "src/lib/underas/controllermods/controllermod.d.ts",
+        "src/lib/underas/coremods/coremod.d.ts",
+        "src/lib/underas/netmods/netmod.d.ts",
+        "src/lib/underas/utilmods/IPaginationParam.d.ts",
+        "src/lib/underas/utilmods/ValidationType.d.ts",
         "./src/lib/websocket/websocket.d.ts"
     ]
 }

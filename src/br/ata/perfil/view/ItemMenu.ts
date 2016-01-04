@@ -1,7 +1,7 @@
-import {ModWindow} from "../../../../lib/underas/container";
-import {ItemView,NumericStepper,TextInput,Select,ListView} from "../../../../lib/underas/controller";
-import {ToolBar,IDefaultRequest,RequestManager} from "../../../../lib/underas/net";
-import {Underas} from "../../../../lib/underas/core";
+import {ModWindow} from "lib/underas/container";
+import {ItemView,NumericStepper,TextInput,Select,ListView} from "lib/underas/controller";
+import {ToolBar,IDefaultRequest,RequestManager} from "lib/underas/net";
+import {Underas} from "lib/underas/core";
 import {IItemMenu,IMenu} from "../model/IPerfil";
 import {Menu} from "./Menu";
 

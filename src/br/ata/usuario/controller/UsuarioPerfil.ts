@@ -40,7 +40,7 @@ export class UsuarioPerfil {
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var nusuarioPerfil: IUsuarioPerfil = <IUsuarioPerfil>req.body;
-		UsuarioPerfilDAO.upsert(nusuarioPerfil).then(function(p_nusuarioPerfil: IUsuarioPerfil) {
+		UsuarioPerfilDAO.upsert(nusuarioPerfil).then(function() {
 			res.json(nusuarioPerfil);
 		}).catch(function(err:any) {
 			res.status(400);

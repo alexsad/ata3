@@ -1,7 +1,7 @@
 import {IUsuario} from "../model/IUsuario";
-import {ModWindow} from "../../../../lib/underas/container";
-import {TextInput,CheckBox,TextArea,Select,PassWordInput,EmailInput,ListView,ItemView} from "../../../../lib/underas/controller";
-import {ToolBar, RequestManager, IDefaultRequest} from "../../../../lib/underas/net";
+import {ModWindow} from "lib/underas/container";
+import {TextInput,CheckBox,TextArea,Select,PassWordInput,EmailInput,ListView,ItemView} from "lib/underas/controller";
+import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {UsuarioPerfil} from "./UsuarioPerfil";
 
 @ItemView("assets/html/usuario.html")
@@ -13,6 +13,7 @@ export class Usuario extends ModWindow{
 	mainTb:ToolBar;
 	mainList:ListView;
 	_modPerfis: UsuarioPerfil;
+    
 
 	constructor(){
 	 	super("*Cadastro de usuarios.");
@@ -39,7 +40,7 @@ export class Usuario extends ModWindow{
 		this.itSenha.setColumn("@senha");
 		this.itSenha.setLabel("senha");
 		this.itSenha.setSize(3);
-		this.append(this.itSenha);
+		this.append(this.itSenha);        
 
 		this.itSnAtivo = new CheckBox("Ativo?","Sim");
 		this.itSnAtivo.setCheckedValue("S");

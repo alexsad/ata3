@@ -1,10 +1,10 @@
-import {MenuTab,NotifyPool,ENotifyType,ENotifyPoolType} from "../../../../lib/underas/controller";
-import {RequestManager} from "../../../../lib/underas/net";
+import {MenuTab,NotifyPool,ENotifyType,ENotifyPoolType} from "lib/underas/controller";
+import {RequestManager} from "lib/underas/net";
 import {IPerfil,IMenu, IItemMenu, IPerfilNotificacao} from "../model/IPerfil";
 import {IUsuarioPerfil} from "../../usuario/model/IUsuario";
 import {Login} from "../../usuario/view/Login";
 import {UsuarioUploadAvatar} from "../../usuario/view/UsuarioUploadAvatar";
-import {AlertWindow} from "../../../../lib/underas/container";
+import {AlertWindow} from "lib/underas/container";
 
 export class PerfilBox{
 	_perfisUsuario: IUsuarioPerfil[];	
@@ -111,7 +111,7 @@ export class PerfilBox{
 			$("body").append(this._setAvatar.getEle());
 
 			this._setAvatar.getEle().on("avatarchanged", function() { 
-				console.log("teste, mudando icones!!");				
+				//console.log("teste, mudando icones!!");				
 				$("#user_avatar_icon").attr("src", 'assets/avatars/avatar_' + this.idUsuario + '.png?tbust=' + new Date().getTime());
 				this._setAvatar.show(false);
 			}.bind(this));

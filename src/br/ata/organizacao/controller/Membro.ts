@@ -49,7 +49,7 @@ export class Membro {
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var nmembro: IMembro = <IMembro>req.body;
-		MembroDAO.upsert(nmembro).then(function(p_nmembro: IMembro) {
+		MembroDAO.upsert(nmembro).then(function() {
 			res.json(nmembro);
 		}).catch(function(err:any) {
 			res.status(400);
@@ -62,7 +62,7 @@ export class Membro {
 			where: {
 				id: req.params._id
 			}
-		}).then(function(p_nmembro: IMembro) {
+		}).then(function() {
 			res.send(true);
 		}).catch(function(err:any) {
 			res.status(400);

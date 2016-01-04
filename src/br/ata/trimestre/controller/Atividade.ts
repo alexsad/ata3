@@ -135,7 +135,7 @@ export class Atividade {
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var natividade: IAtividade = <IAtividade>req.body;
-		AtividadeDAO.upsert(natividade).then(function(p_natividade: IAtividade) {
+		AtividadeDAO.upsert(natividade).then(function() {
 			res.json(natividade);
 		}).catch(function(err: any) {
 			res.status(400);
@@ -148,7 +148,7 @@ export class Atividade {
 			where: {
 				id: req.params.id
 			}
-		}).then(function(p_natividade: IAtividade) {
+		}).then(function() {
 			res.send(true);
 		}).catch(function(err:any) {
 			res.status(400);
