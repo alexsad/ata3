@@ -64,7 +64,7 @@ server.post( { path:'/file/upload' }, function(req, res, next){
     //res.json({status:"ok",name:tempPath});
 });
 */
-server.listen(8299, function () {
+server.listen(8330, function () {
   console.log('%s listening at %s', server.name, server.url);
 });
 

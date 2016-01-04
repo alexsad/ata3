@@ -3,7 +3,7 @@ import {ModView} from "lib/underas/container";
 import {RequestManager} from "lib/underas/net";
 import {Login} from "../../usuario/view/Login";
 
-RequestManager.setRootUrl(Underas.getDomain()+":8299/");
+RequestManager.setRootUrl(Underas.getDomain()+":8330/");
 
 
 var teste: Login = new Login();
