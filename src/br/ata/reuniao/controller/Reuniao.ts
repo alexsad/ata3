@@ -3,6 +3,7 @@ import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router"
 import ReuniaoDAO = require("../model/reuniao");
 import {IReuniao} from "../model/IReuniao";
 import DiscursoDAO = require("../model/discurso");
+import MembroDAO = require("../../organizacao/model/membro");
 
 @Controller()
 export class Reuniao {
@@ -13,7 +14,13 @@ export class Reuniao {
 				all: true
 				,nested: false
 				,model:DiscursoDAO
-				,required: true
+				,required: false
+				,include: [{
+					all: true
+					, nested: false
+					, model: MembroDAO
+					, required: false
+				}]
 			}]		
 		}).then(function(dta: IReuniao[]) {
 			res.json(dta);
@@ -30,7 +37,13 @@ export class Reuniao {
 				all: true
 				,nested: false
 				,model:DiscursoDAO
-				,required: true
+				,required: false
+				, include: [{
+					all: true
+					, nested: false
+					, model: MembroDAO
+					, required: false
+				}]
 			}]
 			,order: [
 				["momento","asc"]

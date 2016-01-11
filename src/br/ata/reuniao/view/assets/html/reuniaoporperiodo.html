@@ -9,10 +9,11 @@
 <div data-idconvite="{discurso.id}" class="tilecell list-group-item col-xs-12 col-sm-4 col-md-4 convite_reuniao">
 	<h4>
 		<span data-indconv="{discurso.id}" class="label label-info convite_drag">{discurso.tempo}</span>
-		<span class="nmMembro">{discurso.nmMembro}</span>
+		<span class="nmMembro">{discurso.membro.nome}</span>
 	</h4>
 	<a class="list-group-item-text" target="_blank" href="{discurso.linkFonte}">{discurso.tema}</a>
 	<p class="list-group-item-text">{discurso.fonte}</p>
+	<p class="list-group-item-text">fones:{discurso.membro.telefone} ou {discurso.membro.celular}</p>
 	<p class="list-group-item-text">{discurso.id}</p>
 </div>
 {/for}

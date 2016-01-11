@@ -3,24 +3,13 @@ requirejs.config({
 		baseUrl:'js'
 		,urlArgs : "bust="+new Date().getTime()
 		,paths:{
-			//'underas':'lib/underas'
-			//,'lib/underas':'lib/underas'
-			/*
-			'core':'lib/underas/core'
-			,'net':'lib/underas/net'
-			,'util':'lib/underas/util'
-			,'controller':'lib/underas/controller'
-			,'container':'lib/underas/container'
-			*/
 			'jquery-ui':'lib/jqueryui/jquery-ui.min'
 			,'jquery': 'lib/jquery/dist/jquery.min'
-			,'jsPDF':'lib/jspdf/jspdf.debug'
+			,'lib/jspdf/jsPDF':'lib/jspdf/jspdf.debug'
 			,'jspdfreport':'lib/jspdf/jspdfreport'
 			,'cookies':'lib/cookies-js/dist/cookies.min'
 			,'bootstrap-datepicker':'lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min'
 			,'bootstrap-datepicker-locale-pt-BR':'lib/bootstrap-datepicker/dist/locales/bootstrap-datepicker.pt-BR.min'
-			//,'container':'lib/underas/container'
-			
 		}
 		,shim: {
 	        //"jspdf" : { exports : "jsPDF" }	   
