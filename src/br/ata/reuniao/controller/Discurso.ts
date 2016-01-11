@@ -4,18 +4,20 @@ import DiscursoDAO = require("../model/discurso");
 import {IDiscurso} from "../model/IDiscurso";
 import {IReuniao} from "../model/IReuniao";
 import {Reuniao} from "./Reuniao";
+import MembroDAO = require("../../organizacao/model/membro");
 
 @Controller()
 export class Discurso {
-	contteste: number;
-	constructor(){
-		this.contteste = 1;
-	}
 	@Get()
 	get(req: server.Request, res: server.Response): void {
-		DiscursoDAO.findAll().then(function(dta: IDiscurso[]) {
-			this.contteste++;
-			dta[0].tempo += this.contteste;
+		DiscursoDAO.findAll({
+			include: [ {
+				all: true
+				,nested: false
+				,model:MembroDAO
+				,required: false
+			}]
+		}).then(function(dta: IDiscurso[]) {
 			res.json(dta);
 		}.bind(this)).catch(function(err:any) {
 			res.status(400);
@@ -55,6 +57,12 @@ export class Discurso {
 			where: {
 				idReuniao: p_idReuniao
 			}
+			,include: [{
+				all: true
+				, nested: false
+				, model: MembroDAO
+				, required: false
+			}]
 		});
 	}	
 	@Get("/getbyidreuniao/:idreuniao")

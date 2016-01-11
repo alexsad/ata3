@@ -1,4 +1,5 @@
 import {IDiscurso} from "./IDiscurso";
+import MembroDAO = require("../../organizacao/model/membro");
 import sequelize = require("../../../../config/sequelizedb");
 
 var DiscursoDAO = sequelize.define('discurso', {
@@ -30,6 +31,9 @@ var DiscursoDAO = sequelize.define('discurso', {
 		"timestamps": false
 		, "freezeTableName": true
 });
+
+DiscursoDAO.belongsTo(MembroDAO, { as: 'membro', foreignKey: 'id_membro' });
+
 
 export = DiscursoDAO;
 

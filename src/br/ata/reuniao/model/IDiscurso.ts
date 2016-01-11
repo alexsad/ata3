@@ -1,3 +1,5 @@
+import {IMembro} from "../../organizacao/model/IMembro";
+
 export interface IDiscurso {
 	id?: number;
 	idReuniao: number;
@@ -8,4 +10,5 @@ export interface IDiscurso {
 	tema: string;
 	fonte: string;
 	linkFonte: string;
+	membro?:IMembro;
 }
