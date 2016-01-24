@@ -1,20 +1,19 @@
-import {ModWindow} from "lib/underas/container";
-import {AlertMsg, ListView, ItemView} from "lib/underas/controller";
+import {ModWindow,WebContainer} from "lib/underas/container";
+import {AlertMsg, ListView} from "lib/underas/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
-import {PerfilBox} from "../../perfil/view/PerfilBox";
+import PerfilBox = require("../../perfil/view/PerfilBox");
 import {Atividade} from "./Atividade";
 import {ITrimestre, ITrimestreDataLivre} from "../model/ITrimestre";
 
-declare var perfilBoxContainer: PerfilBox;
-
-@ItemView("assets/html/trimestreview.html")
+@WebContainer({
+	itemViewResource: "assets/html/trimestreview"
+})
 export class TrimestreView extends ModWindow{
 	amOrcamentoAtual: AlertMsg;
 	mainList: ListView;
 	_modAtividade: Atividade;
 	constructor(){
-		super("trimestres");
-		this.setRevision("$Revision: 63 $");
+		super("trimestres");		
 		this.setSize(4);
 
 		this.amOrcamentoAtual = new AlertMsg("Clique no trimestre para ver o orcamento...");
@@ -51,7 +50,7 @@ export class TrimestreView extends ModWindow{
 		//this._modAtividade.mainList.setDataProvider(p_item.atividades);
 		//this._modAtividade.setDatasDisponiveis(p_item.datasLivres);
 		//this._modAtividade.itIdTrimestre.setValue(p_item._id);
-		this._modAtividade.getByIdTrimestreIdPerfil(p_item.id, perfilBoxContainer.getIdPerfil());
+		this._modAtividade.getByIdTrimestreIdPerfil(p_item.id, PerfilBox.getIdPerfil());
 		return p_item;
 	}
 	getSaldo():number{
@@ -64,7 +63,7 @@ export class TrimestreView extends ModWindow{
 	}
 	getTrimestres():void{
 		RequestManager.addRequest({
-			"url": "trimestre/getbyidperfil/" + perfilBoxContainer.getIdPerfil()
+			"url": "trimestre/getbyidperfil/" + PerfilBox.getIdPerfil()
 			,"onLoad":function(dta:ITrimestre[]){
 				this.getMainList().setDataProvider(dta);
 			}.bind(this)

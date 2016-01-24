@@ -1,9 +1,11 @@
-import {ModWindow} from "lib/underas/container";
-import {TextInput,CheckBox,TextArea,Select,PassWordInput,EmailInput,ListView,ItemView} from "lib/underas/controller";
+import {ModWindow,WebContainer} from "lib/underas/container";
+import {TextInput,CheckBox,TextArea,Select,PassWordInput,EmailInput,ListView} from "lib/underas/controller";
 import {ToolBar,RequestManager,IDefaultRequest} from "lib/underas/net";
 import {IMembro} from "../model/IMembro";
 
-@ItemView("assets/html/membro.html")
+@WebContainer({
+	itemViewResource: "assets/html/membro"
+})
 export class Membro extends ModWindow{
 	itIdMembro:TextInput;
 	itIdOrgnizacao: Select;
@@ -16,8 +18,7 @@ export class Membro extends ModWindow{
 	mainTb:ToolBar;
 	mainList:ListView;
 	constructor(){
-	 	super("*Cadastro de usuarios.");
-		this.setRevision("$Revision: 138 $");
+	 	super("*Cadastro de usuarios.");		
 		this.setSize(8);
 
 		this.mainTb = new ToolBar({"domain":"membro"});

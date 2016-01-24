@@ -1,16 +1,7 @@
-import { Component } from "lib/underas/core";
-import { Controller, Button, IListView } from "lib/underas/controller";
-import { IDefaultRequest } from "lib/underas/net";
-export declare class AlertWindow extends Component {
-    private _title;
-    private _urlModule;
-    constructor(p_title: string, p_msg?: string);
-    addButton(p_ele: Button): void;
-    append(childtoappend: Component | Controller): void;
-    setTitle(p_title: string): void;
-    setMsg(p_msg: string): void;
-    setUrlModule(p_url_m: string): void;
-}
+import { WebComponent } from "../core";
+import { Controller, IListView } from "../controller";
+import { ModView } from "./ModView";
+import { IDefaultRequest } from "../net";
 export interface IModWindowColumn {
     column: string;
     field: string;
@@ -30,8 +21,9 @@ export interface IConfigModWindow {
     mainlist?: string;
     modName?: string;
     configListsViews?: IConfigsLists[];
+    styleResource?: string[];
 }
-export declare class ModWindow extends Component {
+export declare class ModWindow extends WebComponent {
     _configModWindow: IConfigModWindow;
     constructor(p_subtitle: string);
     setSize(nsize: number): void;
@@ -40,6 +32,7 @@ export declare class ModWindow extends Component {
     getTitle(): string;
     _onStart(): void;
     onStart(): void;
+    validAllItens(): boolean;
     getFormItem(): Object;
     setFormItem(p_item: Object): void;
     clearFormItem(): void;
@@ -50,7 +43,8 @@ export declare class ModWindow extends Component {
     setUrlModule(p_url_m: string): void;
     getUrlModule(): string;
     getModView(): ModView;
-    append(childtoappend: Component | Controller): void;
+    setModView(p_modview: ModView): void;
+    append(childtoappend: Controller | WebComponent | any): void;
     setDsModule(): void;
     getColumns(): IModWindowColumn[];
     setIdField(p_field: string): void;
@@ -60,24 +54,9 @@ export declare class ModWindow extends Component {
     show(on: boolean): void;
     beforeSave(p_obj: Object): Object;
     beforeInsert(p_req_obj: IDefaultRequest): IDefaultRequest;
+    afterInsert(p_obj: Object): Object;
     beforeQuery(p_req: IDefaultRequest): IDefaultRequest;
     onChangeItem(p_obj: Object): Object;
     beforeDelete(p_req_delete: IDefaultRequest, p_old_obj: Object): IDefaultRequest;
     beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: Object): IDefaultRequest;
-}
-export declare class ModView extends Component {
-    private _title;
-    private _icone;
-    private _childrenMods;
-    private _appended;
-    private _indexmodule;
-    constructor(p_title: string);
-    nextModule(evt?: Event): void;
-    prevModule(evt?: Event): void;
-    showModule(p_indexModule: number): void;
-    append(p_ele: ModWindow): void;
-    destroy(): void;
-    setIcon(p_icon: string): void;
-    showNav(on: boolean): ModView;
-    show(on: boolean): ModView;
 }

@@ -1,13 +1,14 @@
-import {ModWindow} from "lib/underas/container";
-import {Button,DatePartType, Select, ListView, ItemView} from "lib/underas/controller";
+import {WebContainer, ModWindow} from "lib/underas/container";
+import {Button,DatePartType, Select, ListView} from "lib/underas/controller";
 import {SimpleToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {ITrimestre, ITremestreQuery} from "../model/ITrimestre";
 import {jsPDF} from "lib/jspdf/jsPDF";
 import {IReportTemplate, IReportTemplateItem} from "lib/jspdf/ijspdf";
 
-@ItemView("assets/html/atividadetrimestreporperiodo.html")
+@WebContainer({
+	itemViewResource: "assets/html/atividadetrimestreporperiodo"
+})
 export class AtividadePorPeriodo extends ModWindow{
-
 	mainTb: SimpleToolBar;
 	mainList: ListView;
 	btPesquisar: Button;
@@ -18,7 +19,7 @@ export class AtividadePorPeriodo extends ModWindow{
 
 	constructor(){
 	    super("Calendario da Ala");
-		this.setRevision("$Revision: 138 $");
+		this.setSize(12);		
 		
 		this.mainTb = new SimpleToolBar();
 		this.append(this.mainTb);

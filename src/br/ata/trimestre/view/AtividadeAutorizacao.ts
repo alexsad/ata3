@@ -1,15 +1,15 @@
 import {Underas} from "lib/underas/core";
-import {ModWindow} from "lib/underas/container";
-import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput, ListView, ItemView} from "lib/underas/controller";
+import {ModWindow,WebContainer} from "lib/underas/container";
+import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput, ListView} from "lib/underas/controller";
 import {SimpleToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
-import {PerfilBox} from "../../perfil/view/PerfilBox";
+import PerfilBox = require("../../perfil/view/PerfilBox");
 import {jsPDF} from "lib/jspdf/jsPDF";
 import {IReportTemplate, IReportTemplateItem} from "lib/jspdf/ijspdf";
 
-declare var perfilBoxContainer: PerfilBox;
-
-@ItemView("assets/html/evento.html")
+@WebContainer({
+	itemViewResource: "assets/html/evento"
+})
 export class AtividadeAutorizacao extends ModWindow {
 	itIdEvento: TextInput;
 	itIdTrimestre: TextInput;
@@ -37,7 +37,6 @@ export class AtividadeAutorizacao extends ModWindow {
 	_idStatus: EAtividadeStatus;
 	constructor() {
 		super("Atividades");
-		this.setRevision("$Revision: 140 $");
 		this.setSize(12);
 
 		this.mainTb = new SimpleToolBar();
@@ -200,14 +199,14 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itDetalhes);
 
 		this.btSubmeter = new Button("Autorizar");
-		this.btSubmeter.getEle().removeClass("btn-default").addClass("btn-info");
+		this.btSubmeter.$.removeClass("btn-default").addClass("btn-info");
 		this.btSubmeter.setIcon("check");
 		this.btSubmeter.addEvent('click', this.submeter.bind(this));
 		this.btSubmeter.setEnable(false);
 		this.mainTb.addButton(this.btSubmeter);
 
 		this.btCancelar = new Button("Pendente");
-		this.btCancelar.getEle().removeClass("btn-default").addClass("btn-warning");
+		this.btCancelar.$.removeClass("btn-default").addClass("btn-warning");
 		this.btCancelar.setIcon("circle-arrow-down");
 		this.btCancelar.addEvent('click', this.cancelar.bind(this));
 		this.btCancelar.setEnable(false);
@@ -258,7 +257,7 @@ export class AtividadeAutorizacao extends ModWindow {
 	getByIdStatus(p_idStatus:EAtividadeStatus):void{
 		this._idStatus = p_idStatus;
 		RequestManager.addRequest({
-			url: "atividade/getbyidperfilidstatus/" + perfilBoxContainer.getIdPerfil() + "/" + p_idStatus
+			url: "atividade/getbyidperfilidstatus/" + PerfilBox.getIdPerfil() + "/" + p_idStatus
 			, onLoad: function(dta: IAtividade[]) {
 				this.mainList.setDataProvider(dta);
 			}.bind(this)

@@ -1,11 +1,13 @@
-import {ModWindow} from "lib/underas/container";
-import {TextInput,DatePicker,ListView,ItemView} from "lib/underas/controller";
+import {ModWindow,WebContainer} from "lib/underas/container";
+import {TextInput,DatePicker,ListView} from "lib/underas/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {IOrganizacao} from "../model/IOrganizacao";
 import {Membro} from "./Membro";
 
 
-@ItemView("assets/html/organizacao.html")
+@WebContainer({
+		itemViewResource: "assets/html/organizacao"
+})
 export class Organizacao extends ModWindow{
 	itIdOrganizacao:TextInput;
 	itDescricao:TextInput;
@@ -13,8 +15,7 @@ export class Organizacao extends ModWindow{
 	mainTb:ToolBar;
 	_modMembro:Membro;
 	constructor(){
-		super("Organizacoes");
-		this.setRevision("$Revision: 138 $");
+		super("Organizacoes");		
 		this.setSize(4);
 
 		this.mainTb = new ToolBar({"domain":"organizacao"});

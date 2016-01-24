@@ -24,7 +24,7 @@ export class UsuarioUploadAvatar extends AlertWindow{
 
 		this.addButton(this.btSubmit);
 
-		this.getEle("form").on("submit", function(event:Event) {
+		this.$.find("form").on("submit", function(event:Event) {
 			event.stopPropagation();
 		}).attr({ 
 			"action": RequestManager.getRootUrl()  +"usuario/upload_avatar/"+this.idUsuario
@@ -35,9 +35,9 @@ export class UsuarioUploadAvatar extends AlertWindow{
 	}
 	enviarAvatarFile():void{
 		if(this.itFile.isValid()){
-			this.getEle("form").trigger("submit");
+			this.$.find("form").trigger("submit");
 			$("#itarget").on('load', function() { 
-				this.getEle().trigger('avatarchanged',[]);
+				this.$.trigger('avatarchanged',[]);
 			}.bind(this));
 		};		
 	}

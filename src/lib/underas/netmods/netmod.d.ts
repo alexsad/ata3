@@ -1,6 +1,6 @@
-import { Component } from "lib/underas/core";
-import { Label, Button } from "lib/underas/controller";
-import { ModWindow } from "lib/underas/container";
+import { WebComponent } from "../core";
+import { Label } from "../controller";
+import { ModWindow } from "../container";
 export interface ITaskConfig {
     s: string;
     t?: number;
@@ -26,7 +26,7 @@ export interface IDefaultRequest {
     data?: any;
     onLoad?: JQueryPromiseCallback<Function>;
 }
-export declare class Task extends Component {
+export declare class Task extends WebComponent {
     s: string;
     t: number;
     idView: string;
@@ -74,27 +74,3 @@ export declare class RequestManagerImpl {
     removeAllTasks(p_idWinMod: string): void;
 }
 export declare var RequestManager: RequestManagerImpl;
-export declare class SimpleToolBar extends Component {
-    constructor();
-    addButton(nbuttom: Button): void;
-}
-export declare class ToolBar extends SimpleToolBar {
-    _config: {
-        "domain": string;
-    };
-    _istoolbar: boolean;
-    _isactive: boolean;
-    btAdd: Button;
-    btDel: Button;
-    btSave: Button;
-    constructor(p_config: {
-        "domain": string;
-    });
-    getDefaultRequest(p_act: string, p_method: string): IDefaultRequest;
-    updateItem(p_objToUpdate: Object): void;
-    insertItem(p_objToInsert: Object): void;
-    deleteItem(event: Event): void;
-    activate(p_on: boolean): void;
-    reloadItens(event?: Event): void;
-    saveItem(event: Event): void;
-}

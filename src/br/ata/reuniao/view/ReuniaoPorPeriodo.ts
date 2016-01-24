@@ -1,13 +1,14 @@
-import {ModWindow} from "lib/underas/container";
-import {Button, TextInput, Select, TextArea, NumericStepper, DatePicker, DatePartType, ListView, ItemView} from "lib/underas/controller";
+import {ModWindow, WebContainer} from "lib/underas/container";
+import {Button, TextInput, Select, TextArea, NumericStepper, DatePicker, DatePartType, ListView} from "lib/underas/controller";
 import {SimpleToolBar,RequestManager,IDefaultRequest} from "lib/underas/net";
 import {IReuniao} from "../model/IReuniao";
 import {IDiscurso} from "../model/IDiscurso";
 import {Discursante} from "./Discursante";
 import {FastMembro} from "../../organizacao/view/FastMembro";
 
-
-@ItemView("assets/html/reuniaoporperiodo.html")
+@WebContainer({
+	itemViewResource: "assets/html/reuniaoporperiodo"
+})
 export class ReuniaoPorPeriodo extends ModWindow{
 	itIdDiscurso:TextInput;
 	itIdMembro:Select;
@@ -25,8 +26,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	mainList:ListView;
 	_modMembros:FastMembro;
 	constructor(){
-		super("*discursantes da reuniao");
-		this.setRevision("$Revision: 138 $");
+		super("*discursantes da reuniao");		
 		this.setSize(8);
 
 		this.mainTb = new SimpleToolBar();
@@ -125,7 +125,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 		this.getMainList().setDataProvider([]);
 		//this.pesquisar();
 		/*
-		this.mainList.getEle(".tilecellgrid").on("mouseenter", ".convite_reuniao", function(evt:Event) {
+		this.mainList.$.find(".tilecellgrid").on("mouseenter", ".convite_reuniao", function(evt:Event) {
 			var _this:JQuery = $(evt.target);
 			if (_this.hasClass("convite_reuniao")) {
 				var tmpIndex: number = parseInt(_this.attr("data-ind"));
@@ -136,13 +136,13 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	}
 	addDroppableEvent(){
 		/*
-		var tmpConviteDom =  this.mainList.getEle(".tilecellgrid").find(".convite_reuniao");
+		var tmpConviteDom =  this.mainList.$.find(".tilecellgrid").find(".convite_reuniao");
 		if(!tmpConviteDom.attr("data-droppable")){
 			tmpConviteDom.attr("data-droppable","y");
 		*/
 		console.log("add droppable");
 
-		this.mainList.getEle(".tilecellgrid .convite_reuniao").droppable({
+		this.mainList.$.find(".tilecellgrid .convite_reuniao").droppable({
 		accept: ".discursante_drag,.convite_drag"
 	  	,drop: function( event:Event, ui:any ){
 			var tmpMembroDom = $(ui.helper);

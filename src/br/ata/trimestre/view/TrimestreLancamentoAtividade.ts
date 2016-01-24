@@ -1,10 +1,12 @@
-import {ModWindow} from "lib/underas/container";
-import {Select, Button, NumericStepper, TextInput, ListView, ItemView} from "lib/underas/controller";
+import {ModWindow,WebContainer} from "lib/underas/container";
+import {Select, Button, NumericStepper, TextInput, ListView} from "lib/underas/controller";
 import {ToolBar, RequestManager} from "lib/underas/net";
 import {ITrimestreLancamentoAtividade,ITrimestre} from "../model/ITrimestre";
 import {Trimestre} from "./Trimestre";
 
-@ItemView("assets/html/trimestrelancamentoatividade.html")
+@WebContainer({
+	itemViewResource: "assets/html/trimestrelancamentoatividade"
+})
 export class TrimestreLancamentoAtividade extends ModWindow {
 	itIdPerfilLancamento:TextInput;
 	itIdPerfil:Select;
@@ -13,8 +15,7 @@ export class TrimestreLancamentoAtividade extends ModWindow {
 	mainTb: ToolBar;
 	mainList:ListView;
 	constructor() {
-		super("*lancamentos");
-		this.setRevision("$Revision: 138 $");
+		super("*lancamentos");		
 		this.setSize(4);
 
 		this.mainTb = new ToolBar({ domain: "trimestrelancamentoatividade" });
