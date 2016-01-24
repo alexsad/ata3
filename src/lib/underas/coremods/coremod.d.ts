@@ -1,12 +1,13 @@
 /// <reference path="../../../../src/lib/jquery/jquery2.d.ts" />
-import { ModWindow } from "lib/underas/container";
 export declare class UnderasStatic {
     private _uid;
-    private _version;
+    private _projectVersion;
     getUid(): number;
     getLastUid(): number;
     getNextUid(): number;
     setProjectVersion(p_version: string): void;
+    getProjectVersion(): string;
+    loadModules(p_modules: string[], p_fnhandler: Function): void;
     getUrlParam(p_name: string): string;
     getLocation(): string;
     getDomain(): string;
@@ -16,16 +17,3 @@ export declare class UnderasStatic {
     transformPreCompiled(str: string): Function;
 }
 export declare var Underas: UnderasStatic;
-export declare class Component {
-    _uid: number;
-    _html: JQuery;
-    private _modwindow;
-    constructor(tagh: string, tagc: string);
-    getEle(p_sel?: string): JQuery;
-    append(p_childtoappend: Component): void;
-    setSize(nsize: number): void;
-    addEvent(p_on: string, p_event_fn: Function, p_bind?: any): JQuery;
-    show(pshow: boolean): void;
-    getModule(): ModWindow;
-    setModule(p_modWindow: any): void;
-}

@@ -1,17 +1,18 @@
-import {ModWindow} from "lib/underas/container";
-import {ItemView, TextInput, CheckBox, ListView} from "lib/underas/controller";
+import {ModWindow,WebContainer} from "lib/underas/container";
+import {TextInput, CheckBox, ListView} from "lib/underas/controller";
 import {RequestManager, IDefaultRequest} from "lib/underas/net";
 import {Menu} from "./Menu";
 import {IPerfil, IPerfilNotificacao} from "../model/IPerfil";
 import {PerfilNotificacao} from "./PerfilNotificacao";
 
-@ItemView("assets/html/perfil.html")
+@WebContainer({
+	itemViewResource: "assets/html/perfil"
+})
 export class PerfilViewNotificacao extends ModWindow {
 	mainList: ListView;
 	_modPerfilNotificacao: PerfilNotificacao;
 	constructor() {
-		super("Perfil");
-		this.setRevision("$Revision: 139 $");
+		super("Perfil");		
 		this.setSize(4);
 		this.mainList = new ListView("Perfil");
 		this.append(this.mainList);

@@ -1,15 +1,11 @@
-import {ModWindow} from "lib/underas/container";
-import {CheckBox, TextInput, DatePicker, ListView, ItemView} from "lib/underas/controller";
+import {ModWindow,WebContainer} from "lib/underas/container";
+import {CheckBox, TextInput, DatePicker, ListView} from "lib/underas/controller";
 import {RequestManager, IDefaultRequest, ToolBar} from "lib/underas/net";
 import {ITrimestreDataLivre} from "../model/ITrimestre";
 
-/*
-idData:number;
-idTrimestre:string;
-momento:Date;
-*/
-
-@ItemView("assets/html/trimestredatalivre.html")
+@WebContainer({
+	itemViewResource: "assets/html/trimestredatalivre"
+})
 export class TrimestreDataLivre extends ModWindow{
 	itIdData:TextInput;
 	itIdTrimestre: TextInput;
@@ -18,8 +14,7 @@ export class TrimestreDataLivre extends ModWindow{
 	mainTb: ToolBar;
 	mainList:ListView;
 	constructor(){
-		super("*Datas Livres");
-		this.setRevision("$Revision: 1 $");
+		super("*Datas Livres");		
 		this.setSize(3);
 
 		this.mainTb = new ToolBar({ "domain": "trimestredatalivre" });

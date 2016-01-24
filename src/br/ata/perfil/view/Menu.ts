@@ -1,11 +1,13 @@
-import {ModWindow} from "lib/underas/container";
-import {ItemView,NumericStepper,TextInput,Select,ListView} from "lib/underas/controller";
+import {ModWindow,WebContainer} from "lib/underas/container";
+import {NumericStepper,TextInput,Select,ListView} from "lib/underas/controller";
 import {ToolBar,IDefaultRequest,RequestManager} from "lib/underas/net";
 import {Underas} from "lib/underas/core";
 import {IMenu} from "../model/IPerfil";
 import {ItemMenu} from "./ItemMenu";
 
-@ItemView("assets/html/menu.html")
+@WebContainer({
+	itemViewResource: "assets/html/menu"
+})
 export class Menu extends ModWindow{
 	itIdMenu: TextInput;
 	itIdPerfil: TextInput;
@@ -16,8 +18,7 @@ export class Menu extends ModWindow{
 	mainList:ListView;
 	_items: ItemMenu;
 	constructor(){
-		super("Menus do Perfil");
-		this.setRevision("$Revision: 138 $");
+		super("Menus do Perfil");		
 		this.setSize(8);
 
 		this.mainTb = new ToolBar({"domain":"menu"});

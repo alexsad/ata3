@@ -1,10 +1,12 @@
-import {IDiscurso} from "../model/IDiscurso";
-import {ModWindow} from "lib/underas/container";
-import {Select, TextInput, TextArea, NumericStepper, DatePicker, ListView, ItemView} from "lib/underas/controller";
+import {ModWindow,WebContainer} from "lib/underas/container";
+import {Select, TextInput, TextArea, NumericStepper, DatePicker, ListView} from "lib/underas/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
+import {IDiscurso} from "../model/IDiscurso";
+import {IMembro} from "../../organizacao/model/IMembro";
 
-
-@ItemView("assets/html/discursante.html")
+@WebContainer({
+	itemViewResource: "assets/html/discursante"
+})
 export class Discursante extends ModWindow{
 	itIdDiscurso:TextInput;
 	itIdMembro:Select;
@@ -17,8 +19,7 @@ export class Discursante extends ModWindow{
 	mainTb:ToolBar;
 	
 	constructor(){
-		super("*discursantes da reuniao");
-		this.setRevision("$Revision: 138 $");
+		super("*discursantes da reuniao");		
 		this.setSize(8);
 
 		this.mainTb = new ToolBar({"domain":"discurso"});
@@ -86,6 +87,17 @@ export class Discursante extends ModWindow{
 		this.itIdReuniao.fromService({
 			url:"reuniao"
 		});
+
+	}
+	beforeUpdate(p_req_obj:IDefaultRequest,p_obj:IDiscurso):IDefaultRequest{
+		p_obj.membro.nome = this.itIdMembro.getDescFromServiceByValue(p_obj.idMembro+"");
+		return p_req_obj;
+	}
+	afterInsert(p_obj:IDiscurso):IDiscurso{
+		p_obj.membro = <IMembro>{
+			nome: this.itIdMembro.getDescFromServiceByValue(p_obj.idMembro + "")
+		}
+		return p_obj;
 	}
 	getByIdReuniao(p_idReuniao:number): void {
 		this.itIdReuniao.setValue(p_idReuniao+"");

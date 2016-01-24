@@ -8,14 +8,14 @@ RequestManager.setRootUrl(Underas.getDomain()+":8330/");
 
 var teste: Login = new Login();
 var mdw: ModView = new ModView("cadastro de teste!!!");
-mdw.getEle().addClass("mdwLogin");
+mdw.$.addClass("mdwLogin");
 mdw.setIcon("key");
 mdw.show(true);
 mdw.append(teste);
 
 /*
 var mdw: ModView = new ModView("cadastro de teste!!!");
-mdw.getEle().addClass("mdwLogin");
+mdw.$.addClass("mdwLogin");
 mdw.setIcon("key");
 mdw.show(true);
 //mdw.append(teste);

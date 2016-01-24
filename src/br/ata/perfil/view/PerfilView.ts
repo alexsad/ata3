@@ -1,17 +1,18 @@
-import {ModWindow} from "lib/underas/container";
-import {ItemView, TextInput, CheckBox, ListView} from "lib/underas/controller";
+import {ModWindow,WebContainer} from "lib/underas/container";
+import {TextInput, CheckBox, ListView} from "lib/underas/controller";
 import {RequestManager, IDefaultRequest} from "lib/underas/net";
 import {Menu} from "./Menu";
 import {IPerfil, EPerfilAutorizacaoTP} from "../model/IPerfil";
 import {PerfilAutorizacao} from "./PerfilAutorizacao";
 
-@ItemView("assets/html/perfil.html")
+@WebContainer({
+	itemViewResource: "assets/html/perfil"
+})
 export class PerfilView extends ModWindow {
 	mainList: ListView;
 	_modPerfilAutorizacao: PerfilAutorizacao;
 	constructor() {
-		super("Perfil");
-		this.setRevision("$Revision: 138 $");
+		super("Perfil");		
 		this.setSize(4);
 
 		this.mainList = new ListView("Perfil");

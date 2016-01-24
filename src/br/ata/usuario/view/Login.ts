@@ -2,10 +2,8 @@ import {Underas} from "lib/underas/core";
 import {ModWindow} from "lib/underas/container";
 import {Button,CheckBox, PassWordInput, EmailInput, AlertMsg} from "lib/underas/controller";
 import {RequestManager} from "lib/underas/net";
+import PerfilBox = require("../../perfil/view/PerfilBox");
 import {IUsuario} from "../model/IUsuario";
-import {PerfilBox} from "../../perfil/view/PerfilBox";
-
-declare var perfilBoxContainer: PerfilBox;
 
 export class Login extends ModWindow{
 	amAviso:AlertMsg;
@@ -19,7 +17,7 @@ export class Login extends ModWindow{
 		this.setRevision("$Revision: 144 $");
 		this.setSize(4);
 
-		this.getEle().addClass("col-sm-offset-4 col-xs-offset-0");
+		this.$.addClass("col-sm-offset-4 col-xs-offset-0");
 
 		this.amAviso = new AlertMsg("");
 		this.amAviso.show(false);
@@ -51,7 +49,7 @@ export class Login extends ModWindow{
 		this.btBaixarAplicativo = new Button("Baixar Aplicativo");
 		this.btBaixarAplicativo.setIcon("phone");
 		this.btBaixarAplicativo.setSize(4)
-		this.btBaixarAplicativo.getEle()
+		this.btBaixarAplicativo.$
 			.removeClass("btn-default")
 			.addClass("btn-primary pull-right col-xs-8 visible-xs")
 			.attr("href", "assets/bin/nav4.1.apk");
@@ -60,8 +58,8 @@ export class Login extends ModWindow{
 	}
 	onStart():void{
 		this.getModView().showNav(false);
-		//this.autoLogin();
-		perfilBoxContainer = new PerfilBox(this);
+		//this.autoLogin();		
+		PerfilBox.setModLogin(this);
 		if (Cookies.get("clogin")){
 			this.chlembrar.setValue("S");
 			this.itlogin.setValue(Cookies.get("clogin"));
@@ -69,7 +67,7 @@ export class Login extends ModWindow{
 
 		var agentAppVersion: string = Underas.getUrlParam("nav");
 		if (agentAppVersion != "") {
-			this.btBaixarAplicativo.getEle().hide().removeClass("visible-xs");
+			this.btBaixarAplicativo.$.hide().removeClass("visible-xs");
 		};
 	}
 	logar():void{
@@ -125,7 +123,7 @@ export class Login extends ModWindow{
 			"url":"usuario/getbylogin/"+this.itlogin.getValue()
 			,"onLoad" : function(dta:IUsuario){
 				if(dta){
-					perfilBoxContainer.getPerfisByIdUsuario(dta.id);
+					PerfilBox.getPerfisByIdUsuario(dta.id);
 				}
 			}.bind(this)
 		});

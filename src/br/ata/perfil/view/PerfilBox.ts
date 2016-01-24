@@ -6,7 +6,7 @@ import {Login} from "../../usuario/view/Login";
 import {UsuarioUploadAvatar} from "../../usuario/view/UsuarioUploadAvatar";
 import {AlertWindow} from "lib/underas/container";
 
-export class PerfilBox{
+class PerfilBoxStatic{
 	_perfisUsuario: IUsuarioPerfil[];	
 	_perfilSelected: string;
 	_modLogin: Login;
@@ -15,8 +15,10 @@ export class PerfilBox{
 	_notificacoes:NotifyPool;
 	_setAvatar: UsuarioUploadAvatar;
 	private _idbox: string;
-	constructor(p_modLogin:Login){
-		this._perfisUsuario = [];
+	constructor(){
+		this._perfisUsuario = [];		
+	}
+	setModLogin(p_modLogin: Login): void {
 		this._modLogin = p_modLogin;
 	}
 	setIdPerfil(p_idPerfil:number):void{
@@ -63,7 +65,7 @@ export class PerfilBox{
 
 	loadNotificacoesPerfil():void{
 		this._notificacoes = new NotifyPool("Avisos");
-		this._notificacoes.getEle()
+		this._notificacoes.$
 		.removeClass("column col-xs-2 col-sm-1")
 		.css({
 			"margin-top": "10px"
@@ -71,7 +73,7 @@ export class PerfilBox{
 		$(this._idbox)
 		.html("")
 		.addClass("pull-right")
-		.append(this._notificacoes.getEle());	
+		.append(this._notificacoes.$);	
 
 		RequestManager.addRequest({
 			url: "perfilnotificacao/getbyidperfil/"+this.getIdPerfil()
@@ -107,10 +109,10 @@ export class PerfilBox{
 		if(!this._setAvatar){
 			this._setAvatar = new UsuarioUploadAvatar(this.idUsuario);
 			//this._modLogin.append(this._setAvatar);
-			//this.getEle();
-			$("body").append(this._setAvatar.getEle());
+			//this.$;
+			$("body").append(this._setAvatar.$);
 
-			this._setAvatar.getEle().on("avatarchanged", function() { 
+			this._setAvatar.$.on("avatarchanged", function() { 
 				//console.log("teste, mudando icones!!");				
 				$("#user_avatar_icon").attr("src", 'assets/avatars/avatar_' + this.idUsuario + '.png?tbust=' + new Date().getTime());
 				this._setAvatar.show(false);
@@ -231,3 +233,5 @@ export class PerfilBox{
 		});
 	}
 }
+var PerfilBox: PerfilBoxStatic = new PerfilBoxStatic();
+export = PerfilBox;

@@ -1,10 +1,12 @@
-import {IReuniao} from "../model/IReuniao";
-import {ModWindow} from "lib/underas/container";
-import {TextInput, TextArea, NumericStepper, DatePicker, ListView, ItemView} from "lib/underas/controller";
+import {ModWindow,WebContainer} from "lib/underas/container";
+import {TextInput, TextArea, NumericStepper, DatePicker, ListView} from "lib/underas/controller";
 import {ToolBar, RequestManager} from "lib/underas/net";
 import {Discursante} from "./Discursante";
+import {IReuniao} from "../model/IReuniao";
 
-@ItemView("assets/html/reuniao.html")
+@WebContainer({
+	itemViewResource: "assets/html/reuniao"
+})
 export class Reuniao extends ModWindow{
 	itIdReuniao:TextInput;
 	itMomento:DatePicker;
@@ -14,8 +16,7 @@ export class Reuniao extends ModWindow{
 	mainTb:ToolBar;
 	_modDiscursante: Discursante;
 	constructor(){
-		super("*cadastro de reunioes.");
-		this.setRevision("$Revision: 138 $");
+		super("*cadastro de reunioes.");		
 		this.setSize(4);
 
 		this.mainTb = new ToolBar({"domain":"reuniao"});

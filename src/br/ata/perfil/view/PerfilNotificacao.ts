@@ -1,10 +1,12 @@
-import {ModWindow} from "lib/underas/container";
-import {ItemView,DatePicker,NumericStepper,TextInput,Select,ListView} from "lib/underas/controller";
+import {ModWindow,WebContainer} from "lib/underas/container";
+import {DatePicker,NumericStepper,TextInput,Select,ListView} from "lib/underas/controller";
 import {ToolBar,IDefaultRequest,RequestManager} from "lib/underas/net";
 import {Underas} from "lib/underas/core";
 import {IPerfilNotificacao} from "../model/IPerfil";
 
-@ItemView("assets/html/perfilnotificacao.html")
+@WebContainer({
+	itemViewResource: "assets/html/perfilnotificacao"
+})
 export class PerfilNotificacao extends ModWindow{
 	itIdPerfilNotificacao:TextInput;
 	itIdPerfil: Select;
@@ -24,8 +26,7 @@ export class PerfilNotificacao extends ModWindow{
 	mainList:ListView;
 
 	constructor(){
-		super("Nofificacoes do Perfil");
-		this.setRevision("$Revision: 138 $");
+		super("Nofificacoes do Perfil");		
 		this.setSize(8);
 
 		this.mainTb = new ToolBar({"domain":"perfilnotificacao"});

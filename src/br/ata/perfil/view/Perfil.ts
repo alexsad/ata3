@@ -1,12 +1,12 @@
-import {ModWindow} from "lib/underas/container";
-import {ItemView, TextInput, CheckBox, ListView} from "lib/underas/controller";
+import {ModWindow,WebContainer} from "lib/underas/container";
+import {TextInput, CheckBox, ListView} from "lib/underas/controller";
 import {ToolBar,RequestManager} from "lib/underas/net";
 import {Menu} from "./Menu";
 import {IPerfil} from "../model/IPerfil";
 
-
-
-@ItemView("assets/html/perfil.html")
+@WebContainer({
+	itemViewResource: "assets/html/perfil"
+})
 export class Perfil extends ModWindow{
 	itIdPerfil:TextInput;	 
 	itNome:TextInput;	 
@@ -16,8 +16,7 @@ export class Perfil extends ModWindow{
 	mainList:ListView;
 	_menus: Menu;
 	constructor(){
-		super("Perfil");
-		this.setRevision("$Revision: 138 $");	
+		super("Perfil");			
 		this.setSize(4);
 
 		this.mainTb = new ToolBar({"domain":"perfil"});

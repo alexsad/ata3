@@ -1,1 +1,2 @@
-export { ITaskConfig, IRequestConf, IDefaultRequest, Task, RequestManager, SimpleToolBar, ToolBar } from "./netmods/netmod";
+export { ITaskConfig, IRequestConf, IDefaultRequest, Task, RequestManager } from "./netmods/netmod";
+export { SimpleToolBar, ToolBar } from "./netmods/ToolBar";

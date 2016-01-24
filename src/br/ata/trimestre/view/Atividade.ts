@@ -1,15 +1,14 @@
-import {ModWindow} from "lib/underas/container";
-import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput, ListView, ItemView} from "lib/underas/controller";
+import {ModWindow, WebContainer} from "lib/underas/container";
+import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput, ListView} from "lib/underas/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {IAtividade,EAtividadeStatus} from "../model/ITrimestre";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
-import {PerfilBox} from "../../perfil/view/PerfilBox";
+import PerfilBox = require("../../perfil/view/PerfilBox");
 import {TrimestreView} from "./TrimestreView";
 
-
-declare var perfilBoxContainer: PerfilBox;
-
-@ItemView("assets/html/evento.html")
+@WebContainer({
+	itemViewResource: "assets/html/evento"
+})
 export class Atividade extends ModWindow {
 	itIdEvento: TextInput;
 	itIdTrimestre: TextInput;
@@ -35,12 +34,11 @@ export class Atividade extends ModWindow {
 	btSubmeter: Button;
 	_modTrimestreView: TrimestreView;
 	constructor(p_trimestre_view:TrimestreView) {
-		super("Atividades");
-		this.setRevision("$Revision: 140 $");
+		super("Atividades");		
 		this.setSize(8);
 
 		this.mainTb = new ToolBar({ "domain": "atividade" });
-		this.mainTb.btDel.getEle().hide();
+		this.mainTb.btDel.$.hide();
 		this.append(this.mainTb);
 
 		this.itDsObservacao = new AlertMsg("Cadastro de Nova Atividade...");
@@ -206,7 +204,7 @@ export class Atividade extends ModWindow {
 		}.bind(this));
 
 		this.btSubmeter = new Button("Enviar");
-		this.btSubmeter.getEle().removeClass("btn-default").addClass("btn-info");
+		this.btSubmeter.$.removeClass("btn-default").addClass("btn-info");
 		this.btSubmeter.setIcon("check");
 		this.btSubmeter.addEvent('click', this.submeter.bind(this));
 		this.btSubmeter.setEnable(false);
@@ -269,8 +267,8 @@ export class Atividade extends ModWindow {
 		this.btSubmeter.setEnable(false);
 		this.itIdStatus.setValue("1");
 
-		this.itIdPerfil.setValue(perfilBoxContainer.getIdPerfil()+"");
-		this.itIdResponsavel.setValue(perfilBoxContainer.idUsuario+"");
+		this.itIdPerfil.setValue(PerfilBox.getIdPerfil()+"");
+		this.itIdResponsavel.setValue(PerfilBox.idUsuario + "");
 		this.itSnEditavel.setValue("S");
 		this.itOrcamento.setValue(this._modTrimestreView.getSaldo()+"");
 		this.itOrcamento.setMax(this._modTrimestreView.getSaldo());

@@ -1,9 +1,11 @@
-import {ModWindow} from "lib/underas/container";
-import {TextInput, AlertMsg, Select, ListView, ItemView} from "lib/underas/controller";
+import {ModWindow,WebContainer} from "lib/underas/container";
+import {TextInput, AlertMsg, Select, ListView} from "lib/underas/controller";
 import {RequestManager, ToolBar, IDefaultRequest} from "lib/underas/net";
 import {IUsuarioPerfil} from "../model/IUsuario";
 
-@ItemView("assets/html/usuarioperfil.html")
+@WebContainer({
+	itemViewResource: "assets/html/usuarioperfil"
+})
 export class UsuarioPerfil extends ModWindow{
 	itIdUsuarioPerfil: TextInput;
 	itIdUsuario: TextInput;
@@ -12,8 +14,7 @@ export class UsuarioPerfil extends ModWindow{
 	mainList:ListView;
 	mainTb: ToolBar;
 	constructor(){
-		super("*Perfis Associados");
-		this.setRevision("$Revision: 1 $");
+		super("*Perfis Associados");		
 		this.setSize(4);
 
 		this.mainTb = new ToolBar({ "domain": "usuarioperfil" });

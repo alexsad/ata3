@@ -49,6 +49,9 @@ module.exports = function(grunt) {
 			,client: {
 				src: 'public/js/br'
 			}
+			,underaslib:{
+				src:['./bower_components/underas']
+			}
 		}
 		,uglify: {
 			view: {
@@ -97,8 +100,15 @@ module.exports = function(grunt) {
 			//console.log(abspath+":"+rootdir+":"+filename);
 			if(filename.indexOf(".js")>-1){
 				var contentFile = grunt.file.read(abspath);
-				if(contentFile.indexOf("})(container_1.ModWindow);")){
-					contentFile = contentFile.replace(/(_super\.call\(this,.*)/,"$1 this.setUrlModule('"+abspath.replace("public/","").replace(/\//g,".").replace(".js","")+"');");
+				if(contentFile.indexOf("})(container_1.ModWindow);")>-1){
+					contentFile = contentFile
+						.replace(/(_super\.call\(this,.*)/,"$1 this.setUrlModule('"
+							+abspath.replace("public/","").replace(/\//g,".").replace(".js","")
+							+"');"
+							+'this.setRevision("'+new Date().getTime()+'");'
+							)
+						;
+						//.replace(/(\$\{compile\-version\})/,"$"+new Date().getTime());
 					grunt.file.write(abspath, contentFile);
 					//grunt.log.writeln('File "' + abspath + '" modified.');
 				}
@@ -106,17 +116,32 @@ module.exports = function(grunt) {
 		});
 	});
 
+	grunt.registerTask('set-version-tag', function(){
+        var abspath = "public/js/app.template.js";
+        var contentFile = grunt.file.read(abspath);
+        if(contentFile.indexOf("${compile-version}")){
+            contentFile = contentFile.replace(/(\$\{compile\-version\})/,"DEV_"+new Date().getTime());
+            grunt.file.write(abspath.replace(".template",""), contentFile);
+        }
+        abspath = "public/index.template.html";
+        contentFile = grunt.file.read(abspath);
+        if(contentFile.indexOf("${compile-version}")){
+            contentFile = contentFile.replace(/(\$\{compile\-version\})/,"DEV_"+new Date().getTime());
+            grunt.file.write(abspath.replace(".template",""), contentFile);
+        }
+	});
+
 
 	grunt.registerTask('default', ['build-dev']);
 	//grunt.registerTask('dist', ['clean', 'copy']);
 	grunt.registerTask('build-server-dev', ['clean:server','ts:server']);
 	grunt.registerTask('build-server-deploy', ['build-server-dev','uglify:server']);
-	grunt.registerTask('build-view-dev', ['clean:client','ts:view','copy:viewAssets','build-view-pos']);//,'replace:viewjs'
+	grunt.registerTask('build-view-dev', ['clean:client','ts:view','copy:viewAssets','build-view-pos','set-version-tag']);//,'replace:viewjs'
 	grunt.registerTask('build-view-deploy', ['build-view-dev','uglify:view']);
 	grunt.registerTask('build-dev', ['build-server-dev','build-view-dev']);
 	grunt.registerTask('build-deploy', ['build-server-deploy','build-view-deploy']);
 
-	grunt.registerTask('install-deps', ['bower:install','copy:jsLibs','copy:jsLibsNotMin']);
+	grunt.registerTask('install-deps', ['clean:underaslib','bower:install','copy:jsLibs','copy:jsLibsNotMin']);
 
 
 

@@ -1,11 +1,12 @@
-import {PerfilView} from "./PerfilView";
-import {ModWindow} from "lib/underas/container";
-import {TextInput, CheckBox, Button, AlertMsg, Select, ListView, ItemView} from "lib/underas/controller";
+import {ModWindow, WebContainer} from "lib/underas/container";
+import {TextInput, CheckBox, Button, AlertMsg, Select, ListView} from "lib/underas/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {IPerfil, IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfil";
+import {PerfilView} from "./PerfilView";
 
-
-@ItemView("assets/html/perfilautorizacao.html")
+@WebContainer({
+	itemViewResource: "assets/html/perfilautorizacao"
+})
 export class PerfilAutorizacao extends ModWindow {
 	itPerfil: Select;
 	itIdPerfilAutorizacao: TextInput;
@@ -15,8 +16,7 @@ export class PerfilAutorizacao extends ModWindow {
 	mainTb: ToolBar;
 	mainList: ListView;
 	constructor() {
-		super("*Perfis Associados");
-		this.setRevision("$Revision: 1 $");
+		super("*Perfis Associados");		
 		this.setSize(8);
 
 		this.mainTb = new ToolBar({ "domain": "perfilautorizacao" });
