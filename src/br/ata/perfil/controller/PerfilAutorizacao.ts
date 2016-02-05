@@ -1,7 +1,7 @@
 import server = require('restify');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router/router";
 import PerfilAutorizacaoDAO = require("../model/perfilautorizacao");
-import {IPerfilAutorizacao,EPerfilAutorizacaoTP} from "../model/IPerfil";
+import {IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfilAutorizacao";
 
 @Controller()
 export class PerfilAutorizacao{
@@ -48,7 +48,7 @@ export class PerfilAutorizacao{
 	@Put()
 	atualizar(req:server.Request,res:server.Response):void{
 		var nperfilautorizacao: IPerfilAutorizacao = <IPerfilAutorizacao>req.body;
-		PerfilAutorizacaoDAO.upsert(nperfilautorizacao).then(function(p_nperfilautorizacao: IPerfilAutorizacao) {
+		PerfilAutorizacaoDAO.upsert(nperfilautorizacao).then(function() {
 			res.json(nperfilautorizacao);
 		}).catch(function(err:any) {
 			res.status(400);

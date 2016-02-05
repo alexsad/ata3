@@ -1,35 +1,35 @@
-import {ModWindow,WebContainer} from "lib/underas/container";
-import {DatePicker,NumericStepper,TextInput,Select,ListView} from "lib/underas/controller";
-import {ToolBar,IDefaultRequest,RequestManager} from "lib/underas/net";
-import {Underas} from "lib/underas/core";
-import {IPerfilNotificacao} from "../model/IPerfil";
+import {ModWindow, WebContainer} from "lib/underas/container";
+import {DatePicker, NumericStepper, TextInput, Select, ListView} from "lib/underas/controller";
+import {ToolBar, IDefaultRequest, RequestManager} from "lib/underas/net";
+import {System} from "lib/underas/core";
+import {IPerfilNotificacao, IModulo, IModuloAcao} from "../model/IPerfil";
 
 @WebContainer({
 	itemViewResource: "assets/html/perfilnotificacao"
 })
-export class PerfilNotificacao extends ModWindow{
-	itIdPerfilNotificacao:TextInput;
+export class PerfilNotificacao extends ModWindow {
+	itIdPerfilNotificacao: TextInput;
 	itIdPerfil: Select;
-	itDescricao:TextInput;
-	itMascara:TextInput;
-	itDtInicial:DatePicker;
-	itDtFinal:DatePicker;
-	itLimiteMax:NumericStepper;
-	itLimiteMin:NumericStepper;
-	itModulo:Select;
-	itModuloAcao:TextInput;
-	itServicoContagem:TextInput;
-	itTpNotificacao:Select;
+	itDescricao: TextInput;
+	itMascara: TextInput;
+	itDtInicial: DatePicker;
+	itDtFinal: DatePicker;
+	itLimiteMax: NumericStepper;
+	itLimiteMin: NumericStepper;
+	itModulo: Select;
+	itModuloAcao: Select;
+	itServicoContagem: TextInput;
+	itTpNotificacao: Select;
 	itIcone: Select;
 	itModuloIcone: Select;
-	mainTb:ToolBar;
-	mainList:ListView;
+	mainTb: ToolBar;
+	mainList: ListView;
 
-	constructor(){
-		super("Nofificacoes do Perfil");		
+	constructor() {
+		super("Nofificacoes do Perfil");
 		this.setSize(8);
 
-		this.mainTb = new ToolBar({"domain":"perfilnotificacao"});
+		this.mainTb = new ToolBar({ "domain": "perfilnotificacao" });
 		this.append(this.mainTb);
 
 		this.itIdPerfilNotificacao = new TextInput("");
@@ -90,13 +90,17 @@ export class PerfilNotificacao extends ModWindow{
 		this.itModulo.setSize(5);
 		this.itModulo.setValueField("modulo");
 		this.itModulo.setLabelField("descricao");
+		this.itModulo.$.on("change", this.getAcoes.bind(this));
 		this.append(this.itModulo);
 
-		this.itModuloAcao = new TextInput("");
+		this.itModuloAcao = new Select("acao do modulo:");
+		this.itModuloAcao.setLabel("acao da tela");
 		this.itModuloAcao.setColumn("#moduloAcao");
-		this.itModuloAcao.setLabel("acao do modulo");
 		this.itModuloAcao.setSize(4);
-		this.append(this.itModuloAcao);		
+		this.itModuloAcao.setValueField("comando");
+		this.itModuloAcao.setLabelField("descricao");
+		this.itModuloAcao.setEnable(false);
+		this.append(this.itModuloAcao);
 
 		this.itModuloIcone = new Select("icone");
 		this.itModuloIcone.setLabel("icone da tela");
@@ -143,11 +147,11 @@ export class PerfilNotificacao extends ModWindow{
 		this.mainList = new ListView("ItemMenu");
 		this.append(this.mainList);
 	}
-	onStart():void{
-		var tmpUrl:string= Underas.getLocation();
+	onStart(): void {
+		var tmpUrl: string = System.getLocation();
 		this.itModulo.fromService({
 			rootUrl: tmpUrl
-			,url: "assets/modulo.json"
+			, url: "assets/modulo.json?rev=" + this.getRevision()
 		});
 		this.itTpNotificacao.fromService({
 			url: "perfilnotificacao/tiposnotificaco"
@@ -157,15 +161,43 @@ export class PerfilNotificacao extends ModWindow{
 		});
 		this.itIcone.fromService({
 			rootUrl: tmpUrl
-			,url: "assets/icons.json"
+			, url: "assets/icons.json?rev=" + this.getRevision()
 		});
 		this.itModuloIcone.fromService({
 			rootUrl: tmpUrl
-			, url: "assets/icons.json"
-		});		
+			, url: "assets/icons.json?rev=" + this.getRevision()
+		});
+
+	}
+	getAcoes(evt: Event): void {
+		//evt.preventDefault();
+		var _ele: JQuery = $(evt.target);
+
+		var tmpIdModule: string = this.itModulo.getValue();
+		this.itModuloAcao.setEnable(false);
+		this.itModuloAcao.setDataProvider([]);
+		this.itModuloAcao.setValue("");
+
+		RequestManager.addRequest({
+			rootUrl: System.getLocation()
+			, url: "assets/modulo.json?rev=" + this.getRevision()
+			, onLoad: function(dta: IModulo[]) {
+				dta.every(function(itmod: IModulo, index: number): boolean {
+					if (itmod.modulo == tmpIdModule) {
+						if (itmod.acao.length > 0) {
+							this.itModuloAcao.setEnable(true);
+							this.itModuloAcao.setDataProvider(itmod.acao);
+						};
+						return false;
+					};
+					return true;
+				}.bind(this));
+
+			}.bind(this)
+		});
 	}
 	getByIdPerfil(p_idPerfil: number): void {
-		this.itIdPerfil.setValue(p_idPerfil+"");
+		this.itIdPerfil.setValue(p_idPerfil + "");
 		RequestManager.addRequest({
 			"url": "perfilnotificacao/getbyidperfil/" + p_idPerfil
 			, "onLoad": function(dta: IPerfilNotificacao[]) {
@@ -173,13 +205,13 @@ export class PerfilNotificacao extends ModWindow{
 			}.bind(this)
 		});
 	}
-	beforeInsert(p_req_obj: IDefaultRequest): IDefaultRequest{
+	beforeInsert(p_req_obj: IDefaultRequest): IDefaultRequest {
 		if (!this.itIdPerfil.getValue()) {
 			return null;
 		};
 		return p_req_obj;
 	}
-	beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: IPerfilNotificacao): IDefaultRequest{
+	beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: IPerfilNotificacao): IDefaultRequest {
 		if (!this.itIdPerfil.getValue()) {
 			return null;
 		};

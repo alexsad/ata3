@@ -7,6 +7,7 @@ export declare class Controller {
     setBlankWhenNull(on: boolean): void;
     addEvent(p_on: string, p_event_fn: Function, p_bind?: any): JQuery;
     getInput(): JQuery;
+    setFocus(): void;
     setLabel(nlabel: string): void;
     setValue(vl: string): void;
     setTransient(on: boolean): void;
@@ -50,21 +51,6 @@ export declare class TextInput extends Input {
 }
 export declare class DoubleTextInput extends DoubleInput {
     constructor(p_text?: string);
-}
-export declare class CheckBox extends Controller {
-    checkedValue: string;
-    unCheckedValue: string;
-    private checked;
-    constructor(p_label: string, p_innerLabel: string);
-    setIcon(p_src: string): void;
-    setEnable(on: boolean): void;
-    isEnable(): boolean;
-    setHandlerCheck(evt: Event): void;
-    setCheckedValue(p_vl: string): void;
-    setUnCheckedValue(p_vl: string): void;
-    isValid(): boolean;
-    setValue(p_vl: string): void;
-    getValue(): string;
 }
 export declare class PassWordInput extends Input {
     constructor(p_text?: string);
@@ -125,7 +111,6 @@ export declare class NumericStepper extends DoubleTextInput {
 }
 export declare class TextArea extends Controller {
     constructor(p_text?: string);
-    getValue(): string;
 }
 export declare class AlertMsg extends Controller {
     static TP_SUCCESS: string;

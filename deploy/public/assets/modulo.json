@@ -1,15 +1,27 @@
 [
-{"modulo":"br.ata.reuniao.view.Reuniao","descricao":"Reuniao"}
-,{"modulo":"br.ata.perfil.view.Perfil","descricao":"Perfis"}
-,{"modulo":"br.ata.perfil.view.PerfilViewNotificacao","descricao":"Notificacoes"}
-,{"modulo":"br.ata.perfil.view.PerfilView","descricao":"Perfis Atividades"}
-,{"modulo":"br.ata.organizacao.view.Organizacao","descricao":"Organizacao"}
-,{"modulo":"br.ata.trimestre.view.Trimestre","descricao":"Trimestres"}
-,{"modulo":"br.ata.trimestre.view.AtividadeAutorizacao","descricao":"Aprovacao de Atividade"}
-,{"modulo":"br.ata.trimestre.view.TrimestreView","descricao":"Edicao de Atividade"}
-,{"modulo":"br.ata.trimestre.view.AtividadePorPeriodo","descricao":"Calendario da Ala"}
-,{"modulo":"br.ata.certificado.view.Certificado","descricao":"Certificado"}
-,{"modulo":"br.ata.reuniao.view.Convite","descricao":"Convites"}
-,{"modulo":"br.ata.reuniao.view.ReuniaoPorPeriodo","descricao":"Discusantes por Periodo"}
-,{"modulo":"br.ata.usuario.view.Usuario","descricao":"Usuarios"}
+{"modulo":"br.ata.reuniao.view.Reuniao","descricao":"Reuniao","acao":[]}
+,{"modulo":"br.ata.perfil.view.Perfil","descricao":"Perfis","acao":[]}
+,{"modulo":"br.ata.perfil.view.PerfilViewNotificacao","descricao":"Notificacoes","acao":[]}
+,{"modulo":"br.ata.perfil.view.PerfilView","descricao":"Perfis Atividades","acao":[]}
+,{"modulo":"br.ata.organizacao.view.Organizacao","descricao":"Organizacao","acao":[]}
+,{"modulo":"br.ata.trimestre.view.Trimestre","descricao":"Trimestres","acao":[]}
+,{"modulo":"br.ata.trimestre.view.AtividadeAutorizacao","descricao":"Aprovacao de Atividade"
+,"acao":[
+	{
+		"id":1
+		,"descricao":"Atividades Enviadas"
+		,"comando":"getAtividadesEnviadas"
+	}
+	,{
+		"id":2
+		,"descricao":"Atividades Aprovadas"
+		,"comando":"getAtividadesAprovadas"
+	}
+]}
+,{"modulo":"br.ata.trimestre.view.TrimestreView","descricao":"Edicao de Atividade","acao":[]}
+,{"modulo":"br.ata.trimestre.view.AtividadePorPeriodo","descricao":"Calendario da Ala","acao":[]}
+,{"modulo":"br.ata.certificado.view.Certificado","descricao":"Certificado","acao":[]}
+,{"modulo":"br.ata.reuniao.view.Convite","descricao":"Convites","acao":[]}
+,{"modulo":"br.ata.reuniao.view.ReuniaoPorPeriodo","descricao":"Discusantes por Periodo","acao":[]}
+,{"modulo":"br.ata.usuario.view.Usuario","descricao":"Usuarios","acao":[]}
 ]

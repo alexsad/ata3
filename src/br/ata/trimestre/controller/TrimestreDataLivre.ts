@@ -50,6 +50,9 @@ export class TrimestreDataLivre {
 			where: {
 				idTrimestre: req.params.idtrimestre
 			}
+			,order:[
+				['momento', 'ASC']
+			]
 		}).then(function(dta: ITrimestreDataLivre[]) {
 			res.json(dta);
 		}).catch(function(err: any) {
@@ -70,7 +73,7 @@ export class TrimestreDataLivre {
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var ntrimestredatalivre: ITrimestreDataLivre = <ITrimestreDataLivre>req.body;
-		TrimestreDataLivreDAO.upsert(ntrimestredatalivre).then(function(p_ntrimestredatalivre: ITrimestreDataLivre) {
+		TrimestreDataLivreDAO.upsert(ntrimestredatalivre).then(function() {
 			res.json(ntrimestredatalivre);
 		}).catch(function(err:any) {
 			res.status(400);

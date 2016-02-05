@@ -1,4 +1,3 @@
-import {IDiscurso} from "./IDiscurso";
 import MembroDAO = require("../../organizacao/model/membro");
 import sequelize = require("../../../../config/sequelizedb");
 

@@ -1,7 +1,7 @@
 import {ModWindow,WebContainer} from "lib/underas/container";
 import {NumericStepper,TextInput,Select,ListView} from "lib/underas/controller";
 import {ToolBar,IDefaultRequest,RequestManager} from "lib/underas/net";
-import {Underas} from "lib/underas/core";
+import {System} from "lib/underas/core";
 import {IMenu} from "../model/IPerfil";
 import {ItemMenu} from "./ItemMenu";
 
@@ -71,7 +71,7 @@ export class Menu extends ModWindow{
 		this._items = new ItemMenu(this);
 		this.getModView().append(this._items);
 		this.itIcone.fromService({
-			rootUrl: Underas.getLocation()
+			rootUrl: System.getLocation()
 			,url: "assets/icons.json"
 		});
 	}

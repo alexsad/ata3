@@ -1,5 +1,6 @@
 module.exports = function(grunt) {
 	grunt.initConfig({
+
 		copy: {
 			view:{
 				expand: true,
@@ -9,8 +10,9 @@ module.exports = function(grunt) {
 				//,"**/model/I[A-Z]*.js"
 				],
 				dest: 'public/js/br'
-			}
-			,viewAssets:{
+			},
+
+			viewAssets:{
 				expand: true,
 				cwd: '../src/br',
 				src: [
@@ -26,7 +28,7 @@ module.exports = function(grunt) {
 					'!underas/'
 					,"**/*min.js"
 					,"**/require.js"
-					,"**/*min.css"
+                    ,"**/*min.css"
 				],
 				dest: 'public/js/lib'
 			}
@@ -41,13 +43,22 @@ module.exports = function(grunt) {
 				],
 				dest: 'public/js/lib'
 			}
+            ,viewAssetsWatch:{
+                expand: true,
+                //cwd: 'src/',
+                src: '**',
+                dest: 'build/js/br/',
+                flatten: true,
+                filter: 'isFile'
+
+			}
 		}
 		,clean: {
 			server: {
 				src: ['app/br']
 			}
 			,client: {
-				src: 'public/js/br'
+				src:['public/js/br']
 			}
 			,underaslib:{
 				src:['./bower_components/underas']
@@ -74,41 +85,144 @@ module.exports = function(grunt) {
 				}]
 			}
 		}
-		,ts: {
-		  view : {
-			tsconfig: "../tsconfigview.json"
-		  }
-		  ,server : {
-			tsconfig: "../tsconfigserver.json"
-		  }
-		}
+     
+        ,typescript:{
+            view: {
+                src: ["../src/br/**/view/*.ts","../src/br/**/model/I[A-Z]*.ts"],//"../src/br/**/view/*.ts","../src/br/**/model/I[A-Z]*.ts"
+                dest: 'public/js',
+                options: {
+                    module: 'amd', //or commonjs 
+                    target: 'es5',
+                    rootDir: '../src',
+                    sourceMap: false,
+                    declaration: false,
+                    removeComments:true,
+                    experimentalDecorators:true,
+                    noEmitHelpers:true,
+                    references: [
+                        "../src/lib/underas/**/*.d.ts",
+                        "../src/lib/underas/*.d.ts",
+                        "../src/lib/jspdf/*.ts",
+                        "../src/lib/cookies/*.ts",
+                        "../src/lib/jquery/jquery2.d.ts",
+                        "../src/lib/jqueryui/jqueryui.d.ts"
+                    ]
+                }
+            }
+            ,server: {
+                src: ["../src/config/*.ts","../src/br/ata/**/controller/*.ts"],//"br/cupom/**/controller/*.ts","br/cupom/**/model/*.ts"
+                dest: 'app',
+                options: {
+                    module: 'commonjs', //or commonjs 
+                    target: 'es5', //or es3 
+                    rootDir: '../src',
+                    sourceMap: false,
+                    declaration: false,
+                    removeComments:true,
+                    experimentalDecorators:true,
+                    noEmitHelpers:true,
+                    references: [
+                        "../src/config/sequelizedb.ts",
+                        "../src/lib/restify/*.d.ts",
+                        "../src/lib/router/router.d.ts",
+                        "../src/lib/node/node.d.ts",
+                        "../src/lib/sequelize/sequelize.d.ts"
+                    ]
+                }
+            }
+        }
+        
 		,bower: {
 			install: {
 				 //just run 'grunt bower:install' and you'll see files from your Bower packages in lib directory
 			}
 		}
+		, watch: {
+			options: { // passamos as opções (vide documentação)
+					 livereload: true // aqui é onde a mágica acontece! Ele passa as informações para o livereload (que é o que faz a página atualizar automáticamente, junto com o connect)
+			},
+            view: {
+                files: ['../src/**/view/*.ts']
+                ,tasks: ['typescript:view','build-view-pos-full']
+                ,options: {
+                    spawn: false
+                }
+            },
+            server: {
+                files: ['../src/**/controller/*.*','../src/**/model/*.*','../src/config/*.*']
+                ,tasks: ['typescript:server']
+                ,options: {
+                    spawn: false
+                }
+            }
+            ,assets: {
+                files: ['../src/br/**/assets/**/*.*']
+                ,tasks: ['copy:viewAssetsWatch']
+                ,options: {
+                    spawn: false
+                }
+            }
+        }
+		,connect: { // aqui abrimos a task do connect
+            server: { // definimos aqui o conjunto de configurações do servidor
+                options: { // abertura das opções
+                    port: '9000',           // Porta alternativa
+                    hostname: '*',          // Acesso permitido para toda rede
+                    livereload: true,       // Live Reload Ativado
+                    path: 'public'             // Diretório base
+                } // fechamento options
+         } // fechamento server
+    } // fechamento task connect
 });
 
-	grunt.loadNpmTasks("grunt-ts");
+
+	grunt.loadNpmTasks('grunt-typescript');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-bower-task');
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-connect');
 
-	grunt.registerTask('build-view-pos', function(){
+
+    grunt.registerMultiTask('build-view-pos','set the url of module', function(){
+        console.log(this.data);
+        var tmpFilePath = this.data;
+        //console.log(this.data.options.filename);       
+        var contentFile = grunt.file.read(tmpFilePath);
+        if(contentFile.indexOf("})(container_1.ModWindow);")>-1){
+            contentFile = contentFile.replace(/(_super\.call\(this,.*)/,"$1 this.setUrlModule('"+tmpFilePath.replace("public/","").replace(/\//g,".").replace(".js","")+"');"+'this.setRevision("'+new Date().getTime()+'");');
+            grunt.file.write(tmpFilePath, contentFile);
+            //grunt.log.writeln('File "' + abspath + '" modified.');
+        }             
+    });
+    
+    
+    
+   grunt.registerTask('set_compile_version', function(){
+        var abspath = "public/js/app.template.js";
+        var contentFile = grunt.file.read(abspath);
+        if(contentFile.indexOf("${compile-version}")){
+            contentFile = contentFile.replace(/(\$\{compile\-version\})/,"JEQ-1.0.0_"+new Date().getTime());
+            grunt.file.write("public/js/app.js", contentFile);
+        }
+        
+        abspath = "public/index.template.html";
+        contentFile = grunt.file.read(abspath);
+        if(contentFile.indexOf("${compile-version}")){
+            contentFile = contentFile.replace(/(\$\{compile\-version\})/,"JEQ-1.0.0_"+new Date().getTime());
+            grunt.file.write("public/index.html", contentFile);
+        }
+	});   
+
+    
+    grunt.registerTask('build-view-pos-full', function(){
 		grunt.file.recurse("public/js/br/", function(abspath, rootdir, subdir, filename){
 			//console.log(abspath+":"+rootdir+":"+filename);
 			if(filename.indexOf(".js")>-1){
 				var contentFile = grunt.file.read(abspath);
 				if(contentFile.indexOf("})(container_1.ModWindow);")>-1){
-					contentFile = contentFile
-						.replace(/(_super\.call\(this,.*)/,"$1 this.setUrlModule('"
-							+abspath.replace("public/","").replace(/\//g,".").replace(".js","")
-							+"');"
-							+'this.setRevision("'+new Date().getTime()+'");'
-							)
-						;
-						//.replace(/(\$\{compile\-version\})/,"$"+new Date().getTime());
+					contentFile = contentFile.replace(/(_super\.call\(this,.*)/,"$1 this.setUrlModule('"+abspath.replace("public/","").replace(/\//g,".").replace(".js","")+"');"+'this.setRevision("'+new Date().getTime()+'");');
 					grunt.file.write(abspath, contentFile);
 					//grunt.log.writeln('File "' + abspath + '" modified.');
 				}
@@ -116,37 +230,35 @@ module.exports = function(grunt) {
 		});
 	});
 
-	grunt.registerTask('set-version-tag', function(){
-        var abspath = "public/js/app.template.js";
-        var contentFile = grunt.file.read(abspath);
-        if(contentFile.indexOf("${compile-version}")){
-            contentFile = contentFile.replace(/(\$\{compile\-version\})/,"DEV_"+new Date().getTime());
-            grunt.file.write(abspath.replace(".template",""), contentFile);
-        }
-        abspath = "public/index.template.html";
-        contentFile = grunt.file.read(abspath);
-        if(contentFile.indexOf("${compile-version}")){
-            contentFile = contentFile.replace(/(\$\{compile\-version\})/,"DEV_"+new Date().getTime());
-            grunt.file.write(abspath.replace(".template",""), contentFile);
-        }
-	});
 
 
 	grunt.registerTask('default', ['build-dev']);
 	//grunt.registerTask('dist', ['clean', 'copy']);
-	grunt.registerTask('build-server-dev', ['clean:server','ts:server']);
+	grunt.registerTask('build-server-dev', ['clean:server','typescript:server']);//'clean:server',
 	grunt.registerTask('build-server-deploy', ['build-server-dev','uglify:server']);
-	grunt.registerTask('build-view-dev', ['clean:client','ts:view','copy:viewAssets','build-view-pos','set-version-tag']);//,'replace:viewjs'
+	grunt.registerTask('build-view-dev', ['clean:client','typescript:view','copy:viewAssets','build-view-pos-full','set_compile_version']);//'clean:client',
 	grunt.registerTask('build-view-deploy', ['build-view-dev','uglify:view']);
 	grunt.registerTask('build-dev', ['build-server-dev','build-view-dev']);
 	grunt.registerTask('build-deploy', ['build-server-deploy','build-view-deploy']);
 
 	grunt.registerTask('install-deps', ['clean:underaslib','bower:install','copy:jsLibs','copy:jsLibsNotMin']);
 
+	grunt.registerTask('auto', ['build-dev','connect', 'watch']);
 
 
 	//grunt.registerTask('build-deploy', ['build-all','uglify:minview']);
 
-
+    grunt.event.on('watch', function(action, filepath,target) {
+        //console.log("------->>>>>>"+target+":"+action+":"+filepath);        
+        var tmpPath = "public/js/"+filepath.replace(/(\\)/g,"/").replace("src/","");
+        var tmpPathWithFileName = tmpPath;  
+        tmpPath = tmpPath.substring(0,tmpPath.lastIndexOf("/"));        
+        grunt.config('copy.viewAssetsWatch.src', filepath);
+        grunt.config('copy.viewAssetsWatch.dest',tmpPath);       
+        grunt.config('typescript.view.src',filepath);     
+        grunt.config('typescript.server.src',filepath); 
+           
+        grunt.config.set('build-view-pos.filename',tmpPathWithFileName.replace(/(\.ts$)/g,".js"));
+    });
 
 };

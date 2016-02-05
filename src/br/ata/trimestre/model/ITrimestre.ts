@@ -1,3 +1,5 @@
+import {IPerfil} from "../../perfil/model/IPerfil";
+
 export interface ITrimestre{
 	id?:number;
 	ano: number;
@@ -12,6 +14,8 @@ export interface ITrimestreLancamentoAtividade {
 	idTrimestre: number;
 	valor: number;
 	idPerfil: number;
+	perfil?: IPerfil;
+	
 }
 export interface ITrimestreDataLivre{
 	id?: number;

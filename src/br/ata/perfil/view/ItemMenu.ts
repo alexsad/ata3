@@ -1,29 +1,29 @@
-import {ModWindow,WebContainer} from "lib/underas/container";
-import {NumericStepper,TextInput,Select,ListView} from "lib/underas/controller";
-import {ToolBar,IDefaultRequest,RequestManager} from "lib/underas/net";
-import {Underas} from "lib/underas/core";
-import {IItemMenu,IMenu} from "../model/IPerfil";
+import {ModWindow, WebContainer} from "lib/underas/container";
+import {NumericStepper, TextInput, Select, ListView} from "lib/underas/controller";
+import {ToolBar, IDefaultRequest, RequestManager} from "lib/underas/net";
+import {System} from "lib/underas/core";
+import {IItemMenu, IMenu, IModulo, IModuloAcao} from "../model/IPerfil";
 import {Menu} from "./Menu";
 
 @WebContainer({
 	itemViewResource: "assets/html/itemmenu"
 })
-export class ItemMenu extends ModWindow{
-	itIdItemMenu:TextInput;
+export class ItemMenu extends ModWindow {
+	itIdItemMenu: TextInput;
 	itIdMenu: TextInput;
-	itLabel:TextInput;
-	itFuncao:TextInput;
-	itTela:Select;
-	itIcone:Select;
-	itOrdem:NumericStepper;
-	mainTb:ToolBar;
-	mainList:ListView;
+	itLabel: TextInput;
+	itFuncao: Select;
+	itTela: Select;
+	itIcone: Select;
+	itOrdem: NumericStepper;
+	mainTb: ToolBar;
+	mainList: ListView;
 	_menu: Menu;
-	constructor(p_menu:Menu){
-		super("Itens do Menu");		
-		this.setSize(8);
+	constructor(p_menu: Menu) {
+		super("Itens do Menu");
+		this.setSize(5);
 
-		this.mainTb = new ToolBar({"domain":"itemmenu"});
+		this.mainTb = new ToolBar({ "domain": "itemmenu" });
 		this.append(this.mainTb);
 
 		this.itIdItemMenu = new TextInput("");
@@ -52,6 +52,7 @@ export class ItemMenu extends ModWindow{
 		this.itTela.setSize(5);
 		this.itTela.setValueField("modulo");
 		this.itTela.setLabelField("descricao");
+		this.itTela.getInput().on("change", this.getAcoes.bind(this));
 		this.append(this.itTela);
 
 
@@ -64,7 +65,7 @@ export class ItemMenu extends ModWindow{
 		this.append(this.itIcone);
 
 		this.itOrdem = new NumericStepper(5);
-		this.itOrdem.setEnable(false,2);
+		this.itOrdem.setEnable(false, 2);
 		this.itOrdem.setSize(3);
 		this.itOrdem.setLabel("ordem");
 		this.itOrdem.setMin(1);
@@ -73,10 +74,13 @@ export class ItemMenu extends ModWindow{
 		this.itOrdem.setColumn("@ordem");
 		this.append(this.itOrdem);
 
-		this.itFuncao = new TextInput("");
+		this.itFuncao = new Select("acao do modulo:");
 		this.itFuncao.setColumn("#funcao");
-		this.itFuncao.setLabel("funcao");
+		this.itFuncao.setLabel("acao");
 		this.itFuncao.setSize(12);
+		this.itFuncao.setValueField("comando");
+		this.itFuncao.setLabelField("descricao");
+		this.itFuncao.setEnable(false);
 		this.append(this.itFuncao);
 
 		this.mainList = new ListView("ItemMenu");
@@ -84,19 +88,46 @@ export class ItemMenu extends ModWindow{
 
 		this._menu = p_menu;
 	}
-	onStart():void{
-		var tmpUrl:string= Underas.getLocation();
+	onStart(): void {
+		var tmpUrl: string = System.getLocation();
 		this.itIcone.fromService({
 			rootUrl: tmpUrl
-			,url: "assets/icons.json"
+			, url: "assets/icons.json?rev=" + this.getRevision()
 		});
 		this.itTela.fromService({
 			rootUrl: tmpUrl
-			,url: "assets/modulo.json"
+			, url: "assets/modulo.json?rev=" + this.getRevision()
+		});
+	}
+	getAcoes(evt: Event): void {
+		//evt.preventDefault();
+		var _ele: JQuery = $(evt.target);
+
+		var tmpIdModule: string = this.itTela.getValue();
+		this.itFuncao.setEnable(false);
+		this.itFuncao.setDataProvider([]);
+		this.itFuncao.setValue("");
+
+		RequestManager.addRequest({
+			rootUrl: System.getLocation()
+			, url: "assets/modulo.json?rev=" + this.getRevision()
+			, onLoad: function(dta: IModulo[]) {
+				dta.every(function(itmod: IModulo, index: number): boolean {
+					if (itmod.modulo == tmpIdModule) {
+						if (itmod.acao.length > 0) {
+							this.itFuncao.setEnable(true);
+							this.itFuncao.setDataProvider(itmod.acao);
+						};
+						return false;
+					};
+					return true;
+				}.bind(this));
+
+			}.bind(this)
 		});
 	}
 	getByIdMenu(p_idMenu: number): void {
-		this.itIdMenu.setValue(p_idMenu+"");
+		this.itIdMenu.setValue(p_idMenu + "");
 		RequestManager.addRequest({
 			"url": "itemmenu/getbyidmenu/" + p_idMenu
 			, "onLoad": function(dta: IItemMenu[]) {
@@ -104,13 +135,13 @@ export class ItemMenu extends ModWindow{
 			}.bind(this)
 		});
 	}
-	beforeInsert(p_req_obj: IDefaultRequest): IDefaultRequest{
+	beforeInsert(p_req_obj: IDefaultRequest): IDefaultRequest {
 		if (!this.itIdMenu.getValue()) {
 			return null;
 		};
 		return p_req_obj;
 	}
-	beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: IItemMenu): IDefaultRequest{
+	beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: IItemMenu): IDefaultRequest {
 		if (!this.itIdMenu.getValue()) {
 			return null;
 		};
