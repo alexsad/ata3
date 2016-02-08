@@ -15,6 +15,7 @@ export declare class SystemStatic {
     printDataProvider(p_dta: any[], p_url_template: string): void;
     getInstanceOf<T>(context: Object, name: string, args: any[]): T;
     preCompileTemplate(template: string): Function;
+    loadStyleResource(p_url: string[]): void;
     transformPreCompiled(str: string): Function;
 }
 export declare var System: SystemStatic;

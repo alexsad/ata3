@@ -7,10 +7,14 @@ export interface IWebElementClass {
     };
     name: string;
     new (): Function;
-    loadTemplate: Function;
+    load: Function;
     refreshRender(): void;
     $: JQuery;
     setModule(): void;
     getColumn(): string;
 }
-export declare function WebElement(p_relative_resource_template: string, p_relative_resource_css?: string[]): ClassDecorator;
+export interface IWebElementConfig {
+    templateResource: string;
+    styleResource?: string[];
+}
+export declare function WebElement(p_config: IWebElementConfig): ClassDecorator;

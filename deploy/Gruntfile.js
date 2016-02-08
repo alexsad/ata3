@@ -184,8 +184,84 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 
+function buildviewpos(){
+    var tmpFilePath = this.data;
+    //console.log(tmpFilePath);
+    var c_version = "TSCOPONS-1.0.0_"+new Date().getTime();
+    var countFound = 0;
+    var filename = tmpFilePath.substring(tmpFilePath.lastIndexOf("/")+1,tmpFilePath.length);
+    console.log(tmpFilePath+":"+filename);
+    var contentFile = grunt.file.read(tmpFilePath);
 
-    grunt.registerMultiTask('build-view-pos','set the url of module', function(){
+    var pathRelative = tmpFilePath.replace("public/","");
+    pathRelative = pathRelative.replace(filename,"");
+    //console.log(pathRelative);
+    //["templateResource","itemViewResource","styleResource"]
+    var regexTemplateResource = /(templateResource['"]?\s?:\s?['"][^!])/g;
+    var indexTemplateResource = regexTemplateResource.exec(contentFile);
+    if(indexTemplateResource){
+        contentFile = contentFile.replace(/(['"]?templateResource['"]?\s?):\s?(['"])([^!"]+)*/g,"$1:$2"+pathRelative+"$3.html?cache="+c_version);
+        //console.log(contentFile);
+        countFound++;
+    };
+    
+    var regexTemplateViewResource = /(itemViewResource['"]?\s?:\s?['"][^!])/g;
+    var indexItemViewResource = regexTemplateViewResource.exec(contentFile);
+    
+    if(indexItemViewResource){
+        //contentFile = contentFile.replace(/(['"]?itemViewResource['"]?\s?):\s?(['"])([^!"]+)*/g," =a= $1 =b= : =c= $2 =d= "+pathRelative+" =e= $3 =f= .html =g=");
+        contentFile = contentFile.replace(/(['"]?itemViewResource['"]?\s?):\s?(['"])([^!"]+)*/g,"$1:$2"+pathRelative+"$3.html?cache="+c_version);
+        countFound++;
+        //console.log(contentFile);
+        //console.log("item:"+indexItemViewResource+":"+abspath);
+    };
+    
+
+    var indexStyleResource = contentFile.indexOf("styleResource");
+    if(indexStyleResource >-1 ){
+        var regexStyleResource =  /["']?styleResource["']?\s?:\s?\[((\s|['".?=&,#-:]|\/|\!|\d|\w|\n)*)?\]/g;
+        var listStyleResource = contentFile.match(regexStyleResource);
+        var nStyleResource = listStyleResource[0].replace(/"/g,"'").replace(/\s/g,"").replace(/'?styleResource'?:\[/g,"").replace("]","");
+        nStyleResource = nStyleResource.replace("'","").replace(/'$/g,"")
+        var nlistStyleResource = nStyleResource.split("','");
+        //console.log(nlistStyleResource);
+        var nlist = [];
+        var initCount = countFound;
+        nlistStyleResource.forEach(function(itemStyle){
+            if(itemStyle.indexOf("!") != 0){
+                itemStyle = pathRelative+itemStyle+".css?cache="+c_version;
+                countFound++;
+            }
+            nlist.push(itemStyle);
+            //console.log(itemStyle);
+        });
+        if(initCount!=countFound){
+            var concatList = "styleResource:['"+nlist.join("','")+"']";
+            //console.log(concatList);
+
+            contentFile = contentFile.replace(regexStyleResource,concatList);
+            
+            //console.log(contentFile.replace(regexStyleResource,concatList));
+        }
+        //console.log("style:"+abspath);
+    };
+    //contentFile = contentFile.replace(/(_super\.call\(this,.*)/,"$1 this.setUrlModule('"+abspath.replace("test/","").replace(/\//g,".").replace(".js","")+"');"+"this.setRevision('"+new Date().getTime()+"');");
+    //grunt.file.write(abspath, contentFile);
+    if(contentFile.indexOf("})(container_1.ModWindow);")>-1){
+        contentFile = contentFile.replace(/(_super\.call\(this,.*)/,"$1 this.setUrlModule('"+pathRelative.replace(/\//g,'.')+filename.replace(".js","")+"');"+"this.setRevision('"+new Date().getTime()+"');");
+    }
+    if(contentFile.indexOf("})(container_1.ModWindow);")>-1 || countFound >0){
+        grunt.file.write(tmpFilePath, contentFile);
+        
+        //console.log(contentFile);
+    }
+}
+
+grunt.registerTask('build-view-pos','set the url of module',buildviewpos);
+
+
+
+    grunt.registerMultiTask('build-view-pos2','set the url of module', function(){
         console.log(this.data);
         var tmpFilePath = this.data;
         //console.log(this.data.options.filename);       
@@ -219,13 +295,19 @@ module.exports = function(grunt) {
     grunt.registerTask('build-view-pos-full', function(){
 		grunt.file.recurse("public/js/br/", function(abspath, rootdir, subdir, filename){
 			//console.log(abspath+":"+rootdir+":"+filename);
-			if(filename.indexOf(".js")>-1){
+			if(filename.indexOf(".js")>-1 && abspath.indexOf("/model/I") < 0){
+                //console.log(abspath+":"+abspath.indexOf("/model/I"));
+                buildviewpos.apply({data:abspath})
+                //grunt.config.set('build-view-pos.filename',abspath);
+                //grunt.task.run(['build-view-pos']);
+                /*
 				var contentFile = grunt.file.read(abspath);
 				if(contentFile.indexOf("})(container_1.ModWindow);")>-1){
 					contentFile = contentFile.replace(/(_super\.call\(this,.*)/,"$1 this.setUrlModule('"+abspath.replace("public/","").replace(/\//g,".").replace(".js","")+"');"+'this.setRevision("'+new Date().getTime()+'");');
 					grunt.file.write(abspath, contentFile);
 					//grunt.log.writeln('File "' + abspath + '" modified.');
 				}
+                */
 			};
 		});
 	});
