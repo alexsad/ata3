@@ -1,22 +1,20 @@
-import {Underas} from "lib/underas/core";
-import {ModWindow} from "lib/underas/container";
-import {Button,CheckBox, PassWordInput, EmailInput, AlertMsg} from "lib/underas/controller";
+import {System} from "lib/underas/core";
+import {ModWindow, ModView} from "lib/underas/container";
+import {Button, CheckBox, PassWordInput, EmailInput, AlertMsg} from "lib/underas/controller";
 import {RequestManager} from "lib/underas/net";
-import PerfilBox = require("../../perfil/view/PerfilBox");
 import {IUsuario} from "../model/IUsuario";
+import PerfilBox = require("../../perfil/view/PerfilBox");
 
-export class Login extends ModWindow{
-	amAviso:AlertMsg;
-	itlogin:EmailInput;
-	itsenha:PassWordInput;
+class LoginStatic extends ModWindow {
+	amAviso: AlertMsg;
+	itlogin: EmailInput;
+	itsenha: PassWordInput;
 	chlembrar: CheckBox;
-	btEntrar:Button;
+	btEntrar: Button;
 	btBaixarAplicativo: Button;
-	constructor(){
-		super("Login");
-		this.setRevision("$Revision: 144 $");
+	constructor() {
+		super("Login-mod");
 		this.setSize(4);
-
 		this.$.addClass("col-sm-offset-4 col-xs-offset-0");
 
 		this.amAviso = new AlertMsg("");
@@ -36,14 +34,14 @@ export class Login extends ModWindow{
 		this.itsenha.setSize(12);
 		this.append(this.itsenha);
 
-		this.chlembrar = new CheckBox("Lembrar login:","Sim, desejo lembrar o login nesse computador.");
+		this.chlembrar = new CheckBox("Lembrar login:", "Sim, desejo lembrar o login nesse computador.");
 		this.chlembrar.setCheckedValue("S");
 		this.chlembrar.setUnCheckedValue("N");
 		this.chlembrar.setSize(12);
 		this.append(this.chlembrar);
 
 		this.btEntrar = new Button("Logar");
-		this.btEntrar.addEvent("click",this.logar.bind(this));
+		this.btEntrar.addEvent("click", this.logar.bind(this));
 		this.append(this.btEntrar);
 
 		this.btBaixarAplicativo = new Button("Baixar Aplicativo");
@@ -56,95 +54,114 @@ export class Login extends ModWindow{
 		this.append(this.btBaixarAplicativo);
 
 	}
-	onStart():void{
+	onStart(): void {
 		this.getModView().showNav(false);
 		//this.autoLogin();		
-		PerfilBox.setModLogin(this);
-		if (Cookies.get("clogin")){
+		if (Cookies.get("clogin")) {
 			this.chlembrar.setValue("S");
 			this.itlogin.setValue(Cookies.get("clogin"));
 		};
 
-		var agentAppVersion: string = Underas.getUrlParam("nav");
+		var agentAppVersion: string = System.getUrlParam("nav");
 		if (agentAppVersion != "") {
 			this.btBaixarAplicativo.$.hide().removeClass("visible-xs");
 		};
 	}
-	logar():void{
-	   if(!this.itlogin.isValid()){
-		   this.itlogin.setValid(false);
-		   this.amAviso.setText("Login invalido!");
-		   this.amAviso.setType(AlertMsg.TP_ERROR);
-		   this.amAviso.show(true);
-		   return;
-	   }else{
-		   this.itlogin.setValid(true);
-		   this.amAviso.show(false);
-			 this.itlogin.setValue(this.itlogin.getValue().toLowerCase());
-	   }
-	   if(!this.itsenha.isValid()){
-		   this.itsenha.setValid(false);
-		   this.amAviso.setText("Digite uma senha!");
-		   this.amAviso.setType(AlertMsg.TP_ERROR);
-		   this.amAviso.show(true);
-		   return;
-	   }else{
-		   this.itsenha.setValid(true);
-		   this.amAviso.show(false);
-	   }
+	logar(): void {
+		if (!this.itlogin.isValid()) {
+			this.itlogin.setValid(false);
+			this.amAviso.setText("Login invalido!");
+			this.amAviso.setType(AlertMsg.TP_ERROR);
+			this.amAviso.show(true);
+			return;
+		} else {
+			this.itlogin.setValid(true);
+			this.amAviso.show(false);
+			this.itlogin.setValue(this.itlogin.getValue().toLowerCase());
+		}
+		if (!this.itsenha.isValid()) {
+			this.itsenha.setValid(false);
+			this.amAviso.setText("Digite uma senha!");
+			this.amAviso.setType(AlertMsg.TP_ERROR);
+			this.amAviso.show(true);
+			return;
+		} else {
+			this.itsenha.setValid(true);
+			this.amAviso.show(false);
+		}
 
-	   RequestManager.addRequest({
-		   "url":"usuario/logar"
-		   ,"method":"post"
-		   ,"data":{
-				"login":this.itlogin.getValue()
-				,"senha":this.itsenha.getValue()
-		   }
-		   ,"onLoad":function(dta:boolean){
-		   	if(dta==true){
-				if (this.chlembrar.getValue()=="S") {
-					Cookies.set("clogin", this.itlogin.getValue(), { expires: Infinity });
-				};
-	           this.amAviso.show(false);
-	           this.getDados();
-
-			   $("#logo_menu").addClass("hidden-xs");
-
-		   	}else{
-		   		this.amAviso.setText("Login ou senha invalidos!");
-		   		this.amAviso.setType(AlertMsg.TP_ERROR);
-		   		this.amAviso.show(true);
-		   		//_gaq.push(['_trackEvent', 'usuario.business.UsuarioBLL.logar', 'invalido']);
-		   	}
-	   }.bind(this)});
-	}
-	getDados():void{
 		RequestManager.addRequest({
-			"url":"usuario/getbylogin/"+this.itlogin.getValue()
-			,"onLoad" : function(dta:IUsuario){
-				if(dta){
-					PerfilBox.getPerfisByIdUsuario(dta.id);
+			"url": "usuario/logar"
+			, "method": "post"
+			, "data": {
+				"login": this.itlogin.getValue()
+				, "senha": this.itsenha.getValue()
+			}
+			, "onLoad": function(dta: boolean) {
+				if (dta == true) {
+					if (this.chlembrar.getValue() == "S") {
+						Cookies.set("clogin", this.itlogin.getValue(), { expires: Infinity });
+					};
+					this.amAviso.show(false);
+					(<LoginStatic>this).getDados();
+					$("#logo_menu").addClass("hidden-xs");
+
+					var moduleToLoad: string = System.getUrlParam("module");
+					if (moduleToLoad) {
+						var varModuleToLoadTmpM = moduleToLoad.split(".");
+						var varModuleToLoadTmp = varModuleToLoadTmpM[varModuleToLoadTmpM.length - 1];
+						var varModuleToLoadTmpCapt = varModuleToLoadTmp;
+
+						System.loadModules([moduleToLoad.replace(/\./g, "/")], function(mod_loaded: any) {
+							var tmpWV: ModView = new ModView("module tmp");
+							tmpWV.show(true);
+							tmpWV.append(new mod_loaded[varModuleToLoadTmpCapt]());
+						});
+					}
+
+				} else {
+					this.amAviso.setText("Login ou senha invalidos!");
+					this.amAviso.setType(AlertMsg.TP_ERROR);
+					this.amAviso.show(true);
+					//_gaq.push(['_trackEvent', 'usuario.business.UsuarioBLL.logar', 'invalido']);
 				}
 			}.bind(this)
 		});
 	}
-	logOff():void{
+	getDados(): void {
+		RequestManager.addRequest({
+			"url": "usuario/getbylogin/" + this.itlogin.getValue()
+			, "onLoad": function(dta: IUsuario) {
+				if (dta) {
+					PerfilBox.setLogin(dta.login);
+					PerfilBox.getPerfisByIdUsuario(dta.id);
+					(<LoginStatic>this).getModView().show(false).showNav(false);
+				}
+			}.bind(this)
+		});
+	}
+	logOff(): void {
 		this.clearAll();
 		this.itsenha.setValue("");
 		this.itlogin.setValue("");
 		this.getModView().show(true).showNav(false);
 	}
-	clearAll():void{
+	clearAll(): void {
 		$("#sidebar,#tabs_menu,#navbarlist").html("");
 		$("#conteudo div.ModView").not(".mdwLogin").remove();
 	}
-	autoLogin():void{
-		var tl = Underas.getUrlParam("login");
-		var ts = Underas.getUrlParam("senha");
-		if(tl!=""){
+	autoLogin(): void {
+		var tl: string = System.getUrlParam("login");
+		var ts: string = System.getUrlParam("senha");
+
+        //alert(tl+":"+ts);
+		if (tl != "") {
 			this.itlogin.setValue(tl);
 			this.itsenha.setValue(ts);
 			this.logar();
 		}
 	}
 }
+
+var Login: LoginStatic = new LoginStatic();
+export = Login;

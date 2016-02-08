@@ -1,4 +1,3 @@
-import {IPerfilAutorizacao} from "./IPerfil";
 import sequelize = require("../../../../config/sequelizedb");
 
 var PerfilAutorizacaoDAO = sequelize.define('perfil_autorizacao', {

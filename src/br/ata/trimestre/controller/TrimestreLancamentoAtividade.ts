@@ -2,6 +2,7 @@ import server = require('restify');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router/router";
 import TrimestreLancamentoAtividadeDAO = require("../model/trimestrelancamentoatividade");
 import {ITrimestreLancamentoAtividade} from "../model/ITrimestre";
+import PerfilAR = require("../../perfil/model/perfil");
 
 @Controller()
 export class TrimestreLancamentoAtividade{
@@ -17,14 +18,20 @@ export class TrimestreLancamentoAtividade{
 		@Get("/getbyidtrimestre/:idtrimestre")
 		getByIdTrimestre(req: server.Request, res: server.Response): void {
 			TrimestreLancamentoAtividadeDAO.findAll({
-				where:{
+				include: [{
+					all: true
+					, nested: false
+					, model: PerfilAR
+					, required: false
+				}]
+				,where:{
 					idTrimestre:req.params.idtrimestre
-				}
+				}				
 			}).then(function(dta: ITrimestreLancamentoAtividade[]) {
 				res.json(dta);
 			}).catch(function(err:any) {
 				res.status(400);
-			res.json(err);
+				res.json(err);
 			});
 		}
 		getTotalByIdTrimestreIdPerfil(p_idTrimestre:number,p_idPerfil:number){
@@ -42,14 +49,14 @@ export class TrimestreLancamentoAtividade{
 				res.json(p_ntrimestrelancamentoatividade);
 			}).catch(function(err:any) {
 				res.status(400);
-			res.json(err);
+				res.json(err);
 			});
 		}		
 		@Put()
 		atualizar(req:server.Request,res:server.Response):void{
 			var ntrimestrelancamentoatividade: ITrimestreLancamentoAtividade = <ITrimestreLancamentoAtividade>req.body;
-			TrimestreLancamentoAtividadeDAO.upsert(ntrimestrelancamentoatividade).then(function(p_ntrimestrelancamentoatividade: ITrimestreLancamentoAtividade) {
-				res.json(p_ntrimestrelancamentoatividade);
+			TrimestreLancamentoAtividadeDAO.upsert(ntrimestrelancamentoatividade).then(function() {
+				res.json(ntrimestrelancamentoatividade);
 			}).catch(function(err:any) {
 				res.status(400);
 			res.json(err);

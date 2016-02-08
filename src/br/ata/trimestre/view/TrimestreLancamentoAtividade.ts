@@ -8,7 +8,7 @@ import {Trimestre} from "./Trimestre";
 	itemViewResource: "assets/html/trimestrelancamentoatividade"
 })
 export class TrimestreLancamentoAtividade extends ModWindow {
-	itIdPerfilLancamento:TextInput;
+	itId:TextInput;
 	itIdPerfil:Select;
 	itIdTrimestre: TextInput;
 	itValor:NumericStepper;
@@ -21,12 +21,12 @@ export class TrimestreLancamentoAtividade extends ModWindow {
 		this.mainTb = new ToolBar({ domain: "trimestrelancamentoatividade" });
 		this.append(this.mainTb);
 		
-		this.itIdPerfilLancamento = new TextInput("");
-		this.itIdPerfilLancamento.setColumn("$id");
-		this.itIdPerfilLancamento.setLabel("cod.");
-		this.itIdPerfilLancamento.setEnable(false);
-		this.itIdPerfilLancamento.setSize(3);
-		this.append(this.itIdPerfilLancamento);
+		this.itId = new TextInput("");
+		this.itId.setColumn("$id");
+		this.itId.setLabel("cod.");
+		this.itId.setEnable(false);
+		this.itId.setSize(3);
+		this.append(this.itId);
 
 		this.itIdTrimestre = new TextInput("");
 		this.itIdTrimestre.setColumn("!idTrimestre");

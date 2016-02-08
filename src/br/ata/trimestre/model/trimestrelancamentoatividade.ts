@@ -1,7 +1,7 @@
-import {ITrimestreLancamentoAtividade} from "./ITrimestre";
+import PerfilAR = require("../../perfil/model/perfil");
 import sequelize = require("../../../../config/sequelizedb");
 
-var TrimestreLancamentoAtividadeDAO = sequelize.define('trimestre_lancamento_atividade', {
+var TrimestreLancamentoAtividadeAR = sequelize.define('trimestre_lancamento_atividade', {
 	"idTrimestre": {
 		type:sequelize.constructor.INTEGER
 		,field:"id_trimestre"
@@ -19,4 +19,8 @@ var TrimestreLancamentoAtividadeDAO = sequelize.define('trimestre_lancamento_ati
 		, "freezeTableName": true
 	});
 
-export = TrimestreLancamentoAtividadeDAO;
+TrimestreLancamentoAtividadeAR.belongsTo(PerfilAR, { as: 'perfil', foreignKey: 'idPerfil' });
+
+//DiscursoDAO.belongsTo(MembroDAO, { as: 'membro', foreignKey: 'id_membro' });
+
+export = TrimestreLancamentoAtividadeAR;

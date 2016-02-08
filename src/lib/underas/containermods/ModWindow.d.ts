@@ -2,6 +2,13 @@ import { WebComponent } from "../core";
 import { Controller, IListView } from "../controller";
 import { ModView } from "./ModView";
 import { IDefaultRequest } from "../net";
+export declare enum ETypeModWindow {
+    PRIMARY = 0,
+    SUCCESS = 1,
+    INFO = 2,
+    WARNING = 3,
+    DANGER = 4,
+}
 export interface IModWindowColumn {
     column: string;
     field: string;
@@ -28,8 +35,10 @@ export declare class ModWindow extends WebComponent {
     constructor(p_subtitle: string);
     setSize(nsize: number): void;
     getConfigModWindow(): IConfigModWindow;
+    showTitle(p_on: boolean): void;
     setTitle(p_title: string): void;
     getTitle(): string;
+    setType(p_type: ETypeModWindow): void;
     _onStart(): void;
     onStart(): void;
     validAllItens(): boolean;
@@ -44,6 +53,8 @@ export declare class ModWindow extends WebComponent {
     getUrlModule(): string;
     getModView(): ModView;
     setModView(p_modview: ModView): void;
+    private appendElement(childtoappend, p_type_append?);
+    prepend(childtoappend: Controller | WebComponent | any): void;
     append(childtoappend: Controller | WebComponent | any): void;
     setDsModule(): void;
     getColumns(): IModWindowColumn[];

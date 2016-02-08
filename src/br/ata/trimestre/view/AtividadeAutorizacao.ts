@@ -1,4 +1,4 @@
-import {Underas} from "lib/underas/core";
+import {System} from "lib/underas/core";
 import {ModWindow,WebContainer} from "lib/underas/container";
 import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput, ListView} from "lib/underas/controller";
 import {SimpleToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
@@ -237,7 +237,7 @@ export class AtividadeAutorizacao extends ModWindow {
 	}
 	printAta():void{
 		RequestManager.addRequest({
-			rootUrl: Underas.getLocation()
+			rootUrl: System.getLocation()
 			, url: "assets/reports/ata_atividade2.json"
 			, onLoad: function(reporttemplate: IReportTemplate) {
 				var tmpAtiv:IAtividade  = <IAtividade>this.mainList.getSelectedItem();

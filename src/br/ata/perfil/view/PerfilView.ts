@@ -2,7 +2,8 @@ import {ModWindow,WebContainer} from "lib/underas/container";
 import {TextInput, CheckBox, ListView} from "lib/underas/controller";
 import {RequestManager, IDefaultRequest} from "lib/underas/net";
 import {Menu} from "./Menu";
-import {IPerfil, EPerfilAutorizacaoTP} from "../model/IPerfil";
+import {IPerfil} from "../model/IPerfil";
+import {EPerfilAutorizacaoTP} from "../model/IPerfilAutorizacao";
 import {PerfilAutorizacao} from "./PerfilAutorizacao";
 
 @WebContainer({

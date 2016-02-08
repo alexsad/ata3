@@ -3,7 +3,7 @@ import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router"
 import AtividadeDAO = require("../model/atividade");
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
 import {PerfilAutorizacao} from "../../perfil/controller/PerfilAutorizacao";
-import {IPerfilAutorizacao,EPerfilAutorizacaoTP} from "../../perfil/model/IPerfil";
+import {IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../../perfil/model/IPerfilAutorizacao";
 import TrimestreDataLivreDAO = require("../model/trimestredatalivre");
 
 @Controller()

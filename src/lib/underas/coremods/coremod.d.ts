@@ -1,5 +1,5 @@
 /// <reference path="../../../../src/lib/jquery/jquery2.d.ts" />
-export declare class UnderasStatic {
+export declare class SystemStatic {
     private _uid;
     private _projectVersion;
     getUid(): number;
@@ -9,11 +9,13 @@ export declare class UnderasStatic {
     getProjectVersion(): string;
     loadModules(p_modules: string[], p_fnhandler: Function): void;
     getUrlParam(p_name: string): string;
+    private removeInvalidChars(p_url);
     getLocation(): string;
     getDomain(): string;
     printDataProvider(p_dta: any[], p_url_template: string): void;
     getInstanceOf<T>(context: Object, name: string, args: any[]): T;
     preCompileTemplate(template: string): Function;
+    loadStyleResource(p_url: string[]): void;
     transformPreCompiled(str: string): Function;
 }
-export declare var Underas: UnderasStatic;
+export declare var System: SystemStatic;

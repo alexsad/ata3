@@ -147,7 +147,7 @@ export class Trimestre{
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var ntrimestre: ITrimestre = <ITrimestre>req.body;
-		TrimestreDAO.upsert(ntrimestre).then(function(p_ntrimestre: ITrimestre) {
+		TrimestreDAO.upsert(ntrimestre).then(function() {
 			res.json(ntrimestre);
 		}).catch(function(err:any) {
 			res.status(400);
