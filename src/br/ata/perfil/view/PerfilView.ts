@@ -10,13 +10,13 @@ import {PerfilAutorizacao} from "./PerfilAutorizacao";
 	itemViewResource: "assets/html/perfil"
 })
 export class PerfilView extends ModWindow {
-	mainList: ListView;
+	mainList: ListView<IPerfil>;
 	_modPerfilAutorizacao: PerfilAutorizacao;
 	constructor() {
 		super("Perfil");		
 		this.setSize(4);
 
-		this.mainList = new ListView("Perfil");
+		this.mainList = new ListView<IPerfil>("Perfil");
 		this.append(this.mainList);
 	}
 	onStart(): void {
@@ -29,7 +29,7 @@ export class PerfilView extends ModWindow {
 		RequestManager.addRequest({
 			"url": "perfil/getbysnativo/S"
 			,"onLoad":function(dta:IPerfil[]):void{
-				this.getMainList().setDataProvider(dta);
+				(<PerfilView>this).getMainList().setDataProvider(dta);
 			}.bind(this)
 		});
 	}

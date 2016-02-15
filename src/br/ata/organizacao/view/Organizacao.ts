@@ -11,12 +11,13 @@ import {Membro} from "./Membro";
 export class Organizacao extends ModWindow{
 	itIdOrganizacao:TextInput;
 	itDescricao:TextInput;
-	mainList:ListView;
+	mainList:ListView<IOrganizacao>;
 	mainTb:ToolBar;
 	_modMembro:Membro;
 	constructor(){
 		super("Organizacoes");		
 		this.setSize(4);
+		this.showTitle(false);
 
 		this.mainTb = new ToolBar({"domain":"organizacao"});
 		this.append(this.mainTb);
@@ -34,7 +35,7 @@ export class Organizacao extends ModWindow{
 		this.itDescricao.setSize(8);
 		this.append(this.itDescricao);
 
-		this.mainList = new ListView("Organizacao");
+		this.mainList = new ListView<IOrganizacao>("Organizacao");
 		this.append(this.mainList);
 		//this.addAssociation({"mod":"br.net.atasacramental.organizacao.view.OrganizacaoLancamento","act":"getByIdOrganizacao","puid":this.getVarModule()});
 	}

@@ -9,12 +9,12 @@ import {PerfilNotificacao} from "./PerfilNotificacao";
 	itemViewResource: "assets/html/perfil"
 })
 export class PerfilViewNotificacao extends ModWindow {
-	mainList: ListView;
+	mainList: ListView<IPerfilNotificacao>;
 	_modPerfilNotificacao: PerfilNotificacao;
 	constructor() {
 		super("Perfil");		
 		this.setSize(4);
-		this.mainList = new ListView("Perfil");
+		this.mainList = new ListView<IPerfilNotificacao>("Perfil");
 		this.append(this.mainList);
 	}
 	onStart(): void {
@@ -23,7 +23,7 @@ export class PerfilViewNotificacao extends ModWindow {
 		RequestManager.addRequest({
 			"url": "perfil/getbysnativo/S"
 			, "onLoad": function(dta: IPerfil[]): void {
-				this.getMainList().setDataProvider(dta);
+				(<PerfilViewNotificacao>this).getMainList().setDataProvider(dta);
 			}.bind(this)
 		});
 	}

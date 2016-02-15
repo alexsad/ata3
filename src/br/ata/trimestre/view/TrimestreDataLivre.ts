@@ -12,7 +12,7 @@ export class TrimestreDataLivre extends ModWindow{
 	itMomento:DatePicker;
 	itSnDisponivel:CheckBox;
 	mainTb: ToolBar;
-	mainList:ListView;
+	mainList:ListView<ITrimestreDataLivre>;
 	constructor(){
 		super("*Datas Livres");		
 		this.setSize(3);
@@ -45,7 +45,7 @@ export class TrimestreDataLivre extends ModWindow{
 		this.itSnDisponivel.setColumn("@snDisponivel");
 		this.append(this.itSnDisponivel);
 
-		this.mainList = new ListView("perfis");
+		this.mainList = new ListView<ITrimestreDataLivre>("perfis");
 		//this.setMainList("mainList");
 		this.append(this.mainList);
 	}
@@ -56,7 +56,7 @@ export class TrimestreDataLivre extends ModWindow{
 		RequestManager.addRequest({
 			url:"trimestredatalivre/getbyidtrimestre/"+p_idTrimestre
 			,onLoad:function(dta:ITrimestreDataLivre[]){
-				this.mainList.setDataProvider(dta);
+				(<TrimestreDataLivre>this).mainList.setDataProvider(dta);
 			}.bind(this)
 		});
 	}

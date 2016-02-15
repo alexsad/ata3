@@ -16,7 +16,7 @@ export class PerfilAutorizacao extends ModWindow {
 	itPerfilAlvo: Select;
 	aviso: AlertMsg;
 	mainTb: ToolBar;
-	mainList: ListView;
+	mainList: ListView<IPerfilAutorizacao>;
 	constructor() {
 		super("*Perfis Associados");		
 		this.setSize(8);
@@ -63,7 +63,7 @@ export class PerfilAutorizacao extends ModWindow {
 		this.itTpAutorizacao.setSize(12);
 		this.append(this.itTpAutorizacao);
 
-		this.mainList = new ListView("perfis");
+		this.mainList = new ListView<IPerfilAutorizacao>("perfis");
 		//this.setMainList("mainList");
 		this.append(this.mainList);
 	}
@@ -80,7 +80,7 @@ export class PerfilAutorizacao extends ModWindow {
 		RequestManager.addRequest({
 			"url":"perfilautorizacao/getbyidperfil/"+p_idPerfil
 			,"onLoad":function(dta:IPerfilAutorizacao[]){
-				this.mainList.setDataProvider(dta);
+				(<PerfilAutorizacao>this).mainList.setDataProvider(dta);
 			}.bind(this)
 		});
 	}	

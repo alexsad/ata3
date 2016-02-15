@@ -30,7 +30,7 @@ export class Atividade extends ModWindow {
 	itDsObservacao:AlertMsg;
 	itVestuario: TextInput;
 	mainTb: ToolBar;
-	mainList: ListView;
+	mainList: ListView<IAtividade>;
 	btSubmeter: Button;
 	_modTrimestreView: TrimestreView;
 	constructor(p_trimestre_view:TrimestreView) {
@@ -210,7 +210,7 @@ export class Atividade extends ModWindow {
 		this.btSubmeter.setEnable(false);
 		this.mainTb.addButton(this.btSubmeter);
 
-		this.mainList = new ListView("Evento");
+		this.mainList = new ListView<IAtividade>("Evento");
 		this.append(this.mainList);
 
 		this._modTrimestreView = p_trimestre_view;
@@ -234,8 +234,8 @@ export class Atividade extends ModWindow {
 		this.itIdTrimestre.setValue(p_idTrimestre + "");
 		RequestManager.addRequest({
 			url: "atividade/getbyidtrimestreidperfil/"+p_idTrimestre+"/"+p_idPerfil
-			, onLoad: function(dta: Atividade[]) {
-				this.mainList.setDataProvider(dta);
+			, onLoad: function(dta: IAtividade[]) {
+				(<Atividade>this).mainList.setDataProvider(dta);
 			}.bind(this)
 		});
 		this.itIdData.fromService({
@@ -244,11 +244,11 @@ export class Atividade extends ModWindow {
 		RequestManager.addRequest({
 			url: "trimestredatalivre/getdisponiveisbyidtrimestre/" + p_idTrimestre
 			, onLoad: function(tmpDatasDiponiveis: Atividade[]) {
-				this.itDtDisponivel.setDataProvider(tmpDatasDiponiveis);
+				(<Atividade>this).itDtDisponivel.setDataProvider(tmpDatasDiponiveis);
 				if(tmpDatasDiponiveis.length > 0){
-					this.itDtDisponivel.setEnable(true);
+					(<Atividade>this).itDtDisponivel.setEnable(true);
 				}else{
-					this.itDtDisponivel.setEnable(false);
+					(<Atividade>this).itDtDisponivel.setEnable(false);
 				}
 			}.bind(this)
 		});
@@ -348,7 +348,7 @@ export class Atividade extends ModWindow {
 	}
 
 	submeter():void{
-		var tmpItemAtiv: IAtividade = <IAtividade>this.mainList.getSelectedItem();
+		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
 		if(tmpItemAtiv.snEditavel=="S"){
 			tmpItemAtiv.snEditavel = "N";			
 			tmpItemAtiv.idStatus = EAtividadeStatus.ENVIADA;			
@@ -363,12 +363,12 @@ export class Atividade extends ModWindow {
 							tmpStatus = "aprovada";
 						};
 						tmpItemAtiv.dsObservacao = "Atividade enviada com sucesso, em breve sua atividade sera analisada e se tudo estiver correto ela sera " + tmpStatus + "!";
-						this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
-						this.itDsObservacao.setType(AlertMsg.TP_INFO);
+						(<Atividade>this).itDsObservacao.setText(tmpItemAtiv.dsObservacao);
+						(<Atividade>this).itDsObservacao.setType(AlertMsg.TP_INFO);
 					}else{
 						tmpItemAtiv.dsObservacao = "A atividade nao pode ser " + tmpStatus + ", entre em contato com o bispado em caso de duvidas!";
-						this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
-						this.itDsObservacao.setType(AlertMsg.TP_ERROR);
+						(<Atividade>this).itDsObservacao.setText(tmpItemAtiv.dsObservacao);
+						(<Atividade>this).itDsObservacao.setType(AlertMsg.TP_ERROR);
 					}
 				}.bind(this)
 			});

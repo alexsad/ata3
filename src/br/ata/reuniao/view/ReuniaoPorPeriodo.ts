@@ -23,11 +23,12 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	btPrintConvites:Button;
 	btSalvarConvite: Button;
 	mainTb:SimpleToolBar;
-	mainList:ListView;
+	mainList: ListView<IDiscurso>;
 	_modMembros:FastMembro;
 	constructor(){
 		super("*discursantes da reuniao");		
 		this.setSize(8);
+		this.showTitle(false);
 
 		this.mainTb = new SimpleToolBar();
 		this.append(this.mainTb);
@@ -35,7 +36,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 		this.btPesquisar = new Button("Pesquisar");
 		this.btPesquisar.addEvent('click',this.pesquisar.bind(this));
 		this.btPesquisar.setIcon("search");
-		this.mainTb.addButton(this.btPesquisar);
+		this.mainTb.addButton(this.btPesquisar,false);
 
 		this.btPrintSintetico = new Button("Discursos");
 		this.btPrintSintetico.setIcon("print");
@@ -50,7 +51,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 		this.mainTb.addButton(this.btPrintConvites);
 
 		this.btSalvarConvite = new Button("Salvar");
-		this.btSalvarConvite.setIcon("disk");
+		this.btSalvarConvite.setIcon("floppy-save");
 		this.btSalvarConvite.addEvent('click', this.salvarConvite.bind(this));
 		this.btSalvarConvite.setEnable(true);
 		this.mainTb.addButton(this.btSalvarConvite);
@@ -113,7 +114,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 		this.itLinkFonte.setSize(12);
 		this.append(this.itLinkFonte);
 
-		this.mainList = new ListView("Discurso");
+		this.mainList = new ListView<IDiscurso>("Discurso");
 		this.append(this.mainList);
 	}
 	onStart():void{
@@ -162,7 +163,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 					var tmpIndex: number = parseInt(tmpConviteDom.attr("data-ind"));
 					//this.getMainList()._ind = tmpIndex;
 					//this.getMainList().changeToIndex(tmpIndex);
-					var tmpDiscurso: IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
+					var tmpDiscurso: IDiscurso = (<ReuniaoPorPeriodo>this).mainList.getSelectedItem();
 
 					console.log(tmpDiscurso.idMembro + ":" + tmpDiscurso.nmMembro + " : " + tmpIndex);
 
@@ -175,7 +176,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 					//console.log(tmpConviteDom);
 					//tmpMembroDom.find(".nmMembro").html(tmpDiscurso.nmMembro);
 					if (tmpDiscurso.id) {
-						this.atualizar(tmpDiscurso,function(){});
+						(<ReuniaoPorPeriodo>this).atualizar(tmpDiscurso);
 					} else {
 						tmpDiscurso.tema = "..defina o tema";
 						tmpDiscurso.linkFonte = "#";
@@ -183,12 +184,12 @@ export class ReuniaoPorPeriodo extends ModWindow{
 						this.inserir(tmpDiscurso);
 					};
 					//this.getMainList().updateItem(tmpDiscurso);
-					this.addDroppableEvent();
+					(<ReuniaoPorPeriodo>this).addDroppableEvent();
 				};
 			} else if(tmpMembroDom.hasClass("convite_drag")) {
 				console.log("eh reuniao!");
 
-				var tmpDiscurso1: IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
+				var tmpDiscurso1: IDiscurso = (<ReuniaoPorPeriodo>this).mainList.getSelectedItem();
 				var idReuniao1: number = tmpDiscurso1.idReuniao;
 
 
@@ -201,7 +202,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 
 				this.getMainList().changeToIndex(tmpIndex1);
 
-				var tmpDiscurso2: IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
+				var tmpDiscurso2: IDiscurso = (<ReuniaoPorPeriodo>this).mainList.getSelectedItem();
 
 				if(!tmpDiscurso2.id){
 
@@ -225,8 +226,8 @@ export class ReuniaoPorPeriodo extends ModWindow{
 					//this.mainList.replaceItem(tmpDiscurso1, tmpDiscurso2._ind);
 					//replaceWith
 					//
-					this.atualizar(tmpDiscurso2);
-					this.atualizar(tmpDiscurso1);
+					(<ReuniaoPorPeriodo>this).atualizar(tmpDiscurso2);
+					(<ReuniaoPorPeriodo>this).atualizar(tmpDiscurso1);
 
 				}
 
@@ -252,7 +253,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 			,"data":p_novo
 			,"onLoad":function(newId:number):void{
 				//var tmpDiscurso:IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
-				this.getMainList().getSelectedItem().id = newId;
+				(<ReuniaoPorPeriodo>this).mainList.getSelectedItem().id = newId;
 			}.bind(this)
 		});
 	}
@@ -273,11 +274,11 @@ export class ReuniaoPorPeriodo extends ModWindow{
 		RequestManager.addRequest({
 			"url": "reuniao/getbyperiodo"
 			, "data": {
-				"inicio": this.itDtaI.getValue()
-				, "fim": this.itDtaF.getValue()
+				"inicio":this.itDtaI.getValue()
+				,"fim":this.itDtaF.getValue()
 			}
 			, "onLoad": function(dta: IReuniao[]) {
-				this.getMainList().setDataProvider(dta);
+				(<ReuniaoPorPeriodo>this).getMainList().setDataProvider(dta);
 			}.bind(this)
 		});
 	}
@@ -292,7 +293,7 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	salvarConvite(evt: Event): void {
 		evt.preventDefault();
 
-		var tmpDiscurso: IDiscurso = <IDiscurso>this.getMainList().getSelectedItem();
+		var tmpDiscurso: IDiscurso = this.mainList.getSelectedItem();
 
 
 		var tmpDiscursoForms: IDiscurso = <IDiscurso>this.getFormItem();

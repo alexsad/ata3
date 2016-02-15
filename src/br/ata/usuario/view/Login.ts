@@ -1,10 +1,13 @@
 import {System} from "lib/underas/core";
-import {ModWindow, ModView} from "lib/underas/container";
+import {ModWindow, ModView,WebContainer} from "lib/underas/container";
 import {Button, CheckBox, PassWordInput, EmailInput, AlertMsg} from "lib/underas/controller";
 import {RequestManager} from "lib/underas/net";
 import {IUsuario} from "../model/IUsuario";
 import PerfilBox = require("../../perfil/view/PerfilBox");
 
+@WebContainer({
+	styleResource:["assets/css/login"]
+})
 class LoginStatic extends ModWindow {
 	amAviso: AlertMsg;
 	itlogin: EmailInput;
@@ -13,8 +16,9 @@ class LoginStatic extends ModWindow {
 	btEntrar: Button;
 	btBaixarAplicativo: Button;
 	constructor() {
-		super("Login-mod");
+		super("Login");
 		this.setSize(4);
+		this.showTitle(false);
 		this.$.addClass("col-sm-offset-4 col-xs-offset-0");
 
 		this.amAviso = new AlertMsg("");

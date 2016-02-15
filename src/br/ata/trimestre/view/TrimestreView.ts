@@ -3,14 +3,14 @@ import {AlertMsg, ListView} from "lib/underas/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import PerfilBox = require("../../perfil/view/PerfilBox");
 import {Atividade} from "./Atividade";
-import {ITrimestre, ITrimestreDataLivre} from "../model/ITrimestre";
+import {ITrimestre} from "../model/ITrimestre";
 
 @WebContainer({
 	itemViewResource: "assets/html/trimestreview"
 })
 export class TrimestreView extends ModWindow{
 	amOrcamentoAtual: AlertMsg;
-	mainList: ListView;
+	mainList: ListView<ITrimestre>;
 	_modAtividade: Atividade;
 	constructor(){
 		super("trimestres");		
@@ -22,7 +22,7 @@ export class TrimestreView extends ModWindow{
 		this.amOrcamentoAtual.setSize(12);
 		this.append(this.amOrcamentoAtual);
 
-		this.mainList = new ListView("Trimestre");
+		this.mainList = new ListView<ITrimestre>("Trimestre");
 		this.append(this.mainList);
 		//this.addAssociation({"mod":"Atividade","url":"js/br/net/atasacramental/evento/view/Atividade.js","act":"getByIdTrimestre","puid":this.getVarModule()});
 	}
@@ -65,7 +65,7 @@ export class TrimestreView extends ModWindow{
 		RequestManager.addRequest({
 			"url": "trimestre/getbyidperfil/" + PerfilBox.getIdPerfil()
 			,"onLoad":function(dta:ITrimestre[]){
-				this.getMainList().setDataProvider(dta);
+				(<TrimestreView>this).mainList.setDataProvider(dta);
 			}.bind(this)
 		});
 	}

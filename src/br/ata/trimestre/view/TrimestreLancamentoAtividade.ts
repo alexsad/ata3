@@ -2,7 +2,6 @@ import {ModWindow,WebContainer} from "lib/underas/container";
 import {Select, Button, NumericStepper, TextInput, ListView} from "lib/underas/controller";
 import {ToolBar, RequestManager} from "lib/underas/net";
 import {ITrimestreLancamentoAtividade,ITrimestre} from "../model/ITrimestre";
-import {Trimestre} from "./Trimestre";
 
 @WebContainer({
 	itemViewResource: "assets/html/trimestrelancamentoatividade"
@@ -13,7 +12,7 @@ export class TrimestreLancamentoAtividade extends ModWindow {
 	itIdTrimestre: TextInput;
 	itValor:NumericStepper;
 	mainTb: ToolBar;
-	mainList:ListView;
+	mainList:ListView<ITrimestreLancamentoAtividade>;
 	constructor() {
 		super("*lancamentos");		
 		this.setSize(4);
@@ -49,7 +48,7 @@ export class TrimestreLancamentoAtividade extends ModWindow {
 		this.itIdPerfil.setSize(12);
 		this.append(this.itIdPerfil);
 
-		this.mainList = new ListView("Lancamento");
+		this.mainList = new ListView<ITrimestreLancamentoAtividade>("Lancamento");
 		//this.setMainList("mainList");		
 		this.append(this.mainList);
 
@@ -64,7 +63,7 @@ export class TrimestreLancamentoAtividade extends ModWindow {
 		RequestManager.addRequest({
 			url: "trimestrelancamentoatividade/getbyidtrimestre/" + p_idTrimestre
 			,onLoad:function(dta:ITrimestreLancamentoAtividade[]){
-				this.mainList.setDataProvider(dta);
+				(<TrimestreLancamentoAtividade>this).mainList.setDataProvider(dta);
 			}.bind(this)
 		});
 	}

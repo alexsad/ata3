@@ -10,7 +10,7 @@ import {IReportTemplate, IReportTemplateItem} from "lib/jspdf/ijspdf";
 })
 export class AtividadePorPeriodo extends ModWindow{
 	mainTb: SimpleToolBar;
-	mainList: ListView;
+	mainList: ListView<ITrimestre>;
 	btPesquisar: Button;
 	btLimpar: Button;
 	btPrintAta: Button;
@@ -59,7 +59,7 @@ export class AtividadePorPeriodo extends ModWindow{
 		this.itTrimestreF.setLabelField("dsTrimestre");
 		this.append(this.itTrimestreF);
 
-		this.mainList = new ListView("Evento");	    
+		this.mainList = new ListView<ITrimestre>("Evento");	    
 	    this.append(this.mainList);
 	}
 	onStart():void{
@@ -84,7 +84,7 @@ export class AtividadePorPeriodo extends ModWindow{
 	     	"url":"trimestre/getaprovadaseliberadasbyperiodo"
 			,"data": tmpPara
 	    	,"onLoad":function(dta:ITrimestre[]){    	
-				this.getMainList().setDataProvider(dta);
+				(<AtividadePorPeriodo>this).mainList.setDataProvider(dta);
 	    	}.bind(this)
 		});
 	}

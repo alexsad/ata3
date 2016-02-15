@@ -11,7 +11,7 @@ export class UsuarioPerfil extends ModWindow{
 	itIdUsuario: TextInput;
 	itPerfil:Select;
 	aviso:AlertMsg;
-	mainList:ListView;
+	mainList:ListView<IUsuarioPerfil>;
 	mainTb: ToolBar;
 	constructor(){
 		super("*Perfis Associados");		
@@ -48,7 +48,7 @@ export class UsuarioPerfil extends ModWindow{
 		this.append(this.itPerfil);
 
 
-		this.mainList = new ListView("perfis");
+		this.mainList = new ListView<IUsuarioPerfil>("perfis");
 		this.append(this.mainList);
 	}
 	onStart():void{
@@ -62,7 +62,7 @@ export class UsuarioPerfil extends ModWindow{
 		RequestManager.addRequest({
 			url: "usuarioperfil/getbyidusuario/"+p_idUsuario
 			,onLoad:function(dta:IUsuarioPerfil[]){
-				this.mainList.setDataProvider(dta);
+				(<UsuarioPerfil>this).mainList.setDataProvider(dta);
 			}.bind(this)
 		});
 	}

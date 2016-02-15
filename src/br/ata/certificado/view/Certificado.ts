@@ -11,7 +11,7 @@ export class Certificado extends ModWindow{
 	itValidade:DatePicker;
 	itPin:TextInput;
 	mainTb:ToolBar;
-	mainList:ListView;
+	mainList:ListView<ICertificado>;
 	constructor(){
 		super("Certificado");		
 
@@ -37,7 +37,7 @@ export class Certificado extends ModWindow{
 		this.itValidade.setSize(2);
 		this.append(this.itValidade);
 
-		this.mainList = new ListView("Certificado");
+		this.mainList = new ListView<ICertificado>("Certificado");
 		//this.setMainList("mainList");
 		this.append(this.mainList);
 	}
