@@ -7,7 +7,7 @@ var sequelize = new Sequelize('database', 'username', 'password', {
         min: 0,
         idle: 10000
     },
-    storage: '/mnt/arquivos/workspace/db/sqlite/ata4.sqlite'
+    storage: '/mnt/arquivos/deploy/db/sqlite/ata4.sqlite'
 });
 process.on("SIGINT", function () {
     console.log("sequelize fechado!");

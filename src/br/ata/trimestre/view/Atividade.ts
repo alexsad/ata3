@@ -208,7 +208,7 @@ export class Atividade extends ModWindow {
 		this.btSubmeter.setIcon("check");
 		this.btSubmeter.addEvent('click', this.submeter.bind(this));
 		this.btSubmeter.setEnable(false);
-		this.mainTb.addButton(this.btSubmeter);
+		this.mainTb.addButton(this.btSubmeter,true);
 
 		this.mainList = new ListView<IAtividade>("Evento");
 		this.append(this.mainList);
