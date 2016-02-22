@@ -5,7 +5,7 @@ import {Discursante} from "./Discursante";
 import {IReuniao} from "../model/IReuniao";
 
 @WebContainer({
-	itemViewResource: "assets/html/reuniao"
+	itemViewResource: "reuniao/view/assets/html/reuniao"
 })
 export class Reuniao extends ModWindow{
 	itIdReuniao:TextInput;

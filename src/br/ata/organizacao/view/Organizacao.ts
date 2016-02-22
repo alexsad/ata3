@@ -6,7 +6,7 @@ import {Membro} from "./Membro";
 
 
 @WebContainer({
-		itemViewResource: "assets/html/organizacao"
+		itemViewResource: "organizacao/view/assets/html/organizacao"
 })
 export class Organizacao extends ModWindow{
 	itIdOrganizacao:TextInput;

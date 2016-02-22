@@ -5,7 +5,7 @@ import {Menu} from "./Menu";
 import {IPerfil} from "../model/IPerfil";
 
 @WebContainer({
-	itemViewResource: "assets/html/perfil"
+	itemViewResource: "perfil/view/assets/html/perfil"
 })
 export class Perfil extends ModWindow{
 	itIdPerfil:TextInput;	 

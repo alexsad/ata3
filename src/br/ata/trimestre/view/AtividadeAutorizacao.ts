@@ -8,7 +8,7 @@ import {jsPDF} from "lib/jspdf/jsPDF";
 import {IReportTemplate, IReportTemplateItem} from "lib/jspdf/ijspdf";
 
 @WebContainer({
-	itemViewResource: "assets/html/evento"
+	itemViewResource: "trimestre/view/assets/html/evento"
 })
 export class AtividadeAutorizacao extends ModWindow {
 	itIdEvento: TextInput;

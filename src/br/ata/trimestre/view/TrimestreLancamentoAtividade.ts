@@ -4,7 +4,7 @@ import {ToolBar, RequestManager} from "lib/underas/net";
 import {ITrimestreLancamentoAtividade,ITrimestre} from "../model/ITrimestre";
 
 @WebContainer({
-	itemViewResource: "assets/html/trimestrelancamentoatividade"
+	itemViewResource: "trimestre/view/assets/html/trimestrelancamentoatividade"
 })
 export class TrimestreLancamentoAtividade extends ModWindow {
 	itId:TextInput;

@@ -7,7 +7,7 @@ import PerfilBox = require("../../perfil/view/PerfilBox");
 import {TrimestreView} from "./TrimestreView";
 
 @WebContainer({
-	itemViewResource: "assets/html/evento"
+	itemViewResource: "trimestre/view/assets/html/evento"
 })
 export class Atividade extends ModWindow {
 	itIdEvento: TextInput;

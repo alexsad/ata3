@@ -6,7 +6,7 @@ import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import {TrimestreDataLivre} from "./TrimestreDataLivre";
 
 @WebContainer({
-	itemViewResource: "assets/html/trimestre"
+	itemViewResource: "trimestre/view/assets/html/trimestre"
 })
 export class Trimestre extends ModWindow{
 	itIdTrimestre:TextInput	; 

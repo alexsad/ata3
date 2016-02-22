@@ -5,7 +5,7 @@ import {IDiscurso} from "../model/IDiscurso";
 import {IMembro} from "../../organizacao/model/IMembro";
 
 @WebContainer({
-	itemViewResource: "assets/html/discursante"
+	itemViewResource: "reuniao/view/assets/html/discursante"
 })
 export class Discursante extends ModWindow{
 	itIdDiscurso:TextInput;
@@ -41,7 +41,7 @@ export class Discursante extends ModWindow{
 		this.append(this.itIdMembro);
 
 		this.itIdReuniao = new Select("reuniao");
-		this.itIdReuniao.setColumn("@idReuniao");
+		this.itIdReuniao.setColumn("!idReuniao");
 		this.itIdReuniao.setLabel("reuniao");
 		this.itIdReuniao.setValueField("id");
 		this.itIdReuniao.setLabelField("dsData");

@@ -64,10 +64,12 @@ export declare class ModWindow extends WebComponent {
     setMainList(p_main_list: string): void;
     show(on: boolean): void;
     beforeSave<T>(p_obj: T): T;
+    afterSave<T>(p_obj: T): T;
+    beforeUpdate<T>(p_req_new_obj: IDefaultRequest, p_old_obj: T): IDefaultRequest;
+    afterUpdate<T>(p_obj: T): T;
     beforeInsert(p_req_obj: IDefaultRequest): IDefaultRequest;
     afterInsert<T>(p_obj: T): T;
-    beforeQuery(p_req: IDefaultRequest): IDefaultRequest;
-    onChangeItem<T>(p_obj: T): T;
     beforeDelete<T>(p_req_delete: IDefaultRequest, p_old_obj: T): IDefaultRequest;
-    beforeUpdate<T>(p_req_new_obj: IDefaultRequest, p_old_obj: T): IDefaultRequest;
+    beforeReload(p_req: IDefaultRequest): IDefaultRequest;
+    onChangeItem<T>(p_obj: T): T;
 }

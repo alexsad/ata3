@@ -4,7 +4,7 @@ import {ToolBar,RequestManager,IDefaultRequest} from "lib/underas/net";
 import {IMembro} from "../model/IMembro";
 
 @WebContainer({
-	itemViewResource: "assets/html/discursante"
+	itemViewResource: "organizacao/view/assets/html/discursante"
 })
 export class FastMembro extends ModWindow{
 	mainList:ListView<IMembro>;

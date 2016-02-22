@@ -3,7 +3,7 @@ import { Button } from "../controller";
 import { IDefaultRequest } from "./netmod";
 export declare class SimpleToolBar extends WebComponent {
     constructor();
-    addButton(nbuttom: Button, hidenlabel?: boolean): void;
+    addButton(p_buttom: Button, p_showlabel?: boolean): void;
 }
 export declare class ToolBar extends SimpleToolBar {
     _config: {

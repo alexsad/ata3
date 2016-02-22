@@ -4,7 +4,7 @@ import {RequestManager, IDefaultRequest, ToolBar} from "lib/underas/net";
 import {ITrimestreDataLivre} from "../model/ITrimestre";
 
 @WebContainer({
-	itemViewResource: "assets/html/trimestredatalivre"
+	itemViewResource: "trimestre/view/assets/html/trimestredatalivre"
 })
 export class TrimestreDataLivre extends ModWindow{
 	itIdData:TextInput;

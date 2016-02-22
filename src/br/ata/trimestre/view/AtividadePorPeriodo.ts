@@ -6,7 +6,7 @@ import {jsPDF} from "lib/jspdf/jsPDF";
 import {IReportTemplate, IReportTemplateItem} from "lib/jspdf/ijspdf";
 
 @WebContainer({
-	itemViewResource: "assets/html/atividadetrimestreporperiodo"
+	itemViewResource: "trimestre/view/assets/html/atividadetrimestreporperiodo"
 })
 export class AtividadePorPeriodo extends ModWindow{
 	mainTb: SimpleToolBar;

@@ -6,7 +6,7 @@ import {Atividade} from "./Atividade";
 import {ITrimestre} from "../model/ITrimestre";
 
 @WebContainer({
-	itemViewResource: "assets/html/trimestreview"
+	itemViewResource: "trimestre/view/assets/html/trimestreview"
 })
 export class TrimestreView extends ModWindow{
 	amOrcamentoAtual: AlertMsg;

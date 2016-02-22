@@ -4,9 +4,10 @@ import {Button, CheckBox, PassWordInput, EmailInput, AlertMsg} from "lib/underas
 import {RequestManager} from "lib/underas/net";
 import {IUsuario} from "../model/IUsuario";
 import PerfilBox = require("../../perfil/view/PerfilBox");
+import Cookies = require("lib/cookies/cookies");
 
 @WebContainer({
-	styleResource:["assets/css/login"]
+	styleResource:["usuario/view/assets/css/login"]
 })
 class LoginStatic extends ModWindow {
 	amAviso: AlertMsg;

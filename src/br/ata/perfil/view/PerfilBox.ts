@@ -30,7 +30,7 @@ class PerfilBoxStatic {
 	getLogin(): string {
 		return this.login;
 	}
-	setLogin(p_login): void {
+	setLogin(p_login:string): void {
 		this.login = p_login;
 	}
 	setPerfisUsuario(p_perfis: IUsuarioPerfil[]): void {
@@ -188,7 +188,7 @@ class PerfilBoxStatic {
 				tmpIdM--;
 				$("#tabmenu_" + tmpIdM + ",#tabmenu_" + tmpIdM + "_l").addClass("pull-right");
 				$("#tabmenu_" + tmpIdM + " a").html(
-					'<img id="user_avatar_icon" style="border: 2px solid #04dd90;border-radius: 100%;margin: -4px 0px 0 0;max-width: 30px;width:30px;height:30px;" alt="Photo" src="assets/avatars/avatar_' + this.idUsuario + '.png" class="nav-user-photo">'
+					'<img id="user_avatar_icon" style="border: 2px solid #04dd90;border-radius: 30%;margin: -4px 0px 0 0;max-width: 30px;width:30px;height:30px;" alt="Photo" src="assets/avatars/avatar_' + this.idUsuario + '.png" class="nav-user-photo">'
 					+ '<small class="hidden-xs">' + tmpLogin + '</small>'
 				);
 				this.loadNotificacoesPerfil();

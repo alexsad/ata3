@@ -5,7 +5,7 @@ import {UsuarioPerfil} from "./UsuarioPerfil";
 import {IUsuario} from "../model/IUsuario";
 
 @WebContainer({
-	itemViewResource: "assets/html/usuario"
+	itemViewResource: "usuario/view/assets/html/usuario"
 })
 export class Usuario extends ModWindow{
 	itIdUsuario:TextInput;

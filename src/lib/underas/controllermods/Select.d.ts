@@ -18,6 +18,7 @@ export declare class Select extends DoubleInput {
     setDataProvider(p_dta: any[]): void;
     getValue(): string;
     getText(): string;
+    getDesc(): string;
     isValid(): boolean;
     setValue(p_vl: string): void;
     getDescFromServiceByValue(p_vl: string): string;

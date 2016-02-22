@@ -4,7 +4,7 @@ import {ToolBar,RequestManager,IDefaultRequest} from "lib/underas/net";
 import {IMembro} from "../model/IMembro";
 
 @WebContainer({
-	itemViewResource: "assets/html/membro"
+	itemViewResource: "organizacao/view/assets/html/membro"
 })
 export class Membro extends ModWindow{
 	itIdMembro:TextInput;

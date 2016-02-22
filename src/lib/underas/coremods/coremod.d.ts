@@ -1,4 +1,4 @@
-/// <reference path="../../../../src/lib/jquery/jquery2.d.ts" />
+/// <reference path="../../jquery/jquery2.d.ts" />
 export declare class SystemStatic {
     private _uid;
     private _projectVersion;

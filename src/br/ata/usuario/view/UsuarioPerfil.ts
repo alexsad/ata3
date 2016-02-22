@@ -4,7 +4,7 @@ import {RequestManager, ToolBar, IDefaultRequest} from "lib/underas/net";
 import {IUsuarioPerfil} from "../model/IUsuario";
 
 @WebContainer({
-	itemViewResource: "assets/html/usuarioperfil"
+	itemViewResource: "usuario/view/assets/html/usuarioperfil"
 })
 export class UsuarioPerfil extends ModWindow{
 	itIdUsuarioPerfil: TextInput;

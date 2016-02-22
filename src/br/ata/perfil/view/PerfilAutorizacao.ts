@@ -3,11 +3,10 @@ import {TextInput, CheckBox, Button, AlertMsg, Select, ListView} from "lib/under
 import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {IPerfil} from "../model/IPerfil";
 import {IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfilAutorizacao";
-
 import {PerfilView} from "./PerfilView";
 
 @WebContainer({
-	itemViewResource: "assets/html/perfilautorizacao"
+	itemViewResource: "perfil/view/assets/html/perfilautorizacao"
 })
 export class PerfilAutorizacao extends ModWindow {
 	itPerfil: Select;

@@ -6,7 +6,7 @@ import {IPerfil, IPerfilNotificacao} from "../model/IPerfil";
 import {PerfilNotificacao} from "./PerfilNotificacao";
 
 @WebContainer({
-	itemViewResource: "assets/html/perfil"
+	itemViewResource: "perfil/view/assets/html/perfil"
 })
 export class PerfilViewNotificacao extends ModWindow {
 	mainList: ListView<IPerfilNotificacao>;

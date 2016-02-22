@@ -7,7 +7,7 @@ import {EPerfilAutorizacaoTP} from "../model/IPerfilAutorizacao";
 import {PerfilAutorizacao} from "./PerfilAutorizacao";
 
 @WebContainer({
-	itemViewResource: "assets/html/perfil"
+	itemViewResource: "perfil/view/assets/html/perfil"
 })
 export class PerfilView extends ModWindow {
 	mainList: ListView<IPerfil>;

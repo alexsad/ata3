@@ -5,7 +5,7 @@ import {System} from "lib/underas/core";
 import {IPerfilNotificacao, IModulo, IModuloAcao} from "../model/IPerfil";
 
 @WebContainer({
-	itemViewResource: "assets/html/perfilnotificacao"
+	itemViewResource: "perfil/view/assets/html/perfilnotificacao"
 })
 export class PerfilNotificacao extends ModWindow {
 	itIdPerfilNotificacao: TextInput;

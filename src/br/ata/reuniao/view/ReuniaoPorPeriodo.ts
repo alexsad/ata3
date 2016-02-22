@@ -7,7 +7,7 @@ import {Discursante} from "./Discursante";
 import {FastMembro} from "../../organizacao/view/FastMembro";
 
 @WebContainer({
-	itemViewResource: "assets/html/reuniaoporperiodo"
+	itemViewResource: "reuniao/view/assets/html/reuniaoporperiodo"
 })
 export class ReuniaoPorPeriodo extends ModWindow{
 	itIdDiscurso:TextInput;

@@ -6,7 +6,7 @@ import {IItemMenu, IModulo} from "../model/IPerfil";
 import {Menu} from "./Menu";
 
 @WebContainer({
-	itemViewResource: "assets/html/itemmenu"
+	itemViewResource: "perfil/view/assets/html/itemmenu"
 })
 export class ItemMenu extends ModWindow {
 	itIdItemMenu: TextInput;
