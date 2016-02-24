@@ -205,7 +205,7 @@ export class Atividade extends ModWindow {
 
 		this.btSubmeter = new Button("Enviar");
 		this.btSubmeter.$.removeClass("btn-default").addClass("btn-info");
-		this.btSubmeter.setIcon("check");
+		this.btSubmeter.setIcon("send");
 		this.btSubmeter.addEvent('click', this.submeter.bind(this));
 		this.btSubmeter.setEnable(false);
 		this.mainTb.addButton(this.btSubmeter,true);
@@ -231,6 +231,8 @@ export class Atividade extends ModWindow {
 		this.itDtDisponivel.getInput().on("change", this.setDtEvento.bind(this));
 	}
 	getByIdTrimestreIdPerfil(p_idTrimestre:number,p_idPerfil:number):void{
+        this.clearFormItem();
+        this.novaAtividade();
 		this.itIdTrimestre.setValue(p_idTrimestre + "");
 		RequestManager.addRequest({
 			url: "atividade/getbyidtrimestreidperfil/"+p_idTrimestre+"/"+p_idPerfil
