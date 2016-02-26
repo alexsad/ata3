@@ -1,4 +1,4 @@
-import server = require('restify');
+import server = require('../../../../service/RestServer');
 import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router";
 import PerfilNotificacaoDAO = require("../model/perfilnotificacao");
 import {IPerfilNotificacao,EPerfilNotificacaoTP} from "../model/IPerfil";

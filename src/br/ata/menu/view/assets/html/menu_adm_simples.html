@@ -1,0 +1,39 @@
+<div class="row clearfix top_adm_menu bg-primary">
+	<div class="pull-left col-xs-2 col-sm-1 column logo_menu">
+		<span class="glyphicon iconeinput glyphicon-leaf"></span>
+		<h4>Ata 3.1</h4>
+	</div>
+	<div class="col-xs-10 col-sm-11 column menu_main">
+		<ul class="nav nav-pills menu_adm">
+			<li each="menu in menus" class="navitem menu_adm_active">
+				<a class="{'btnmenu '+($index==menu_selected?'active':'')}" href="{'#'+$index}" onclick="{setMenuIndex($index)}">
+					<span class="{'imgI glyphicon iconeinput glyphicon-'+menu.icone}"></span>
+					<span>{' '+menu.label.toUpperCase()}</span>
+				</a>
+			</li>
+			<li class="navitem pull-right">
+				<a onclick="{showPerfis()}" style="padding: 8px 0px 6px 6px" class="btnmenu" href="#">
+					<img style="border:2px solid #04dd90;border-radius:30%;margin:-4px 5px 0 0;max-width:30px;width:30px;height:30px;" alt="Photo" src="{'assets/avatars/avatar_' + idUsuario + '.png'}" class="nav-user-photo"/>
+					<span class="hidden-xs">{loginUsuario}</span>
+				</a>
+			</li>
+		</ul>
+		<div class="tab-content tab_content_menu" style="padding:0px">
+			<ul if="!perfisVisibles" class="{'menu_adm_item nav nav-pills'}">
+				<li each="item_menu in menus[menu_selected].children">
+					<a href="#" onclick="{loadModule(item_menu.tela, item_menu.label,item_menu.icone,item_menu.funcao||'')}">
+						<span>{item_menu.label.toUpperCase()}</span>
+					</a>
+				</li>
+			</ul>
+			<ul if="perfisVisibles" class="{'menu_adm_item pull-right nav nav-pills'}">
+				<li each="perfil in perfis" class="navitem">
+					<a class="btnmenu" href="{'#'+$index}" onclick="{setIdPerfil(perfil.idPerfil)}">
+						<span class="{'imgI glyphicon iconeinput '+(perfil.idPerfil==idPerfilSelected?'glyphicon-ok':'')}"></span>
+						<span>{' '+perfil.dsPerfil.toUpperCase()}</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>

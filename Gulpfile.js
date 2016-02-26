@@ -43,7 +43,7 @@ gulp.task('copy_view_assets',function(){
     return gulp.src(
     [
         appSourcePath+"/**/assets/css/*.css"
-        ,appSourcePath+"/**/assets/img/*.png"
+        ,appSourcePath+"/**/assets/img/*.*"
         ,appSourcePath+"/**/assets/html/*.html"
     ])
     .pipe(gulp.dest(destPackagePathAppView));
@@ -140,12 +140,46 @@ gulp.task('ts_view',function(){
                 rootPath+"/src/lib/jqueryui/jqueryui.d.ts"
             ]
         }))
-        .pipe(uglify())
-        .pipe(replace(/(templateResource):(['"])([^!"']+)*/g,"$1:$2"+destPackagePathFullView.replace(appDestPathView+"/","")+"/$3.js"))
-		.pipe(replace(/(itemViewResource):(['"])([^!"']+)*/g,"$1:$2"+destPackagePathFullView.replace(appDestPathView+"/","")+"/$3.html?cache="+compileVersion))
+        
+        //.pipe(replace(/(['"]?templateResource['"]?\s?):\s?(['"])([^!"]+)*/g,function(p_found){
+            //console.log(p_found);
+            //console.log(p_found.replace(/(['"]?templateResource['"]?\s?):\s?(['"])([^!"]+)*/g,"$1:$2"+destPackagePathFullView.replace(appDestPathView+"/","")+"/$3.js"));
+          //  return p_found.replace(/(['"]?templateResource['"]?\s?):\s?(['"])([^!"]+)*/g,"$1:$2"+destPackagePathFullView.replace(appDestPathView+"/","")+"/$3.js");
+        //}))
+        
+        //
+        .pipe(replace(/(['"]?templateResource['"]?\s?):\s?(['"])([^!"]+)*/g,"$1:$2"+destPackagePathFullView.replace(appDestPathView+"/","")+"/$3.js"))
+        .pipe(replace(/(['"]?itemViewResource['"]?\s?):\s?(['"])([^!"]+)*/g,"$1:$2"+destPackagePathFullView.replace(appDestPathView+"/","")+"/$3.html?cache="+compileVersion))
+        
+        //.pipe(replace(/(itemViewResource):(['"])([^!"']+)*/g,"$1:$2"+destPackagePathFullView.replace(appDestPathView+"/","")+"/$3.html?cache="+compileVersion))
+        //.pipe(replace(/["']?styleResource["']?\s?:\s?\[((\s|['".?=&,#-:]|\/|\!|\d|\w|\n)*)?\]/g,function(p_founded_regx){
+             //return p_founded_regx.replace(/(styleResource:\["|')/g,"$1"+destPackagePathFullView.replace(appDestPathView+"/","")+"/").replace(/(["']\])$/g,".css?cache="+compileVersion+"$1"); 
+        //})) 
         .pipe(replace(/["']?styleResource["']?\s?:\s?\[((\s|['".?=&,#-:]|\/|\!|\d|\w|\n)*)?\]/g,function(p_founded_regx){
-             return p_founded_regx.replace(/(styleResource:\["|')/g,"$1"+destPackagePathFullView.replace(appDestPathView+"/","")+"/").replace(/(["']\])$/g,".css?cache="+compileVersion+"$1"); 
-        })) 
+            var regexStyleResource =  /["']?styleResource["']?\s?:\s?\[((\s|['".?=&,#-:]|\/|\!|\d|\w|\n)*)?\]/g;
+            var listStyleResource = p_founded_regx.match(regexStyleResource);
+            var nStyleResource = listStyleResource[0].replace(/"/g,"'").replace(/\s/g,"").replace(/'?styleResource'?:\[/g,"").replace("]","");
+            nStyleResource = nStyleResource.replace("'","").replace(/'$/g,"")
+            var nlistStyleResource = nStyleResource.split("','");        
+            var nlist = [];
+            var initCount = 0;
+            var countFound = 0;
+            nlistStyleResource.forEach(function(itemStyle){
+                if(itemStyle.indexOf("!") != 0){
+                    itemStyle = destPackagePathFullView.replace(appDestPathView+"/","")+"/"+itemStyle+".css?cache="+compileVersion;
+                    //console.log(itemStyle);
+                    countFound++;
+                }
+                nlist.push(itemStyle);      
+            });   
+            if(initCount!=countFound){
+                var concatList = "styleResource:['"+nlist.join("','")+"']";
+                return p_founded_regx.replace(regexStyleResource,concatList);            
+            }
+            return p_founded_regx;    
+            //return p_founded_regx.replace(/(styleResource:\["|')/g,"$1"+destPackagePathFullView.replace(appDestPathView+"/","")+"/").replace(/(["']\])$/g,".css?cache="+compileVersion+"$1"); 
+        }))
+        //.pipe(uglify())
         .pipe(gulp.dest(destPackagePathAppView));   
 });
 
@@ -202,23 +236,67 @@ gulp.task('default',function(){
     return gulp.run('build-view-lib');
 });
 
+
+
+gulp.task('connect', function() {
+  connect.server({
+    root: appDestPathView,
+    port: 9000,
+    livereload: true
+  });
+});
+
+gulp.task('reload_browser', function () {
+  gulp.src([
+      destPackagePathAppView+'/**/*.js'
+      ,destPackagePathAppView+'/**/assets/html/*.html'
+      ,destPackagePathAppView+'/**/assets/css/*.css'
+      ])
+    .pipe(connect.reload());
+});
+
+
+/*
+
+gulp.task('watch_ts_view',function(){
+   runSequence('ts_view','reload_browser');
+});
+
+gulp.task('watch_copy_view_assets',function(){
+   runSequence('copy_view_assets','reload_browser');
+});
+
+gulp.task('watch_convert_template',function(){
+   runSequence('copy_view_assets','convert_template2IDOM','reload_browser');
+});
+
+gulp.task('default',function(){
+    return gulp.run('b-view');
+});
+
+*/
+
+
+
+
 gulp.task('watch_ts_view',function(cb){
-    runSequence('ts_view','set_compile_revision','set_compile_revision_index',cb);
+    runSequence('ts_view','set_compile_revision','set_compile_revision_index','reload_browser',cb);
 });
 
 gulp.task('watch_assets_view_html',function(cb){
-    runSequence('copy_view_assets','set_compile_revision','set_compile_revision_index',cb);
+    runSequence('copy_view_assets','convert_template2IDOM','set_compile_revision','set_compile_revision_index','reload_browser',cb);
 });
 gulp.task('watch_assets_view_css',function(cb){
-    runSequence('copy_view_assets','set_compile_revision','set_compile_revision_index',cb);
+    runSequence('copy_view_assets','set_compile_revision','set_compile_revision_index','reload_browser',cb);
 });
 
 gulp.task('auto',function(){
     gulp.run('b-view','ts_server');
+    gulp.run('connect');  
     gulp.watch([
         appSourcePath+"/**/assets/css/*.css"      
     ], ['watch_assets_view_css']);
-    gulp.watch(appSourcePath+"/**/assets/html/*.html", ['convert_template2IDOM','watch_assets_view_html']);
+    gulp.watch(appSourcePath+"/**/assets/html/*.html", ['watch_assets_view_html']);
     gulp.watch(appSourcePath+'/**/view/*.ts', ['watch_ts_view']);
     gulp.watch([
         appSourcePath+'/**/controller/*.ts' 

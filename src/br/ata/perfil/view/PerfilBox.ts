@@ -1,10 +1,12 @@
 import {NotifyPool, ENotifyType, ENotifyPoolType} from "lib/underas/controller";
 import {RequestManager} from "lib/underas/net";
 import {AlertWindow} from "lib/underas/container";
-import {MenuTab} from "lib/underas/menutab";
+//import {MenuTab} from "lib/underas/menutab";
 import {IPerfil, IMenu, IItemMenu, IPerfilNotificacao} from "../model/IPerfil";
 import {IUsuarioPerfil} from "../../usuario/model/IUsuario";
 import {UsuarioUploadAvatar} from "../../usuario/view/UsuarioUploadAvatar";
+import MenuAdm = require("../../menu/view/MenuAdm");
+
 
 declare var require: any;
 
@@ -30,7 +32,7 @@ class PerfilBoxStatic {
 	getLogin(): string {
 		return this.login;
 	}
-	setLogin(p_login:string): void {
+	setLogin(p_login: string): void {
 		this.login = p_login;
 	}
 	setPerfisUsuario(p_perfis: IUsuarioPerfil[]): void {
@@ -65,7 +67,7 @@ class PerfilBoxStatic {
 				}
 			}.bind(this)
 		});
-
+		MenuAdm.appendTo("#main_menu_adm");
 	}
 	loadNotificacoesPerfil(): void {
 		this._notificacoes = new NotifyPool("Avisos");
@@ -126,112 +128,9 @@ class PerfilBoxStatic {
 	}
 	getMenusByIdPerfil(p_idPerfil: number): void {
 		this.setIdPerfil(p_idPerfil);
-
-		RequestManager.addRequest({
-			"url": "menu/getfullbyidperfil/" + p_idPerfil,
-			"onLoad": function(dta: IMenu[]) {
-				var tmpMenu = new MenuTab({ "domain": "", "target": "#sidebar" });
-				var tmpChildrens: IItemMenu[] = [];
-				var tmpPerfis: IUsuarioPerfil[] = this.getPerfisUsuario();
-				for (var i: number = 0; i < tmpPerfis.length; i++) {
-					var tmpIcon: string = '';
-					if (tmpPerfis[i].idPerfil == this.getIdPerfil()) {
-						tmpIcon = 'ok';
-					};
-					tmpChildrens.push({
-						label: tmpPerfis[i].dsPerfil
-						, funcao: '' + tmpPerfis[i].idPerfil
-						, tela: 'tela'
-						, icone: tmpIcon
-						, ordem: i
-						, idMenu: 0
-					});
-				};
-				tmpChildrens.push({
-					label: 'trocar foto'
-					, funcao: 'setAvatar'
-					, tela: 'setAvatar'
-					, icone: 'picture'
-					, ordem: 2
-					, idMenu: 0
-				});
-				tmpChildrens.push({
-					label: 'sair'
-					, funcao: 'logOff'
-					, tela: 'br.ata.usuario.view.Login'
-					, icone: 'off'
-					, ordem: 1
-					, idMenu: 0
-				});
-				dta.push({
-					//id:'2344jfjfel'
-					icone: ''
-					, label: ''
-					, ordem: 23
-					, children: tmpChildrens
-					, idPerfil: this.getIdPerfil()
-				});
-				dta.push({
-					//id:'2344jfjfel'
-					icone: 'bell'
-					, label: 'Avisos'
-					, ordem: 25
-					, children: []
-					, idPerfil: this.getIdPerfil()
-				});
-
-				tmpMenu.setDataProvider(dta);
-				var tmpLogin: string = this.getLogin();
-				tmpLogin = tmpLogin.substring(0, tmpLogin.indexOf("@"));
-				var tmpIdM: number = dta.length - 1;
-				this._idbox = "#tabmenu_" + (tmpIdM);
-				tmpIdM--;
-				$("#tabmenu_" + tmpIdM + ",#tabmenu_" + tmpIdM + "_l").addClass("pull-right");
-				$("#tabmenu_" + tmpIdM + " a").html(
-					'<img id="user_avatar_icon" style="border: 2px solid #04dd90;border-radius: 30%;margin: -4px 0px 0 0;max-width: 30px;width:30px;height:30px;" alt="Photo" src="assets/avatars/avatar_' + this.idUsuario + '.png" class="nav-user-photo">'
-					+ '<small class="hidden-xs">' + tmpLogin + '</small>'
-				);
-				this.loadNotificacoesPerfil();
-				//console.log(tmpIdM);
-				$("#tabmenu_" + tmpIdM + "_l li").removeClass("elegibleToClick").not(":last").on('click', function(evt: Event) {
-					evt.preventDefault();
-					//this.logOff();
-					var tmpEle: JQuery = $(evt.target);
-					//console.log(tmpEle);
-					var tmpIdPerfil: string = null;
-					if (!tmpEle.hasClass("LinkButton")) {
-						tmpIdPerfil = tmpEle.parents(".LinkButton").attr("data-actmod");
-					} else {
-						tmpIdPerfil = tmpEle.attr("data-actmod");
-					};
-					//console.log(tmpIdPerfil);
-					if (tmpIdPerfil) {
-						//console.log(tmpEle);
-						//console.log(tmpIdPerfil);
-						
-						if (tmpIdPerfil == "setAvatar") {
-
-							this.setAvatar();
-
-						} else if (tmpIdPerfil != this.getIdPerfil()) {
-							//this.setIdPerfil(tmpIdPerfil);
-							this._modLogin.clearAll();
-							//console.log(tmpIdPerfil);
-							this.getMenusByIdPerfil(tmpIdPerfil);
-						};
-
-					};
-				}.bind(this));
-				$("#tabmenu_" + tmpIdM + "_l li:last").on('click', function(evt: Event) {
-					evt.preventDefault();
-					//Login.logOff();#	
-					var Login = require("../../usuario/view/Login");
-					Login.logOff();
-				}.bind(this));				
-				//
-				//login.getNotificaoes();
-			}.bind(this)
-		});
+		MenuAdm.setPerfis(this.getPerfisUsuario());
+		MenuAdm.setIdPerfil(p_idPerfil);
+		MenuAdm.loginUsuario = this.login;
 	}
 }
 

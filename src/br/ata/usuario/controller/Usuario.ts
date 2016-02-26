@@ -1,5 +1,4 @@
-import server = require('restify');
-//import url = require('url');
+import server = require('../../../../service/RestServer');
 import fs = require('fs');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router/router";
 import UsuarioDAO = require("../model/usuario");

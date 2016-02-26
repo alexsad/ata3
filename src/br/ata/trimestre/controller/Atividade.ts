@@ -1,4 +1,4 @@
-import server = require('restify');
+import server = require('../../../../service/RestServer');
 import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router";
 import AtividadeDAO = require("../model/atividade");
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";

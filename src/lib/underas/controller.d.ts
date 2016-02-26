@@ -1,4 +1,5 @@
-export { Controller, Text, Input, DoubleInput, TextInput, DoubleTextInput, PassWordInput, PercentInput, MoneyInput, TimeInput, EmailInput, PhoneInput, Label, Button, LinkButton, FileInput, NumericStepper, TextArea, AlertMsg } from "./controllermods/controllermod";
+export { Controller, Text, Input, DoubleInput, TextInput, DoubleTextInput, PassWordInput, PercentInput, MoneyInput, TimeInput, EmailInput, PhoneInput, Label, Button, LinkButton, FileInput, NumericStepper, TextArea } from "./controllermods/controllermod";
+export { AlertMsg } from "./controllermods/AlertMsg";
 export { Select } from "./controllermods/Select";
 export { Img } from "./controllermods/Img";
 export { CheckBox } from "./controllermods/CheckBox";
@@ -6,3 +7,4 @@ export { ENotifyType, IItemNotify, DefaultNotifyItemRender, ENotifyPoolType, Not
 export { IConfigDatePicker, DatePartType, DatePicker } from "./controllermods/datepicker";
 export { ProgressBar } from "./controllermods/ProgressBar";
 export { IListView, IOrderColumnListView, ListView } from "./controllermods/ListView";
+export { ColorPickerInput } from "./controllermods/ColorPickerInput";

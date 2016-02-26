@@ -1,4 +1,4 @@
-import server = require('restify');
+import server = require('../../../../service/RestServer');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router/router";
 import PerfilAutorizacaoDAO = require("../model/perfilautorizacao");
 import {IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfilAutorizacao";

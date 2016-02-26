@@ -17,6 +17,7 @@ export declare class ToolBar extends SimpleToolBar {
     constructor(p_config: {
         "domain": string;
     });
+    private onAddRecord(evt);
     getDefaultRequest(p_act: string, p_method: string): IDefaultRequest;
     updateItem(p_objToUpdate: Object): void;
     insertItem(p_objToInsert: Object): void;

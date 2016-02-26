@@ -1,13 +1,7 @@
 export interface IWebElementClass {
-    prototype?: any;
-    _configWebElement: {
-        target?: string;
-        templateResource?: string;
-    };
-    name: string;
-    new (): Function;
-    renderTo: (p_ele_target: string) => void;
-    refreshRender(): void;
+    onRender: (p_ele_target: JQuery) => void;
+    renderTo?: (p_ele_target: string) => void;
+    refreshRender?: () => void;
 }
 export interface IWebElementConfig {
     templateResource: string;
