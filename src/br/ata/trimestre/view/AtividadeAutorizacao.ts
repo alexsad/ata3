@@ -8,7 +8,7 @@ import {jsPDF} from "lib/jspdf/jsPDF";
 import {IReportTemplate, IReportTemplateItem} from "lib/jspdf/ijspdf";
 
 @WebContainer({
-	itemViewResource: "assets/html/evento"
+	itemViewResource: "trimestre/view/assets/html/evento"
 })
 export class AtividadeAutorizacao extends ModWindow {
 	itIdEvento: TextInput;
@@ -30,7 +30,7 @@ export class AtividadeAutorizacao extends ModWindow {
 	itDsObservacao: AlertMsg;
 	itVestuario: TextInput;
 	mainTb: SimpleToolBar;
-	mainList: ListView;
+	mainList: ListView<IAtividade>;
 	btPrintAta: Button;
 	btSubmeter: Button;
 	btCancelar: Button;
@@ -218,7 +218,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.btPrintAta.addEvent('click', this.printAta.bind(this));
 		this.mainTb.addButton(this.btPrintAta);
 
-		this.mainList = new ListView("Evento");
+		this.mainList = new ListView<IAtividade>("Evento");
 		this.append(this.mainList);
 	}
 	onStart(): void {
@@ -240,11 +240,11 @@ export class AtividadeAutorizacao extends ModWindow {
 			rootUrl: System.getLocation()
 			, url: "assets/reports/ata_atividade2.json"
 			, onLoad: function(reporttemplate: IReportTemplate) {
-				var tmpAtiv:IAtividade  = <IAtividade>this.mainList.getSelectedItem();
-				tmpAtiv.nmResponsavel = this.itIdResponsavel.getDescFromServiceByValue(tmpAtiv.idResponsavel);
-				tmpAtiv.momento = this.itMomento.getDescFromServiceByValue(tmpAtiv.idData);
+				var tmpAtiv:IAtividade  = (<AtividadeAutorizacao>this).mainList.getSelectedItem();
+				tmpAtiv.nmResponsavel = (<AtividadeAutorizacao>this).itIdResponsavel.getDescFromServiceByValue(tmpAtiv.idResponsavel+"");
+				tmpAtiv.momento = (<AtividadeAutorizacao>this).itMomento.getDescFromServiceByValue(tmpAtiv.idData+"");
 				tmpAtiv.momento = tmpAtiv.momento.substring(0,10);
-				tmpAtiv.dsOrganizacao = this.itIdOrganizacao.getDescFromServiceByValue(tmpAtiv.idOrganizacao);
+				tmpAtiv.dsOrganizacao = (<AtividadeAutorizacao>this).itIdOrganizacao.getDescFromServiceByValue(tmpAtiv.idOrganizacao+"");
 				reporttemplate.dataSets[0].itens.push(<IReportTemplateItem>tmpAtiv);
 				
 				var jspdfdoc = new jsPDF('p', 'pt', 'a4');
@@ -259,7 +259,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		RequestManager.addRequest({
 			url: "atividade/getbyidperfilidstatus/" + PerfilBox.getIdPerfil() + "/" + p_idStatus
 			, onLoad: function(dta: IAtividade[]) {
-				this.mainList.setDataProvider(dta);
+				(<AtividadeAutorizacao>this).mainList.setDataProvider(dta);
 			}.bind(this)
 		});
 	}
@@ -297,7 +297,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		return tpAlert;
 	}
 	cancelar(): void {
-		var tmpItemAtiv: IAtividade = <IAtividade>this.mainList.getSelectedItem();
+		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
 		if (tmpItemAtiv.snEditavel == "S") {
 			tmpItemAtiv.snEditavel = "N";
 			tmpItemAtiv.idStatus = EAtividadeStatus.PENDENTE;
@@ -306,14 +306,14 @@ export class AtividadeAutorizacao extends ModWindow {
 				, method: "PUT"
 				, data: tmpItemAtiv
 				, onLoad: function(rt_save: boolean): void {
-					this.itDsObservacao.setText("Atividade cancelada!");
-					this.itDsObservacao.setType(AlertMsg.TP_WARNING);
+					(<AtividadeAutorizacao>this).itDsObservacao.setText("Atividade cancelada!");
+					(<AtividadeAutorizacao>this).itDsObservacao.setType(AlertMsg.TP_WARNING);
 				}.bind(this)
 			});
 		}
 	}
 	submeter(): void {
-		var tmpItemAtiv: IAtividade = <IAtividade>this.mainList.getSelectedItem();
+		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
 		if (tmpItemAtiv.idStatus == this._idStatus) {
 			//tmpItemAtiv.snEditavel = "N";
 

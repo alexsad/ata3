@@ -6,7 +6,7 @@ import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import {TrimestreDataLivre} from "./TrimestreDataLivre";
 
 @WebContainer({
-	itemViewResource: "assets/html/trimestre"
+	itemViewResource: "trimestre/view/assets/html/trimestre"
 })
 export class Trimestre extends ModWindow{
 	itIdTrimestre:TextInput	; 
@@ -14,7 +14,7 @@ export class Trimestre extends ModWindow{
 	itNrTrimestre:NumericStepper;	 
 	itSnAberto:CheckBox;	
 	mainTb:ToolBar;
-	mainList:ListView; 
+	mainList:ListView<ITrimestre>; 
 	_modTrimestreLancamentoAtividade: TrimestreLancamentoAtividade;
 	_modTrimestreDataLivre: TrimestreDataLivre;
 	constructor(){
@@ -57,7 +57,7 @@ export class Trimestre extends ModWindow{
 		this.itSnAberto.setSize(4);	
 		this.append(this.itSnAberto);
 		
-		this.mainList = new ListView("Trimestre");
+		this.mainList = new ListView<ITrimestre>("Trimestre");
 		this.append(this.mainList);	
 		
 		//this.addAssociation({"mod":"OrganizacaoLancamento","url":"js/br/net/atasacramental/organizacao/view/OrganizacaoLancamento.js","act":"getByIdTrimestre","puid":this.getVarModule()});

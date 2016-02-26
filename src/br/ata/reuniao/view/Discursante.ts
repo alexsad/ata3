@@ -5,7 +5,7 @@ import {IDiscurso} from "../model/IDiscurso";
 import {IMembro} from "../../organizacao/model/IMembro";
 
 @WebContainer({
-	itemViewResource: "assets/html/discursante"
+	itemViewResource: "reuniao/view/assets/html/discursante"
 })
 export class Discursante extends ModWindow{
 	itIdDiscurso:TextInput;
@@ -15,7 +15,7 @@ export class Discursante extends ModWindow{
 	itTema:TextInput;
 	itFonte:TextArea;
 	itLinkFonte:TextInput;
-	mainList:ListView;
+	mainList:ListView<IDiscurso>;
 	mainTb:ToolBar;
 	
 	constructor(){
@@ -41,7 +41,7 @@ export class Discursante extends ModWindow{
 		this.append(this.itIdMembro);
 
 		this.itIdReuniao = new Select("reuniao");
-		this.itIdReuniao.setColumn("@idReuniao");
+		this.itIdReuniao.setColumn("!idReuniao");
 		this.itIdReuniao.setLabel("reuniao");
 		this.itIdReuniao.setValueField("id");
 		this.itIdReuniao.setLabelField("dsData");
@@ -77,7 +77,7 @@ export class Discursante extends ModWindow{
 		this.itLinkFonte.setSize(12);
 		this.append(this.itLinkFonte);
 
-		this.mainList = new ListView("Discurso");
+		this.mainList = new ListView<IDiscurso>("Discurso");
 		this.append(this.mainList);
 	}
 	onStart():void{
@@ -104,7 +104,7 @@ export class Discursante extends ModWindow{
 		RequestManager.addRequest({
 			"url":"discurso/getbyidreuniao/"+p_idReuniao
 			,"onLoad":function(dta:IDiscurso[]){
-				this.mainList.setDataProvider(dta);
+				(<Discursante>this).mainList.setDataProvider(dta);
 			}.bind(this)
 		});
 	}

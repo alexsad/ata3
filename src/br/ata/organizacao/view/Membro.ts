@@ -1,10 +1,10 @@
-import {ModWindow,WebContainer} from "lib/underas/container";
+import {ModWindow,WebContainer,ETypeModWindow} from "lib/underas/container";
 import {TextInput,CheckBox,TextArea,Select,PassWordInput,EmailInput,ListView} from "lib/underas/controller";
 import {ToolBar,RequestManager,IDefaultRequest} from "lib/underas/net";
 import {IMembro} from "../model/IMembro";
 
 @WebContainer({
-	itemViewResource: "assets/html/membro"
+	itemViewResource: "organizacao/view/assets/html/membro"
 })
 export class Membro extends ModWindow{
 	itIdMembro:TextInput;
@@ -16,10 +16,11 @@ export class Membro extends ModWindow{
 	chSexo:CheckBox;
 	taObs:TextArea;
 	mainTb:ToolBar;
-	mainList:ListView;
+	mainList:ListView<IMembro>;
 	constructor(){
-	 	super("*Cadastro de usuarios.");		
+	 	super("usuarios por organizacao");		
 		this.setSize(8);
+		this.setType(ETypeModWindow.INFO);
 
 		this.mainTb = new ToolBar({"domain":"membro"});
 		this.append(this.mainTb);
@@ -81,7 +82,7 @@ export class Membro extends ModWindow{
 		this.taObs.setColumn("@obs");
 		this.append(this.taObs);
 
-		this.mainList = new ListView("Membro");
+		this.mainList = new ListView<IMembro>("Membro");
 		this.append(this.mainList);
 	}
 	onStart():void{

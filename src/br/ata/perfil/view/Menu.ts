@@ -6,7 +6,7 @@ import {IMenu} from "../model/IPerfil";
 import {ItemMenu} from "./ItemMenu";
 
 @WebContainer({
-	itemViewResource: "assets/html/menu"
+	itemViewResource: "perfil/view/assets/html/menu"
 })
 export class Menu extends ModWindow{
 	itIdMenu: TextInput;
@@ -15,7 +15,7 @@ export class Menu extends ModWindow{
 	itIcone: Select;
 	itOrdem: NumericStepper;
 	mainTb:ToolBar;
-	mainList:ListView;
+	mainList:ListView<IMenu>;
 	_items: ItemMenu;
 	constructor(){
 		super("Menus do Perfil");		
@@ -64,7 +64,7 @@ export class Menu extends ModWindow{
 
 
 
-		this.mainList = new ListView("Menu");
+		this.mainList = new ListView<IMenu>("Menu");
 		this.append(this.mainList);
 	}
 	onStart():void{
@@ -81,8 +81,7 @@ export class Menu extends ModWindow{
 		RequestManager.addRequest({
 			"url":"menu/getbyidperfil/"+p_idPerfil
 			,"onLoad":function(dta:IMenu[]){
-				this.mainList.setDataProvider(dta);
-
+				(<Menu>this).mainList.setDataProvider(dta);
 			}.bind(this)
 		});
 	}

@@ -1,20 +1,11 @@
 export interface IWebElementClass {
-    prototype?: any;
-    _configWebElement: {
-        _relativeUrlResourceTemplatePath: string;
-        _templatePrecompiled?: Function;
-        _instanceWaiting?: IWebElementClass[];
-    };
-    name: string;
-    new (): Function;
-    load: Function;
-    refreshRender(): void;
-    $: JQuery;
-    setModule(): void;
-    getColumn(): string;
+    onRender: (p_ele_target: JQuery) => void;
+    renderTo?: (p_ele_target: string) => void;
+    refreshRender?: () => void;
 }
 export interface IWebElementConfig {
     templateResource: string;
     styleResource?: string[];
+    noAutoRenderRefresh?: boolean;
 }
 export declare function WebElement(p_config: IWebElementConfig): ClassDecorator;

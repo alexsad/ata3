@@ -1,7 +1,9 @@
-import { WebComponent } from "../core";
+import { WebComponent, IWebElementClass } from "../core";
 import { Controller, IListView } from "../controller";
 import { ModView } from "./ModView";
 import { IDefaultRequest } from "../net";
+import { ModContainer } from "./ModContainer";
+import { AlertWindow } from "./AlertWindow";
 export declare enum ETypeModWindow {
     PRIMARY = 0,
     SUCCESS = 1,
@@ -30,7 +32,7 @@ export interface IConfigModWindow {
     configListsViews?: IConfigsLists[];
     styleResource?: string[];
 }
-export declare class ModWindow extends WebComponent {
+export declare class ModWindow extends ModContainer {
     _configModWindow: IConfigModWindow;
     constructor(p_subtitle: string);
     setSize(nsize: number): void;
@@ -42,32 +44,35 @@ export declare class ModWindow extends WebComponent {
     _onStart(): void;
     onStart(): void;
     validAllItens(): boolean;
-    getFormItem(): Object;
-    setFormItem(p_item: Object): void;
+    getFormItem<T>(): T;
+    setFormItem<T>(p_item: T): void;
     clearFormItem(): void;
     setRevision(p_txt_revision: string): void;
     getRevision(): string;
-    getDsModule(): string;
-    changeDsModule(): void;
     setUrlModule(p_url_m: string): void;
     getUrlModule(): string;
+    getDsModule(): string;
+    setDsModule(): void;
+    changeDsModule(): void;
     getModView(): ModView;
     setModView(p_modview: ModView): void;
     private appendElement(childtoappend, p_type_append?);
-    prepend(childtoappend: Controller | WebComponent | any): void;
-    append(childtoappend: Controller | WebComponent | any): void;
-    setDsModule(): void;
+    prepend(childtoappend: Controller | AlertWindow | WebComponent | IWebElementClass): void;
+    append(childtoappend: Controller | AlertWindow | WebComponent | IWebElementClass): void;
+    appendTo(p_target: string): void;
     getColumns(): IModWindowColumn[];
     setIdField(p_field: string): void;
     getIdField(): string;
     getMainList(): IListView;
     setMainList(p_main_list: string): void;
     show(on: boolean): void;
-    beforeSave(p_obj: Object): Object;
+    beforeSave<T>(p_obj: T): T;
+    afterSave<T>(p_obj: T): T;
+    beforeUpdate<T>(p_req_new_obj: IDefaultRequest, p_old_obj: T): IDefaultRequest;
+    afterUpdate<T>(p_obj: T): T;
     beforeInsert(p_req_obj: IDefaultRequest): IDefaultRequest;
-    afterInsert(p_obj: Object): Object;
-    beforeQuery(p_req: IDefaultRequest): IDefaultRequest;
-    onChangeItem(p_obj: Object): Object;
-    beforeDelete(p_req_delete: IDefaultRequest, p_old_obj: Object): IDefaultRequest;
-    beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: Object): IDefaultRequest;
+    afterInsert<T>(p_obj: T): T;
+    beforeDelete<T>(p_req_delete: IDefaultRequest, p_old_obj: T): IDefaultRequest;
+    beforeReload(p_req: IDefaultRequest): IDefaultRequest;
+    onChangeItem<T>(p_obj: T): T;
 }

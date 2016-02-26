@@ -5,14 +5,14 @@ import {Discursante} from "./Discursante";
 import {IReuniao} from "../model/IReuniao";
 
 @WebContainer({
-	itemViewResource: "assets/html/reuniao"
+	itemViewResource: "reuniao/view/assets/html/reuniao"
 })
 export class Reuniao extends ModWindow{
 	itIdReuniao:TextInput;
 	itMomento:DatePicker;
 	itFrequencia:NumericStepper;
 	itObs:TextArea;
-	mainList:ListView;
+	mainList:ListView<IReuniao>;
 	mainTb:ToolBar;
 	_modDiscursante: Discursante;
 	constructor(){
@@ -53,7 +53,7 @@ export class Reuniao extends ModWindow{
 		this.itObs.setSize(12);
 		this.append(this.itObs);
 
-		this.mainList = new ListView("Reuniao");
+		this.mainList = new ListView<IReuniao>("Reuniao");
 		this.append(this.mainList);
 	}
 	onStart():void{

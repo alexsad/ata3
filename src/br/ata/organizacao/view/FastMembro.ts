@@ -1,18 +1,18 @@
-import {ModWindow,WebContainer} from "lib/underas/container";
+import {ModWindow,WebContainer,ETypeModWindow} from "lib/underas/container";
 import {ListView} from "lib/underas/controller";
 import {ToolBar,RequestManager,IDefaultRequest} from "lib/underas/net";
 import {IMembro} from "../model/IMembro";
 
 @WebContainer({
-	itemViewResource: "assets/html/discursante"
+	itemViewResource: "organizacao/view/assets/html/discursante"
 })
 export class FastMembro extends ModWindow{
-	mainList:ListView;
+	mainList:ListView<IMembro>;
 	constructor(){		
 		super("Lista de Discursantes");		
 		this.setSize(4);
-		
-		this.mainList = new ListView("discursantes");
+		this.setType(ETypeModWindow.SUCCESS);
+		this.mainList = new ListView<IMembro>("discursantes");
 		this.append(this.mainList);
 	}
 	onStart(){

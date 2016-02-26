@@ -5,7 +5,7 @@ import {UsuarioPerfil} from "./UsuarioPerfil";
 import {IUsuario} from "../model/IUsuario";
 
 @WebContainer({
-	itemViewResource: "assets/html/usuario"
+	itemViewResource: "usuario/view/assets/html/usuario"
 })
 export class Usuario extends ModWindow{
 	itIdUsuario:TextInput;
@@ -13,13 +13,14 @@ export class Usuario extends ModWindow{
 	itSenha:PassWordInput;
 	itSnAtivo:CheckBox;
 	mainTb:ToolBar;
-	mainList:ListView;
+	mainList:ListView<IUsuario>;
 	_modPerfis: UsuarioPerfil;
     
 
 	constructor(){
 	 	super("*Cadastro de usuarios.");
 		this.setSize(8);
+		this.showTitle(false);
 
 		this.mainTb = new ToolBar({"domain":"usuario"});
 		this.append(this.mainTb);
@@ -50,7 +51,7 @@ export class Usuario extends ModWindow{
 		this.itSnAtivo.setSize(2);
 		this.append(this.itSnAtivo);
 
-		this.mainList = new ListView("Usuario");
+		this.mainList = new ListView<IUsuario>("Usuario");
 		this.append(this.mainList);
 	}
 	onStart():void{

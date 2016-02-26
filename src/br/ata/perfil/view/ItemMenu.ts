@@ -2,11 +2,11 @@ import {ModWindow, WebContainer} from "lib/underas/container";
 import {NumericStepper, TextInput, Select, ListView} from "lib/underas/controller";
 import {ToolBar, IDefaultRequest, RequestManager} from "lib/underas/net";
 import {System} from "lib/underas/core";
-import {IItemMenu, IMenu, IModulo, IModuloAcao} from "../model/IPerfil";
+import {IItemMenu, IModulo} from "../model/IPerfil";
 import {Menu} from "./Menu";
 
 @WebContainer({
-	itemViewResource: "assets/html/itemmenu"
+	itemViewResource: "perfil/view/assets/html/itemmenu"
 })
 export class ItemMenu extends ModWindow {
 	itIdItemMenu: TextInput;
@@ -17,7 +17,7 @@ export class ItemMenu extends ModWindow {
 	itIcone: Select;
 	itOrdem: NumericStepper;
 	mainTb: ToolBar;
-	mainList: ListView;
+	mainList: ListView<IItemMenu>;
 	_menu: Menu;
 	constructor(p_menu: Menu) {
 		super("Itens do Menu");
@@ -83,7 +83,7 @@ export class ItemMenu extends ModWindow {
 		this.itFuncao.setEnable(false);
 		this.append(this.itFuncao);
 
-		this.mainList = new ListView("ItemMenu");
+		this.mainList = new ListView<IItemMenu>("ItemMenu");
 		this.append(this.mainList);
 
 		this._menu = p_menu;

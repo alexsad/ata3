@@ -12,18 +12,18 @@ interface CookieOptions {
 }
 
 interface CookiesStatic {
-    (key:string, value?:any, options?:CookieOptions): any;
+    (key: string, value?: any, options?: CookieOptions): any;
 
-    get(key:string): string;
-    set(key:string, value:any, options?:CookieOptions): CookiesStatic;
-    expire(key:string, options?:CookieOptions): CookiesStatic;
+    get(key: string): string;
+    set(key: string, value: any, options?: CookieOptions): CookiesStatic;
+    expire(key: string, options?: CookieOptions): CookiesStatic;
 
     defaults: CookieOptions;
     enabled: boolean;
 }
 
-declare var Cookies:CookiesStatic;
-
+declare var Cookies: CookiesStatic;
+/*
 declare module "cookies" {
     export = Cookies;
 }
@@ -31,3 +31,5 @@ declare module "cookies" {
 declare module "cookies-js" {
     export = Cookies;
 }
+*/
+export = Cookies;

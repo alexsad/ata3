@@ -5,7 +5,7 @@ import {System} from "lib/underas/core";
 import {IPerfilNotificacao, IModulo, IModuloAcao} from "../model/IPerfil";
 
 @WebContainer({
-	itemViewResource: "assets/html/perfilnotificacao"
+	itemViewResource: "perfil/view/assets/html/perfilnotificacao"
 })
 export class PerfilNotificacao extends ModWindow {
 	itIdPerfilNotificacao: TextInput;
@@ -23,7 +23,7 @@ export class PerfilNotificacao extends ModWindow {
 	itIcone: Select;
 	itModuloIcone: Select;
 	mainTb: ToolBar;
-	mainList: ListView;
+	mainList: ListView<IPerfilNotificacao>;
 
 	constructor() {
 		super("Nofificacoes do Perfil");
@@ -144,7 +144,7 @@ export class PerfilNotificacao extends ModWindow {
 		this.itDtFinal.setSize(3);
 		this.append(this.itDtFinal);
 
-		this.mainList = new ListView("ItemMenu");
+		this.mainList = new ListView<IPerfilNotificacao>("ItemMenu");
 		this.append(this.mainList);
 	}
 	onStart(): void {
@@ -185,8 +185,8 @@ export class PerfilNotificacao extends ModWindow {
 				dta.every(function(itmod: IModulo, index: number): boolean {
 					if (itmod.modulo == tmpIdModule) {
 						if (itmod.acao.length > 0) {
-							this.itModuloAcao.setEnable(true);
-							this.itModuloAcao.setDataProvider(itmod.acao);
+							(<PerfilNotificacao>this).itModuloAcao.setEnable(true);
+							(<PerfilNotificacao>this).itModuloAcao.setDataProvider(itmod.acao);
 						};
 						return false;
 					};
@@ -201,7 +201,7 @@ export class PerfilNotificacao extends ModWindow {
 		RequestManager.addRequest({
 			"url": "perfilnotificacao/getbyidperfil/" + p_idPerfil
 			, "onLoad": function(dta: IPerfilNotificacao[]) {
-				this.mainList.setDataProvider(dta);
+				(<PerfilNotificacao>this).mainList.setDataProvider(dta);
 			}.bind(this)
 		});
 	}

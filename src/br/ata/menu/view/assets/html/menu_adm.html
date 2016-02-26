@@ -1,0 +1,28 @@
+<div class="row clearfix" id="top_adm_menu">
+	<div class="pull-left col-xs-2 col-sm-1 column visible-xs" id="logo_menu_1">
+		<img src="js/br/cupom/menu/view/assets/img/bode-logo-novo-bola_36x31.png"/>
+	</div>
+	<div class="pull-left col-xs-0 col-sm-1 column hidden-xs" id="logo_menu">
+		<img src="js/br/cupom/menu/view/assets/img/bode-logo-novo-bola_80x69.png"/>
+	</div>
+	<div class="col-xs-10 col-sm-11 column menu_main" style="">
+		<ul each="menu in menus" class="nav nav-pills" id="sidebar">		
+			<li id="{'tabmenu_'+menu.id}" class="navitem">
+				<a class="btnmenu" href="#">
+					<span class="{'imgI glyphicon iconeinput glyphicon-'+menu.icone}"></span>
+					<label class="hidden-xs">{menu.label.toUpperCase()}</label>
+				</a>
+			</li>		
+		</ul>
+		<div id="tabs_menu" class="tab-content col-xs-12 column tab_content_menu" style="padding-top:5px">
+			<ul each="menu in menus" style="display:none;" id="{'tabmenu_'+menu.id+'_l'}" class="nav nav-pills">		
+				<li each="menuitem in menu.children" data-titlemod="{menuitem.label}" data-iconmod="{menuitem.icone}" data-actmod="{(menuitem.funcao?menuitem.funcao:"")}" data-varmod="{menuitem.tela}" class="Controller LinkButton elegibleToClick">
+					<a href="#">
+						<span class="{'imgI hidden-xs iconeinput glyphicon glyphicon-'+menuitem.icone}"></span>
+						<label>&nbsp;{menuitem.label.toUpperCase()}&nbsp;</label>
+					</a>
+				</li>			
+			</ul>
+		</div>
+	</div>
+</div>

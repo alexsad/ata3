@@ -4,16 +4,16 @@ import {ToolBar, RequestManager} from "lib/underas/net";
 import {ICertificado} from "../model/ICertificado";
 
 @WebContainer({
-	itemViewResource: "assets/html/certificado"
+	itemViewResource: "certificado/view/assets/html/certificado"
 })
 export class Certificado extends ModWindow{
 	itIdCertificado:TextInput;
 	itValidade:DatePicker;
 	itPin:TextInput;
 	mainTb:ToolBar;
-	mainList:ListView;
+	mainList:ListView<ICertificado>;
 	constructor(){
-		super("Certificado");		
+		super("Certificado 2");		
 
 		this.mainTb = new ToolBar({"domain":"certificado"});
 		this.append(this.mainTb);
@@ -37,7 +37,7 @@ export class Certificado extends ModWindow{
 		this.itValidade.setSize(2);
 		this.append(this.itValidade);
 
-		this.mainList = new ListView("Certificado");
+		this.mainList = new ListView<ICertificado>("Certificado");
 		//this.setMainList("mainList");
 		this.append(this.mainList);
 	}

@@ -5,7 +5,7 @@ import {Menu} from "./Menu";
 import {IPerfil} from "../model/IPerfil";
 
 @WebContainer({
-	itemViewResource: "assets/html/perfil"
+	itemViewResource: "perfil/view/assets/html/perfil"
 })
 export class Perfil extends ModWindow{
 	itIdPerfil:TextInput;	 
@@ -13,7 +13,7 @@ export class Perfil extends ModWindow{
 	itComentario:TextInput;
 	itSnAtivo:CheckBox;	 
 	mainTb:ToolBar;
-	mainList:ListView;
+	mainList:ListView<IPerfil>;
 	_menus: Menu;
 	constructor(){
 		super("Perfil");			
@@ -48,7 +48,7 @@ export class Perfil extends ModWindow{
 		this.itComentario.setSize(12);	
 		this.append(this.itComentario);	
 		
-		this.mainList = new ListView("Perfil");
+		this.mainList = new ListView<IPerfil>("Perfil");
 		this.append(this.mainList);	
 	}
 	onStart():void{

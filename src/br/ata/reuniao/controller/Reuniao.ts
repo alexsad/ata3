@@ -1,4 +1,4 @@
-import server = require('restify');
+import server = require('../../../../service/RestServer');
 import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router";
 import ReuniaoDAO = require("../model/reuniao");
 import {IReuniao} from "../model/IReuniao";

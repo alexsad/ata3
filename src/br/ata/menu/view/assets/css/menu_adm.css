@@ -1,0 +1,64 @@
+.navitem{
+	color:#fff;
+}
+.navitem a{
+	color:#fff;
+}
+.tab_content_menu a{
+	color:#fff;
+}
+.top_adm_menu{
+	padding-top:3px;
+	/*background-image: url('../img/wood_texture_675x150.jpg');*/
+}
+.top_adm_menu .logo_menu span{
+	font-size: 35px;
+	text-align: center;
+	width: 100%;
+	margin-top:8px;
+}
+.top_adm_menu .logo_menu h4{
+	text-align: center;
+	width: 100%;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+
+
+ul.menu_adm > li > a span{
+	color:#FFEAD5;
+	font-weight: bolder;
+}
+
+ul.menu_adm > li > a{
+	border-radius: 4px 4px 0px 0px;
+}
+
+ul.menu_adm > li.menu_adm_active > a:hover,ul.menu_adm > li.menu_adm_active > a:focus,ul.menu_adm > li.menu_adm_active a.active{
+	background: rgba(255, 234, 213, 0.1) none repeat scroll 0% 0%;
+}
+
+ul.menu_adm > li > a span{
+	color:#FFEAD5;
+	font-weight: bolder;
+}
+
+ul.menu_adm > li > a:hover,ul.menu_adm > li > a:focus{
+	background: rgba(255, 234, 213, 0.1) none repeat scroll 0% 0%;
+}
+ul.menu_adm_item > li > a{
+	border-radius: 0px;
+}
+ul.menu_adm_item > li > a, ul.menu_adm_item > li a:hover,ul.menu_adm_item > li a:focus{
+	background: rgba(255, 234, 213, 0.1) none repeat scroll 0% 0%;
+}
+ul.menu_adm_item > li > a span{
+	/*color:#3F1100;*/
+	color:#FFEAD5;
+	font-size:10px;
+	font-weight: bolder;
+}
+ul.menu_adm_item > li{
+	margin:0px;
+}

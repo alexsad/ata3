@@ -17,8 +17,8 @@ export interface IOrderColumnListView {
     idColumn: string;
     column: string;
 }
-export declare class ListView extends WebComponent implements IListView {
-    dataProvider: any[];
+export declare class ListView<T> extends WebComponent implements IListView {
+    dataProvider: T[];
     private tmpDataProvider;
     private maxCells;
     _urlTemplate: string;
@@ -32,14 +32,14 @@ export declare class ListView extends WebComponent implements IListView {
     private _pag;
     constructor(p_title: string);
     getPaginationParam(): IPaginationParam;
-    setDataProvider(p_dta: any[]): ListView;
-    getDataProvider(): any[];
+    setDataProvider(p_dta: T[]): ListView<T>;
+    getDataProvider(): T[];
     setHeight(p_height: number): void;
     clear(): void;
     private changePg(evt);
     private getRowCell();
     private setPage(p_page);
-    refresh(): ListView;
+    refresh(): ListView<T>;
     private getTmpUrl(fnAfter);
     setFilter(evt: JQueryEventObject): void;
     setOrderField(evt: Event): void;
@@ -47,15 +47,15 @@ export declare class ListView extends WebComponent implements IListView {
     orderDesc(p_campo: string): void;
     orderAsc(p_campo: string): void;
     getSelectedIndex(): number;
-    getSelectedItem(): Object;
-    setSelectedItem(p_item: Object): void;
+    getSelectedItem(): T;
+    setSelectedItem(p_item: T): void;
     setSelectedIndex(p_index: number): void;
     changeToIndex(p_index: number): void;
-    updateItem(p_item: Object): void;
-    replaceItem(p_item: Object, p_index?: number): void;
-    insertItem(p_item: Object, p_where?: string): void;
+    updateItem(p_item: T): void;
+    replaceItem(p_item: T, p_index?: number): void;
+    insertItem(p_item: T, p_where?: string): void;
     removeSelectedItem(): void;
-    removeItem(p_item: Object): void;
+    removeItem(p_item: T): void;
     onChangeSelectedItem(evt: Event): void;
     changeSelectedItem(tgt: JQuery): void;
 }

@@ -1,0 +1,9 @@
+.banner_login{
+	padding-top:3px;
+	background-image: url('../../../../menu/view/assets/img/wood_texture_675x150.jpg');
+	background-repeat: repeat-x;
+	background-position:0px -85px;
+}
+.banner_login img.logo_menu{
+	margin:0px auto;
+}

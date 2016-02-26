@@ -3,11 +3,10 @@ import {TextInput, CheckBox, Button, AlertMsg, Select, ListView} from "lib/under
 import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {IPerfil} from "../model/IPerfil";
 import {IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfilAutorizacao";
-
 import {PerfilView} from "./PerfilView";
 
 @WebContainer({
-	itemViewResource: "assets/html/perfilautorizacao"
+	itemViewResource: "perfil/view/assets/html/perfilautorizacao"
 })
 export class PerfilAutorizacao extends ModWindow {
 	itPerfil: Select;
@@ -16,7 +15,7 @@ export class PerfilAutorizacao extends ModWindow {
 	itPerfilAlvo: Select;
 	aviso: AlertMsg;
 	mainTb: ToolBar;
-	mainList: ListView;
+	mainList: ListView<IPerfilAutorizacao>;
 	constructor() {
 		super("*Perfis Associados");		
 		this.setSize(8);
@@ -63,7 +62,7 @@ export class PerfilAutorizacao extends ModWindow {
 		this.itTpAutorizacao.setSize(12);
 		this.append(this.itTpAutorizacao);
 
-		this.mainList = new ListView("perfis");
+		this.mainList = new ListView<IPerfilAutorizacao>("perfis");
 		//this.setMainList("mainList");
 		this.append(this.mainList);
 	}
@@ -80,7 +79,7 @@ export class PerfilAutorizacao extends ModWindow {
 		RequestManager.addRequest({
 			"url":"perfilautorizacao/getbyidperfil/"+p_idPerfil
 			,"onLoad":function(dta:IPerfilAutorizacao[]){
-				this.mainList.setDataProvider(dta);
+				(<PerfilAutorizacao>this).mainList.setDataProvider(dta);
 			}.bind(this)
 		});
 	}	
