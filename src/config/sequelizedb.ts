@@ -1,4 +1,4 @@
-
+/// <reference path="../lib/sequelize/sequelize.d.ts" />
 
 var Sequelize = require('sequelize');
 declare var process: any;
