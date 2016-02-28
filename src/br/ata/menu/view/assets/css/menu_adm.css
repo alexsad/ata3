@@ -11,17 +11,18 @@
 	padding-top:3px;
 	/*background-image: url('../img/wood_texture_675x150.jpg');*/
 }
-.top_adm_menu .logo_menu span{
-	font-size: 35px;
-	text-align: center;
-	width: 100%;
-	margin-top:8px;
-}
 .top_adm_menu .logo_menu h4{
 	text-align: center;
 	width: 100%;
 	margin-top: 5px;
 	margin-bottom: 5px;
+}
+.top_adm_menu .logo_menu span{
+	margin-top: 5px;
+	font-size: 30px;
+	width: 45px;
+	height: 45px;
+	line-height: 45px;
 }
 
 

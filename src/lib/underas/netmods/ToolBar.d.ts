@@ -1,10 +1,6 @@
-import { WebComponent } from "../core";
 import { Button } from "../controller";
 import { IDefaultRequest } from "./netmod";
-export declare class SimpleToolBar extends WebComponent {
-    constructor();
-    addButton(p_buttom: Button, p_showlabel?: boolean): void;
-}
+import { SimpleToolBar } from "./SimpleToolBar";
 export declare class ToolBar extends SimpleToolBar {
     _config: {
         "domain": string;

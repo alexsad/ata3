@@ -1,6 +1,7 @@
 import {ModWindow,WebContainer} from "lib/underas/container";
-import {Select, Button, NumericStepper, TextInput, ListView} from "lib/underas/controller";
+import {Select, Button, NumericStepper, TextInput} from "lib/underas/controller";
 import {ToolBar, RequestManager} from "lib/underas/net";
+import {ListView} from "lib/underas/listview";
 import {ITrimestreLancamentoAtividade,ITrimestre} from "../model/ITrimestre";
 
 @WebContainer({

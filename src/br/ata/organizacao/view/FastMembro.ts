@@ -1,5 +1,5 @@
 import {ModWindow,WebContainer,ETypeModWindow} from "lib/underas/container";
-import {ListView} from "lib/underas/controller";
+import {ListView} from "lib/underas/listview";
 import {ToolBar,RequestManager,IDefaultRequest} from "lib/underas/net";
 import {IMembro} from "../model/IMembro";
 
@@ -24,9 +24,11 @@ export class FastMembro extends ModWindow{
 			"url": "membro/getbysnativo/S"
 	        ,"onLoad":function(dta:IMembro[]){        	
 	        	this.getMainList().setDataProvider(dta);
+	        	/*
 	        	this.getMainList().$.find(".tilecell .discursante_drag").draggable({
         			helper : "clone"
      			});
+				*/
 	        }.bind(this)
 	    });   
 	}

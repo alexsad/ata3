@@ -5,6 +5,7 @@ import {RequestManager} from "lib/underas/net";
 import {IUsuario} from "../model/IUsuario";
 import PerfilBox = require("../../perfil/view/PerfilBox");
 import Cookies = require("lib/cookies/cookies");
+import BannerLogin = require("./BannerLogin");
 
 @WebContainer({
 	styleResource:["usuario/view/assets/css/login"]
@@ -60,6 +61,8 @@ class LoginStatic extends ModWindow {
 
 	}
 	onStart(): void {
+		BannerLogin.appendTo("#banner_login");
+		BannerLogin.show(true);
 		this.getModView().showNav(false);
 		//this.autoLogin();		
 		if (Cookies.get("clogin")) {
@@ -104,6 +107,7 @@ class LoginStatic extends ModWindow {
 			}
 			, "onLoad": function(dta: boolean) {
 				if (dta == true) {
+					BannerLogin.show(false);
 					if (this.chlembrar.getValue() == "S") {
 						Cookies.set("clogin", this.itlogin.getValue(), { expires: Infinity });
 					};

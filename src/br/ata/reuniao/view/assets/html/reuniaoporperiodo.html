@@ -1,19 +1,18 @@
-<div data-idreuniao="{id}" class="col-xs-12 col-sm-12 col-md-12">
-<h4>
-	<button class="btn btn-primary" type="button">
-  		{momento}<span class="badge">{discursos.length}</span>
-	</button>
-</h4>
+<div each="ireuniao in $data">
+	<div data-idreuniao="{ireuniao.id}" class="col-xs-12 col-sm-12 col-md-12">
+		<h4>
+			<button class="btn btn-primary" type="button">
+		  		{ireuniao.momento}<span class="badge">{ireuniao.discursos.length}</span>
+			</button>
+		</h4>
+	</div>
+	<div each="discurso in ireuniao.discursos" data-idconvite="{discurso.id}" data-indx="{$index}" class="tilecell list-group-item tilecell list-group-item col-xs-12 col-sm-4 col-md-4 convite_reuniao">
+		<h4>
+			<span data-indconv="{discurso.id}" class="label label-info convite_drag">{discurso.tempo}</span>
+			<span class="nmMembro"> {discurso.membro.nome}</span>
+		</h4>
+		<a class="list-group-item-text" target="_blank" href="{discurso.linkFonte}">{discurso.tema}</a>
+		<p class="list-group-item-text">{discurso.fonte}</p>
+		<p class="list-group-item-text">fones:{discurso.membro.telefone} ou {discurso.membro.celular}</p>		
+	</div>
 </div>
-{for-discursos:discurso}
-<div data-idconvite="{discurso.id}" class="tilecell list-group-item col-xs-12 col-sm-4 col-md-4 convite_reuniao">
-	<h4>
-		<span data-indconv="{discurso.id}" class="label label-info convite_drag">{discurso.tempo}</span>
-		<span class="nmMembro">{discurso.membro.nome}</span>
-	</h4>
-	<a class="list-group-item-text" target="_blank" href="{discurso.linkFonte}">{discurso.tema}</a>
-	<p class="list-group-item-text">{discurso.fonte}</p>
-	<p class="list-group-item-text">fones:{discurso.membro.telefone} ou {discurso.membro.celular}</p>
-	<p class="list-group-item-text">{discurso.id}</p>
-</div>
-{/for}

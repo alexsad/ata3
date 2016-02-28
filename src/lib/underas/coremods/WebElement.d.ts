@@ -1,6 +1,6 @@
 export interface IWebElementClass {
-    onRender: (p_ele_target: JQuery) => void;
-    renderTo?: (p_ele_target: string) => void;
+    onRender: (p_seletor_target: string) => void;
+    renderTo?: (p_seletor_target: string) => void;
     refreshRender?: () => void;
 }
 export interface IWebElementConfig {

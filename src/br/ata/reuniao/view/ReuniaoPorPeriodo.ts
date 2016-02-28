@@ -1,5 +1,6 @@
 import {ModWindow, WebContainer} from "lib/underas/container";
-import {Button, TextInput, Select, TextArea, NumericStepper, DatePicker, DatePartType, ListView} from "lib/underas/controller";
+import {Button, TextInput, Select, TextArea, NumericStepper, DatePicker, DatePartType} from "lib/underas/controller";
+import {ListView} from "lib/underas/listview";
 import {SimpleToolBar,RequestManager,IDefaultRequest} from "lib/underas/net";
 import {IReuniao} from "../model/IReuniao";
 import {IDiscurso} from "../model/IDiscurso";
@@ -242,8 +243,9 @@ export class ReuniaoPorPeriodo extends ModWindow{
 
 		//this.mainList.get
 	}
-	onChangeItem(p_obj: IReuniao): IReuniao {
-		this.setFormItem(p_obj.discursos[0]);
+	onChangeItem(p_obj: IDiscurso): IDiscurso {
+		console.log(p_obj);
+		this.setFormItem(p_obj);
 		return p_obj;
 	}
 	inserir(p_novo:IDiscurso):void{
@@ -259,13 +261,14 @@ export class ReuniaoPorPeriodo extends ModWindow{
 	}
 	atualizar(p_atualizado:IDiscurso):void{
 		RequestManager.addRequest({
-			"url":"reuniao/discurso/"+ p_atualizado.idReuniao
+			"url":"discurso/"+ p_atualizado.idReuniao
 			,"method":"put"
 			,"data":p_atualizado
-			,"onLoad":function(allOk:boolean):void{
-
+			, "onLoad": function(p_item_updated: IDiscurso): void {
+				this.mainList.updateItem(p_item_updated);
 			}.bind(this)
 		});
+
 	}
 	pesquisar(evt?:Event):void{
 		if(evt){

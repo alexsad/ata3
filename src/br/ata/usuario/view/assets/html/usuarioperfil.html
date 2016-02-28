@@ -1,5 +1,5 @@
-<div class="col-xs-12 col-sm-12 col-md-12">
-	<h4>{id}</h4>
-	<p class="list-group-item-text">usu.:{idUsuario}</p>
-	<p class="list-group-item-text">per.:{idPerfil}</p>
+<div each="iusuario in $data" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-12 col-md-12">
+	<h4>{iusuario.id}</h4>
+	<p class="list-group-item-text">usu.:{iusuario.idUsuario}</p>
+	<p class="list-group-item-text">per.:{iusuario.idPerfil}</p>
 </div>

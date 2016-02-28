@@ -1,4 +1,4 @@
-<div class="col-xs-12 col-sm-6 col-md-6">
-	<h4>{validade}</h4>
-	<p class="list-group-item-text">PIN:{pin}</p>
+<div each="icertificado in $data" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-6 col-md-6">
+	<h4>{icertificado.validade}</h4>
+	<p class="list-group-item-text">PIN:{icertificado.pin}</p>
 </div>

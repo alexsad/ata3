@@ -1,6 +1,7 @@
 import {ModWindow, WebContainer} from "lib/underas/container";
-import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput, ListView} from "lib/underas/controller";
+import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput} from "lib/underas/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
+import {ListView} from "lib/underas/listview";
 import {IAtividade,EAtividadeStatus} from "../model/ITrimestre";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import PerfilBox = require("../../perfil/view/PerfilBox");
@@ -41,7 +42,7 @@ export class Atividade extends ModWindow {
 		this.mainTb.btDel.$.hide();
 		this.append(this.mainTb);
 
-		this.itDsObservacao = new AlertMsg("Cadastro de Nova Atividade...");
+		this.itDsObservacao = new AlertMsg("Cadastre uma nova atividade clicando no '+'.");
 		this.itDsObservacao.setColumn("#dsObservacao");
 		this.itDsObservacao.setSize(12);
 		this.itDsObservacao.setType(AlertMsg.TP_WARNING);
@@ -256,7 +257,7 @@ export class Atividade extends ModWindow {
 		});
 	}
 	novaAtividade():void{
-		this.itDsObservacao.setValue("Cadastro de nova atividade...");
+		this.itDsObservacao.setValue("Cadastre uma nova atividade clicando no '+'.");
 		this.itDsObservacao.setType(AlertMsg.TP_WARNING);
 		this.itIdEvento.setValue("");
 		this.itDescricao.setValue("");
@@ -279,6 +280,7 @@ export class Atividade extends ModWindow {
 		this.btSubmeter.setEnable(false);
 	}
 	onChangeItem(p_item:IAtividade):IAtividade{
+		//console.log(this.itIdData.getInput().val());
 		var on = (p_item.snEditavel=="S");
 		this.habilitarCampos(on);
 		if(on){
@@ -336,6 +338,16 @@ export class Atividade extends ModWindow {
 		p_req_obj.data.idStatus = EAtividadeStatus.ELABORADA;
 		p_req_obj.data.iconStatus = "info";
 		return p_req_obj;
+
+	}
+	afterInsert(p_obj: IAtividade): IAtividade {		
+		p_obj.datalivre = {
+			id:p_obj.idData
+			,snDisponivel:"N"
+			,idTrimestre:p_obj.idTrimestre
+			,momento:""
+		}
+		return p_obj;
 	}
 	beforeUpdate(p_req_obj: IDefaultRequest, p_old_obj:IAtividade): IDefaultRequest {
 		if(p_old_obj.snEditavel=="N"){

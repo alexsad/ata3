@@ -1,9 +1,11 @@
 import { ModWindow } from "../container";
 export declare class Controller {
     _uid: number;
-    $: JQuery;
+    private _tmp$;
+    private _selector_element;
     private _modwindow;
     constructor(tagh: string, tagc: string);
+    $: JQuery;
     setBlankWhenNull(on: boolean): void;
     addEvent(p_on: string, p_event_fn: Function, p_bind?: any): JQuery;
     getInput(): JQuery;

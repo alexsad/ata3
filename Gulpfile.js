@@ -80,8 +80,8 @@ gulp.task('convert_template2IDOM',function(){
     .pipe(rename({
         extname: ".js"
     }))
-    .pipe(replace("function description (data) {","define(['lib/idom/incremental-dom'],function(_IDOM){return function($data){with($data){"))   
-    .pipe(replace(/\}$/g,"}}});"))
+    .pipe(replace("function description (data) {","define(['lib/idom/incremental-dom-min'],function(_IDOM){return function($data){"))   
+    .pipe(replace(/\}$/g,"}});"))
     .pipe(replace(/(elementOpen)/g,'_IDOM.$1'))
     .pipe(replace(/(elementVoid)/g,'_IDOM.$1'))
     .pipe(replace(/(elementClose)/g,'_IDOM.$1'))
@@ -140,21 +140,7 @@ gulp.task('ts_view',function(){
                 rootPath+"/src/lib/jqueryui/jqueryui.d.ts"
             ]
         }))
-        
-        //.pipe(replace(/(['"]?templateResource['"]?\s?):\s?(['"])([^!"]+)*/g,function(p_found){
-            //console.log(p_found);
-            //console.log(p_found.replace(/(['"]?templateResource['"]?\s?):\s?(['"])([^!"]+)*/g,"$1:$2"+destPackagePathFullView.replace(appDestPathView+"/","")+"/$3.js"));
-          //  return p_found.replace(/(['"]?templateResource['"]?\s?):\s?(['"])([^!"]+)*/g,"$1:$2"+destPackagePathFullView.replace(appDestPathView+"/","")+"/$3.js");
-        //}))
-        
-        //
-        .pipe(replace(/(['"]?templateResource['"]?\s?):\s?(['"])([^!"]+)*/g,"$1:$2"+destPackagePathFullView.replace(appDestPathView+"/","")+"/$3.js"))
-        .pipe(replace(/(['"]?itemViewResource['"]?\s?):\s?(['"])([^!"]+)*/g,"$1:$2"+destPackagePathFullView.replace(appDestPathView+"/","")+"/$3.html?cache="+compileVersion))
-        
-        //.pipe(replace(/(itemViewResource):(['"])([^!"']+)*/g,"$1:$2"+destPackagePathFullView.replace(appDestPathView+"/","")+"/$3.html?cache="+compileVersion))
-        //.pipe(replace(/["']?styleResource["']?\s?:\s?\[((\s|['".?=&,#-:]|\/|\!|\d|\w|\n)*)?\]/g,function(p_founded_regx){
-             //return p_founded_regx.replace(/(styleResource:\["|')/g,"$1"+destPackagePathFullView.replace(appDestPathView+"/","")+"/").replace(/(["']\])$/g,".css?cache="+compileVersion+"$1"); 
-        //})) 
+        .pipe(replace(/(['"]?templateResource|itemViewResource['"]?\s?):\s?(['"])([^!"]+)*/g,"$1:$2"+destPackagePathFullView.replace(appDestPathView+"/","")+"/$3.js?cache="+compileVersion))
         .pipe(replace(/["']?styleResource["']?\s?:\s?\[((\s|['".?=&,#-:]|\/|\!|\d|\w|\n)*)?\]/g,function(p_founded_regx){
             var regexStyleResource =  /["']?styleResource["']?\s?:\s?\[((\s|['".?=&,#-:]|\/|\!|\d|\w|\n)*)?\]/g;
             var listStyleResource = p_founded_regx.match(regexStyleResource);

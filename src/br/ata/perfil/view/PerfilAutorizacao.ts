@@ -1,5 +1,6 @@
 import {ModWindow, WebContainer} from "lib/underas/container";
-import {TextInput, CheckBox, Button, AlertMsg, Select, ListView} from "lib/underas/controller";
+import {TextInput, CheckBox, Button, AlertMsg, Select} from "lib/underas/controller";
+import {ListView} from "lib/underas/listview";
 import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {IPerfil} from "../model/IPerfil";
 import {IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfilAutorizacao";

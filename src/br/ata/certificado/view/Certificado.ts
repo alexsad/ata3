@@ -1,6 +1,7 @@
 import {ModWindow,WebContainer} from "lib/underas/container";
-import {TextInput,DatePicker,ListView} from "lib/underas/controller";
+import {TextInput,DatePicker} from "lib/underas/controller";
 import {ToolBar, RequestManager} from "lib/underas/net";
+import {ListView} from "lib/underas/listview";
 import {ICertificado} from "../model/ICertificado";
 
 @WebContainer({

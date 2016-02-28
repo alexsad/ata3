@@ -20,7 +20,7 @@ export interface ITrimestreLancamentoAtividade {
 export interface ITrimestreDataLivre{
 	id?: number;
 	idTrimestre: number;
-	momento:Date;
+	momento:string;
 	snDisponivel:string;
 }
 export interface IAtividade {
@@ -46,6 +46,7 @@ export interface IAtividade {
 	momento?: string;
 	nmResponsavel?: string;
 	dsOrganizacao?: string;
+	datalivre?: ITrimestreDataLivre;
 }
 
 export enum EAtividadeStatus{

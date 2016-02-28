@@ -1,5 +1,5 @@
-<div class="col-xs-12 col-sm-6 col-md-6">
-	<h4>{nome}</h4>
-	<p class="list-group-item-text">Tele.:{telefone}</p>
-  <p class="list-group-item-text">Cel.:{celular}</p>
+<div each="imembro in $data" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-6 col-md-6">
+	<h4>{imembro.nome}</h4>
+	<p class="list-group-item-text">Tele.:{imembro.telefone}</p>
+  <p class="list-group-item-text">Cel.:{imembro.celular}</p>
 </div>

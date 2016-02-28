@@ -1,4 +1,4 @@
-<div class="col-xs-12 col-sm-12 col-md-12">
-	<h4>{id}-{perfil.descricao}</h4>
-	<p class="list-group-item-text">valor:{valor},00 R$</p>
+<div each="itrimlanc in $data" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-12 col-md-12">
+	<h4>{itrimlanc.id}-{itrimlanc.perfil.descricao}</h4>
+	<p class="list-group-item-text">valor:{itrimlanc.valor},00 R$</p>
 </div>

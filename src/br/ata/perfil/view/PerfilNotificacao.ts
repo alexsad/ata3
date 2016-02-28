@@ -1,5 +1,6 @@
 import {ModWindow, WebContainer} from "lib/underas/container";
-import {DatePicker, NumericStepper, TextInput, Select, ListView} from "lib/underas/controller";
+import {DatePicker, NumericStepper, TextInput, Select} from "lib/underas/controller";
+import {ListView} from "lib/underas/listview";
 import {ToolBar, IDefaultRequest, RequestManager} from "lib/underas/net";
 import {System} from "lib/underas/core";
 import {IPerfilNotificacao, IModulo, IModuloAcao} from "../model/IPerfil";

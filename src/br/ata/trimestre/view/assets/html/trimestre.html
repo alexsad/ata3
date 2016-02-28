@@ -1,4 +1,4 @@
-<div class="col-xs-12 col-sm-12 col-md-12">
-	<h4>{nrTrimestre} º de {ano}</h4>
-	<p class="list-group-item-text">Disponivel:{snAberto}</p>
+<div each="itrimestre in $data" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-12 col-md-12">
+	<h4>{itrimestre.nrTrimestre} º de {itrimestre.ano}</h4>
+	<p class="list-group-item-text">Disponivel:{itrimestre.snAberto}</p>
 </div>

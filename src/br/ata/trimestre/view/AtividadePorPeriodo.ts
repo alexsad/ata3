@@ -1,5 +1,6 @@
 import {WebContainer, ModWindow} from "lib/underas/container";
-import {Button,DatePartType, Select, ListView} from "lib/underas/controller";
+import {Button,DatePartType, Select} from "lib/underas/controller";
+import {ListView} from "lib/underas/listview";
 import {SimpleToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {ITrimestre, ITremestreQuery} from "../model/ITrimestre";
 import {jsPDF} from "lib/jspdf/jsPDF";

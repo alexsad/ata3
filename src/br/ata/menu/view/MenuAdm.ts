@@ -17,6 +17,7 @@ class MenuAdmStatic implements IWebElementClass{
 	public idUsuario: number;
 	public loginUsuario: string;
 	public perfisVisibles: boolean;
+	public onChangePerfil: (p_idPerfil:number) => void;
 	constructor(){
 		this.menus = [];
 		this.menu_selected = 0;
@@ -70,6 +71,9 @@ class MenuAdmStatic implements IWebElementClass{
 	setIdPerfil(p_idPerfil:number): void {
 		this.idPerfilSelected = p_idPerfil;
 		this.getMenusByIdPerfil(p_idPerfil);
+		if(this.onChangePerfil){
+			this.onChangePerfil(p_idPerfil);
+		}		
 	}
 	getMenusByIdPerfil(p_idPerfil: number): void {		
 		RequestManager.addRequest({
@@ -83,7 +87,7 @@ class MenuAdmStatic implements IWebElementClass{
 		//console.log(this.perfisVisibles);
 		this.perfisVisibles = !this.perfisVisibles;
 	}
-	onRender(p_ele:JQuery):void{}
+	onRender(p_ele:string):void{}
 	
 }
 

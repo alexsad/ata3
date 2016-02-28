@@ -1,5 +1,6 @@
 import {ModWindow,WebContainer} from "lib/underas/container";
-import {AlertMsg, ListView} from "lib/underas/controller";
+import {AlertMsg} from "lib/underas/controller";
+import {ListView} from "lib/underas/listview";
 import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import PerfilBox = require("../../perfil/view/PerfilBox");
 import {Atividade} from "./Atividade";

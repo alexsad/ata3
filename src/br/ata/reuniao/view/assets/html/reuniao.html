@@ -1,4 +1,4 @@
-<div class="col-xs-12 col-sm-12 col-md-12">
-	<h4>{dsData}</h4>
-	<p class="list-group-item-text">FREQUENCIA:{frequencia}</p>
+<div each="ireuniao in $data" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-12 col-md-12">
+	<h4>{ireuniao.dsData}</h4>
+	<p class="list-group-item-text">FREQUENCIA:{ireuniao.frequencia}</p>
 </div>

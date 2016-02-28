@@ -1,6 +1,7 @@
 import {System} from "lib/underas/core";
 import {ModWindow,WebContainer} from "lib/underas/container";
-import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput, ListView} from "lib/underas/controller";
+import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput} from "lib/underas/controller";
+import {ListView} from "lib/underas/listview";
 import {SimpleToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
 import PerfilBox = require("../../perfil/view/PerfilBox");

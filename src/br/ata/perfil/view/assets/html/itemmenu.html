@@ -1,7 +1,7 @@
-<div class="col-xs-12 col-sm-12 col-md-12">
-	<h4 style="overflow:hidden"><span class="glyphicon glyphicon-{icone}"></span>{label}</h4>
-	<p class="list-group-item-text">ICONE:{icone}</p>
-	<p class="list-group-item-text">ORDEM:{ordem}</p>
+<div each="iitemmenu in $data" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-12 col-md-12">
+	<h4 style="overflow:hidden"><span class="{'glyphicon glyphicon-'+iitemmenu.icone}"></span>{iitemmenu.label}</h4>
+	<p class="list-group-item-text">ICONE:{iitemmenu.icone}</p>
+	<p class="list-group-item-text">ORDEM:{iitemmenu.ordem}</p>
 	<!--<p class="list-group-item-text">TELA:{tela}</p>-->
-	<p class="list-group-item-text" style="overflow:hidden">{funcao}</p>
+	<p class="list-group-item-text" style="overflow:hidden">{iitemmenu.funcao}</p>
 </div>

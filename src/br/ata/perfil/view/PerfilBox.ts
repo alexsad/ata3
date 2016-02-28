@@ -68,6 +68,7 @@ class PerfilBoxStatic {
 			}.bind(this)
 		});
 		MenuAdm.appendTo("#main_menu_adm");
+		MenuAdm.onChangePerfil = this.setIdPerfil.bind(this);
 	}
 	loadNotificacoesPerfil(): void {
 		this._notificacoes = new NotifyPool("Avisos");

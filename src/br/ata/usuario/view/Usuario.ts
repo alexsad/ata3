@@ -1,6 +1,7 @@
 import {ModWindow, WebContainer} from "lib/underas/container";
-import {TextInput,CheckBox,TextArea,Select,PassWordInput,EmailInput,ListView} from "lib/underas/controller";
+import {TextInput,CheckBox,TextArea,Select,PassWordInput,EmailInput} from "lib/underas/controller";
 import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
+import {ListView} from "lib/underas/listview";
 import {UsuarioPerfil} from "./UsuarioPerfil";
 import {IUsuario} from "../model/IUsuario";
 

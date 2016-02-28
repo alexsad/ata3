@@ -1,5 +1,6 @@
 import {ModWindow,WebContainer} from "lib/underas/container";
-import {TextInput, AlertMsg, Select, ListView} from "lib/underas/controller";
+import {TextInput, AlertMsg, Select} from "lib/underas/controller";
+import {ListView} from "lib/underas/listview";
 import {RequestManager, ToolBar, IDefaultRequest} from "lib/underas/net";
 import {IUsuarioPerfil} from "../model/IUsuario";
 
@@ -54,7 +55,7 @@ export class UsuarioPerfil extends ModWindow{
 	onStart():void{
 		this.itPerfil.fromService({
 			"url": "perfil/getbysnativo/S"
-		});
+		});		
 	}
 
 	getByIdUsuario(p_idUsuario:number):void{

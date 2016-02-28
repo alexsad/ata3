@@ -1,9 +1,10 @@
 import { WebComponent, IWebElementClass } from "../core";
-import { Controller, IListView } from "../controller";
+import { Controller } from "../controller";
 import { ModView } from "./ModView";
 import { IDefaultRequest } from "../net";
 import { ModContainer } from "./ModContainer";
 import { AlertWindow } from "./AlertWindow";
+import { ListView } from "../listview";
 export declare enum ETypeModWindow {
     PRIMARY = 0,
     SUCCESS = 1,
@@ -63,8 +64,8 @@ export declare class ModWindow extends ModContainer {
     getColumns(): IModWindowColumn[];
     setIdField(p_field: string): void;
     getIdField(): string;
-    getMainList(): IListView;
     setMainList(p_main_list: string): void;
+    getMainList(): ListView<any>;
     show(on: boolean): void;
     beforeSave<T>(p_obj: T): T;
     afterSave<T>(p_obj: T): T;

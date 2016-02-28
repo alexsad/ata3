@@ -17,7 +17,7 @@ class BannerLoginStatic implements IWebElementClass{
 		this.visible = p_on;
 		(<IWebElementClass><any>this).refreshRender();
 	}
-	onRender(p_ele:JQuery):void{}
+	onRender(p_ele:string):void{}
 }
 
 var BannerLogin: BannerLoginStatic = new BannerLoginStatic();
