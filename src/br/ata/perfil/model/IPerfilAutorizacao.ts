@@ -1,3 +1,5 @@
+import {IPerfil} from "./IPerfil";
+
 export enum EPerfilAutorizacaoTP {
 	APROVACAO, LIBERACAO
 }
@@ -6,4 +8,5 @@ export interface IPerfilAutorizacao {
 	idPerfil: number;
 	idPerfilAlvo: number;
 	tpAutorizacao: EPerfilAutorizacaoTP;
+	perfil?: IPerfil;
 }

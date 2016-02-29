@@ -7,6 +7,7 @@
   "dependencies": {
     "cookies-js":"~1.2"
     ,"jquery": "~1.11.3"
+    ,"jquery-ui":"~1.10.4"
     ,"requirejs":"~2.1.8"
     ,"underas":"https://github.com/alexsad/underas.git"
     ,"bootstrap-datepicker":"https://github.com/eternicode/bootstrap-datepicker.git"

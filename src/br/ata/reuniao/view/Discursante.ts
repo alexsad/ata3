@@ -90,14 +90,9 @@ export class Discursante extends ModWindow{
 		});
 
 	}
-	beforeUpdate(p_req_obj:IDefaultRequest,p_obj:IDiscurso):IDefaultRequest{
-		p_obj.membro.nome = this.itIdMembro.getDescFromServiceByValue(p_obj.idMembro+"");
-		return p_req_obj;
-	}
-	afterInsert(p_obj:IDiscurso):IDiscurso{
-		p_obj.membro = <IMembro>{
-			nome: this.itIdMembro.getDescFromServiceByValue(p_obj.idMembro + "")
-		}
+	afterSave(p_obj: IDiscurso): IDiscurso {
+		p_obj.membro.id = p_obj.idMembro;
+		p_obj.membro.nome = this.itIdMembro.getText();		
 		return p_obj;
 	}
 	getByIdReuniao(p_idReuniao:number): void {

@@ -31,7 +31,7 @@ var DiscursoDAO = sequelize.define('discurso', {
 		, "freezeTableName": true
 });
 
-DiscursoDAO.belongsTo(MembroDAO, { as: 'membro', foreignKey: 'id_membro' });
+DiscursoDAO.belongsTo(MembroDAO, { as: 'membro', foreignKey: 'idMembro' });
 
 
 export = DiscursoDAO;

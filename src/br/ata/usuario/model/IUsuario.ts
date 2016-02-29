@@ -1,3 +1,5 @@
+import {IPerfil} from "../../perfil/model/IPerfil";
+
 export interface IUsuario{
 	id?:number;
 	login:string;
@@ -10,6 +12,6 @@ export interface IUsuarioPerfil {
 	id?: number;
 	idUsuario: number;
 	idPerfil: number;
-	dsPerfil?: string;
+	perfil?: IPerfil;
 }
 

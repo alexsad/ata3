@@ -3,6 +3,8 @@ import {RequestManager} from "lib/underas/net";
 import {ModView,ModWindow} from "lib/underas/container";
 import {IMenu, IItemMenu} from "../../perfil/model/IPerfil";
 import {IUsuarioPerfil} from "../../usuario/model/IUsuario";
+import {UsuarioUploadAvatar} from "../../usuario/view/UsuarioUploadAvatar";
+
 
 @WebElement({
 	templateResource:"menu/view/assets/html/menu_adm_simples"
@@ -10,22 +12,25 @@ import {IUsuarioPerfil} from "../../usuario/model/IUsuario";
 	//,noAutoRenderRefresh:true
 })
 class MenuAdmStatic implements IWebElementClass{
-	public menus: IMenu[];
-	public menu_selected: number;
-	public perfis: IUsuarioPerfil[];
-	public idPerfilSelected: number;	
+	private menus: IMenu[];
+	private menu_selected: number;
+	private usuarioPerfis: IUsuarioPerfil[];
+	private idPerfilSelected: number;	
 	public idUsuario: number;
 	public loginUsuario: string;
-	public perfisVisibles: boolean;
+	private perfisVisibles: boolean;
 	public onChangePerfil: (p_idPerfil:number) => void;
+	private _setAvatar: UsuarioUploadAvatar;
+	private _avatarcache: number;
 	constructor(){
-		this.menus = [];
 		this.menu_selected = 0;
-		this.perfis = [];
+		this.menus = [];		
+		this.usuarioPerfis = [];
 		this.idPerfilSelected = 0;
 		this.idUsuario=1;
 		this.loginUsuario="alex.query";
 		this.perfisVisibles = false;
+		this._avatarcache = 0;
 	}
 	appendTo(p_target:string):void{	
 		(<IWebElementClass><any>this).renderTo(p_target);
@@ -64,9 +69,13 @@ class MenuAdmStatic implements IWebElementClass{
 		this.menus = p_menu;
 		this.menu_selected = 0;
 	}
-	setPerfis(p_perfis: IUsuarioPerfil[]): void {
-		this.perfis = p_perfis;
+	private setUsuarioPerfis(p_usuarioPerfis: IUsuarioPerfil[]): void {
+		this.usuarioPerfis = p_usuarioPerfis;
 		this.idPerfilSelected = 0;
+		if(this.usuarioPerfis.length > 0){
+			this.getMenusByIdPerfil(this.usuarioPerfis[0].idPerfil);
+		}
+		//console.log(this.perfis);
 	}
 	setIdPerfil(p_idPerfil:number): void {
 		this.idPerfilSelected = p_idPerfil;
@@ -75,10 +84,18 @@ class MenuAdmStatic implements IWebElementClass{
 			this.onChangePerfil(p_idPerfil);
 		}		
 	}
-	getMenusByIdPerfil(p_idPerfil: number): void {		
+	getPerfisUsuarioByIdUsuario(p_idUsuario: number): void {		
+		RequestManager.addRequest({
+			"url": "usuarioperfil/getbyidusuario/" + p_idUsuario,
+			"onLoad": function(dta: IUsuarioPerfil[]) {							
+				this.setUsuarioPerfis(dta);
+			}.bind(this)
+		});
+	}
+	getMenusByIdPerfil(p_idPerfil: number): void {
 		RequestManager.addRequest({
 			"url": "menu/getfullbyidperfil/" + p_idPerfil,
-			"onLoad": function(dta: IMenu[]) {							
+			"onLoad": function(dta: IMenu[]) {
 				this.setMenu(dta);
 			}.bind(this)
 		});
@@ -88,6 +105,18 @@ class MenuAdmStatic implements IWebElementClass{
 		this.perfisVisibles = !this.perfisVisibles;
 	}
 	onRender(p_ele:string):void{}
+	private setAvatar(): void {
+		if (!this._setAvatar) {
+			this._setAvatar = new UsuarioUploadAvatar(this.idUsuario);
+			$("body").append(this._setAvatar.$);
+			this._setAvatar.$.on("avatarchanged",this.onChangeAvatar.bind(this));
+		};
+		this._setAvatar.show(true);
+	}
+	private onChangeAvatar():void{
+		this._setAvatar.show(false);
+		this._avatarcache = new Date().getTime();
+	}
 	
 }
 

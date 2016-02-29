@@ -98,13 +98,11 @@ export class Atividade {
 			idStatus: number
 			, descricao: string
 		}[] = [];
-
-		for (var i: number = 1; i < 8; i++) {
-			tmpArr.push({
-				idStatus: i
-				, descricao: EAtividadeStatus[i]
-			});
-		};
+		tmpArr.push({ idStatus: EAtividadeStatus.ELABORADA, descricao: EAtividadeStatus[EAtividadeStatus.ELABORADA] })
+		tmpArr.push({ idStatus: EAtividadeStatus.ENVIADA, descricao: EAtividadeStatus[EAtividadeStatus.ENVIADA] })
+		tmpArr.push({ idStatus: EAtividadeStatus.APROVADA, descricao: EAtividadeStatus[EAtividadeStatus.APROVADA] })
+		tmpArr.push({ idStatus: EAtividadeStatus.PENDENTE, descricao: EAtividadeStatus[EAtividadeStatus.PENDENTE] })
+		tmpArr.push({ idStatus: EAtividadeStatus.LIBERADA, descricao: EAtividadeStatus[EAtividadeStatus.LIBERADA] })
 		res.json(tmpArr);
 	}
 	getTotalOrcamentoByIdTrimestreAndIdPerfil(p_idTrimestre:number,p_idPerfil:number) {
@@ -135,6 +133,8 @@ export class Atividade {
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var natividade: IAtividade = <IAtividade>req.body;
+		natividade["id_trimestre"] = natividade.idTrimestre;
+		natividade["id_data"] = natividade.idData;
 		AtividadeDAO.upsert(natividade).then(function() {
 			res.json(natividade);
 		}).catch(function(err: any) {

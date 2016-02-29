@@ -84,4 +84,9 @@ export class PerfilAutorizacao extends ModWindow {
 			}.bind(this)
 		});
 	}	
+	afterSave(p_obj: IPerfilAutorizacao): IPerfilAutorizacao {		
+		p_obj.perfil.id = p_obj.idPerfilAlvo;
+		p_obj.perfil.descricao = this.itPerfilAlvo.getText();
+		return p_obj;
+	}
 }

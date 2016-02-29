@@ -20,6 +20,7 @@
 ]}
 ,{"modulo":"br.ata.trimestre.view.TrimestreView","descricao":"Edicao de Atividade","acao":[]}
 ,{"modulo":"br.ata.trimestre.view.AtividadePorPeriodo","descricao":"Calendario da Ala","acao":[]}
+,{"modulo":"br.ata.trimestre.view.AtividadeEdicao","descricao":"Correcao de Atividades","acao":[]}
 ,{"modulo":"br.ata.certificado.view.Certificado","descricao":"Certificado","acao":[]}
 ,{"modulo":"br.ata.reuniao.view.Convite","descricao":"Convites","acao":[]}
 ,{"modulo":"br.ata.reuniao.view.ReuniaoPorPeriodo","descricao":"Discusantes por Periodo","acao":[]}

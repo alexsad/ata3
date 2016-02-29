@@ -2,6 +2,8 @@ import server = require('../../../../service/RestServer');
 import {Get,Post,Put,Delete,Controller} from "../../../../lib/router/router";
 import PerfilAutorizacaoDAO = require("../model/perfilautorizacao");
 import {IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfilAutorizacao";
+import PerfilDAO = require("../model/perfil");
+
 
 @Controller()
 export class PerfilAutorizacao{
@@ -17,7 +19,13 @@ export class PerfilAutorizacao{
 	@Get("/getbyidperfil/:idperfil")
 	getByIdPerfil(req: server.Request, res: server.Response): void {
 		PerfilAutorizacaoDAO.findAll({
-			where:{
+			include: [{
+				all: true
+				, nested: false
+				, model: PerfilDAO
+				, required: false
+			}]
+			,where:{
 				idPerfil:req.params.idperfil
 			}
 		}).then(function(dta: IPerfilAutorizacao[]) {

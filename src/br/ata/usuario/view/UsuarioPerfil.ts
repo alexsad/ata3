@@ -55,9 +55,15 @@ export class UsuarioPerfil extends ModWindow{
 	onStart():void{
 		this.itPerfil.fromService({
 			"url": "perfil/getbysnativo/S"
-		});		
-	}
+		});	
 
+	}
+	afterSave(p_obj: IUsuarioPerfil): IUsuarioPerfil {
+		p_obj.perfil.id = p_obj.idPerfil;
+		p_obj.perfil.descricao = this.itPerfil.getText();
+		p_obj.perfil.comentario = "";
+		return p_obj;
+	}
 	getByIdUsuario(p_idUsuario:number):void{
 		this.itIdUsuario.setValue(p_idUsuario + "");
 		RequestManager.addRequest({

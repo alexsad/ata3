@@ -2,7 +2,7 @@ requirejs.config({
 		baseUrl:'js'
 		,urlArgs : "bust=${compile-version}"
 		,paths:{
-			'jquery-ui':'lib/jqueryui/jquery-ui.min'
+			'jquery-ui':'lib/jquery-ui/ui/minified/jquery.ui.min'
 			,'jquery': 'lib/jquery/dist/jquery.min'
 			,'lib/jspdf/jsPDF':'lib/jspdf/jspdf.debug'
 			,'jspdfreport':'lib/jspdf/jspdfreport'

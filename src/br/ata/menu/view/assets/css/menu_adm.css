@@ -28,7 +28,6 @@
 
 
 ul.menu_adm > li > a span{
-	color:#FFEAD5;
 	font-weight: bolder;
 }
 
@@ -41,7 +40,6 @@ ul.menu_adm > li.menu_adm_active > a:hover,ul.menu_adm > li.menu_adm_active > a:
 }
 
 ul.menu_adm > li > a span{
-	color:#FFEAD5;
 	font-weight: bolder;
 }
 
@@ -55,8 +53,6 @@ ul.menu_adm_item > li > a, ul.menu_adm_item > li a:hover,ul.menu_adm_item > li a
 	background: rgba(255, 234, 213, 0.1) none repeat scroll 0% 0%;
 }
 ul.menu_adm_item > li > a span{
-	/*color:#3F1100;*/
-	color:#FFEAD5;
 	font-size:10px;
 	font-weight: bolder;
 }

@@ -2,6 +2,8 @@ import server = require('../../../../service/RestServer');
 import {Get, Post, Put, Delete, Controller} from "../../../../lib/router/router";
 import UsuarioPerfilDAO = require("../model/usuarioperfil");
 import {IUsuarioPerfil} from "../model/IUsuario";
+import PerfilDAO = require("../../perfil/model/perfil");
+
 
 @Controller()
 export class UsuarioPerfil {
@@ -17,7 +19,13 @@ export class UsuarioPerfil {
 	@Get("/getbyidusuario/:idusuario")
 	getByIdUsuario(req: server.Request, res: server.Response): void {
 		UsuarioPerfilDAO.findAll({
-			where:{
+			include: [{
+				all: true
+				, nested: false
+				, model: PerfilDAO
+				, required: false
+			}]
+			,where:{
 				idUsuario: req.params.idusuario
 			}
 		}).then(function(dta: IUsuarioPerfil[]) {
