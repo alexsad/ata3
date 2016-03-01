@@ -3,6 +3,7 @@ import {TextInput, AlertMsg, Select} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
 import {RequestManager, ToolBar, IDefaultRequest} from "lib/underas/net";
 import {IUsuarioPerfil} from "../model/IUsuario";
+import {IPerfil} from "../../perfil/model/IPerfil";
 
 @WebContainer({
 	itemViewResource: "usuario/view/assets/html/usuarioperfil"
@@ -59,9 +60,13 @@ export class UsuarioPerfil extends ModWindow{
 
 	}
 	afterSave(p_obj: IUsuarioPerfil): IUsuarioPerfil {
+		if(!p_obj.perfil){
+			p_obj.perfil = <IPerfil>{};
+		};
 		p_obj.perfil.id = p_obj.idPerfil;
 		p_obj.perfil.descricao = this.itPerfil.getText();
 		p_obj.perfil.comentario = "";
+		p_obj.perfil.snAtivo = "S";
 		return p_obj;
 	}
 	getByIdUsuario(p_idUsuario:number):void{

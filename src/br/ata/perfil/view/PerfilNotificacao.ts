@@ -152,7 +152,7 @@ export class PerfilNotificacao extends ModWindow {
 		var tmpUrl: string = System.getLocation();
 		this.itModulo.fromService({
 			rootUrl: tmpUrl
-			, url: "assets/modulo.json?rev=" + this.getRevision()
+			, url: "assets/modulo.json?rev=" + System.getProjectVersion()
 		});
 		this.itTpNotificacao.fromService({
 			url: "perfilnotificacao/tiposnotificaco"
@@ -162,11 +162,11 @@ export class PerfilNotificacao extends ModWindow {
 		});
 		this.itIcone.fromService({
 			rootUrl: tmpUrl
-			, url: "assets/icons.json?rev=" + this.getRevision()
+			, url: "assets/icons.json?rev=" + System.getProjectVersion()
 		});
 		this.itModuloIcone.fromService({
 			rootUrl: tmpUrl
-			, url: "assets/icons.json?rev=" + this.getRevision()
+			, url: "assets/icons.json?rev=" + System.getProjectVersion()
 		});
 
 	}

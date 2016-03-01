@@ -93,11 +93,11 @@ export class ItemMenu extends ModWindow {
 		var tmpUrl: string = System.getLocation();
 		this.itIcone.fromService({
 			rootUrl: tmpUrl
-			, url: "assets/icons.json?rev=" + this.getRevision()
+			, url: "assets/icons.json?rev="+ System.getProjectVersion()
 		});
 		this.itTela.fromService({
 			rootUrl: tmpUrl
-			, url: "assets/modulo.json?rev=" + this.getRevision()
+			, url: "assets/modulo.json?rev="+ System.getProjectVersion()
 		});
 	}
 	getAcoes(evt: Event): void {

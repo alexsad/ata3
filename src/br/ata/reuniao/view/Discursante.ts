@@ -91,6 +91,9 @@ export class Discursante extends ModWindow{
 
 	}
 	afterSave(p_obj: IDiscurso): IDiscurso {
+		if(!p_obj.membro){
+			p_obj.membro=<IMembro>{};
+		};
 		p_obj.membro.id = p_obj.idMembro;
 		p_obj.membro.nome = this.itIdMembro.getText();		
 		return p_obj;

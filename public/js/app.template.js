@@ -23,7 +23,11 @@ requirejs(['jquery','cookies','bootstrap-datepicker'],function($jq,_cookie){
 		window.$ = window.jQuery = $jq;
 		window.Cookies = _cookie;
 		$jq(function(){
-				requirejs(['br/ata/main/view/main','bootstrap-datepicker-locale-pt-BR'],function(){}
+				requirejs(['lib/underas/core','br/ata/main/view/main','bootstrap-datepicker-locale-pt-BR'],function(_sist){
+						_sist.System.setProjectVersion("3.0.1_${compile-version}");
+						console.log(_sist.System.getProjectVersion());
+						//_sist.System.setProjectRevision("3.0.1_${compile-version}");
+				}
 			);
 		});
 	}

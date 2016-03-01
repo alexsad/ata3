@@ -73,7 +73,7 @@ export class Menu extends ModWindow{
 		this.getModView().append(this._items);
 		this.itIcone.fromService({
 			rootUrl: System.getLocation()
-			,url: "assets/icons.json"
+			, url: "assets/icons.json?rev_" + System.getProjectVersion()
 		});
 	}
 	getByIdPerfil(p_idPerfil:number):void{
