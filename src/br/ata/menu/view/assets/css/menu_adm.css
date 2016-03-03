@@ -11,18 +11,15 @@
 	padding-top:3px;
 	/*background-image: url('../img/wood_texture_675x150.jpg');*/
 }
-.top_adm_menu .logo_menu h4{
-	text-align: center;
-	width: 100%;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
 .top_adm_menu .logo_menu span{
-	margin-top: 5px;
-	font-size: 30px;
-	width: 45px;
-	height: 45px;
-	line-height: 45px;
+	/*margin-top: 5px;*/
+	font-size: 25px;
+	width: 35px;
+	height: 35px;
+	line-height: 35px;
+}
+.top_adm_menu .logo_menu{
+	padding: 2px 0px 0px 6px;
 }
 
 
@@ -58,7 +55,4 @@ ul.menu_adm_item > li > a span{
 }
 ul.menu_adm_item > li{
 	margin:0px;
-}
-.logo_menu h4,.logo_menu .h4{
-	color:#fff;
 }

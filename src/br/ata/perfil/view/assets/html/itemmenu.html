@@ -1,5 +1,8 @@
 <div each="iitemmenu in $data" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-12 col-md-12">
-	<h4 style="overflow:hidden"><span class="{'glyphicon glyphicon-'+iitemmenu.icone}"></span>{iitemmenu.label}</h4>
+	<h5 style="overflow:hidden">
+		<span class="{'glyphicon glyphicon-'+iitemmenu.icone}"></span>
+		<span> {iitemmenu.label}</span>
+	</h5>
 	<p class="list-group-item-text">ICONE:{iitemmenu.icone}</p>
 	<p class="list-group-item-text">ORDEM:{iitemmenu.ordem}</p>
 	<!--<p class="list-group-item-text">TELA:{tela}</p>-->

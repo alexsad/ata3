@@ -19,6 +19,7 @@ class MenuAdmStatic implements IWebElementClass{
 	public idUsuario: number;
 	public loginUsuario: string;
 	private perfisVisibles: boolean;
+	private showMenus: boolean;
 	public onChangePerfil: (p_idPerfil:number) => void;
 	private _setAvatar: UsuarioUploadAvatar;
 	private _avatarcache: number;
@@ -31,13 +32,18 @@ class MenuAdmStatic implements IWebElementClass{
 		this.loginUsuario="alex.query";
 		this.perfisVisibles = false;
 		this._avatarcache = 0;
+		this.showMenus = false;
+	}
+	private showMenu(p_on:boolean):void{
+		this.showMenus = p_on;
 	}
 	appendTo(p_target:string):void{	
 		(<IWebElementClass><any>this).renderTo(p_target);
 	}
 	setMenuIndex(p_index:number):void{
 		this.perfisVisibles = false;
-		this.menu_selected = p_index;		
+		this.menu_selected = p_index;
+		this.showMenu(true);		
 	}
 	loadModule(p_module: string, p_title: string, p_icon: string,p_action:string):void{
 		
@@ -71,8 +77,9 @@ class MenuAdmStatic implements IWebElementClass{
 	}
 	private setUsuarioPerfis(p_usuarioPerfis: IUsuarioPerfil[]): void {
 		this.usuarioPerfis = p_usuarioPerfis;
-		this.idPerfilSelected = 0;
+		this.idPerfilSelected = 0;		
 		if(this.usuarioPerfis.length > 0){
+			this.setIdPerfil(this.usuarioPerfis[0].idPerfil);
 			this.getMenusByIdPerfil(this.usuarioPerfis[0].idPerfil);
 		}
 		//console.log(this.perfis);

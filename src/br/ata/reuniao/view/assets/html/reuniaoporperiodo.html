@@ -1,16 +1,16 @@
 <div each="ireuniao in $data.reuniao">
 	<div data-idreuniao="{ireuniao.id}" class="col-xs-12 col-sm-12 col-md-12">
-		<h4>
+		<h5>
 			<button class="btn btn-primary" type="button">
 		  		{ireuniao.momento}<span class="badge">{ireuniao.discursos.length}</span>
 			</button>
-		</h4>
+		</h5>
 	</div>
 	<div onclick="{$data.setSelectedDiscurso(discurso.id,discurso.idReuniao)}" each="discurso in ireuniao.discursos" data-idconvite="{discurso.id}" data-indx="{$index}" class="{'tilecell list-group-item tilecell list-group-item col-xs-12 col-sm-4 col-md-4 convite_reuniao '+($data._selectedDiscurso==discurso.id?'selectedLine active':'')}">
-		<h4>
+		<h5>
 			<span data-indconv="{discurso.id}" class="label label-info convite_drag">{discurso.tempo}</span>
 			<span class="nmMembro"> {discurso.membro.nome}</span>
-		</h4>
+		</h5>
 		<a class="list-group-item-text" target="_blank" href="{discurso.linkFonte}">{discurso.tema}</a>
 		<p class="list-group-item-text">{discurso.fonte}</p>
 		<p class="list-group-item-text">fones:{discurso.membro.telefone} ou {discurso.membro.celular}</p>		

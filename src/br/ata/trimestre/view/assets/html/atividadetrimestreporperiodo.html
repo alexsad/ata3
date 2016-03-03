@@ -1,11 +1,11 @@
 <div each="itrimestre in $data">
 	<div class="col-xs-12 col-sm-12 col-md-12">
-		<h3>{itrimestre.nrTrimestre} º trimestre de {itrimestre.ano}</h3>
+		<h4>{itrimestre.nrTrimestre} º trimestre de {itrimestre.ano}</h4>
 	</div>	
-	<div each="atividade in itrimestre.atividades" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-4 col-md-4" style="min-height:230px">
-		<h4>
+	<div each="atividade in itrimestre.atividades" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-4 col-md-4">
+		<h5>
 			<span data-indconv="{atividade.id}" class="{'label label-'+atividade.iconStatus+' convite_drag'}">{atividade.codRefMLS}-{atividade.descricao}</span>
-		</h4>
+		</h5>
 		<p class="list-group-item-text">DATA:{atividade.datalivre.dsData} {atividade.hora}Hs</p>
 		<p class="list-group-item-text">PROPOSITO:{atividade.proposito}</p>
 		<p class="list-group-item-text">LOCAL:{atividade.local} - {atividade.vestuario}</p>	

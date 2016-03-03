@@ -21,7 +21,8 @@ export class Trimestre extends ModWindow{
 	constructor(){
 		super("trimestres");			
 		this.setSize(5);
-
+		this.showTitle(false);
+		
 		this.mainTb = new ToolBar({"domain":"trimestre"});
 		this.append(this.mainTb);
 

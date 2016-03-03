@@ -1,4 +1,7 @@
 <div each="idiscursante in $data" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-12 col-md-12">
-	<h4><span data-iddiscursante="{idiscursante.id}" data-nomedisc="{idiscursante.nome}" class="discursante_drag glyphicon glyphicon-screenshot"></span>{idiscursante.nome}</h4>
+	<h5>
+		<span data-iddiscursante="{idiscursante.id}" data-nomedisc="{idiscursante.nome}" class="discursante_drag glyphicon glyphicon-screenshot"></span>
+		<span> {idiscursante.nome}</span>		
+	</h5>
 	<p class="list-group-item-text">{idiscursante.telefone} ou {idiscursante.celular}</p>
 </div>

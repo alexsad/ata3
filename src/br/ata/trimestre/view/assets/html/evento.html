@@ -1,8 +1,8 @@
-<div each="ievento in $data" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-4 col-md-4" style="min-height:270px">
-	<h4>
-		<span class="{'alert-'+ievento.iconStatus}"> {ievento.codRefMLS}</span>
-		<span>-{ievento.descricao}</span>
-	</h4>
+<div each="ievento in $data" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-4 col-md-4">
+	<h5>
+		<span class="{'label label-as-badge label-'+ievento.iconStatus}"> {ievento.codRefMLS}</span>
+		<span> - {ievento.descricao}</span>
+	</h5>
 	<p class="list-group-item-text">{ievento.datalivre.dsData} {ievento.hora}Hs</p>
 	<p class="list-group-item-text">PROPOSITO:{ievento.proposito}</p>
 	<p class="list-group-item-text">LOCAL:{ievento.local} - {ievento.vestuario}</p>	

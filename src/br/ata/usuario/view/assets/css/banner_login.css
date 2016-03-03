@@ -19,3 +19,7 @@
 	height: 60px;
 	line-height: 65px;
 }
+.label-as-badge {
+	border-radius: 5%;
+	padding: 4px;
+}

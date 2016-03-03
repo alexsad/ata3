@@ -7,6 +7,7 @@ import {IUsuario} from "../model/IUsuario";
 
 @WebContainer({
 	itemViewResource: "usuario/view/assets/html/usuario"
+	, styleResource: ["usuario/view/assets/css/usuario"]
 })
 export class Usuario extends ModWindow{
 	itIdUsuario:TextInput;

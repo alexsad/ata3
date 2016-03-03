@@ -18,6 +18,7 @@ export class Certificado extends ModWindow{
 
 		this.mainTb = new ToolBar({"domain":"certificado"});
 		this.append(this.mainTb);
+		this.showTitle(false);
 
 		this.itIdCertificado = new TextInput("");
 		this.itIdCertificado.setColumn("$id");

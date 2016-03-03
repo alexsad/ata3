@@ -14,7 +14,8 @@ export class TrimestreView extends ModWindow{
 	mainList: ListView<ITrimestre>;
 	_modAtividade: Atividade;
 	constructor(){
-		super("trimestres");		
+		super("trimestres");
+		this.showTitle(false);		
 		this.setSize(4);
 
 		this.amOrcamentoAtual = new AlertMsg("Clique no trimestre para ver o orcamento...");

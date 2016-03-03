@@ -37,7 +37,8 @@ export class Atividade extends ModWindow {
 	constructor(p_trimestre_view:TrimestreView) {
 		super("Atividades");		
 		this.setSize(8);
-
+		this.showTitle(false);
+		
 		this.mainTb = new ToolBar({ "domain": "atividade" });
 		this.mainTb.btDel.$.hide();
 		this.append(this.mainTb);

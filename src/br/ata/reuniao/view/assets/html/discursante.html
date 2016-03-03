@@ -1,5 +1,8 @@
 <div each="idiscursante in $data" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-4 col-md-4">
-	<h4><span class="label label-info">{idiscursante.tempo}</span>{idiscursante.membro.nome}</h4>
+	<h5>
+		<span class="label label-info">{idiscursante.tempo}</span>
+		<span> {idiscursante.membro.nome}</span>
+	</h5>
 	<p class="list-group-item-text">tema:{idiscursante.tema}</p>
 	<p class="list-group-item-text">fonte:{idiscursante.fonte}</p>
 	<p class="list-group-item-text">fones:{idiscursante.membro.telefone} ou {idiscursante.membro.celular}</p>
