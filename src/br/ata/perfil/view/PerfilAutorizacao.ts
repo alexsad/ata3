@@ -1,7 +1,8 @@
 import {ModWindow, WebContainer} from "lib/underas/container";
 import {TextInput, CheckBox, Button, AlertMsg, Select} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
-import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
+import {ToolBar} from "lib/underas/net";
+import {$http, IRequestConfig} from "lib/underas/http";
 import {IPerfil} from "../model/IPerfil";
 import {IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfilAutorizacao";
 import {PerfilView} from "./PerfilView";
@@ -77,12 +78,9 @@ export class PerfilAutorizacao extends ModWindow {
 	}
 	getByIdPerfil(p_idPerfil:number):void{
 		this.itPerfil.setValue(p_idPerfil + "");
-		RequestManager.addRequest({
-			"url":"perfilautorizacao/getbyidperfil/"+p_idPerfil
-			,"onLoad":function(dta:IPerfilAutorizacao[]){
-				(<PerfilAutorizacao>this).mainList.setDataProvider(dta);
-			}.bind(this)
-		});
+		$http
+			.get("perfilautorizacao/getbyidperfil/" + p_idPerfil)
+			.done((dta: IPerfilAutorizacao[]) => this.mainList.setDataProvider(dta));
 	}	
 	afterSave(p_obj: IPerfilAutorizacao): IPerfilAutorizacao {	
 		if(!p_obj.perfil){

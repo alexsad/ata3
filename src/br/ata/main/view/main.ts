@@ -1,9 +1,9 @@
 import {System} from "lib/underas/core";
 import {ModView} from "lib/underas/container";
-import {RequestManager} from "lib/underas/net";
+import {$http} from "lib/underas/http";
 import Login =require("../../usuario/view/Login");
 
-RequestManager.setRootUrl(System.getDomain()+":8330/");
+$http.rootUrl= System.getDomain()+":8330/";
 
 var mdw: ModView = new ModView("cadastro de teste!!!");
 mdw.$.addClass("mdwLogin");

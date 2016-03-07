@@ -1,7 +1,8 @@
 import {ModWindow,WebContainer} from "lib/underas/container";
 import {NumericStepper,TextInput,Select} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
-import {ToolBar,IDefaultRequest,RequestManager} from "lib/underas/net";
+import {ToolBar} from "lib/underas/net";
+import {IRequestConfig,$http} from "lib/underas/http";
 import {System} from "lib/underas/core";
 import {IMenu} from "../model/IPerfil";
 import {ItemMenu} from "./ItemMenu";
@@ -63,8 +64,6 @@ export class Menu extends ModWindow{
 		this.itOrdem.setEnable(false,2);
 		this.append(this.itOrdem);
 
-
-
 		this.mainList = new ListView<IMenu>("Menu");
 		this.append(this.mainList);
 	}
@@ -79,30 +78,27 @@ export class Menu extends ModWindow{
 	getByIdPerfil(p_idPerfil:number):void{
 		this.itIdPerfil.setValue(p_idPerfil+"");
 		this._items.mainList.setDataProvider([]);
-		RequestManager.addRequest({
-			"url":"menu/getbyidperfil/"+p_idPerfil
-			,"onLoad":function(dta:IMenu[]){
-				(<Menu>this).mainList.setDataProvider(dta);
-			}.bind(this)
-		});
+		$http
+			.get("menu/getbyidperfil/" + p_idPerfil)
+			.done((dta: IMenu[]) => this.mainList.setDataProvider(dta));
 	}
 	onChangeItem(p_obj:IMenu):IMenu{
 		this._items.getByIdMenu(p_obj.id);
 		return p_obj;
 	}
-	beforeInsert(p_req_obj: IDefaultRequest): IDefaultRequest{
+	beforeInsert(p_req_obj: IRequestConfig): IRequestConfig{
 		if (!this.itIdPerfil.getValue()) {
 			return null;
 		};
 		return p_req_obj;
 	}
-	beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: IMenu): IDefaultRequest{
+	beforeUpdate(p_req_new_obj: IRequestConfig, p_old_obj: IMenu): IRequestConfig{
 		if (!this.itIdPerfil.getValue()) {
 			return null;
 		};
 		return p_req_new_obj;
 	}
-	beforeDelete(p_req_delete: IDefaultRequest, p_old_obj: IMenu): IDefaultRequest{
+	beforeDelete(p_req_delete: IRequestConfig, p_old_obj: IMenu): IRequestConfig{
 		if (!this.itIdPerfil.getValue()) {
 			return null;
 		};

@@ -5,5 +5,5 @@ export { Img } from "./controllermods/Img";
 export { CheckBox } from "./controllermods/CheckBox";
 export { ENotifyType, IItemNotify, DefaultNotifyItemRender, ENotifyPoolType, NotifyPool } from "./controllermods/notify";
 export { IConfigDatePicker, DatePartType, DatePicker } from "./controllermods/datepicker";
-export { ProgressBar } from "./controllermods/ProgressBar";
+export { ProgressBar, EBarColorType } from "./controllermods/ProgressBar";
 export { ColorPickerInput } from "./controllermods/ColorPickerInput";

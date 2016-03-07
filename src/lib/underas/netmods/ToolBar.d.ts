@@ -1,5 +1,5 @@
 import { Button } from "../controller";
-import { IDefaultRequest } from "./netmod";
+import { IRequestConfig } from "./http";
 import { SimpleToolBar } from "./SimpleToolBar";
 export declare class ToolBar extends SimpleToolBar {
     _config: {
@@ -14,11 +14,16 @@ export declare class ToolBar extends SimpleToolBar {
         "domain": string;
     });
     private onAddRecord(evt);
-    getDefaultRequest(p_act: string, p_method: string): IDefaultRequest;
-    updateItem(p_objToUpdate: Object): void;
-    insertItem(p_objToInsert: Object): void;
+    getDefaultRequest(p_act: string, p_method: string): IRequestConfig;
+    private onUpdateItem(ObjectResp);
+    updateItem(p_objToUpdate: {}): void;
+    private onInsertItem(dta_new);
+    insertItem(p_objToInsert: {}): void;
+    private onErrorHandler(p_error);
+    private onDeleteItem();
     deleteItem(event: Event): void;
     activate(p_on: boolean): void;
+    private onReloadItens(dta_ret);
     reloadItens(event?: Event): void;
     saveItem(event: Event): void;
 }

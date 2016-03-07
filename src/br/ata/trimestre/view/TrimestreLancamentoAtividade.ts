@@ -1,6 +1,7 @@
 import {ModWindow,WebContainer} from "lib/underas/container";
 import {Select, Button, NumericStepper, TextInput} from "lib/underas/controller";
-import {ToolBar, RequestManager} from "lib/underas/net";
+import {$http} from "lib/underas/http";
+import {ToolBar} from "lib/underas/net";
 import {ListView} from "lib/underas/listview";
 import {ITrimestreLancamentoAtividade,ITrimestre} from "../model/ITrimestre";
 
@@ -61,11 +62,8 @@ export class TrimestreLancamentoAtividade extends ModWindow {
 	}
 	getByIdTrimestre(p_idTrimestre:number):void{
 		this.itIdTrimestre.setValue(p_idTrimestre + "");
-		RequestManager.addRequest({
-			url: "trimestrelancamentoatividade/getbyidtrimestre/" + p_idTrimestre
-			,onLoad:function(dta:ITrimestreLancamentoAtividade[]){
-				(<TrimestreLancamentoAtividade>this).mainList.setDataProvider(dta);
-			}.bind(this)
-		});
+		$http
+			.get("trimestrelancamentoatividade/getbyidtrimestre/" + p_idTrimestre)
+			.done((dta: ITrimestreLancamentoAtividade[]) => this.mainList.setDataProvider(dta));
 	}
 }

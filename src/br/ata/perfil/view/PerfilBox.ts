@@ -1,5 +1,5 @@
 import {NotifyPool, ENotifyType, ENotifyPoolType} from "lib/underas/controller";
-import {RequestManager} from "lib/underas/net";
+import {$http} from "lib/underas/http";
 import {IPerfil, IMenu, IItemMenu, IPerfilNotificacao} from "../model/IPerfil";
 import {IUsuarioPerfil} from "../../usuario/model/IUsuario";
 import MenuAdm = require("../../menu/view/MenuAdm");
@@ -36,6 +36,7 @@ class PerfilBoxStatic {
 		MenuAdm.loginUsuario = this.login;
 	}
 	loadNotificacoesPerfil(): void {
+		/*
 		this._notificacoes = new NotifyPool("Avisos");
 		this._notificacoes.$
 			.removeClass("column col-xs-2 col-sm-1")
@@ -47,11 +48,11 @@ class PerfilBoxStatic {
 			.addClass("pull-right")
 			.append(this._notificacoes.$);
 
-		RequestManager.addRequest({
+		$http.addRequest({
 			url: "perfilnotificacao/getbyidperfil/" + this.getIdPerfil()
 			, onLoad: function(dta: IPerfilNotificacao[]) {
 				dta.forEach(function(itemPerfilNotificacao: IPerfilNotificacao) {
-					RequestManager.addRequest({
+					$http.addRequest({
 						url: itemPerfilNotificacao.servicoContagem
 						, rootUrl: ""
 						, onLoad: function(result: { count: number }): void {
@@ -75,7 +76,7 @@ class PerfilBoxStatic {
 
 			}.bind(this)
 		});
-
+		*/
 	}
 	onLogoutPress(p_hanndler: Function): void {
 		p_hanndler();

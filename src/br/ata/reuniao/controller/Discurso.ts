@@ -24,6 +24,30 @@ export class Discurso {
 			res.json(err);
 		});
 	}
+
+	private getById(p_idDiscurso:number,p_handler_success:Function,p_onErro:Function) {
+		DiscursoDAO.findOne({
+			include: [{
+				all: true
+				, nested: false
+				, model: MembroDAO
+				, required: false
+			}]
+			,where:[{
+				id:p_idDiscurso
+			}]
+		}).then(p_handler_success).catch(p_onErro);
+	}
+
+	@Get("/:id")
+	getByIdService(req: server.Request, res: server.Response): void {
+		this.getById(
+			req.params.id
+			, (dta: IDiscurso) => res.json(dta)
+			, (error: any) => (res.status(400), res.json(error))
+		);
+	}
+
 	@Get("/getultimosdiscursos")
 	getUltimosDiscursosTotal(req: server.Request, res: server.Response): void {
 		var tmpReuniaoCtrl: Reuniao = new Reuniao();
@@ -79,8 +103,13 @@ export class Discurso {
 	add(req: server.Request, res: server.Response): void {
 		var ndiscurso: IDiscurso = <IDiscurso>req.body;
 		DiscursoDAO.create(ndiscurso).then(function(p_ndiscurso: IDiscurso) {
-			res.json(p_ndiscurso);
-		}).catch(function(err:any) {
+			this.getById(
+				p_ndiscurso.id
+				, (dta: IDiscurso) => res.json(dta)
+				, (error: any) => (res.status(400), res.json(error))
+			);
+			//res.json(p_ndiscurso);
+		}.bind(this)).catch(function(err:any) {
 			res.status(400);
 			res.json(err);
 		});
@@ -89,8 +118,13 @@ export class Discurso {
 	atualizar(req: server.Request, res: server.Response): void {
 		var ndiscurso: IDiscurso = <IDiscurso>req.body;
 		DiscursoDAO.upsert(ndiscurso).then(function() {
-			res.json(ndiscurso);
-		}).catch(function(err:any) {
+			//res.json(ndiscurso);
+			this.getById(
+				ndiscurso.id
+				, (dta: IDiscurso) => res.json(dta)
+				, (error: any) => (res.status(400), res.json(error))
+			);
+		}.bind(this)).catch(function(err:any) {
 			res.status(400);
 			res.json(err);
 		});

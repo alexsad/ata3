@@ -1,6 +1,7 @@
 import {ModWindow, WebContainer} from "lib/underas/container";
 import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput} from "lib/underas/controller";
-import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
+import {ToolBar} from "lib/underas/net";
+import {$http, IRequestConfig} from "lib/underas/http";
 import {ListView} from "lib/underas/listview";
 import {IAtividade,EAtividadeStatus} from "../model/ITrimestre";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
@@ -101,7 +102,7 @@ export class Atividade extends ModWindow {
 		this.itDtDisponivel.setLabel("Dts. Livres");
 		this.itDtDisponivel.setValueField("id");
 		this.itDtDisponivel.setLabelField("dsData");
-		this.itDtDisponivel.setEnable(true);
+		this.itDtDisponivel.setEnable(false,1);
 		this.itDtDisponivel.setSize(5);
 		this.append(this.itDtDisponivel);
 
@@ -232,30 +233,28 @@ export class Atividade extends ModWindow {
 		});
 		this.itDtDisponivel.getInput().on("change", this.setDtEvento.bind(this));
 	}
+	private onReceiveDatasDisponiveis(tmpDatasDiponiveis: Atividade[]): void {
+		this.itDtDisponivel.setDataProvider(tmpDatasDiponiveis);
+		if (tmpDatasDiponiveis.length > 0) {
+			this.itDtDisponivel.setEnable(true);
+		} else {
+			this.itDtDisponivel.setEnable(false);
+		}
+	}
 	getByIdTrimestreIdPerfil(p_idTrimestre:number,p_idPerfil:number):void{
         this.clearFormItem();
         this.novaAtividade();
 		this.itIdTrimestre.setValue(p_idTrimestre + "");
-		RequestManager.addRequest({
-			url: "atividade/getbyidtrimestreidperfil/"+p_idTrimestre+"/"+p_idPerfil
-			, onLoad: function(dta: IAtividade[]) {
-				(<Atividade>this).mainList.setDataProvider(dta);
-			}.bind(this)
-		});
+		$http
+			.get("atividade/getbyidtrimestreidperfil/" + p_idTrimestre + "/" + p_idPerfil)
+			.done((dta: IAtividade[]) => this.mainList.setDataProvider(dta));
+		
 		this.itIdData.fromService({
 			"url": "trimestredatalivre/getbyidtrimestre/" + p_idTrimestre
 		});
-		RequestManager.addRequest({
-			url: "trimestredatalivre/getdisponiveisbyidtrimestre/" + p_idTrimestre
-			, onLoad: function(tmpDatasDiponiveis: Atividade[]) {
-				(<Atividade>this).itDtDisponivel.setDataProvider(tmpDatasDiponiveis);
-				if(tmpDatasDiponiveis.length > 0){
-					(<Atividade>this).itDtDisponivel.setEnable(true);
-				}else{
-					(<Atividade>this).itDtDisponivel.setEnable(false);
-				}
-			}.bind(this)
-		});
+		$http
+			.get("trimestredatalivre/getdisponiveisbyidtrimestre/" + p_idTrimestre)
+			.done((dta: Atividade[]) => this.onReceiveDatasDisponiveis(dta));
 	}
 	novaAtividade():void{
 		this.itDsObservacao.setValue("Cadastre uma nova atividade clicando no '+'.");
@@ -335,9 +334,9 @@ export class Atividade extends ModWindow {
 		};
 		return tpAlert;
 	}
-	beforeInsert(p_req_obj:IDefaultRequest): IDefaultRequest{
-		p_req_obj.data.idStatus = EAtividadeStatus.ELABORADA;
-		p_req_obj.data.iconStatus = "info";
+	beforeInsert(p_req_obj:IRequestConfig): IRequestConfig{
+		p_req_obj.body.idStatus = EAtividadeStatus.ELABORADA;
+		p_req_obj.body.iconStatus = "info";
 		return p_req_obj;
 
 	}
@@ -350,7 +349,7 @@ export class Atividade extends ModWindow {
 		}
 		return p_obj;
 	}
-	beforeUpdate(p_req_obj: IDefaultRequest, p_old_obj:IAtividade): IDefaultRequest {
+	beforeUpdate(p_req_obj: IRequestConfig, p_old_obj:IAtividade): IRequestConfig {
 		if(p_old_obj.snEditavel=="N"){
 			return null;
 		};
@@ -358,35 +357,34 @@ export class Atividade extends ModWindow {
 		return p_req_obj;
 	}
 
-	beforeDelete(p_req: IDefaultRequest, p_old_obj: IAtividade): IDefaultRequest {
+	beforeDelete(p_req: IRequestConfig, p_old_obj: IAtividade): IRequestConfig {
 		return null;
 	}
-
+	private onUpdateAtividade(rt_save: boolean): void {
+		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
+		var tmpStatus: string = EAtividadeStatus[tmpItemAtiv.idStatus].toLowerCase();
+		if (rt_save) {
+			if (tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA) {
+				tmpStatus = "aprovada";
+			};
+			tmpItemAtiv.dsObservacao = "Atividade enviada com sucesso, em breve sua atividade sera analisada e se tudo estiver correto ela sera " + tmpStatus + "!";
+			this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
+			this.itDsObservacao.setType(AlertMsg.TP_INFO);
+		} else {
+			tmpItemAtiv.dsObservacao = "A atividade nao pode ser " + tmpStatus + ", entre em contato com o bispado em caso de duvidas!";
+			this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
+			this.itDsObservacao.setType(AlertMsg.TP_ERROR);
+		}
+	}
 	submeter():void{
 		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
 		if(tmpItemAtiv.snEditavel=="S"){
 			tmpItemAtiv.snEditavel = "N";			
 			tmpItemAtiv.idStatus = EAtividadeStatus.ENVIADA;			
-			RequestManager.addRequest({
-				url: "atividade"
-				,method:"PUT"
-				,data:tmpItemAtiv
-				,onLoad:function(rt_save:boolean):void{
-					var tmpStatus:string = EAtividadeStatus[tmpItemAtiv.idStatus].toLowerCase();
-					if(rt_save){
-						if (tmpItemAtiv.idStatus == EAtividadeStatus.ENVIADA) {
-							tmpStatus = "aprovada";
-						};
-						tmpItemAtiv.dsObservacao = "Atividade enviada com sucesso, em breve sua atividade sera analisada e se tudo estiver correto ela sera " + tmpStatus + "!";
-						(<Atividade>this).itDsObservacao.setText(tmpItemAtiv.dsObservacao);
-						(<Atividade>this).itDsObservacao.setType(AlertMsg.TP_INFO);
-					}else{
-						tmpItemAtiv.dsObservacao = "A atividade nao pode ser " + tmpStatus + ", entre em contato com o bispado em caso de duvidas!";
-						(<Atividade>this).itDsObservacao.setText(tmpItemAtiv.dsObservacao);
-						(<Atividade>this).itDsObservacao.setType(AlertMsg.TP_ERROR);
-					}
-				}.bind(this)
-			});
+			$http
+				.put("atividade")
+				.body(tmpItemAtiv)
+				.done((res: boolean) => this.onUpdateAtividade(res));
 		};
 	}
 

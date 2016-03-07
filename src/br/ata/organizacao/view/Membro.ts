@@ -1,7 +1,8 @@
 import {ModWindow,WebContainer,ETypeModWindow} from "lib/underas/container";
 import {TextInput,CheckBox,TextArea,Select,PassWordInput,EmailInput} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
-import {ToolBar,RequestManager,IDefaultRequest} from "lib/underas/net";
+import {ToolBar} from "lib/underas/net";
+import {$http,IRequestConfig} from "lib/underas/http";
 import {IMembro} from "../model/IMembro";
 
 @WebContainer({
@@ -93,11 +94,8 @@ export class Membro extends ModWindow{
 	}
 	getByIdOrganizacao(p_idOrganizacao:number):void{
 		this.itIdOrgnizacao.setValue(p_idOrganizacao+"");		
-		RequestManager.addRequest({
-			"url": "membro/getbyidorganizacao/" + p_idOrganizacao
-			,"onLoad":function(dta:IMembro[]){
-				this.mainList.setDataProvider(dta);
-			}.bind(this)
-		});
+		$http
+			.get("membro/getbyidorganizacao/" + p_idOrganizacao)
+			.done((dta: IMembro[]) => this.mainList.setDataProvider(dta));
 	}
 }

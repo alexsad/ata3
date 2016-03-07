@@ -1,5 +1,5 @@
 import {WebElement,IWebElementClass,System} from "lib/underas/core";
-import {RequestManager} from "lib/underas/net";
+import {$http} from "lib/underas/http";
 import {ModView,ModWindow} from "lib/underas/container";
 import {IMenu, IItemMenu} from "../../perfil/model/IPerfil";
 import {IUsuarioPerfil} from "../../usuario/model/IUsuario";
@@ -92,20 +92,14 @@ class MenuAdmStatic implements IWebElementClass{
 		}		
 	}
 	getPerfisUsuarioByIdUsuario(p_idUsuario: number): void {		
-		RequestManager.addRequest({
-			"url": "usuarioperfil/getbyidusuario/" + p_idUsuario,
-			"onLoad": function(dta: IUsuarioPerfil[]) {							
-				this.setUsuarioPerfis(dta);
-			}.bind(this)
-		});
+		$http
+			.get("usuarioperfil/getbyidusuario/" + p_idUsuario)
+			.done((dta: IUsuarioPerfil[]) => this.setUsuarioPerfis(dta));
 	}
 	getMenusByIdPerfil(p_idPerfil: number): void {
-		RequestManager.addRequest({
-			"url": "menu/getfullbyidperfil/" + p_idPerfil,
-			"onLoad": function(dta: IMenu[]) {
-				this.setMenu(dta);
-			}.bind(this)
-		});
+		$http
+			.get("menu/getfullbyidperfil/" + p_idPerfil)
+			.done((dta: IMenu[]) => this.setMenu(dta));
 	}
 	showPerfis(){
 		//console.log(this.perfisVisibles);

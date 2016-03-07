@@ -1,7 +1,8 @@
 import {ModWindow,WebContainer} from "lib/underas/container";
 import {Select, TextInput, TextArea, NumericStepper, DatePicker} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
-import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
+import {ToolBar} from "lib/underas/net";
+import {$http, IRequestConfig} from "lib/underas/http";
 import {IDiscurso} from "../model/IDiscurso";
 import {IMembro} from "../../organizacao/model/IMembro";
 
@@ -90,21 +91,10 @@ export class Discursante extends ModWindow{
 		});
 
 	}
-	afterSave(p_obj: IDiscurso): IDiscurso {
-		if(!p_obj.membro){
-			p_obj.membro=<IMembro>{};
-		};
-		p_obj.membro.id = p_obj.idMembro;
-		p_obj.membro.nome = this.itIdMembro.getText();		
-		return p_obj;
-	}
 	getByIdReuniao(p_idReuniao:number): void {
 		this.itIdReuniao.setValue(p_idReuniao+"");
-		RequestManager.addRequest({
-			"url":"discurso/getbyidreuniao/"+p_idReuniao
-			,"onLoad":function(dta:IDiscurso[]){
-				(<Discursante>this).mainList.setDataProvider(dta);
-			}.bind(this)
-		});
+		$http
+			.get("discurso/getbyidreuniao/" + p_idReuniao)
+			.done((dta: IDiscurso[]) => this.mainList.setDataProvider(dta));
 	}
 }

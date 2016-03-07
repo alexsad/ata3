@@ -21,6 +21,7 @@ export interface ITrimestreDataLivre{
 	id?: number;
 	idTrimestre: number;
 	momento:string;
+	dsData?: string;
 	snDisponivel:string;
 }
 export interface IAtividade {

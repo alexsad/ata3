@@ -1,7 +1,8 @@
 import {ModWindow, WebContainer} from "lib/underas/container";
 import {Button, TextInput, Select, TextArea, NumericStepper, DatePicker, DatePartType} from "lib/underas/controller";
-import {SimpleToolBar,RequestManager,IDefaultRequest} from "lib/underas/net";
+import {$http,IRequestConfig} from "lib/underas/http";
 import {IReuniao} from "../model/IReuniao";
+import {SimpleToolBar} from "lib/underas/net";
 import {IDiscurso} from "../model/IDiscurso";
 import {Discursante} from "./Discursante";
 import {FastMembro} from "../../organizacao/view/FastMembro";
@@ -130,41 +131,24 @@ export class ReuniaoPorPeriodo extends ModWindow{
 		return p_obj;
 	}
 	atualizar(p_atualizado:IDiscurso):void{
+
 		var tmpNewNome = this.itIdMembro.getText();		
-		RequestManager.addRequest({
-			"url":"discurso"
-			,"method":"put"
-			,"data":p_atualizado
-			, "onLoad": function(p_item_updated: IDiscurso): void {
-				p_item_updated.membro = {
-					id:p_atualizado.idMembro
-					,nome: tmpNewNome
-					,sexo:""
-					,snAtivo:"S"
-					,idOrganizacao:1
-					,telefone:""
-					,celular:""
-					,obs:""					
-				};			
-				this.reuniaoPeriodoList.updateDiscurso(p_item_updated);
-			}.bind(this)
-		});
+		$http
+			.put("discurso")
+			.body(p_atualizado)
+			.done((p_item_updated: IDiscurso) => this.reuniaoPeriodoList.updateDiscurso(p_item_updated));
 	}
 	pesquisar(evt?:Event):void{
 		if(evt){
 			evt.preventDefault();
 		};
-
-		RequestManager.addRequest({
-			"url": "reuniao/getbyperiodo"
-			, "data": {
-				"inicio":this.itDtaI.getValue()
-				,"fim":this.itDtaF.getValue()
-			}
-			, "onLoad": function(dta: IReuniao[]) {
-				this.reuniaoPeriodoList.reuniao = dta;
-			}.bind(this)
-		});
+		$http
+			.get("reuniao/getbyperiodo")
+			.params({
+				"inicio": this.itDtaI.getValue()
+				, "fim": this.itDtaF.getValue()
+			})
+			.done((dta: IReuniao[]) => this.reuniaoPeriodoList.reuniao = dta);
 	}
 	printSintetico(evt:Event):void{
 		evt.preventDefault();

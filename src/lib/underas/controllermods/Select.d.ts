@@ -1,5 +1,5 @@
 import { DoubleInput } from "./controllermod";
-import { IRequestConf } from "../net";
+import { IRequestConfig } from "../http";
 export declare class Select extends DoubleInput {
     private _valuefield;
     private _labelfield;
@@ -23,5 +23,6 @@ export declare class Select extends DoubleInput {
     setValue(p_vl: string): void;
     getDescFromServiceByValue(p_vl: string): string;
     reloadService(evt?: Event): void;
-    fromService(p_req_service: IRequestConf): void;
+    private onRequestReceive(rs);
+    fromService(p_req_service: IRequestConfig): void;
 }

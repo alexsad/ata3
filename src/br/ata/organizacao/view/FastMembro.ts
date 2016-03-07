@@ -1,6 +1,6 @@
 import {ModWindow,WebContainer,ETypeModWindow} from "lib/underas/container";
 import {ListView} from "lib/underas/listview";
-import {ToolBar,RequestManager,IDefaultRequest} from "lib/underas/net";
+import {$http,IRequestConfig} from "lib/underas/http";
 import {IMembro} from "../model/IMembro";
 
 @WebContainer({
@@ -20,16 +20,8 @@ export class FastMembro extends ModWindow{
 		this.getMainList().setDataProvider([]);
 	}
 	getMembros():void{
-		RequestManager.addRequest({
-			"url": "membro/getbysnativo/S"
-	        ,"onLoad":function(dta:IMembro[]){        	
-	        	this.getMainList().setDataProvider(dta);
-	        	/*
-	        	this.getMainList().$.find(".tilecell .discursante_drag").draggable({
-        			helper : "clone"
-     			});
-				*/
-	        }.bind(this)
-	    });   
+		$http
+			.get("membro/getbysnativo/S")
+			.done((dta: IMembro[]) => this.mainList.setDataProvider(dta));  
 	}
 }

@@ -11,9 +11,12 @@ export class Atividade {
 	@Get()
 	get(req: server.Request, res: server.Response): void {
 		AtividadeDAO.findAll({
-			include: [
-				{ model:TrimestreDataLivreDAO, as: 'datalivre'}
-			]
+			include: [{
+				all: true
+				, nested: false
+				, model: TrimestreDataLivreDAO
+				, required: false
+			}]
 		}).then(function(dta: IAtividade[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
@@ -21,16 +24,44 @@ export class Atividade {
 			res.json(err);
 		});
 	}
+
+	private getById(p_id: number, p_handler_success: Function, p_onErro: Function) {
+		AtividadeDAO.findOne({
+			include: [{
+				all: true
+				, nested: false
+				, model: TrimestreDataLivreDAO
+				, required: false
+			}]
+			, where: [{
+				id: p_id
+			}]
+		}).then(p_handler_success).catch(p_onErro);
+	}
+
+	@Get("/:id")
+	getByIdService(req: server.Request, res: server.Response): void {
+		this.getById(
+			req.params.id
+			, (dta: IAtividade) => res.json(dta)
+			, (error: any) => (res.status(400), res.json(error))
+		);
+	}
+
+
 	@Get("/getbyidtrimestreidperfil/:idtrimestre/:idperfil")
 	getByIdTrimestreIdPerfil(req: server.Request, res: server.Response): void {
 		AtividadeDAO.findAll({
-			where:{
-				idTrimestre:req.params.idtrimestre
-				,idPerfil:req.params.idperfil
+			include: [{
+				all: true
+				, nested: false
+				, model: TrimestreDataLivreDAO
+				, required: false
+			}]
+			, where: {
+				idTrimestre: req.params.idtrimestre
+				, idPerfil: req.params.idperfil
 			}
-			,include: [
-				{ model:TrimestreDataLivreDAO, as: 'datalivre'}
-			]
 		}).then(function(dta: IAtividade[]) {
 			res.json(dta);
 		}).catch(function(err:any) {
@@ -68,15 +99,18 @@ export class Atividade {
 					perfisAlvos.push(itemPerfilAuto.idPerfilAlvo);
 				});
 				AtividadeDAO.findAll({
-					where: {
+					include: [{
+						all: true
+						, nested: false
+						, model: TrimestreDataLivreDAO
+						, required: false
+					}]
+					,where: {
 						idStatus: req.params.idstatus
 						, idPerfil: {
 							$in: perfisAlvos
 						}
 					}
-					,include: [
-						{ model:TrimestreDataLivreDAO, as: 'datalivre'}
-					]
 				}).then(function(dta: IAtividade[]) {
 					res.json(dta);
 				}).catch(function(err:any) {
@@ -124,8 +158,13 @@ export class Atividade {
 	add(req: server.Request, res: server.Response): void {
 		var natividade: IAtividade = <IAtividade>req.body;
 		AtividadeDAO.create(natividade).then(function(p_natividade: IAtividade) {
-			res.json(p_natividade);
-		}).catch(function(err:any){
+			//res.json(p_natividade);
+			this.getById(
+				p_natividade.id
+				, (dta: IAtividade) => res.json(dta)
+				, (error: any) => (res.status(400), res.json(error))
+			);
+		}.bind(this)).catch(function(err:any){
 			res.status(400);
 			res.json(err);
 		});
@@ -133,11 +172,17 @@ export class Atividade {
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var natividade: IAtividade = <IAtividade>req.body;
-		natividade["id_trimestre"] = natividade.idTrimestre;
-		natividade["id_data"] = natividade.idData;
+		//natividade["id_trimestre"] = natividade.idTrimestre;
+		//natividade["id_data"] = natividade.idData;
 		AtividadeDAO.upsert(natividade).then(function() {
-			res.json(natividade);
-		}).catch(function(err: any) {
+			//res.json(natividade);
+			this.getById(
+				natividade.id
+				, (dta: IAtividade) => res.json(dta)
+				, (error: any) => (res.status(400), res.json(error))
+			);
+
+		}.bind(this)).catch(function(err: any) {
 			res.status(400);
 			res.json(err);
 		});

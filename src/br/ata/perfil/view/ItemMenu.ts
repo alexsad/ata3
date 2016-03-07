@@ -1,7 +1,8 @@
 import {ModWindow, WebContainer} from "lib/underas/container";
 import {NumericStepper, TextInput, Select} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
-import {ToolBar, IDefaultRequest, RequestManager} from "lib/underas/net";
+import {ToolBar} from "lib/underas/net";
+import {IRequestConfig, $http} from "lib/underas/http";
 import {System} from "lib/underas/core";
 import {IItemMenu, IModulo} from "../model/IPerfil";
 import {Menu} from "./Menu";
@@ -100,55 +101,49 @@ export class ItemMenu extends ModWindow {
 			, url: "assets/modulo.json?rev="+ System.getProjectVersion()
 		});
 	}
+	private onReceiveAcoes(dta: IModulo[]): void {
+		var tmpIdModule: string = this.itTela.getValue();
+		dta.every(function(itmod: IModulo, index: number): boolean {
+			if (itmod.modulo == tmpIdModule) {
+				if (itmod.acao.length > 0) {
+					this.itFuncao.setEnable(true);
+					this.itFuncao.setDataProvider(itmod.acao);
+				};
+				return false;
+			};
+			return true;
+		}.bind(this));
+	}
 	getAcoes(evt: Event): void {
 		//evt.preventDefault();
-		var _ele: JQuery = $(evt.target);
-
-		var tmpIdModule: string = this.itTela.getValue();
 		this.itFuncao.setEnable(false);
 		this.itFuncao.setDataProvider([]);
 		this.itFuncao.setValue("");
-
-		RequestManager.addRequest({
-			rootUrl: System.getLocation()
-			, url: "assets/modulo.json?rev=" + this.getRevision()
-			, onLoad: function(dta: IModulo[]) {
-				dta.every(function(itmod: IModulo, index: number): boolean {
-					if (itmod.modulo == tmpIdModule) {
-						if (itmod.acao.length > 0) {
-							this.itFuncao.setEnable(true);
-							this.itFuncao.setDataProvider(itmod.acao);
-						};
-						return false;
-					};
-					return true;
-				}.bind(this));
-
-			}.bind(this)
-		});
+		$http
+			.get("assets/modulo.json?rev=" + this.getRevision(), {
+				rootUrl:System.getLocation()				
+			})
+			.done((dta: IModulo[]) => this.onReceiveAcoes(dta));
 	}
 	getByIdMenu(p_idMenu: number): void {
 		this.itIdMenu.setValue(p_idMenu + "");
-		RequestManager.addRequest({
-			"url": "itemmenu/getbyidmenu/" + p_idMenu
-			, "onLoad": function(dta: IItemMenu[]) {
-				this.mainList.setDataProvider(dta);
-			}.bind(this)
-		});
+		$http
+			.get("itemmenu/getbyidmenu/" + p_idMenu)
+			.done((dta: IItemMenu[]) => this.mainList.setDataProvider(dta));
 	}
-	beforeInsert(p_req_obj: IDefaultRequest): IDefaultRequest {
+	beforeInsert(p_req_obj: IRequestConfig): IRequestConfig {
 		if (!this.itIdMenu.getValue()) {
 			return null;
 		};
 		return p_req_obj;
 	}
-	beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: IItemMenu): IDefaultRequest {
+	beforeUpdate(p_req_new_obj: IRequestConfig, p_old_obj: IItemMenu): IRequestConfig {
 		if (!this.itIdMenu.getValue()) {
 			return null;
 		};
 		return p_req_new_obj;
 	}
-	beforeDelete(p_req_delete: IDefaultRequest, p_old_obj: IItemMenu): IDefaultRequest {
+	beforeDelete(p_req_delete: IRequestConfig, p_old_obj: IItemMenu): IRequestConfig {
 		if (!this.itIdMenu.getValue()) {
 			return null;
 		};

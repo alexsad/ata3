@@ -1,6 +1,6 @@
 import {AlertWindow} from "lib/underas/container";
 import {FileInput, AlertMsg,Button} from "lib/underas/controller";
-import {RequestManager} from "lib/underas/net";
+import {$http} from "lib/underas/http";
 
 export class UsuarioUploadAvatar extends AlertWindow{
 	private idUsuario: number;
@@ -27,7 +27,7 @@ export class UsuarioUploadAvatar extends AlertWindow{
 		this.$.find("form").on("submit", function(event:Event) {
 			event.stopPropagation();
 		}).attr({ 
-			"action": RequestManager.getRootUrl()  +"usuario/upload_avatar/"+this.idUsuario
+			"action": $http.rootUrl  +"usuario/upload_avatar/"+this.idUsuario
 			,"method":"post"
 			,"enctype":"multipart/form-data"
 			,"target":"itarget"

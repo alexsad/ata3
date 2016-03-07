@@ -1,7 +1,7 @@
 import {ModWindow,WebContainer} from "lib/underas/container";
 import {TextInput, TextArea, NumericStepper, DatePicker} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
-import {ToolBar, RequestManager} from "lib/underas/net";
+import {ToolBar} from "lib/underas/net";
 import {Discursante} from "./Discursante";
 import {IReuniao} from "../model/IReuniao";
 

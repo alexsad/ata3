@@ -1,7 +1,8 @@
 import {WebContainer, ModWindow} from "lib/underas/container";
 import {Button,DatePartType, Select} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
-import {SimpleToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
+import {SimpleToolBar} from "lib/underas/net";
+import {$http, IRequestConfig} from "lib/underas/http";
 import {ITrimestre, ITremestreQuery} from "../model/ITrimestre";
 import {jsPDF} from "lib/jspdf/jsPDF";
 import {IReportTemplate, IReportTemplateItem} from "lib/jspdf/ijspdf";
@@ -68,26 +69,14 @@ export class AtividadePorPeriodo extends ModWindow{
 		this.itTrimestreF.fromService({ url: "trimestre" });
 	}
 	pesquisar():void{
-
-		//this.itDtaF.refresh();
-		//this.itDtaI.refresh();
-
-		//this.itDtaF.setValue(this.itDtaF.getValue());
-
-		//this.itDtaI.setValue(this.itDtaI.getValue());
-
 		var tmpPara:ITremestreQuery = {
 			idInicio:this.itTrimestreI.getValue()
 			,idFim:this.itTrimestreF.getValue()
 		};
-
-	    RequestManager.addRequest({	    
-	     	"url":"trimestre/getaprovadaseliberadasbyperiodo"
-			,"data": tmpPara
-	    	,"onLoad":function(dta:ITrimestre[]){    	
-				(<AtividadePorPeriodo>this).mainList.setDataProvider(dta);
-	    	}.bind(this)
-		});
+	    $http
+			.get("trimestre/getaprovadaseliberadasbyperiodo")
+			.params(tmpPara)
+			.done((dta: ITrimestre[]) => this.mainList.setDataProvider(dta));
 	}
 	printAta():void{        
 		//Underas.printDataProvider(this.getMainList().getDataProvider(),'assets/reports/calendario_sintetico.json');

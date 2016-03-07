@@ -1,7 +1,7 @@
 import {ModWindow,WebContainer} from "lib/underas/container";
 import {TextInput, CheckBox} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
-import {ToolBar,RequestManager} from "lib/underas/net";
+import {ToolBar} from "lib/underas/net";
 import {Menu} from "./Menu";
 import {IPerfil} from "../model/IPerfil";
 

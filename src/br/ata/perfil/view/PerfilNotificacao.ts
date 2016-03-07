@@ -1,7 +1,8 @@
 import {ModWindow, WebContainer} from "lib/underas/container";
 import {DatePicker, NumericStepper, TextInput, Select} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
-import {ToolBar, IDefaultRequest, RequestManager} from "lib/underas/net";
+import {ToolBar} from "lib/underas/net";
+import {IRequestConfig, $http} from "lib/underas/http";
 import {System} from "lib/underas/core";
 import {IPerfilNotificacao, IModulo, IModuloAcao} from "../model/IPerfil";
 
@@ -168,57 +169,49 @@ export class PerfilNotificacao extends ModWindow {
 			rootUrl: tmpUrl
 			, url: "assets/icons.json?rev=" + System.getProjectVersion()
 		});
-
+	}
+	private onReceiveAcoes(dta: IModulo[]): void {
+		var tmpIdModule: string = this.itModulo.getValue();
+		dta.every(function(itmod: IModulo, index: number): boolean {
+			if (itmod.modulo == tmpIdModule) {
+				if (itmod.acao.length > 0) {
+					(<PerfilNotificacao>this).itModuloAcao.setEnable(true);
+					(<PerfilNotificacao>this).itModuloAcao.setDataProvider(itmod.acao);
+				};
+				return false;
+			};
+			return true;
+		}.bind(this));
 	}
 	getAcoes(evt: Event): void {
-		//evt.preventDefault();
-		var _ele: JQuery = $(evt.target);
-
-		var tmpIdModule: string = this.itModulo.getValue();
 		this.itModuloAcao.setEnable(false);
 		this.itModuloAcao.setDataProvider([]);
 		this.itModuloAcao.setValue("");
-
-		RequestManager.addRequest({
-			rootUrl: System.getLocation()
-			, url: "assets/modulo.json?rev=" + this.getRevision()
-			, onLoad: function(dta: IModulo[]) {
-				dta.every(function(itmod: IModulo, index: number): boolean {
-					if (itmod.modulo == tmpIdModule) {
-						if (itmod.acao.length > 0) {
-							(<PerfilNotificacao>this).itModuloAcao.setEnable(true);
-							(<PerfilNotificacao>this).itModuloAcao.setDataProvider(itmod.acao);
-						};
-						return false;
-					};
-					return true;
-				}.bind(this));
-
-			}.bind(this)
-		});
+		$http
+			.get("assets/modulo.json?rev=" + this.getRevision(), {
+				rootUrl: System.getLocation()				
+			})
+			.done((dta: IModulo[]) => this.onReceiveAcoes(dta));
 	}
 	getByIdPerfil(p_idPerfil: number): void {
 		this.itIdPerfil.setValue(p_idPerfil + "");
-		RequestManager.addRequest({
-			"url": "perfilnotificacao/getbyidperfil/" + p_idPerfil
-			, "onLoad": function(dta: IPerfilNotificacao[]) {
-				(<PerfilNotificacao>this).mainList.setDataProvider(dta);
-			}.bind(this)
-		});
+		$http
+			.get("perfilnotificacao/getbyidperfil/" + p_idPerfil)
+			.done((dta: IPerfilNotificacao[]) => this.mainList.setDataProvider(dta));
 	}
-	beforeInsert(p_req_obj: IDefaultRequest): IDefaultRequest {
+	beforeInsert(p_req_obj: IRequestConfig): IRequestConfig {
 		if (!this.itIdPerfil.getValue()) {
 			return null;
 		};
 		return p_req_obj;
 	}
-	beforeUpdate(p_req_new_obj: IDefaultRequest, p_old_obj: IPerfilNotificacao): IDefaultRequest {
+	beforeUpdate(p_req_new_obj: IRequestConfig, p_old_obj: IPerfilNotificacao): IRequestConfig {
 		if (!this.itIdPerfil.getValue()) {
 			return null;
 		};
 		return p_req_new_obj;
 	}
-	beforeDelete(p_req_delete: IDefaultRequest, p_old_obj: IPerfilNotificacao): IDefaultRequest {
+	beforeDelete(p_req_delete: IRequestConfig, p_old_obj: IPerfilNotificacao): IRequestConfig {
 		if (!this.itIdPerfil.getValue()) {
 			return null;
 		};

@@ -63,7 +63,7 @@ gulp.task('copy_view_lib',function(){
 });
 
 gulp.task('copy_view_lib_not_min',function(){
-    var bower_path_libs = rootPath+"/bower_components/underas/dist/js/lib/";
+    var bower_path_libs = rootPath+"/bower_components/underas/dist/js/";
     //'!'+bower_path_libs+"/underas"
     return gulp.src(
     [
@@ -80,7 +80,7 @@ gulp.task('convert_template2IDOM',function(){
     .pipe(rename({
         extname: ".js"
     }))
-    .pipe(replace("function description (data) {","define(['lib/idom/incremental-dom-min'],function(_IDOM){return function($data){"))   
+    .pipe(replace("function description (data) {","define(['idom/incremental-dom-min'],function(_IDOM){return function($data){"))   
     .pipe(replace(/\}$/g,"}});"))
     .pipe(replace(/(elementOpen)/g,'_IDOM.$1'))
     .pipe(replace(/(elementVoid)/g,'_IDOM.$1'))

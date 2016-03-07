@@ -1,7 +1,8 @@
 import {ModWindow,WebContainer} from "lib/underas/container";
 import {TextInput, AlertMsg, Select} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
-import {RequestManager, ToolBar, IDefaultRequest} from "lib/underas/net";
+import {ToolBar} from "lib/underas/net";
+import {$http, IRequestConfig} from "lib/underas/http";
 import {IUsuarioPerfil} from "../model/IUsuario";
 import {IPerfil} from "../../perfil/model/IPerfil";
 
@@ -71,12 +72,9 @@ export class UsuarioPerfil extends ModWindow{
 	}
 	getByIdUsuario(p_idUsuario:number):void{
 		this.itIdUsuario.setValue(p_idUsuario + "");
-		RequestManager.addRequest({
-			url: "usuarioperfil/getbyidusuario/"+p_idUsuario
-			,onLoad:function(dta:IUsuarioPerfil[]){
-				(<UsuarioPerfil>this).mainList.setDataProvider(dta);
-			}.bind(this)
-		});
+		$http
+			.get("usuarioperfil/getbyidusuario/" + p_idUsuario)
+			.done((dta: IUsuarioPerfil[]) => this.mainList.setDataProvider(dta));
 	}
 	
 }

@@ -2,7 +2,8 @@ import {System} from "lib/underas/core";
 import {ModWindow,WebContainer} from "lib/underas/container";
 import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
-import {SimpleToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
+import {SimpleToolBar} from "lib/underas/net";
+import {$http, IRequestConfig} from "lib/underas/http";
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
 import PerfilBox = require("../../perfil/view/PerfilBox");
 import {jsPDF} from "lib/jspdf/jsPDF";
@@ -19,7 +20,7 @@ export class AtividadeAutorizacao extends ModWindow {
 	itDetalhes: TextArea;
 	itCodRefMLS: TextInput;
 	itLocal: TextInput;
-	itMomento: Select;
+	itMomento: TextInput;
 	itHora: TimeInput;
 	itIdOrganizacao: Select;
 	itIdResponsavel: Select;
@@ -35,6 +36,7 @@ export class AtividadeAutorizacao extends ModWindow {
 	btPrintAta: Button;
 	btSubmeter: Button;
 	btCancelar: Button;
+	btReload: Button;
 	_idStatus: EAtividadeStatus;
 	constructor() {
 		super("Atividades");
@@ -99,14 +101,15 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itDescricao);
 
 
-		this.itMomento = new Select("data");
-		this.itMomento.setColumn("@idData");
+		this.itMomento = new TextInput("data");
+		this.itMomento.setIcon("calendar");
+		this.itMomento.setColumn("@datalivre.dsData");
 		this.itMomento.setPlaceHolder("ex. 31-12-2015");
 		this.itMomento.setLabel("data");
 		this.itMomento.setEnable(false);
 		this.itMomento.setSize(4);
-		this.itMomento.setValueField("id");
-		this.itMomento.setLabelField("dsData");
+		//this.itMomento.setValueField("id");
+		//this.itMomento.setLabelField("dsData");
 		this.append(this.itMomento);
 
 
@@ -204,7 +207,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.btSubmeter.setIcon("check");
 		this.btSubmeter.addEvent('click', this.submeter.bind(this));
 		this.btSubmeter.setEnable(false);
-		this.mainTb.addButton(this.btSubmeter);
+		this.mainTb.addButton(this.btSubmeter,true);
 
 		this.btCancelar = new Button("Pendente");
 		this.btCancelar.$.removeClass("btn-default").addClass("btn-warning");
@@ -212,6 +215,12 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.btCancelar.addEvent('click', this.cancelar.bind(this));
 		this.btCancelar.setEnable(false);
 		this.mainTb.addButton(this.btCancelar);
+
+		this.btReload = new Button("Reload");
+		this.btReload.setIcon("refresh");
+		this.btReload.addEvent('click', this.Atualizar.bind(this));
+		this.btReload.setEnable(true);
+		this.mainTb.addButton(this.btReload);
 
 		this.btPrintAta = new Button("Ata");
 		this.btPrintAta.setIcon("print");
@@ -236,33 +245,33 @@ export class AtividadeAutorizacao extends ModWindow {
 			"url": "organizacao"
 		});
 	}
-	printAta():void{
-		RequestManager.addRequest({
-			rootUrl: System.getLocation()
-			, url: "assets/reports/ata_atividade2.json"
-			, onLoad: function(reporttemplate: IReportTemplate) {
-				var tmpAtiv:IAtividade  = (<AtividadeAutorizacao>this).mainList.getSelectedItem();
-				tmpAtiv.nmResponsavel = (<AtividadeAutorizacao>this).itIdResponsavel.getDescFromServiceByValue(tmpAtiv.idResponsavel+"");
-				tmpAtiv.momento = (<AtividadeAutorizacao>this).itMomento.getDescFromServiceByValue(tmpAtiv.idData+"");
-				tmpAtiv.momento = tmpAtiv.momento.substring(0,10);
-				tmpAtiv.dsOrganizacao = (<AtividadeAutorizacao>this).itIdOrganizacao.getDescFromServiceByValue(tmpAtiv.idOrganizacao+"");
-				reporttemplate.dataSets[0].itens.push(<IReportTemplateItem>tmpAtiv);
-				
-				var jspdfdoc = new jsPDF('p', 'pt', 'a4');
-				jspdfdoc.setJereport(reporttemplate);
-				jspdfdoc.save("ata_" +tmpAtiv.codRefMLS+".pdf");
-			}.bind(this)
-		});
+	private onReportReady(reporttemplate: IReportTemplate): void {
+		var tmpAtiv:IAtividade = this.mainList.getSelectedItem();
+		console.log(tmpAtiv);
+		tmpAtiv.nmResponsavel = (<AtividadeAutorizacao>this).itIdResponsavel.getDescFromServiceByValue(tmpAtiv.idResponsavel + "");
+		//tmpAtiv.momento = (<AtividadeAutorizacao>this).itMomento.getDescFromServiceByValue(tmpAtiv.idData + "");
+		//tmpAtiv.momento = tmpAtiv.momento.substring(0, 10);
+		tmpAtiv.momento = tmpAtiv.datalivre.dsData.substring(0, 10);
+		tmpAtiv.dsOrganizacao = (<AtividadeAutorizacao>this).itIdOrganizacao.getDescFromServiceByValue(tmpAtiv.idOrganizacao + "");
+		reporttemplate.dataSets[0].itens.push(<IReportTemplateItem>tmpAtiv);
 
+		var jspdfdoc = new jsPDF('p', 'pt', 'a4');
+		jspdfdoc.setJereport(reporttemplate);
+		jspdfdoc.save("ata_" + tmpAtiv.codRefMLS + ".pdf");
+	}
+	printAta():void{
+		$http
+			.get("assets/reports/ata_atividade2.json?rev=" + System.getProjectVersion(), { rootUrl: System.getLocation()})
+			.done((reporttemplate: IReportTemplate) => this.onReportReady(reporttemplate));
 	}
 	getByIdStatus(p_idStatus:EAtividadeStatus):void{
 		this._idStatus = p_idStatus;
-		RequestManager.addRequest({
-			url: "atividade/getbyidperfilidstatus/" + PerfilBox.getIdPerfil() + "/" + p_idStatus
-			, onLoad: function(dta: IAtividade[]) {
-				(<AtividadeAutorizacao>this).mainList.setDataProvider(dta);
-			}.bind(this)
-		});
+		$http
+			.get("atividade/getbyidperfilidstatus/" + PerfilBox.getIdPerfil() + "/" + p_idStatus)
+			.done((dta: IAtividade[]) => this.mainList.setDataProvider(dta));
+	}
+	private Atualizar(evt:Event):void{
+		this.getByIdStatus(this._idStatus);
 	}
 	getAtividadesEnviadas():void{
 		this.getByIdStatus(EAtividadeStatus.ENVIADA);
@@ -276,10 +285,11 @@ export class AtividadeAutorizacao extends ModWindow {
 		var on = (p_item.idStatus == this._idStatus);
 		this.habilitarCampos(on);
 		this.setFormItem(p_item);
+		/*
 		this.itMomento.fromService({
 			"url": "trimestredatalivre/getbyidtrimestre/" + p_item.idTrimestre
 		});
-
+		*/
 		return p_item;
 	}
 	habilitarCampos(on: boolean): void {
@@ -297,20 +307,34 @@ export class AtividadeAutorizacao extends ModWindow {
 		};
 		return tpAlert;
 	}
+	private onCancel(rt_save: boolean): void {
+		this.itDsObservacao.setText("Atividade cancelada!");
+		this.itDsObservacao.setType(AlertMsg.TP_WARNING);
+	}
 	cancelar(): void {
 		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
 		if (tmpItemAtiv.snEditavel == "S") {
 			tmpItemAtiv.snEditavel = "N";
 			tmpItemAtiv.idStatus = EAtividadeStatus.PENDENTE;
-			RequestManager.addRequest({
-				url: "atividade"
-				, method: "PUT"
-				, data: tmpItemAtiv
-				, onLoad: function(rt_save: boolean): void {
-					(<AtividadeAutorizacao>this).itDsObservacao.setText("Atividade cancelada!");
-					(<AtividadeAutorizacao>this).itDsObservacao.setType(AlertMsg.TP_WARNING);
-				}.bind(this)
-			});
+			$http
+				.put("atividade")
+				.body(tmpItemAtiv)
+				.done((res: boolean) => this.onCancel(res));
+		}
+	}
+	private onUpdateAtividade(rt_atividade: IAtividade): void {
+		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
+		var tmpStatus: string = EAtividadeStatus[rt_atividade.idStatus].toLowerCase();
+		if (rt_atividade.idStatus == EAtividadeStatus.LIBERADA || rt_atividade.idStatus == EAtividadeStatus.APROVADA) {
+			//tmpStatus = "aprovada";
+			//tmpItemAtiv.codRefMLS = rt_atividade.codRefMLS;
+			tmpItemAtiv.dsObservacao = "Atividade enviada com sucesso, em breve sua atividade sera analisada e se tudo estiver correto ela sera " + tmpStatus + "!";
+			this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
+			this.itDsObservacao.setType(AlertMsg.TP_INFO);
+		} else {
+			tmpItemAtiv.dsObservacao = "A atividade nao pode ser " + tmpStatus + ", entre em contato com o bispado em caso de duvidas!";
+			this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
+			this.itDsObservacao.setType(AlertMsg.TP_ERROR);
 		}
 	}
 	submeter(): void {
@@ -332,26 +356,10 @@ export class AtividadeAutorizacao extends ModWindow {
 				if(this.itCodRefMLS.getValue()){
 					tmpItemAtiv.codRefMLS = parseInt(this.itCodRefMLS.getValue());
 				};
+				$http
+					.put("membro/getbysnativo/S")
+					.done((rt_atividade: IAtividade) => this.onUpdateAtividade(rt_atividade));
 
-				RequestManager.addRequest({
-					url: "atividade"
-					, method: "PUT"
-					, data: tmpItemAtiv
-					, onLoad: function(rt_atividade: IAtividade): void {
-						var tmpStatus: string = EAtividadeStatus[rt_atividade.idStatus].toLowerCase();
-						if (rt_atividade.idStatus == EAtividadeStatus.LIBERADA || rt_atividade.idStatus == EAtividadeStatus.APROVADA) {
-							//tmpStatus = "aprovada";
-							//tmpItemAtiv.codRefMLS = rt_atividade.codRefMLS;
-							tmpItemAtiv.dsObservacao = "Atividade enviada com sucesso, em breve sua atividade sera analisada e se tudo estiver correto ela sera " + tmpStatus + "!";
-							this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
-							this.itDsObservacao.setType(AlertMsg.TP_INFO);
-						} else {
-							tmpItemAtiv.dsObservacao = "A atividade nao pode ser " + tmpStatus + ", entre em contato com o bispado em caso de duvidas!";
-							this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
-							this.itDsObservacao.setType(AlertMsg.TP_ERROR);
-						}
-					}.bind(this)
-				});
 			}else{
 				this.itCodRefMLS.setValid(false);
 			}

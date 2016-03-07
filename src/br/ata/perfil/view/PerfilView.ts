@@ -1,7 +1,7 @@
 import {ModWindow,WebContainer} from "lib/underas/container";
 import {TextInput, CheckBox} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
-import {RequestManager, IDefaultRequest} from "lib/underas/net";
+import {$http, IRequestConfig} from "lib/underas/http";
 import {Menu} from "./Menu";
 import {IPerfil} from "../model/IPerfil";
 import {EPerfilAutorizacaoTP} from "../model/IPerfilAutorizacao";
@@ -27,12 +27,9 @@ export class PerfilView extends ModWindow {
 		this._modPerfilAutorizacao.aviso.setText("Lista de perfis que o perfil selecionado pode aprovar ou liberar as atividades!");
 		this.getModView().append(this._modPerfilAutorizacao);
 
-		RequestManager.addRequest({
-			"url": "perfil/getbysnativo/S"
-			,"onLoad":function(dta:IPerfil[]):void{
-				(<PerfilView>this).getMainList().setDataProvider(dta);
-			}.bind(this)
-		});
+		$http
+			.get("perfil/getbysnativo/S")
+			.done((dta: IPerfil[]) => this.getMainList().setDataProvider(dta));
 	}
 	onChangeItem(p_obj: IPerfil): IPerfil {
 		this._modPerfilAutorizacao.getByIdPerfil(p_obj.id);

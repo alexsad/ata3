@@ -1,7 +1,7 @@
 import {ModWindow,WebContainer} from "lib/underas/container";
 import {NumericStepper, CheckBox, TextInput} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
-import {ToolBar, RequestManager, IDefaultRequest} from "lib/underas/net";
+import {ToolBar} from "lib/underas/net";
 import {ITrimestre} from "../model/ITrimestre";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import {TrimestreDataLivre} from "./TrimestreDataLivre";
@@ -61,42 +61,15 @@ export class Trimestre extends ModWindow{
 		
 		this.mainList = new ListView<ITrimestre>("Trimestre");
 		this.append(this.mainList);	
-		
-		//this.addAssociation({"mod":"OrganizacaoLancamento","url":"js/br/net/atasacramental/organizacao/view/OrganizacaoLancamento.js","act":"getByIdTrimestre","puid":this.getVarModule()});
-		//this.addAssociation({"mod":"Evento","url":"js/br/net/atasacramental/evento/view/Evento.js","act":"getByIdTrimestre","puid":this.getVarModule()});
-		
 	}
 	onStart():void{
 		this._modTrimestreDataLivre = new TrimestreDataLivre();
 		this.getModView().append(this._modTrimestreDataLivre);
-
 		this._modTrimestreLancamentoAtividade = new TrimestreLancamentoAtividade();
 		this.getModView().append(this._modTrimestreLancamentoAtividade);
-
 		this.mainTb.reloadItens();
-
-
 	}
-	/*
-	beforeUpdate(p_req:IDefaultRequest, p_old_obj:ITrimestre):IDefaultRequest{
-		//var tmpTrimS: ITrimestre = <ITrimestre>this.mainList.getSelectedItem();
-		if (p_old_obj.datasLivres) {
-			console.log(p_req);
-			p_req.data.datasLivres = p_old_obj.datasLivres;
-
-		};
-		return p_req;
-	}
-	*/
 	onChangeItem(p_obj:ITrimestre):ITrimestre{
-		/*
-		if(p_obj.trimestreLancamentoAtividade){
-			this._modTrimestreLancamentoAtividade.mainList.setDataProvider(p_obj.trimestreLancamentoAtividade);
-		}else{
-			this._modTrimestreLancamentoAtividade.mainList.setDataProvider([]);
-		};		
-		this._modTrimestreDataLivre.getDatasLivres();	
-		*/
 		this._modTrimestreDataLivre.getByIdTrimestre(p_obj.id);
 		this._modTrimestreLancamentoAtividade.getByIdTrimestre(p_obj.id);	
 		return p_obj;

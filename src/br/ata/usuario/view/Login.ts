@@ -1,7 +1,7 @@
 import {System} from "lib/underas/core";
 import {ModWindow, ModView,WebContainer} from "lib/underas/container";
 import {Button, CheckBox, PassWordInput, EmailInput, AlertMsg} from "lib/underas/controller";
-import {RequestManager} from "lib/underas/net";
+import {$http} from "lib/underas/http";
 import {IUsuario} from "../model/IUsuario";
 import PerfilBox = require("../../perfil/view/PerfilBox");
 import Cookies = require("lib/cookies/cookies");
@@ -75,6 +75,36 @@ class LoginStatic extends ModWindow {
 			this.btBaixarAplicativo.$.hide().removeClass("visible-xs");
 		};
 	}
+	private onLogar(dta: boolean): void {
+		if (dta == true) {
+			BannerLogin.show(false);
+			if (this.chlembrar.getValue() == "S") {
+				Cookies.set("clogin", this.itlogin.getValue(), { expires: Infinity });
+			};
+			this.amAviso.show(false);
+			(<LoginStatic>this).getDados();
+			$("#logo_menu").addClass("hidden-xs");
+
+			var moduleToLoad: string = System.getUrlParam("module");
+			if (moduleToLoad) {
+				var varModuleToLoadTmpM = moduleToLoad.split(".");
+				var varModuleToLoadTmp = varModuleToLoadTmpM[varModuleToLoadTmpM.length - 1];
+				var varModuleToLoadTmpCapt = varModuleToLoadTmp;
+
+				System.loadModules([moduleToLoad.replace(/\./g, "/")], function(mod_loaded: any) {
+					var tmpWV: ModView = new ModView("module tmp");
+					tmpWV.show(true);
+					tmpWV.append(new mod_loaded[varModuleToLoadTmpCapt]());
+				});
+			}
+
+		} else {
+			this.amAviso.setText("Login ou senha invalidos!");
+			this.amAviso.setType(AlertMsg.TP_ERROR);
+			this.amAviso.show(true);
+			//_gaq.push(['_trackEvent', 'usuario.business.UsuarioBLL.logar', 'invalido']);
+		}
+	}
 	logar(): void {
 		if (!this.itlogin.isValid()) {
 			this.itlogin.setValid(false);
@@ -98,56 +128,25 @@ class LoginStatic extends ModWindow {
 			this.amAviso.show(false);
 		}
 
-		RequestManager.addRequest({
-			"url": "usuario/logar"
-			, "method": "post"
-			, "data": {
+		$http
+			.post("usuario/logar")
+			.body({
 				"login": this.itlogin.getValue()
 				, "senha": this.itsenha.getValue()
-			}
-			, "onLoad": function(dta: boolean) {
-				if (dta == true) {
-					BannerLogin.show(false);
-					if (this.chlembrar.getValue() == "S") {
-						Cookies.set("clogin", this.itlogin.getValue(), { expires: Infinity });
-					};
-					this.amAviso.show(false);
-					(<LoginStatic>this).getDados();
-					$("#logo_menu").addClass("hidden-xs");
-
-					var moduleToLoad: string = System.getUrlParam("module");
-					if (moduleToLoad) {
-						var varModuleToLoadTmpM = moduleToLoad.split(".");
-						var varModuleToLoadTmp = varModuleToLoadTmpM[varModuleToLoadTmpM.length - 1];
-						var varModuleToLoadTmpCapt = varModuleToLoadTmp;
-
-						System.loadModules([moduleToLoad.replace(/\./g, "/")], function(mod_loaded: any) {
-							var tmpWV: ModView = new ModView("module tmp");
-							tmpWV.show(true);
-							tmpWV.append(new mod_loaded[varModuleToLoadTmpCapt]());
-						});
-					}
-
-				} else {
-					this.amAviso.setText("Login ou senha invalidos!");
-					this.amAviso.setType(AlertMsg.TP_ERROR);
-					this.amAviso.show(true);
-					//_gaq.push(['_trackEvent', 'usuario.business.UsuarioBLL.logar', 'invalido']);
-				}
-			}.bind(this)
-		});
+			})
+			.done((res: boolean) => this.onLogar(res));
+	}
+	private onReceiveDados(dta: IUsuario): void {
+		if (dta) {
+			PerfilBox.setLogin(dta.login);
+			PerfilBox.getPerfisByIdUsuario(dta.id);
+			this.getModView().show(false).showNav(false);
+		}
 	}
 	getDados(): void {
-		RequestManager.addRequest({
-			"url": "usuario/getbylogin/" + this.itlogin.getValue()
-			, "onLoad": function(dta: IUsuario) {
-				if (dta) {
-					PerfilBox.setLogin(dta.login);
-					PerfilBox.getPerfisByIdUsuario(dta.id);
-					(<LoginStatic>this).getModView().show(false).showNav(false);
-				}
-			}.bind(this)
-		});
+		$http
+		.get("usuario/getbylogin/" + this.itlogin.getValue())
+		.done((dta: IUsuario) => this.onReceiveDados(dta));
 	}
 	logOff(): void {
 		this.clearAll();

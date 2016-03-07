@@ -1,7 +1,8 @@
 import {ModWindow,WebContainer} from "lib/underas/container";
 import {CheckBox, TextInput, DatePicker} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
-import {RequestManager, IDefaultRequest, ToolBar} from "lib/underas/net";
+import {ToolBar} from "lib/underas/net";
+import {$http, IRequestConfig} from "lib/underas/http";
 import {ITrimestreDataLivre} from "../model/ITrimestre";
 
 @WebContainer({
@@ -54,11 +55,8 @@ export class TrimestreDataLivre extends ModWindow{
 	}
 	getByIdTrimestre(p_idTrimestre:number):void{
 		this.itIdTrimestre.setValue(p_idTrimestre+"");
-		RequestManager.addRequest({
-			url:"trimestredatalivre/getbyidtrimestre/"+p_idTrimestre
-			,onLoad:function(dta:ITrimestreDataLivre[]){
-				(<TrimestreDataLivre>this).mainList.setDataProvider(dta);
-			}.bind(this)
-		});
+		$http
+			.get("trimestredatalivre/getbyidtrimestre/" + p_idTrimestre)
+			.done((dta: ITrimestreDataLivre[]) => this.mainList.setDataProvider(dta));
 	}
 }

@@ -7,6 +7,7 @@ requirejs.config({
 			,'lib/jspdf/jsPDF':'lib/jspdf/jspdf.debug'
 			,'jspdfreport':'lib/jspdf/jspdfreport'
 			,'cookies':'lib/cookies-js/dist/cookies.min'
+			,"idom":"lib/idom"
 			,'bootstrap-datepicker':'lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min'
 			,'bootstrap-datepicker-locale-pt-BR':'lib/bootstrap-datepicker/dist/locales/bootstrap-datepicker.pt-BR.min'
 		}
@@ -25,7 +26,7 @@ requirejs(['jquery','cookies','bootstrap-datepicker'],function($jq,_cookie){
 		$jq(function(){
 				requirejs(['lib/underas/core','br/ata/main/view/main','bootstrap-datepicker-locale-pt-BR'],function(_sist){
 						_sist.System.setProjectVersion("3.0.1_${compile-version}");
-						console.log(_sist.System.getProjectVersion());
+						//console.log(_sist.System.getProjectVersion());
 						//_sist.System.setProjectRevision("3.0.1_${compile-version}");
 				}
 			);

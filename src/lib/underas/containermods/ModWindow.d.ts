@@ -1,7 +1,7 @@
 import { WebComponent, IWebElementClass } from "../core";
 import { Controller } from "../controller";
 import { ModView } from "./ModView";
-import { IDefaultRequest } from "../net";
+import { IRequestConfig } from "../http";
 import { ModContainer } from "./ModContainer";
 import { AlertWindow } from "./AlertWindow";
 import { ListView } from "../listview";
@@ -69,11 +69,11 @@ export declare class ModWindow extends ModContainer {
     show(on: boolean): void;
     beforeSave<T>(p_obj: T): T;
     afterSave<T>(p_obj: T): T;
-    beforeUpdate<T>(p_req_new_obj: IDefaultRequest, p_old_obj: T): IDefaultRequest;
+    beforeUpdate<T>(p_req_new_obj: IRequestConfig, p_old_obj: T): IRequestConfig;
     afterUpdate<T>(p_obj: T): T;
-    beforeInsert(p_req_obj: IDefaultRequest): IDefaultRequest;
+    beforeInsert(p_req_obj: IRequestConfig): IRequestConfig;
     afterInsert<T>(p_obj: T): T;
-    beforeDelete<T>(p_req_delete: IDefaultRequest, p_old_obj: T): IDefaultRequest;
-    beforeReload(p_req: IDefaultRequest): IDefaultRequest;
+    beforeDelete<T>(p_req_delete: IRequestConfig, p_old_obj: T): IRequestConfig;
+    beforeReload(p_req: IRequestConfig): IRequestConfig;
     onChangeItem<T>(p_obj: T): T;
 }

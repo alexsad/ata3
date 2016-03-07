@@ -9,6 +9,7 @@ export declare class ListView<T> extends WebComponent implements IComponent {
     private _itFilter;
     activate: boolean;
     constructor(p_list_name: string);
+    refresh(): void;
     private refreshRender();
     private onLoadRender(tmp, _IDOM);
     private setFilter(evt);
@@ -21,7 +22,8 @@ export declare class ListView<T> extends WebComponent implements IComponent {
     getSelectedItem(): T;
     private onChangeItemHandler(evt);
     private getRowCell();
-    changeToIndex(p_index: number): void;
-    private _changeSelectedItem(tgt);
+    private removeSelecteds();
+    changeToIndex(p_index: number, p_change_item?: boolean): void;
+    private _changeSelectedItem(tgt, p_change_item?);
     setChangeItemHandler(p_handler: (p_item: T) => void): void;
 }
