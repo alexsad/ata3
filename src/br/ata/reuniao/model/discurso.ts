@@ -33,5 +33,4 @@ var DiscursoDAO = sequelize.define('discurso', {
 
 DiscursoDAO.belongsTo(MembroDAO, { as: 'membro', foreignKey: 'idMembro' });
 
-
 export = DiscursoDAO;

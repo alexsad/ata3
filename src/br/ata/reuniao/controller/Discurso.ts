@@ -4,44 +4,21 @@ import DiscursoDAO = require("../model/discurso");
 import {IDiscurso} from "../model/IDiscurso";
 import {IReuniao} from "../model/IReuniao";
 import {Reuniao} from "./Reuniao";
-import MembroDAO = require("../../organizacao/model/membro");
 
 @Controller()
 export class Discurso {
 	@Get()
-	get(req: server.Request, res: server.Response): void {
-		DiscursoDAO.findAll({
-			include: [ {
-				all: true
-				,nested: false
-				,model:MembroDAO
-				,required: false
-			}]
-		}).then(function(dta: IDiscurso[]) {
+	get(req: server.Request, res: server.Response): void {        
+		DiscursoDAO.findAllAssoc().then(function(dta: IDiscurso[]) {
 			res.json(dta);
 		}.bind(this)).catch(function(err:any) {
 			res.status(400);
 			res.json(err);
 		});
 	}
-
-	private getById(p_idDiscurso:number,p_handler_success:Function,p_onErro:Function) {
-		DiscursoDAO.findOne({
-			include: [{
-				all: true
-				, nested: false
-				, model: MembroDAO
-				, required: false
-			}]
-			,where:[{
-				id:p_idDiscurso
-			}]
-		}).then(p_handler_success).catch(p_onErro);
-	}
-
 	@Get("/:id")
 	getByIdService(req: server.Request, res: server.Response): void {
-		this.getById(
+        DiscursoDAO.findByIdAssoc(
 			req.params.id
 			, (dta: IDiscurso) => res.json(dta)
 			, (error: any) => (res.status(400), res.json(error))
@@ -83,8 +60,7 @@ export class Discurso {
 			}
 			,include: [{
 				all: true
-				, nested: false
-				, model: MembroDAO
+				, nested: false				
 				, required: false
 			}]
 		});
@@ -102,13 +78,12 @@ export class Discurso {
 	@Post()
 	add(req: server.Request, res: server.Response): void {
 		var ndiscurso: IDiscurso = <IDiscurso>req.body;
-		DiscursoDAO.create(ndiscurso).then(function(p_ndiscurso: IDiscurso) {
-			this.getById(
+		DiscursoDAO.create(ndiscurso).then(function(p_ndiscurso: IDiscurso) {		
+			this.findByIdAssoc(
 				p_ndiscurso.id
 				, (dta: IDiscurso) => res.json(dta)
 				, (error: any) => (res.status(400), res.json(error))
 			);
-			//res.json(p_ndiscurso);
 		}.bind(this)).catch(function(err:any) {
 			res.status(400);
 			res.json(err);
@@ -118,8 +93,7 @@ export class Discurso {
 	atualizar(req: server.Request, res: server.Response): void {
 		var ndiscurso: IDiscurso = <IDiscurso>req.body;
 		DiscursoDAO.upsert(ndiscurso).then(function() {
-			//res.json(ndiscurso);
-			this.getById(
+			this.findByIdAssoc(
 				ndiscurso.id
 				, (dta: IDiscurso) => res.json(dta)
 				, (error: any) => (res.status(400), res.json(error))
