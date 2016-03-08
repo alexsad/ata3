@@ -1,18 +1,17 @@
 /// <reference path="../lib/sequelize/sequelize.d.ts" />
-var Model = require('../node_modules/sequelize/lib/model');
-Model.prototype.findByIdAssoc = function(p_id:number,p_handler_success:Function,p_onErro:Function) {
-	this.findOne({
-		include: [{
-			all: true
-			, nested: false				
-			, required: false
-		}]
-		,where:[{
-			id:p_id
-		}]
-	}).then(p_handler_success).catch(p_onErro);
+var Model = require('../../node_modules/sequelize/lib/model');
+Model.prototype.findByIdAssoc = function(p_id:number) {
+  return this.findOne({
+    include: [{
+      all: true
+      , nested: false
+      , required: false
+    }]
+    ,where:[{
+      id:p_id
+    }]
+  });
 }
-
 interface IOptionConfig{
     include?:{}[];
 }
@@ -25,7 +24,7 @@ Model.prototype.findAllAssoc=function(p_options?:IOptionConfig){
                 ,nested: false
                 ,required: false
            }
-        ];  
+        ];
     }
     return this.findAll(obj_options);
 }

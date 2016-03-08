@@ -9,20 +9,18 @@ import {Reuniao} from "./Reuniao";
 export class Discurso {
 	@Get()
 	get(req: server.Request, res: server.Response): void {        
-		DiscursoDAO.findAllAssoc().then(function(dta: IDiscurso[]) {
-			res.json(dta);
-		}.bind(this)).catch(function(err:any) {
-			res.status(400);
-			res.json(err);
-		});
+		DiscursoDAO
+			.findAllAssoc()
+			.then((dta: IDiscurso[]) => res.json(dta))
+			.catch((error: any) => (res.status(400), res.json(error)));
 	}
+
 	@Get("/:id")
 	getByIdService(req: server.Request, res: server.Response): void {
-        DiscursoDAO.findByIdAssoc(
-			req.params.id
-			, (dta: IDiscurso) => res.json(dta)
-			, (error: any) => (res.status(400), res.json(error))
-		);
+        DiscursoDAO
+        	.findByIdAssoc(req.params.id)
+			.then((dta: IDiscurso) => res.json(dta))
+			.catch((error: any) => (res.status(400), res.json(error)));
 	}
 
 	@Get("/getultimosdiscursos")
@@ -42,66 +40,51 @@ export class Discurso {
 					}
 				}).then(function(total:number) {
 					res.json({count:total||0});
-				}).catch(function(err: any) {
-					res.status(400);
-			res.json(err);
-				});
-				//res.json(dta);
+				})
+				.catch((error: any) => (res.status(400), res.json(error)));
 			}
-		).catch(function(err: any) {
-			res.status(400);
-			res.json(err);
-		});
+		)
+		.catch((error: any) => (res.status(400), res.json(error)));
 	}
+
 	getByIdReuniao(p_idReuniao: number){
-		return DiscursoDAO.findAll({
+		return DiscursoDAO
+		.findAllAssoc({
 			where: {
 				idReuniao: p_idReuniao
 			}
-			,include: [{
-				all: true
-				, nested: false				
-				, required: false
-			}]
 		});
 	}	
+
 	@Get("/getbyidreuniao/:idreuniao")
 	getByIdReuniaoService(req: server.Request, res: server.Response): void {
-		this.getByIdReuniao(req.params.idreuniao)
-		.then(function(dta: IDiscurso[]) {
-			res.json(dta);
-		}).catch(function(err:any) {
-			res.status(400);
-			res.json(err);
-		});
+		this
+		.getByIdReuniao(req.params.idreuniao)
+		.then((dta: IDiscurso[]) => res.json(dta))
+		.catch((error: any) => (res.status(400), res.json(error)));
 	}
+
 	@Post()
 	add(req: server.Request, res: server.Response): void {
 		var ndiscurso: IDiscurso = <IDiscurso>req.body;
 		DiscursoDAO.create(ndiscurso).then(function(p_ndiscurso: IDiscurso) {		
-			this.findByIdAssoc(
-				p_ndiscurso.id
-				, (dta: IDiscurso) => res.json(dta)
-				, (error: any) => (res.status(400), res.json(error))
-			);
-		}.bind(this)).catch(function(err:any) {
-			res.status(400);
-			res.json(err);
-		});
+			this
+				.findByIdAssoc(p_ndiscurso.id)
+				.then((dta: IDiscurso) => res.json(dta))
+				.catch((error: any) => (res.status(400), res.json(error)));
+		}.bind(this))
+		.catch((error: any) => (res.status(400), res.json(error)));
 	}
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
 		var ndiscurso: IDiscurso = <IDiscurso>req.body;
 		DiscursoDAO.upsert(ndiscurso).then(function() {
-			this.findByIdAssoc(
-				ndiscurso.id
-				, (dta: IDiscurso) => res.json(dta)
-				, (error: any) => (res.status(400), res.json(error))
-			);
-		}.bind(this)).catch(function(err:any) {
-			res.status(400);
-			res.json(err);
-		});
+			this
+				.findByIdAssoc(ndiscurso.id)
+				.then((dta: IDiscurso) => res.json(dta))
+				.catch((error: any) => (res.status(400), res.json(error)));
+		}.bind(this))
+		.catch((error: any) => (res.status(400), res.json(error)));
 	}
 	@Delete("/:id")
 	delete(req: server.Request, res: server.Response): void {
@@ -109,12 +92,9 @@ export class Discurso {
 			where: {
 				id: req.params.id
 			}
-		}).then(function() {
-			res.send(true);
-		}).catch(function(err:any) {
-			res.status(400);
-			res.json(err);
-		});
+		})
+		.then(() => res.send(true))
+		.catch((error: any) => (res.status(400), res.json(error)));
 	}
 
 }

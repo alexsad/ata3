@@ -19,10 +19,8 @@ export class Atividade {
 			}]
 		}).then(function(dta: IAtividade[]) {
 			res.json(dta);
-		}).catch(function(err:any) {
-			res.status(400);
-			res.json(err);
-		});
+		})
+		.catch((error: any) => (res.status(400), res.json(error)));
 	}
 
 	private getById(p_id: number, p_handler_success: Function, p_onErro: Function) {
@@ -64,10 +62,8 @@ export class Atividade {
 			}
 		}).then(function(dta: IAtividade[]) {
 			res.json(dta);
-		}).catch(function(err:any) {
-			res.status(400);
-			res.json(err);
-		});
+		})
+		.catch((error: any) => (res.status(400), res.json(error)));
 	}
 	@Get("/gettotalbyidstatus/:idstatus")
 	getByTotalByIdStatus(req: server.Request, res: server.Response): void {
@@ -77,10 +73,8 @@ export class Atividade {
 			}
 		}).then(function(result:number) {
 			res.json({ count: result || 0 });
-		}).catch(function(err: any) {
-			res.status(400);
-			res.json(err);
-		});
+		})
+		.catch((error: any) => (res.status(400), res.json(error)));
 	}
 	@Get("/getbyidperfilidstatus/:idperfil/:idstatus")
 	getByIdPerfilIdStatus(req: server.Request, res: server.Response): void {
@@ -113,16 +107,11 @@ export class Atividade {
 					}
 				}).then(function(dta: IAtividade[]) {
 					res.json(dta);
-				}).catch(function(err:any) {
-					throw new Error('Elsewhere has failed:' +err);
-			res.json(err);
-				});
+				})
+				.catch((error: any) => (res.status(400), res.json(error)));
 			}
 		})
-		.catch(function(err:any) {
-			res.status(400);
-			res.json(err);
-		});
+		.catch((error: any) => (res.status(400), res.json(error)));
 	}
 
 
@@ -164,10 +153,8 @@ export class Atividade {
 				, (dta: IAtividade) => res.json(dta)
 				, (error: any) => (res.status(400), res.json(error))
 			);
-		}.bind(this)).catch(function(err:any){
-			res.status(400);
-			res.json(err);
-		});
+		}.bind(this))
+		.catch((error: any) => (res.status(400), res.json(error)));
 	}
 	@Put()
 	atualizar(req: server.Request, res: server.Response): void {
@@ -182,10 +169,8 @@ export class Atividade {
 				, (error: any) => (res.status(400), res.json(error))
 			);
 
-		}.bind(this)).catch(function(err: any) {
-			res.status(400);
-			res.json(err);
-		});
+		}.bind(this))
+		.catch((error: any) => (res.status(400), res.json(error)));
 	}
 	@Delete("/:id")
 	delete(req: server.Request, res: server.Response): void {
@@ -195,10 +180,8 @@ export class Atividade {
 			}
 		}).then(function() {
 			res.send(true);
-		}).catch(function(err:any) {
-			res.status(400);
-			res.json(err);
-		});
+		})
+		.catch((error: any) => (res.status(400), res.json(error)));
 	}
 
 }
