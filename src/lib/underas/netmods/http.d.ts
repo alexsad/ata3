@@ -4,7 +4,8 @@ export interface IRequestConfig {
     method?: string;
     rootUrl?: string;
     queryData?: any;
-    body?:any;
+    body?: any;
+    contentType?: string;
 }
 export declare class TaskRequest {
     private config;
@@ -17,6 +18,7 @@ export declare class httpStatic {
     url: string;
     rootUrl: string;
     format: string;
+    contentType: string;
     constructor();
     private getDefaultConfig(p_config_to_merge);
     private getDefaultTaskRequest(p_method, p_url, p_config?);

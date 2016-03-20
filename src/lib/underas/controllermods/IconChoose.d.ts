@@ -1,17 +1,16 @@
 import { DoubleInput } from "./controllermod";
 import { IRequestConfig } from "../http";
-export declare class Select extends DoubleInput {
+export declare class IconChoose extends DoubleInput {
     private _valuefield;
     private _labelfield;
     private _urlservice;
     private _rooturlservice;
     itemRender: string;
-    constructor(p_placeholder?: string);
+    constructor();
     onNotFound(evt: Event): void;
     reSizeList(evt: Event): void;
     showList(p_on: boolean): JQuery;
     getFromUpList(evt: Event): void;
-    setFilter(evt: JQueryEventObject): void;
     setValueField(p_column: string): void;
     setLabelField(p_column: string): void;
     getValueField(): string;

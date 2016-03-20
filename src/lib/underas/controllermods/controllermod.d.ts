@@ -77,20 +77,6 @@ export declare class Label extends Controller {
     constructor(p_text?: string);
     setText(p_text: string): void;
 }
-export declare class Button extends Controller {
-    constructor(p_label: string);
-    setIcon(psrc: string): void;
-    setLabel(p_label: string): void;
-    setEnable(on: boolean): void;
-    isEnable(): boolean;
-}
-export declare class LinkButton extends Controller {
-    constructor(p_label: string);
-    setIcon(psrc: string): void;
-    setLabel(p_label: string): void;
-    setEnable(on: boolean): void;
-    isEnable(): boolean;
-}
 export declare class FileInput extends DoubleTextInput {
     private isvalid;
     constructor(p_placeholder?: string);

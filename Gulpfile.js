@@ -135,6 +135,7 @@ gulp.task('ts_view',function(){
                 rootPath+"/src/lib/underas/**/*.d.ts",
                 rootPath+"/src/lib/underas/*.d.ts",
                 rootPath+"/src/lib/jspdf/*.ts",
+                rootPath+"/src/lib/moment/*.d.ts",
                 rootPath+"/src/lib/cookies/*.ts",
                 rootPath+"/src/lib/jquery/jquery2.d.ts",
                 rootPath+"/src/lib/jqueryui/jqueryui.d.ts"

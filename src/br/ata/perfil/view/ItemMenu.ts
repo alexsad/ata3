@@ -2,6 +2,7 @@ import {ModWindow, WebContainer} from "lib/underas/container";
 import {NumericStepper, TextInput, Select} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
 import {ToolBar} from "lib/underas/net";
+import {IconChoose} from "lib/underas/iconchoose";
 import {IRequestConfig, $http} from "lib/underas/http";
 import {System} from "lib/underas/core";
 import {IItemMenu, IModulo} from "../model/IPerfil";
@@ -16,14 +17,14 @@ export class ItemMenu extends ModWindow {
 	itLabel: TextInput;
 	itFuncao: Select;
 	itTela: Select;
-	itIcone: Select;
+	itIcone: IconChoose;
 	itOrdem: NumericStepper;
 	mainTb: ToolBar;
 	mainList: ListView<IItemMenu>;
 	_menu: Menu;
 	constructor(p_menu: Menu) {
 		super("Itens do Menu");
-		this.setSize(5);
+		this.setSize(3);
 
 		this.mainTb = new ToolBar({ "domain": "itemmenu" });
 		this.append(this.mainTb);
@@ -32,43 +33,43 @@ export class ItemMenu extends ModWindow {
 		this.itIdItemMenu.setColumn("$id");
 		this.itIdItemMenu.setLabel("cod.");
 		this.itIdItemMenu.setEnable(false);
-		this.itIdItemMenu.setSize(2);
+		this.itIdItemMenu.setSize(6);
 		this.append(this.itIdItemMenu);
 
 		this.itIdMenu = new TextInput("");
 		this.itIdMenu.setColumn("!idMenu");
 		this.itIdMenu.setLabel("menu");
 		this.itIdMenu.setEnable(false);
-		this.itIdMenu.setSize(2);
+		this.itIdMenu.setSize(6);
 		this.append(this.itIdMenu);
 
 		this.itLabel = new TextInput("");
 		this.itLabel.setColumn("@label");
 		this.itLabel.setLabel("label");
-		this.itLabel.setSize(8);
+		this.itLabel.setSize(12);
 		this.append(this.itLabel);
+
+		this.itIcone = new IconChoose();
+		this.itIcone.setLabel("icone");
+		this.itIcone.setColumn("@icone");
+		this.itIcone.setSize(3);
+		this.itIcone.setValueField("icon");
+		this.itIcone.setLabelField("desc");
+		this.append(this.itIcone);
 
 		this.itTela = new Select("selecione uma tela");
 		this.itTela.setLabel("tela");
 		this.itTela.setColumn("@tela");
-		this.itTela.setSize(5);
+		this.itTela.setSize(9);
 		this.itTela.setValueField("modulo");
 		this.itTela.setLabelField("descricao");
 		this.itTela.getInput().on("change", this.getAcoes.bind(this));
 		this.append(this.itTela);
 
 
-		this.itIcone = new Select("selecione um icone");
-		this.itIcone.setLabel("icone");
-		this.itIcone.setColumn("@icone");
-		this.itIcone.setSize(4);
-		this.itIcone.setValueField("icon");
-		this.itIcone.setLabelField("desc");
-		this.append(this.itIcone);
-
 		this.itOrdem = new NumericStepper(5);
 		this.itOrdem.setEnable(false, 2);
-		this.itOrdem.setSize(3);
+		this.itOrdem.setSize(4);
 		this.itOrdem.setLabel("ordem");
 		this.itOrdem.setMin(1);
 		this.itOrdem.setMax(100);
@@ -79,7 +80,7 @@ export class ItemMenu extends ModWindow {
 		this.itFuncao = new Select("acao do modulo:");
 		this.itFuncao.setColumn("#funcao");
 		this.itFuncao.setLabel("acao");
-		this.itFuncao.setSize(12);
+		this.itFuncao.setSize(8);
 		this.itFuncao.setValueField("comando");
 		this.itFuncao.setLabelField("descricao");
 		this.itFuncao.setEnable(false);

@@ -7,7 +7,7 @@ import {UsuarioUploadAvatar} from "../../usuario/view/UsuarioUploadAvatar";
 
 
 @WebElement({
-	templateResource:"menu/view/assets/html/menu_adm_simples"
+	templateResource:"menu/view/assets/html/menu_adm"
 	, styleResource: ["menu/view/assets/css/menu_adm"]
 	//,noAutoRenderRefresh:true
 })
@@ -45,8 +45,11 @@ class MenuAdmStatic implements IWebElementClass{
 		this.menu_selected = p_index;
 		this.showMenu(true);		
 	}
+	togleShowMenu():void{
+		this.showMenus = !this.showMenus;
+	}
 	loadModule(p_module: string, p_title: string, p_icon: string,p_action:string):void{
-		
+		this.showMenu(false);
 		var nextload: boolean = true;
 		var moduleToLoad: string = p_module;
 		var varModuleToLoadTmpM: string[] = moduleToLoad.split(".");

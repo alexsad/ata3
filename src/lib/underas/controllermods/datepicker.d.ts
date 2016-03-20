@@ -16,13 +16,14 @@ export declare enum DatePartType {
     year = 2,
 }
 export declare class DatePicker extends TextInput {
-    dtaA: Date;
-    constructor();
-    setConfig(p_config: IConfigDatePicker): void;
+    private dtaA;
+    private _format;
+    private _dateRef;
+    constructor(p_config?: IConfigDatePicker);
+    private setConfig(p_config);
     getValue(): string;
     setValue(p_value: string): void;
     getDate(): Date;
-    getDateString(): string;
     addDate(typeD: DatePartType, pluss: number): void;
     setDate(typeD: DatePartType, vl: number): void;
     refresh(): void;

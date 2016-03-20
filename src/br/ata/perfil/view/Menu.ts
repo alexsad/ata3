@@ -3,6 +3,7 @@ import {NumericStepper,TextInput,Select} from "lib/underas/controller";
 import {ListView} from "lib/underas/listview";
 import {ToolBar} from "lib/underas/net";
 import {IRequestConfig,$http} from "lib/underas/http";
+import {IconChoose} from "lib/underas/iconchoose";
 import {System} from "lib/underas/core";
 import {IMenu} from "../model/IPerfil";
 import {ItemMenu} from "./ItemMenu";
@@ -14,14 +15,14 @@ export class Menu extends ModWindow{
 	itIdMenu: TextInput;
 	itIdPerfil: TextInput;
 	itLabel: TextInput;
-	itIcone: Select;
+	itIcone: IconChoose;
 	itOrdem: NumericStepper;
 	mainTb:ToolBar;
 	mainList:ListView<IMenu>;
 	_items: ItemMenu;
 	constructor(){
 		super("Menus do Perfil");		
-		this.setSize(8);
+		this.setSize(5);
 
 		this.mainTb = new ToolBar({"domain":"menu"});
 		this.append(this.mainTb);
@@ -37,32 +38,36 @@ export class Menu extends ModWindow{
 		this.itIdPerfil.setColumn("!idPerfil");
 		this.itIdPerfil.setLabel("perf.");
 		this.itIdPerfil.setEnable(false);
-		this.itIdPerfil.setSize(2);
+		this.itIdPerfil.setSize(1);
 		this.append(this.itIdPerfil);
 
-		this.itLabel = new TextInput("");
-		this.itLabel.setColumn("@label");
-		this.itLabel.setLabel("label");
-		this.itLabel.setSize(8);
-		this.append(this.itLabel);
 
-		this.itIcone = new Select("icone");
+		this.itIcone = new IconChoose();
 		this.itIcone.setLabel("icone");
 		this.itIcone.setColumn("@icone");
-		this.itIcone.setSize(7);
+		this.itIcone.setSize(2);
 		this.itIcone.setValueField("icon");
 		this.itIcone.setLabelField("desc");
 		this.append(this.itIcone);
 
+		this.itLabel = new TextInput("");
+		this.itLabel.setColumn("@label");
+		this.itLabel.setLabel("label");
+		this.itLabel.setSize(4);
+		this.append(this.itLabel);
+
 		this.itOrdem = new NumericStepper(0);
 		this.itOrdem.setColumn("@ordem");
 		this.itOrdem.setLabel("ordem");
-		this.itOrdem.setSize(5);
+		this.itOrdem.setSize(3);
 		this.itOrdem.setMin(1);
 		this.itOrdem.setMax(100);
 		this.itOrdem.setStep(1);
 		this.itOrdem.setEnable(false,2);
 		this.append(this.itOrdem);
+
+
+
 
 		this.mainList = new ListView<IMenu>("Menu");
 		this.append(this.mainList);

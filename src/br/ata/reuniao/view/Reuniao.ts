@@ -30,20 +30,20 @@ export class Reuniao extends ModWindow{
 		this.itIdReuniao.setSize(3);
 		this.append(this.itIdReuniao);
 
-		this.itMomento = new DatePicker();
+		this.itMomento = new DatePicker({
+			daysOfWeekDisabled: [1, 2, 3, 4, 5, 6]
+			,daysOfWeekHighlighted: [0]
+			,format:"DD[-]MM[-]YYYY"
+		});
 		this.itMomento.setColumn("@momento");
 		this.itMomento.setLabel("data");
-		this.itMomento.setSize(4);
-		this.itMomento.setConfig({
-			daysOfWeekDisabled: [1,2,3,4,5,6],
-			daysOfWeekHighlighted:[0]
-		});
+		this.itMomento.setSize(5);
 		this.append(this.itMomento);
 
 		this.itFrequencia = new NumericStepper(0);
 		this.itFrequencia.setColumn("@frequencia");
 		this.itFrequencia.setLabel("frequencia");
-		this.itFrequencia.setSize(5);
+		this.itFrequencia.setSize(4);
 		this.itFrequencia.setMin(0);
 		this.itFrequencia.setMax(999);
 		this.append(this.itFrequencia);

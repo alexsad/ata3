@@ -21,9 +21,9 @@ export declare class ToolBar extends SimpleToolBar {
     insertItem(p_objToInsert: {}): void;
     private onErrorHandler(p_error);
     private onDeleteItem();
-    deleteItem(event: Event): void;
+    private deleteItem(event);
     activate(p_on: boolean): void;
     private onReloadItens(dta_ret);
     reloadItens(event?: Event): void;
-    saveItem(event: Event): void;
+    private saveItem(event);
 }

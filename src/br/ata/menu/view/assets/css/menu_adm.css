@@ -1,3 +1,48 @@
+#sidebar2{
+  width: 250px;
+  height: 100%;
+  display: block;
+  position: absolute;
+  left:0px;
+  top: 0;
+  transition:left 0.3s linear;
+  z-index:999;
+}
+
+#sidebar2 ul{
+  margin: 0;
+  padding: 0;
+}
+
+#sidebar2 ul li a {
+  border-bottom: 1px solid #ddd;
+  display: block;
+  width: 240px;
+  padding: 10px;
+  text-decoration: none;
+}
+
+#sidebar2 ul > li > a:hover
+,#sidebar2 ul > li > a:focus
+,#sidebar2 ul > li.menu_adm_active > a:hover
+,#sidebar2 ul > li.menu_adm_active > a:focus
+,#sidebar2 ul > li.menu_adm_active a.active{
+	background: rgba(255, 234, 213, 0.1) none repeat scroll 0% 0%;
+}
+
+#sidebar2 ul.menu_adm_item li a{
+	text-indent:15px;
+	border-bottom: 1px solid transparent;
+}
+
+ul.menu_adm_item > li a:hover,ul.menu_adm_item > li a:focus{
+	background: rgba(255, 234, 213, 0.1) none repeat scroll 0% 0%;
+}
+
+
+
+
+
 .navitem{
 	color:#fff;
 }
@@ -43,16 +88,15 @@ ul.menu_adm > li > a span{
 ul.menu_adm > li > a:hover,ul.menu_adm > li > a:focus{
 	background: rgba(255, 234, 213, 0.1) none repeat scroll 0% 0%;
 }
-ul.menu_adm_item > li > a{
-	border-radius: 0px;
-}
-ul.menu_adm_item > li > a, ul.menu_adm_item > li a:hover,ul.menu_adm_item > li a:focus{
-	background: rgba(255, 234, 213, 0.1) none repeat scroll 0% 0%;
-}
-ul.menu_adm_item > li > a span{
-	font-size:10px;
-	font-weight: bolder;
-}
-ul.menu_adm_item > li{
-	margin:0px;
+
+.bgBlockOpack{
+	width:100%;
+	height:100%;
+	top:0px;
+	left:0px;
+	right:0px;
+	bottom:0px;
+	position:fixed;
+	z-index:800;
+	background:rgba(255, 234, 213, 0.3) none repeat scroll 0% 0%;
 }

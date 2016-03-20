@@ -1,28 +1,56 @@
-<div class="row clearfix" id="top_adm_menu">
-	<div class="pull-left col-xs-2 col-sm-1 column visible-xs" id="logo_menu_1">
-		<img src="js/br/cupom/menu/view/assets/img/bode-logo-novo-bola_36x31.png"/>
-	</div>
-	<div class="pull-left col-xs-0 col-sm-1 column hidden-xs" id="logo_menu">
-		<img src="js/br/cupom/menu/view/assets/img/bode-logo-novo-bola_80x69.png"/>
-	</div>
-	<div class="col-xs-10 col-sm-11 column menu_main" style="">
-		<ul each="menu in menus" class="nav nav-pills" id="sidebar">		
-			<li id="{'tabmenu_'+menu.id}" class="navitem">
-				<a class="btnmenu" href="#">
-					<span class="{'imgI glyphicon iconeinput glyphicon-'+menu.icone}"></span>
-					<label class="hidden-xs">{menu.label.toUpperCase()}</label>
-				</a>
-			</li>		
-		</ul>
-		<div id="tabs_menu" class="tab-content col-xs-12 column tab_content_menu" style="padding-top:5px">
-			<ul each="menu in menus" style="display:none;" id="{'tabmenu_'+menu.id+'_l'}" class="nav nav-pills">		
-				<li each="menuitem in menu.children" data-titlemod="{menuitem.label}" data-iconmod="{menuitem.icone}" data-actmod="{(menuitem.funcao?menuitem.funcao:"")}" data-varmod="{menuitem.tela}" class="Controller LinkButton elegibleToClick">
-					<a href="#">
-						<span class="{'imgI hidden-xs iconeinput glyphicon glyphicon-'+menuitem.icone}"></span>
-						<label>&nbsp;{menuitem.label.toUpperCase()}&nbsp;</label>
-					</a>
-				</li>			
-			</ul>
-		</div>
-	</div>
+<div class="row clearfix top_adm_menu bg-primary">
+  <div onclick="{$data.showMenu(true)}" class="col-xs-1 col-sm-1 column pull-left">
+    <span style="font-size:20px;margin-top:5px;margin-bottom:10px;margin-left:5px" class="glyphicon glyphicon-th-list pull-left"></span> 
+  </div>
+  <div class="col-xs-11 col-sm-11 column menu_main">
+    <ul if="(!$data.showMenus)" class="nav nav-pills menu_adm">
+      <li class="navitem pull-right">
+        <a onclick="{$data.showPerfis()}" style="padding: 1px 0px 2px 2px" class="btnmenu" href="#">
+          <img style="border:2px solid #04dd90;border-radius:30%;margin:0px 2px 0px 0px;max-width:30px;width:30px;height:30px;" alt="Photo" src="{'assets/avatars/avatar_' + $data.idUsuario + '.png?cache_picture='+$data._avatarcache}" class="nav-user-photo"/>
+          <span class="hidden-xs">{$data.loginUsuario}</span>
+        </a>
+      </li>
+    </ul>
+    <div class="tab-content tab_content_menu" style="padding:0px">
+      <ul if="($data.perfisVisibles && !$data.showMenus)" class="{'menu_adm_item pull-right nav nav-pills'}">
+        <li each="iusuarioPerfil in $data.usuarioPerfis" class="navitem">
+          <a class="btnmenu" href="{'#'+$index}" onclick="{$data.setIdPerfil(iusuarioPerfil.idPerfil)}">
+            <span class="{'imgI glyphicon iconeinput '+(iusuarioPerfil.idPerfil==$data.idPerfilSelected?'glyphicon-ok':'')}"></span>
+            <span>{' '+iusuarioPerfil.perfil.descricao.toUpperCase()}</span>
+          </a>
+        </li>
+        <li class="navitem">
+          <a class="btnmenu" href="#" onclick="{$data.setAvatar()}">
+            <span class="imgI glyphicon iconeinput glyphicon-picture"></span>
+            <span>Trocar Foto</span>
+          </a>
+        </li>        
+      </ul>
+    </div>
+  </div>
 </div>
+<div if="$data.showMenus" id="sidebar2" class="bg-primary">
+  <ul class="nav nav-pills bg-primary">
+    <li class="navitem pull-right">
+      <a style="padding: 4px 0px 5px 2px" class="btnmenu" href="#">
+        <img style="border:2px solid #04dd90;border-radius:30%;margin:0px 2px 0px 0px;max-width:30px;width:30px;height:30px;" alt="Photo" src="{'assets/avatars/avatar_' + $data.idUsuario + '.png?cache_picture='+$data._avatarcache}" class="nav-user-photo"/>
+        <span> {$data.loginUsuario}</span>
+      </a>
+    </li>
+    <li each="menu in $data.menus" class="navitem">
+      <a class="{'btnmenu '+($index==$data.menu_selected?'active':'')}" href="{'#'+$index}" onclick="{$data.setMenuIndex($index)}">
+        <span class="{'imgI glyphicon iconeinput glyphicon-'+menu.icone}"></span>
+        <span>{' '+menu.label.toUpperCase()}</span>
+      </a>
+      <ul if="($data.menus.length > 0 && $data.menu_selected==$index)" class="menu_adm_item nav nav-pills bg-primary">
+      <li each="item_menu in $data.menus[$data.menu_selected].children" class="navitem">
+        <a href="#" onclick="{$data.loadModule(item_menu.tela, item_menu.label,item_menu.icone,item_menu.funcao||'')}">
+          <span>{item_menu.label}</span>
+        </a>
+      </li>
+    </ul>
+    </li>
+  </ul>
+</div>
+
+<div if="$data.showMenus" onclick="{$data.showMenu(false)}" class="bgBlockOpack"></div>
