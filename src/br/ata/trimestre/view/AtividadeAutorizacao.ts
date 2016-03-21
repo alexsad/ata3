@@ -341,7 +341,6 @@ export class AtividadeAutorizacao extends ModWindow {
 		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
 		if (tmpItemAtiv.idStatus == this._idStatus) {
 			//tmpItemAtiv.snEditavel = "N";
-
 			if(this.itCodRefMLS.isValid()){
 				this.itCodRefMLS.setValid(true);
 
@@ -357,9 +356,9 @@ export class AtividadeAutorizacao extends ModWindow {
 					tmpItemAtiv.codRefMLS = parseInt(this.itCodRefMLS.getValue());
 				};
 				$http
-					.put("membro/getbysnativo/S")
+					.put("atividade")
+					.body(tmpItemAtiv)
 					.done((rt_atividade: IAtividade) => this.onUpdateAtividade(rt_atividade));
-
 			}else{
 				this.itCodRefMLS.setValid(false);
 			}

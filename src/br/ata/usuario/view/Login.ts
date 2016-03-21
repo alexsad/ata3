@@ -159,15 +159,19 @@ class LoginStatic extends ModWindow {
 		$("#conteudo div.ModView").not(".mdwLogin").remove();
 	}
 	autoLogin(): void {
-		var tl: string = System.getUrlParam("login");
-		var ts: string = System.getUrlParam("senha");
+		var tl:string = System.getUrlParam("login");
+		var ts:string = System.getUrlParam("senha");
+		var tmp_ala:string = System.getUrlParam("ala");
 
         //alert(tl+":"+ts);
-		if (tl != "") {
+		if(tl != ""){
 			this.itlogin.setValue(tl);
 			this.itsenha.setValue(ts);
 			this.logar();
-		}
+		};
+		if(tmp_ala=="casa_amarela"){
+			$http.rootUrl = "http://wclin.com.br:8330/";
+		};
 	}
 }
 

@@ -37,7 +37,7 @@ export class Atividade {
 		}).then(p_handler_success).catch(p_onErro);
 	}
 
-	@Get("/:id")
+	@Get("/id/:id")
 	getByIdService(req: server.Request, res: server.Response): void {
 		this.getById(
 			req.params.id
@@ -127,6 +127,7 @@ export class Atividade {
 		tmpArr.push({ idStatus: EAtividadeStatus.PENDENTE, descricao: EAtividadeStatus[EAtividadeStatus.PENDENTE] })
 		tmpArr.push({ idStatus: EAtividadeStatus.LIBERADA, descricao: EAtividadeStatus[EAtividadeStatus.LIBERADA] })
 		res.json(tmpArr);
+
 	}
 	getTotalOrcamentoByIdTrimestreAndIdPerfil(p_idTrimestre:number,p_idPerfil:number) {
 		return AtividadeDAO.sum('orcamento', {
