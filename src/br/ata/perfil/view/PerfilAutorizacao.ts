@@ -1,45 +1,52 @@
-import {ModWindow, WebContainer} from "lib/underas/container";
-import {TextInput, CheckBox, Button, AlertMsg, Select} from "lib/underas/controller";
-import {ListView} from "lib/underas/listview";
-import {ToolBar} from "lib/underas/net";
+import {Form} from "lib/underas/container";
+import {EBasicColorStatus} from "lib/underas/component";
+import {TextInput, CheckBox, Select} from "lib/underas/input";
+import {Button} from "lib/underas/button";
+import {Alert} from "lib/underas/widget";
+import {TileList} from "lib/underas/widget_mod/TileList";
+import {CRUDToolBar} from "../../toolbar/view/CRUDToolBar";
 import {$http, IRequestConfig} from "lib/underas/http";
 import {IPerfil} from "../model/IPerfil";
 import {IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfilAutorizacao";
 import {PerfilView} from "./PerfilView";
 
-@WebContainer({
-	itemViewResource: "perfil/view/assets/html/perfilautorizacao"
-})
-export class PerfilAutorizacao extends ModWindow {
+export class PerfilAutorizacao extends Form {
 	itPerfil: Select;
 	itIdPerfilAutorizacao: TextInput;
 	itTpAutorizacao: CheckBox;
 	itPerfilAlvo: Select;
-	aviso: AlertMsg;
-	mainTb: ToolBar;
-	mainList: ListView<IPerfilAutorizacao>;
+	aviso: Alert;
+	mainTb: CRUDToolBar;
+	mainList: TileList<IPerfilAutorizacao>;
 	constructor() {
-		super("*Perfis Associados");		
+		super();		
 		this.setSize(8);
 
-		this.mainTb = new ToolBar({ "domain": "perfilautorizacao" });
+		this.mainList = new TileList<IPerfilAutorizacao>("perfis");
+		this.mainList.setItemViewResource("perfil/view/assets/html/perfilautorizacao");
+
+		this.mainTb = new CRUDToolBar({
+		 "domain": "perfilautorizacao" 
+		 ,"list":this.mainList
+		 ,"form":this
+		});
 		this.append(this.mainTb);
 
-		this.aviso = new AlertMsg("Cadastro");
-		this.aviso.setType(AlertMsg.TP_ERROR);
+		this.aviso = new Alert("Cadastro");
+		this.aviso.setColor(EBasicColorStatus.PRIMARY);
 		this.aviso.show(true);
 		this.append(this.aviso);
 
 		this.itIdPerfilAutorizacao = new TextInput("cod.");
 		this.itIdPerfilAutorizacao.setLabel("cod.");
 		this.itIdPerfilAutorizacao.setSize(3);
-		this.itIdPerfilAutorizacao.setColumn("$id");
+		this.itIdPerfilAutorizacao.setName("$id");
 		this.itIdPerfilAutorizacao.setEnable(false);
 		this.append(this.itIdPerfilAutorizacao);
 
 		this.itPerfil = new Select("pefil");
 		this.itPerfil.setLabel("Perfil:");
-		this.itPerfil.setColumn("!idPerfil");
+		this.itPerfil.setName("!idPerfil");
 		this.itPerfil.setValueField("id");
 		this.itPerfil.setLabelField("descricao");
 		this.itPerfil.setEnable(false);
@@ -48,24 +55,20 @@ export class PerfilAutorizacao extends ModWindow {
 
 		this.itPerfilAlvo = new Select("pefil");
 		this.itPerfilAlvo.setLabel("Perfil Alvo:");
-		this.itPerfilAlvo.setColumn("@idPerfilAlvo");
+		this.itPerfilAlvo.setName("@idPerfilAlvo");
 		this.itPerfilAlvo.setValueField("id");
 		this.itPerfilAlvo.setLabelField("descricao");
 		this.itPerfilAlvo.setSize(12);
 		this.append(this.itPerfilAlvo);
 
-
-
 		this.itTpAutorizacao = new CheckBox("Autorizacao", "permite liberacao?");
 		this.itTpAutorizacao.setLabel("Autorizacao:");
-		this.itTpAutorizacao.setColumn("@tpAutorizacao");
+		this.itTpAutorizacao.setName("@tpAutorizacao");
 		this.itTpAutorizacao.setCheckedValue(EPerfilAutorizacaoTP.LIBERACAO+"");
 		this.itTpAutorizacao.setUnCheckedValue(EPerfilAutorizacaoTP.APROVACAO+"");
 		this.itTpAutorizacao.setSize(12);
 		this.append(this.itTpAutorizacao);
 
-		this.mainList = new ListView<IPerfilAutorizacao>("perfis");
-		//this.setMainList("mainList");
 		this.append(this.mainList);
 	}
 	onStart(): void {

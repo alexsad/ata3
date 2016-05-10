@@ -1,23 +1,21 @@
-import {ModWindow,WebContainer,ETypeModWindow} from "lib/underas/container";
-import {ListView} from "lib/underas/listview";
+import {Form} from "lib/underas/container";
+import {TileList} from "lib/underas/widget_mod/TileList";
 import {$http,IRequestConfig} from "lib/underas/http";
 import {IMembro} from "../model/IMembro";
 
-@WebContainer({
-	itemViewResource: "organizacao/view/assets/html/discursante"
-})
-export class FastMembro extends ModWindow{
-	mainList:ListView<IMembro>;
+export class FastMembro extends Form{
+	mainList:TileList<IMembro>;
 	constructor(){		
-		super("Lista de Discursantes");		
+		super();		
 		this.setSize(4);
-		this.setType(ETypeModWindow.SUCCESS);
-		this.mainList = new ListView<IMembro>("discursantes");
+				
+		this.mainList = new TileList<IMembro>("discursantes");
+		this.mainList.setItemViewResource("organizacao/view/assets/html/discursante");
 		this.append(this.mainList);
 	}
 	onStart(){
 		this.getMembros();
-		this.getMainList().setDataProvider([]);
+		this.mainList.setDataProvider([]);
 	}
 	getMembros():void{
 		$http

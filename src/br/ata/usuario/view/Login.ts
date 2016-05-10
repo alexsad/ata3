@@ -1,29 +1,28 @@
-import {System} from "lib/underas/core";
-import {ModWindow, ModView,WebContainer} from "lib/underas/container";
-import {Button, CheckBox, PassWordInput, EmailInput, AlertMsg} from "lib/underas/controller";
+import {SystemApplication} from "lib/underas/core";
+import {EViewSize,EBasicColorStatus} from "lib/underas/component";
+import {Form,StyleResource} from "lib/underas/container";
+import {Button} from "lib/underas/button";
+import {Alert} from "lib/underas/widget";
+import {CheckBox, PassWordInput, EmailInput } from "lib/underas/input";
 import {$http} from "lib/underas/http";
 import {IUsuario} from "../model/IUsuario";
 import PerfilBox = require("../../perfil/view/PerfilBox");
 import Cookies = require("lib/cookies/cookies");
-import BannerLogin = require("./BannerLogin");
 
-@WebContainer({
-	styleResource:["usuario/view/assets/css/login"]
-})
-class LoginStatic extends ModWindow {
-	amAviso: AlertMsg;
+@StyleResource("usuario/view/assets/css/login")
+class LoginStatic extends Form {
+	amAviso: Alert;
 	itlogin: EmailInput;
 	itsenha: PassWordInput;
 	chlembrar: CheckBox;
 	btEntrar: Button;
 	btBaixarAplicativo: Button;
+	public EVENT_LOGIN_SUCCESS:string="login:success";
 	constructor() {
-		super("Login");
-		this.setSize(4);
-		this.showTitle(false);
-		this.$.addClass("col-sm-offset-4 col-xs-offset-0");
-
-		this.amAviso = new AlertMsg("");
+		super();
+		this.setSize(12);
+		
+		this.amAviso = new Alert("");
 		this.amAviso.show(false);
 		this.append(this.amAviso);
 
@@ -52,55 +51,38 @@ class LoginStatic extends ModWindow {
 
 		this.btBaixarAplicativo = new Button("Baixar Aplicativo");
 		this.btBaixarAplicativo.setIcon("phone");
-		this.btBaixarAplicativo.setSize(4)
-		this.btBaixarAplicativo.$
-			.removeClass("btn-default")
-			.addClass("btn-primary pull-right col-xs-8 visible-xs")
-			.attr("href", "assets/bin/nav4.1.apk");
+		this.btBaixarAplicativo.setSize(4);
+		this.btBaixarAplicativo.setSize(8, EViewSize.EXTRA_SMALL);
+		this.btBaixarAplicativo.addStyleName("pull-right visible-xs");
+		this.btBaixarAplicativo.setColor(EBasicColorStatus.PRIMARY);
+		this.btBaixarAplicativo.$.attr("href", "assets/bin/nav4.1.apk");
 		this.append(this.btBaixarAplicativo);
 
 	}
 	onStart(): void {
-		BannerLogin.appendTo("#banner_login");
-		BannerLogin.show(true);
-		this.getModView().showNav(false);
 		//this.autoLogin();		
 		if (Cookies.get("clogin")) {
 			this.chlembrar.setValue("S");
 			this.itlogin.setValue(Cookies.get("clogin"));
 		};
-
-		var agentAppVersion: string = System.getUrlParam("nav");
+		var agentAppVersion: string = SystemApplication.getUrlParam("nav");
 		if (agentAppVersion != "") {
 			this.btBaixarAplicativo.$.hide().removeClass("visible-xs");
 		};
 	}
 	private onLogar(dta: boolean): void {
 		if (dta == true) {
-			BannerLogin.show(false);
 			if (this.chlembrar.getValue() == "S") {
 				Cookies.set("clogin", this.itlogin.getValue(), { expires: Infinity });
 			};
 			this.amAviso.show(false);
 			(<LoginStatic>this).getDados();
-			$("#logo_menu").addClass("hidden-xs");
-
-			var moduleToLoad: string = System.getUrlParam("module");
-			if (moduleToLoad) {
-				var varModuleToLoadTmpM = moduleToLoad.split(".");
-				var varModuleToLoadTmp = varModuleToLoadTmpM[varModuleToLoadTmpM.length - 1];
-				var varModuleToLoadTmpCapt = varModuleToLoadTmp;
-
-				System.loadModules([moduleToLoad.replace(/\./g, "/")], function(mod_loaded: any) {
-					var tmpWV: ModView = new ModView("module tmp");
-					tmpWV.show(true);
-					tmpWV.append(new mod_loaded[varModuleToLoadTmpCapt]());
-				});
-			}
+			//$("#logo_menu").addClass("hidden-xs");
+			this.fireEvent(this.EVENT_LOGIN_SUCCESS);
 
 		} else {
 			this.amAviso.setText("Login ou senha invalidos!");
-			this.amAviso.setType(AlertMsg.TP_ERROR);
+			this.amAviso.setColor(EBasicColorStatus.DANGER);
 			this.amAviso.show(true);
 			//_gaq.push(['_trackEvent', 'usuario.business.UsuarioBLL.logar', 'invalido']);
 		}
@@ -109,7 +91,7 @@ class LoginStatic extends ModWindow {
 		if (!this.itlogin.isValid()) {
 			this.itlogin.setValid(false);
 			this.amAviso.setText("Login invalido!");
-			this.amAviso.setType(AlertMsg.TP_ERROR);
+			this.amAviso.setColor(EBasicColorStatus.DANGER);
 			this.amAviso.show(true);
 			return;
 		} else {
@@ -120,7 +102,7 @@ class LoginStatic extends ModWindow {
 		if (!this.itsenha.isValid()) {
 			this.itsenha.setValid(false);
 			this.amAviso.setText("Digite uma senha!");
-			this.amAviso.setType(AlertMsg.TP_ERROR);
+			this.amAviso.setColor(EBasicColorStatus.DANGER);
 			this.amAviso.show(true);
 			return;
 		} else {
@@ -140,7 +122,7 @@ class LoginStatic extends ModWindow {
 		if (dta) {
 			PerfilBox.setLogin(dta.login);
 			PerfilBox.getPerfisByIdUsuario(dta.id);
-			this.getModView().show(false).showNav(false);
+			//this.getModView().show(false).showNav(false);
 		}
 	}
 	getDados(): void {
@@ -152,16 +134,16 @@ class LoginStatic extends ModWindow {
 		this.clearAll();
 		this.itsenha.setValue("");
 		this.itlogin.setValue("");
-		this.getModView().show(true).showNav(false);
+		//this.getModView().show(true).showNav(false);
 	}
 	clearAll(): void {
-		$("#sidebar,#tabs_menu,#navbarlist").html("");
-		$("#conteudo div.ModView").not(".mdwLogin").remove();
+		//$("#sidebar,#tabs_menu,#navbarlist").html("");
+		//$("#conteudo div.ModView").not(".mdwLogin").remove();
 	}
 	autoLogin(): void {
-		var tl:string = System.getUrlParam("login");
-		var ts:string = System.getUrlParam("senha");
-		var tmp_ala:string = System.getUrlParam("ala");
+		var tl:string = SystemApplication.getUrlParam("login");
+		var ts:string = SystemApplication.getUrlParam("senha");
+		var tmp_ala:string = SystemApplication.getUrlParam("ala");
 
         //alert(tl+":"+ts);
 		if(tl != ""){

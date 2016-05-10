@@ -1,71 +1,25 @@
-import {ModWindow,WebContainer} from "lib/underas/container";
-import {TextInput, TextArea, NumericStepper, DatePicker} from "lib/underas/controller";
-import {ListView} from "lib/underas/listview";
-import {ToolBar} from "lib/underas/net";
+import {Box} from "lib/underas/container";
+import {ReuniaoForm} from "./ReuniaoForm";
 import {Discursante} from "./Discursante";
 import {IReuniao} from "../model/IReuniao";
 
-@WebContainer({
-	itemViewResource: "reuniao/view/assets/html/reuniao"
-})
-export class Reuniao extends ModWindow{
-	itIdReuniao:TextInput;
-	itMomento:DatePicker;
-	itFrequencia:NumericStepper;
-	itObs:TextArea;
-	mainList:ListView<IReuniao>;
-	mainTb:ToolBar;
-	_modDiscursante: Discursante;
-	constructor(){
-		super("*cadastro de reunioes.");		
-		this.setSize(4);
+export class Reuniao extends Box {
+	private reuniaoForm: ReuniaoForm;
+	private discursanteForm: Discursante;
+	constructor() {
+		super();
+		this.reuniaoForm = new ReuniaoForm();
+		this.append(this.reuniaoForm);
 
-		this.mainTb = new ToolBar({"domain":"reuniao"});
-		this.append(this.mainTb);
-
-		this.itIdReuniao = new TextInput();
-		this.itIdReuniao.setColumn("$id");
-		this.itIdReuniao.setLabel("cod.");
-		this.itIdReuniao.setEnable(false);
-		this.itIdReuniao.setSize(3);
-		this.append(this.itIdReuniao);
-
-		this.itMomento = new DatePicker({
-			daysOfWeekDisabled: [1, 2, 3, 4, 5, 6]
-			,daysOfWeekHighlighted: [0]
-			,format:"DD[-]MM[-]YYYY"
-		});
-		this.itMomento.setColumn("@momento");
-		this.itMomento.setLabel("data");
-		this.itMomento.setSize(5);
-		this.append(this.itMomento);
-
-		this.itFrequencia = new NumericStepper(0);
-		this.itFrequencia.setColumn("@frequencia");
-		this.itFrequencia.setLabel("frequencia");
-		this.itFrequencia.setSize(4);
-		this.itFrequencia.setMin(0);
-		this.itFrequencia.setMax(999);
-		this.append(this.itFrequencia);
-
-		this.itObs = new TextArea("");
-		this.itObs.setColumn("@obs");
-		this.itObs.setLabel("obs");
-		this.itObs.setSize(12);
-		this.append(this.itObs);
-
-		this.mainList = new ListView<IReuniao>("Reuniao");
-		this.append(this.mainList);
+		this.discursanteForm = new Discursante();
+		this.append(this.discursanteForm);
 	}
-	onStart():void{
-		this._modDiscursante = new Discursante();
-		this.getModView().append(this._modDiscursante);
-		this.mainTb.reloadItens();
-	}
-	onChangeItem(p_obj:IReuniao):IReuniao{
-		//this._modDiscursante._idReuniao = this.itIdReuniao.getValue();
-		//this._modDiscursante.getMainList().setDataProvider(p_obj.discursos);
-		this._modDiscursante.getByIdReuniao(p_obj.id);
-		return p_obj;
+	onStart(): void {
+		this.reuniaoForm.onStart();
+		this.reuniaoForm.addEvent(
+			ReuniaoForm.EVENT_ITEM_CHANGE
+			, (evt: Event, {id}: IReuniao) => this.discursanteForm.getByIdReuniao(id)
+		);
+		this.discursanteForm.onStart();
 	}
 }

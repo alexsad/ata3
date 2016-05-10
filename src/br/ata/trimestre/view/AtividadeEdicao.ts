@@ -1,16 +1,13 @@
-import {ModWindow, WebContainer} from "lib/underas/container";
-import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput} from "lib/underas/controller";
-import {ToolBar} from "lib/underas/net";
-import {ListView} from "lib/underas/listview";
+import {Form} from "lib/underas/container";
+import {TimeInput,TextArea, NumericStepper, Select, CheckBox, TextInput} from "lib/underas/input";
+import {CRUDToolBar} from "../../toolbar/view/CRUDToolBar";
+import {TileList} from "lib/underas/widget_mod/TileList";
 import {IAtividade,EAtividadeStatus} from "../model/ITrimestre";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import PerfilBox = require("../../perfil/view/PerfilBox");
 import {TrimestreView} from "./TrimestreView";
 
-@WebContainer({
-	itemViewResource: "trimestre/view/assets/html/evento"
-})
-export class AtividadeEdicao extends ModWindow {
+export class AtividadeEdicao extends Form {
 	itIdEvento: TextInput;
 	itIdTrimestre: Select;
 	itSnEditavel: CheckBox;
@@ -28,24 +25,30 @@ export class AtividadeEdicao extends ModWindow {
 	itIdStatus: Select;
 	itIdPerfil: Select;
 	itVestuario: TextInput;
-	mainTb: ToolBar;
-	mainList: ListView<IAtividade>;
+	mainTb:CRUDToolBar;
+	mainList: TileList<IAtividade>;
 	constructor() {
-		super("Atividades");		
+		super();		
 		this.setSize(12);
-		
-		this.mainTb = new ToolBar({ "domain": "atividade" });
+
+		this.mainList = new TileList<IAtividade>("Evento");
+
+		this.mainTb = new CRUDToolBar({
+			"domain": "atividade" 
+			,"form":this
+			,"list":this.mainList
+		});
 		this.append(this.mainTb);
 
 		this.itIdEvento = new TextInput("");
-		this.itIdEvento.setColumn("$id");
+		this.itIdEvento.setName("$id");
 		this.itIdEvento.setLabel("cod.");
 		this.itIdEvento.setEnable(false);
 		this.itIdEvento.setSize(1);
 		this.append(this.itIdEvento);
 
 		this.itIdTrimestre = new Select();
-		this.itIdTrimestre.setColumn("@idTrimestre");
+		this.itIdTrimestre.setName("@idTrimestre");
 		this.itIdTrimestre.setLabel("tri.");
 		this.itIdTrimestre.setValueField("id");
 		this.itIdTrimestre.setLabelField("dsTrimestre");
@@ -53,14 +56,14 @@ export class AtividadeEdicao extends ModWindow {
 		this.append(this.itIdTrimestre);
 
 		this.itCodRefMLS = new TextInput("");
-		this.itCodRefMLS.setColumn("#codRefMLS");
+		this.itCodRefMLS.setName("#codRefMLS");
 		this.itCodRefMLS.setLabel("ref. MLS");
 		this.itCodRefMLS.setPlaceHolder("cod. ref. MLS");
 		this.itCodRefMLS.setSize(1);		
 		this.append(this.itCodRefMLS);
 
 		this.itIdData = new Select("data");
-		this.itIdData.setColumn("@idData");
+		this.itIdData.setName("@idData");
 		this.itIdData.setPlaceHolder("ex. 31-12-2015");
 		this.itIdData.setValueField("id");
 		this.itIdData.setLabelField("dsData");
@@ -69,7 +72,7 @@ export class AtividadeEdicao extends ModWindow {
 		this.append(this.itIdData);
 
 		this.itHora = new TimeInput("19:00");
-		this.itHora.setColumn("@hora");
+		this.itHora.setName("@hora");
 		this.itHora.setPlaceHolder("hora da atividade ex. 19:00");
 		this.itHora.setLabel("hora");
 		this.itHora.setSize(1);
@@ -77,7 +80,7 @@ export class AtividadeEdicao extends ModWindow {
 
 
 		this.itIdStatus = new Select("Status");
-		this.itIdStatus.setColumn("@idStatus");
+		this.itIdStatus.setName("@idStatus");
 		this.itIdStatus.setLabel("Status");
 		this.itIdStatus.setValueField("idStatus");
 		this.itIdStatus.setLabelField("descricao");
@@ -85,7 +88,7 @@ export class AtividadeEdicao extends ModWindow {
 		this.append(this.itIdStatus);
 
 		this.itSnEditavel = new CheckBox("Editavel?", "Sim");
-		this.itSnEditavel.setColumn("@snEditavel");
+		this.itSnEditavel.setName("@snEditavel");
 		this.itSnEditavel.setCheckedValue("S");
 		this.itSnEditavel.setUnCheckedValue("N");
 		this.itSnEditavel.setLabel("Editavel");
@@ -93,21 +96,21 @@ export class AtividadeEdicao extends ModWindow {
 		this.append(this.itSnEditavel);
 
 		this.itDescricao = new TextInput("");
-		this.itDescricao.setColumn("@descricao");
+		this.itDescricao.setName("@descricao");
 		this.itDescricao.setLabel("descricao");
 		this.itDescricao.setPlaceHolder("digite a descricao da atividade");
 		this.itDescricao.setSize(12);
 		this.append(this.itDescricao);
 
 		this.itLocal = new TextInput("capela");
-		this.itLocal.setColumn("@local");
+		this.itLocal.setName("@local");
 		this.itLocal.setLabel("local");
 		this.itLocal.setPlaceHolder("local da atividade");
 		this.itLocal.setSize(12);
 		this.append(this.itLocal);
 
 		this.itIdPerfil = new Select("pefil");
-		this.itIdPerfil.setColumn("@idPerfil");
+		this.itIdPerfil.setName("@idPerfil");
 		this.itIdPerfil.setLabel("perfil:");
 		this.itIdPerfil.setValueField("id");
 		this.itIdPerfil.setLabelField("descricao");
@@ -115,7 +118,7 @@ export class AtividadeEdicao extends ModWindow {
 		this.append(this.itIdPerfil);
 
 		this.itIdOrganizacao = new Select("organizacao");
-		this.itIdOrganizacao.setColumn("@idOrganizacao");
+		this.itIdOrganizacao.setName("@idOrganizacao");
 		this.itIdOrganizacao.setLabel("organizacao:");
 		this.itIdOrganizacao.setValueField("id");
 		this.itIdOrganizacao.setLabelField("descricao");
@@ -123,7 +126,7 @@ export class AtividadeEdicao extends ModWindow {
 		this.append(this.itIdOrganizacao);		
 
 		this.itIdResponsavel = new Select("responsavel");
-		this.itIdResponsavel.setColumn("@idResponsavel");
+		this.itIdResponsavel.setName("@idResponsavel");
 		this.itIdResponsavel.setLabel("responsavel");
 		this.itIdResponsavel.setValueField("id");
 		this.itIdResponsavel.setLabelField("nome");
@@ -131,7 +134,7 @@ export class AtividadeEdicao extends ModWindow {
 		this.append(this.itIdResponsavel);
 
 		this.itOrcamento = new NumericStepper(0);
-		this.itOrcamento.setColumn("@orcamento");
+		this.itOrcamento.setName("@orcamento");
 		this.itOrcamento.setLabel("orcamento");
 		this.itOrcamento.setMin(0);
 		this.itOrcamento.setMax(0);
@@ -140,7 +143,7 @@ export class AtividadeEdicao extends ModWindow {
 		this.append(this.itOrcamento);
 
 		this.itPublicoAlvo = new TextInput("");
-		this.itPublicoAlvo.setColumn("@publicoAlvo");
+		this.itPublicoAlvo.setName("@publicoAlvo");
 		this.itPublicoAlvo.setLabel("publico alvo");
 		this.itPublicoAlvo.setPlaceHolder("digite o publico da atividade ex. toda a ala");
 		this.itPublicoAlvo.setSize(6);
@@ -148,7 +151,7 @@ export class AtividadeEdicao extends ModWindow {
 		this.append(this.itPublicoAlvo);
 
 		this.itVestuario = new TextInput("no padrao");
-		this.itVestuario.setColumn("@vestuario");
+		this.itVestuario.setName("@vestuario");
 		this.itVestuario.setLabel("vestuario");
 		this.itVestuario.setPlaceHolder("digite o vestuario da atividade ex. no esporte fino");
 		this.itVestuario.setSize(6);
@@ -156,7 +159,7 @@ export class AtividadeEdicao extends ModWindow {
 		this.append(this.itVestuario);
 
 		this.itProposito = new TextInput("");
-		this.itProposito.setColumn("@proposito");
+		this.itProposito.setName("@proposito");
 		this.itProposito.setPlaceHolder("digite o proposito da atividade");
 		this.itProposito.setLabel("proposito");
 		this.itProposito.setSize(12);
@@ -164,14 +167,14 @@ export class AtividadeEdicao extends ModWindow {
 		this.append(this.itProposito);
 
 		this.itDetalhes = new TextArea("");
-		this.itDetalhes.setColumn("@detalhes");
+		this.itDetalhes.setName("@detalhes");
 		this.itDetalhes.setLabel("detalhes");
 		this.itDetalhes.setPlaceHolder("digite os detalhes da atividade");
 		this.itDetalhes.setSize(12);
 		this.itDetalhes.setMaxLength(300);
 		this.append(this.itDetalhes);
 
-		this.mainList = new ListView<IAtividade>("Evento");
+		this.mainList.setItemViewResource("trimestre/view/assets/html/evento");
 		this.append(this.mainList);
 	}
 	onStart():void{

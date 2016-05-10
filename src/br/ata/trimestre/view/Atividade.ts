@@ -1,17 +1,13 @@
-import {ModWindow, WebContainer} from "lib/underas/container";
-import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput} from "lib/underas/controller";
-import {ToolBar} from "lib/underas/net";
+import {Button} from "lib/underas/button";
+import {Alert} from "lib/underas/widget";
+import {EBasicColorStatus} from "lib/underas/component";
+import {TimeInput, TextArea, NumericStepper, Select, CheckBox, TextInput} from "lib/underas/input";
+import {CRUDForm} from "../../form/view/CRUDForm";
 import {$http, IRequestConfig} from "lib/underas/http";
-import {ListView} from "lib/underas/listview";
 import {IAtividade,EAtividadeStatus} from "../model/ITrimestre";
-import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import PerfilBox = require("../../perfil/view/PerfilBox");
-import {TrimestreView} from "./TrimestreView";
 
-@WebContainer({
-	itemViewResource: "trimestre/view/assets/html/evento"
-})
-export class Atividade extends ModWindow {
+export class Atividade extends CRUDForm<IAtividade>{
 	itIdEvento: TextInput;
 	itIdTrimestre: TextInput;
 	itSnEditavel: CheckBox;
@@ -29,44 +25,42 @@ export class Atividade extends ModWindow {
 	itIdStatus: Select;
 	itIdPerfil: Select;
 	itDtDisponivel: Select;
-	itDsObservacao:AlertMsg;
+	itDsObservacao: Alert;
 	itVestuario: TextInput;
-	mainTb: ToolBar;
-	mainList: ListView<IAtividade>;
 	btSubmeter: Button;
-	_modTrimestreView: TrimestreView;
-	constructor(p_trimestre_view:TrimestreView) {
-		super("Atividades");		
+	trimestreSaldo: number;
+	constructor() {
+		super({ "domain": "atividade" });		
 		this.setSize(8);
-		this.showTitle(false);
-		
-		this.mainTb = new ToolBar({ "domain": "atividade" });
-		this.mainTb.btDel.$.hide();
-		this.append(this.mainTb);
 
-		this.itDsObservacao = new AlertMsg("Cadastre uma nova atividade clicando no '+'.");
-		this.itDsObservacao.setColumn("#dsObservacao");
+		this.buildToolBar();
+
+
+		this.btDel.show(true);
+		
+
+		this.itDsObservacao = new Alert("Cadastre uma nova atividade clicando no '+'.");
 		this.itDsObservacao.setSize(12);
-		this.itDsObservacao.setType(AlertMsg.TP_WARNING);
+		this.itDsObservacao.setColor(EBasicColorStatus.WARNING);
 		this.append(this.itDsObservacao);
 
 
 		this.itIdEvento = new TextInput("");
-		this.itIdEvento.setColumn("$id");
+		this.itIdEvento.setName("$id");
 		this.itIdEvento.setLabel("cod.");
 		this.itIdEvento.setEnable(false);
 		this.itIdEvento.setSize(2);
 		this.append(this.itIdEvento);
 
 		this.itIdTrimestre = new TextInput("");
-		this.itIdTrimestre.setColumn("!idTrimestre");
+		this.itIdTrimestre.setName("!idTrimestre");
 		this.itIdTrimestre.setLabel("tri.");
 		this.itIdTrimestre.setEnable(false);
 		this.itIdTrimestre.setSize(2);
 		this.append(this.itIdTrimestre);
 
 		this.itCodRefMLS = new TextInput("");
-		this.itCodRefMLS.setColumn("#codRefMLS");
+		this.itCodRefMLS.setName("#codRefMLS");
 		this.itCodRefMLS.setLabel("ref. MLS");
 		this.itCodRefMLS.setPlaceHolder("cod. ref. MLS");
 		this.itCodRefMLS.setSize(3);
@@ -74,7 +68,7 @@ export class Atividade extends ModWindow {
 		this.append(this.itCodRefMLS);
 
 		this.itIdStatus = new Select("Status");
-		this.itIdStatus.setColumn("@idStatus");
+		this.itIdStatus.setName("@idStatus");
 		this.itIdStatus.setLabel("Status");
 		this.itIdStatus.setValueField("idStatus");
 		this.itIdStatus.setLabelField("descricao");
@@ -83,7 +77,7 @@ export class Atividade extends ModWindow {
 		this.append(this.itIdStatus);
 
 		this.itSnEditavel = new CheckBox("Editavel?", "Sim");
-		this.itSnEditavel.setColumn("@snEditavel");
+		this.itSnEditavel.setName("@snEditavel");
 		this.itSnEditavel.setCheckedValue("S");
 		this.itSnEditavel.setUnCheckedValue("N");
 		this.itSnEditavel.setLabel("Editavel");
@@ -92,7 +86,7 @@ export class Atividade extends ModWindow {
 		this.append(this.itSnEditavel);
 
 		this.itDescricao = new TextInput("");
-		this.itDescricao.setColumn("@descricao");
+		this.itDescricao.setName("@descricao");
 		this.itDescricao.setLabel("descricao");
 		this.itDescricao.setPlaceHolder("digite a descricao da atividade");
 		this.itDescricao.setSize(12);
@@ -108,7 +102,7 @@ export class Atividade extends ModWindow {
 
 
 		this.itIdData = new Select("data");
-		this.itIdData.setColumn("@idData");
+		this.itIdData.setName("@idData");
 		this.itIdData.setPlaceHolder("ex. 31-12-2015");
 		this.itIdData.setValueField("id");
 		this.itIdData.setLabelField("dsData");
@@ -119,21 +113,21 @@ export class Atividade extends ModWindow {
 
 
 		this.itHora = new TimeInput("19:00");
-		this.itHora.setColumn("@hora");
+		this.itHora.setName("@hora");
 		this.itHora.setPlaceHolder("hora da atividade ex. 19:00");
 		this.itHora.setLabel("hora");
 		this.itHora.setSize(3);
 		this.append(this.itHora);
 
 		this.itLocal = new TextInput("capela");
-		this.itLocal.setColumn("@local");
+		this.itLocal.setName("@local");
 		this.itLocal.setLabel("local");
 		this.itLocal.setPlaceHolder("local da atividade");
 		this.itLocal.setSize(12);
 		this.append(this.itLocal);
 
 		this.itIdPerfil = new Select("pefil");
-		this.itIdPerfil.setColumn("@idPerfil");
+		this.itIdPerfil.setName("@idPerfil");
 		this.itIdPerfil.setLabel("perfil:");
 		this.itIdPerfil.setValueField("id");
 		this.itIdPerfil.setLabelField("descricao");
@@ -142,7 +136,7 @@ export class Atividade extends ModWindow {
 		this.append(this.itIdPerfil);
 
 		this.itIdOrganizacao = new Select("organizacao");
-		this.itIdOrganizacao.setColumn("@idOrganizacao");
+		this.itIdOrganizacao.setName("@idOrganizacao");
 		this.itIdOrganizacao.setLabel("organizacao:");
 		this.itIdOrganizacao.setValueField("id");
 		this.itIdOrganizacao.setLabelField("descricao");
@@ -151,7 +145,7 @@ export class Atividade extends ModWindow {
 		this.append(this.itIdOrganizacao);		
 
 		this.itIdResponsavel = new Select("responsavel");
-		this.itIdResponsavel.setColumn("@idResponsavel");
+		this.itIdResponsavel.setName("@idResponsavel");
 		this.itIdResponsavel.setLabel("responsavel");
 		this.itIdResponsavel.setValueField("id");
 		this.itIdResponsavel.setLabelField("nome");
@@ -159,7 +153,7 @@ export class Atividade extends ModWindow {
 		this.append(this.itIdResponsavel);
 
 		this.itOrcamento = new NumericStepper(0);
-		this.itOrcamento.setColumn("@orcamento");
+		this.itOrcamento.setName("@orcamento");
 		this.itOrcamento.setLabel("orcamento");
 		this.itOrcamento.setMin(0);
 		this.itOrcamento.setMax(0);
@@ -171,7 +165,7 @@ export class Atividade extends ModWindow {
 		this.append(this.itOrcamento);
 
 		this.itPublicoAlvo = new TextInput("");
-		this.itPublicoAlvo.setColumn("@publicoAlvo");
+		this.itPublicoAlvo.setName("@publicoAlvo");
 		this.itPublicoAlvo.setLabel("publico alvo");
 		this.itPublicoAlvo.setPlaceHolder("digite o publico da atividade ex. toda a ala");
 		this.itPublicoAlvo.setSize(6);
@@ -179,7 +173,7 @@ export class Atividade extends ModWindow {
 		this.append(this.itPublicoAlvo);
 
 		this.itVestuario = new TextInput("no padrao");
-		this.itVestuario.setColumn("@vestuario");
+		this.itVestuario.setName("@vestuario");
 		this.itVestuario.setLabel("vestuario");
 		this.itVestuario.setPlaceHolder("digite o vestuario da atividade ex. no esporte fino");
 		this.itVestuario.setSize(6);
@@ -187,7 +181,7 @@ export class Atividade extends ModWindow {
 		this.append(this.itVestuario);
 
 		this.itProposito = new TextInput("");
-		this.itProposito.setColumn("@proposito");
+		this.itProposito.setName("@proposito");
 		this.itProposito.setPlaceHolder("digite o proposito da atividade");
 		this.itProposito.setLabel("proposito");
 		this.itProposito.setSize(12);
@@ -195,28 +189,25 @@ export class Atividade extends ModWindow {
 		this.append(this.itProposito);
 
 		this.itDetalhes = new TextArea("");
-		this.itDetalhes.setColumn("@detalhes");
+		this.itDetalhes.setName("@detalhes");
 		this.itDetalhes.setLabel("detalhes");
 		this.itDetalhes.setPlaceHolder("digite os detalhes da atividade");
 		this.itDetalhes.setSize(12);
 		this.itDetalhes.setMaxLength(300);
 		this.append(this.itDetalhes);
 
-		this.mainTb.btAdd.addEvent('click', function(evt:Event) {
+		this.btAdd.addEvent('click', function(evt:Event) {
 			this.novaAtividade();
 		}.bind(this));
 
 		this.btSubmeter = new Button("Enviar");
-		this.btSubmeter.$.removeClass("btn-default").addClass("btn-info");
-		this.btSubmeter.setIcon("send");
+		this.btSubmeter.setColor(EBasicColorStatus.INFO);
+		this.btSubmeter.setIcon("glyphicon glyphicon-send");
 		this.btSubmeter.addEvent('click', this.submeter.bind(this));
 		this.btSubmeter.setEnable(false);
-		this.mainTb.addButton(this.btSubmeter,true);
+		this.mainTb.append(this.btSubmeter,true);
 
-		this.mainList = new ListView<IAtividade>("Evento");
-		this.append(this.mainList);
-
-		this._modTrimestreView = p_trimestre_view;
+		this.buildTileList({ itemViewResource: "trimestre/view/assets/html/evento" });
 	}
 	onStart():void{
 		this.itIdResponsavel.fromService({
@@ -241,7 +232,7 @@ export class Atividade extends ModWindow {
 			this.itDtDisponivel.setEnable(false);
 		}
 	}
-	getByIdTrimestreIdPerfil(p_idTrimestre:number,p_idPerfil:number):void{
+	getByIdTrimestreIdPerfil(p_idTrimestre:number,p_idPerfil:number,p_saldo:number):void{
         this.clearFormItem();
         this.novaAtividade();
 		this.itIdTrimestre.setValue(p_idTrimestre + "");
@@ -256,9 +247,9 @@ export class Atividade extends ModWindow {
 			.get("trimestredatalivre/getdisponiveisbyidtrimestre/" + p_idTrimestre)
 			.done((dta: Atividade[]) => this.onReceiveDatasDisponiveis(dta));
 	}
-	novaAtividade():void{
+	private novaAtividade():void{
 		this.itDsObservacao.setValue("Cadastre uma nova atividade clicando no '+'.");
-		this.itDsObservacao.setType(AlertMsg.TP_WARNING);
+		this.itDsObservacao.setColor(EBasicColorStatus.WARNING);
 		this.itIdEvento.setValue("");
 		this.itDescricao.setValue("");
 		this.itPublicoAlvo.setValue("");
@@ -273,27 +264,27 @@ export class Atividade extends ModWindow {
 		this.itIdPerfil.setValue(PerfilBox.getIdPerfil()+"");
 		this.itIdResponsavel.setValue(PerfilBox.idUsuario + "");
 		this.itSnEditavel.setValue("S");
-		this.itOrcamento.setValue(this._modTrimestreView.getSaldo()+"");
-		this.itOrcamento.setMax(this._modTrimestreView.getSaldo());
+		this.itOrcamento.setValue(this.trimestreSaldo+"");
+		this.itOrcamento.setMax(this.trimestreSaldo);
 		//console.log(this.itOrcamento.maxvl);
 		this.itIdData.setValue(this.itDtDisponivel.getValue());
 		this.btSubmeter.setEnable(false);
 	}
-	onChangeItem(p_item:IAtividade):IAtividade{
+	private onChangeItem(p_item:IAtividade):IAtividade{
 		//console.log(this.itIdData.getInput().val());
 		var on = (p_item.snEditavel=="S");
 		this.habilitarCampos(on);
 		if(on){
 			var tmpVlAtiv: number = p_item.orcamento;
 			//console.log(tmpVlAtiv+":"+this._modTrimestreView.getSaldo());
-			this.itOrcamento.setMax(this._modTrimestreView.getSaldo() + tmpVlAtiv);
+			this.itOrcamento.setMax(this.trimestreSaldo + tmpVlAtiv);
 			this.btSubmeter.setEnable(true);
 		}else{
 			this.btSubmeter.setEnable(false);
 		}
 		return p_item;
 	}
-	habilitarCampos(on:boolean):void{
+	private habilitarCampos(on:boolean):void{
 		this.itDescricao.setEnable(on);
 		this.itLocal.setEnable(on);
 		this.itDtDisponivel.setEnable(on);
@@ -308,12 +299,12 @@ export class Atividade extends ModWindow {
 		this.itOrcamento.setEnable(on, 1);
 		this.itOrcamento.setEnable(on, 3);
 		this.itIdOrganizacao.setEnable(on);
-		this.mainTb.btSave.setEnable(on);
+		this.btSave.setEnable(on);
 	}
-	setDtEvento(evt:Event):void{
+	private setDtEvento(evt:Event):void{
 		this.itIdData.setValue(this.itDtDisponivel.getValue());
 	}
-	beforeSave(p_obj:IAtividade):IAtividade{
+	private beforeSave(p_obj:IAtividade):IAtividade{
 		if (p_obj.local == "") {
 			p_obj.local = "capela";
 		};
@@ -323,7 +314,7 @@ export class Atividade extends ModWindow {
 		this.itOrcamento.setMax(p_obj.orcamento);
 		return p_obj;
 	}
-	getIcone(p_idStatus:number):string{
+	private getIcone(p_idStatus:number):string{
 		var tpAlert: string = "info";
 		if (p_idStatus == EAtividadeStatus.PENDENTE) {
 			tpAlert = "danger";
@@ -334,31 +325,26 @@ export class Atividade extends ModWindow {
 		};
 		return tpAlert;
 	}
-	beforeInsert(p_req_obj:IRequestConfig): IRequestConfig{
+	private beforeInsert(p_req_obj:IRequestConfig): void{
 		p_req_obj.body.idStatus = EAtividadeStatus.ELABORADA;
 		p_req_obj.body.iconStatus = "info";
-		return p_req_obj;
-
 	}
-	afterInsert(p_obj: IAtividade): IAtividade {		
+	private afterInsert(p_obj: IAtividade):void{		
 		p_obj.datalivre = {
 			id:p_obj.idData
 			,snDisponivel:"N"
 			,idTrimestre:p_obj.idTrimestre
 			,momento:""
 		}
-		return p_obj;
 	}
-	beforeUpdate(p_req_obj: IRequestConfig, p_old_obj:IAtividade): IRequestConfig {
+	private beforeUpdate(evt:Event,p_req_obj: IRequestConfig, p_old_obj:IAtividade):void {
 		if(p_old_obj.snEditavel=="N"){
-			return null;
+			evt.preventDefault();
 		};
 		p_old_obj.iconStatus = this.getIcone(p_old_obj.idStatus);
-		return p_req_obj;
 	}
-
-	beforeDelete(p_req: IRequestConfig, p_old_obj: IAtividade): IRequestConfig {
-		return null;
+	private beforeDelete(evt: Event, p_req: IRequestConfig, p_old_obj: IAtividade): void {
+		evt.preventDefault();
 	}
 	private onUpdateAtividade(rt_save: boolean): void {
 		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
@@ -369,14 +355,14 @@ export class Atividade extends ModWindow {
 			};
 			tmpItemAtiv.dsObservacao = "Atividade enviada com sucesso, em breve sua atividade sera analisada e se tudo estiver correto ela sera " + tmpStatus + "!";
 			this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
-			this.itDsObservacao.setType(AlertMsg.TP_INFO);
+			this.itDsObservacao.setColor(EBasicColorStatus.INFO);
 		} else {
 			tmpItemAtiv.dsObservacao = "A atividade nao pode ser " + tmpStatus + ", entre em contato com o bispado em caso de duvidas!";
 			this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
-			this.itDsObservacao.setType(AlertMsg.TP_ERROR);
+			this.itDsObservacao.setColor(EBasicColorStatus.DANGER);
 		}
 	}
-	submeter():void{
+	private submeter():void{
 		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
 		if(tmpItemAtiv.snEditavel=="S"){
 			tmpItemAtiv.snEditavel = "N";			

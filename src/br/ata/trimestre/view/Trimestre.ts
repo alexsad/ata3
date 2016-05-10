@@ -1,77 +1,34 @@
-import {ModWindow,WebContainer} from "lib/underas/container";
-import {NumericStepper, CheckBox, TextInput} from "lib/underas/controller";
-import {ListView} from "lib/underas/listview";
-import {ToolBar} from "lib/underas/net";
-import {ITrimestre} from "../model/ITrimestre";
+import {Box} from "lib/underas/container";
+import {TrimestreForm} from "./TrimestreForm";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import {TrimestreDataLivre} from "./TrimestreDataLivre";
+import {ITrimestre} from "../model/ITrimestre";
 
-@WebContainer({
-	itemViewResource: "trimestre/view/assets/html/trimestre"
-})
-export class Trimestre extends ModWindow{
-	itIdTrimestre:TextInput	; 
-	itAno:NumericStepper;	 
-	itNrTrimestre:NumericStepper;	 
-	itSnAberto:CheckBox;	
-	mainTb:ToolBar;
-	mainList:ListView<ITrimestre>; 
-	_modTrimestreLancamentoAtividade: TrimestreLancamentoAtividade;
-	_modTrimestreDataLivre: TrimestreDataLivre;
-	constructor(){
-		super("trimestres");			
-		this.setSize(5);
-		this.showTitle(false);
-		
-		this.mainTb = new ToolBar({"domain":"trimestre"});
-		this.append(this.mainTb);
+export class Trimestre extends Box {
+	private trimestreForm: TrimestreForm;
+	private trimestreLancamentoAtividadeForm: TrimestreLancamentoAtividade;
+	private trimestreDataLivreForm: TrimestreDataLivre;
+	constructor() {
+		super();
+		this.trimestreForm = new TrimestreForm();
+		this.append(this.trimestreForm);
 
-		this.itIdTrimestre = new TextInput("");
-		this.itIdTrimestre.setColumn("$id");
-		this.itIdTrimestre.setLabel("cod.");
-		this.itIdTrimestre.setEnable(false);	
-		this.itIdTrimestre.setSize(2);	
-		this.append(this.itIdTrimestre);
+		this.trimestreLancamentoAtividadeForm = new TrimestreLancamentoAtividade();
+		this.append(this.trimestreLancamentoAtividadeForm);
 
-		this.itAno = new NumericStepper(2015);
-		this.itAno.setColumn("@ano");
-		this.itAno.setLabel("ano");
-		this.itAno.setStep(1);
-		this.itAno.setMin(2014);
-		this.itAno.setMax(2050);
-		this.itAno.setEnable(false,2);
-		this.itAno.setSize(3);	
-		this.append(this.itAno);
-
-		this.itNrTrimestre = new NumericStepper(1);
-		this.itNrTrimestre.setColumn("@nrTrimestre");
-		this.itNrTrimestre.setLabel("trim.");
-		this.itNrTrimestre.setStep(1);
-		this.itNrTrimestre.setMin(1);
-		this.itNrTrimestre.setMax(4);		
-		this.itNrTrimestre.setEnable(false,2);
-		this.itNrTrimestre.setSize(3);
-		this.append(this.itNrTrimestre);
-
-		this.itSnAberto = new CheckBox("Disponivel","Sim");
-		this.itSnAberto.setColumn("@snAberto");
-		this.itSnAberto.setLabel("disponivel");
-		this.itSnAberto.setSize(4);	
-		this.append(this.itSnAberto);
-		
-		this.mainList = new ListView<ITrimestre>("Trimestre");
-		this.append(this.mainList);	
+		this.trimestreDataLivreForm = new TrimestreDataLivre();
+		this.append(this.trimestreDataLivreForm);
 	}
-	onStart():void{
-		this._modTrimestreDataLivre = new TrimestreDataLivre();
-		this.getModView().append(this._modTrimestreDataLivre);
-		this._modTrimestreLancamentoAtividade = new TrimestreLancamentoAtividade();
-		this.getModView().append(this._modTrimestreLancamentoAtividade);
-		this.mainTb.reloadItens();
-	}
-	onChangeItem(p_obj:ITrimestre):ITrimestre{
-		this._modTrimestreDataLivre.getByIdTrimestre(p_obj.id);
-		this._modTrimestreLancamentoAtividade.getByIdTrimestre(p_obj.id);	
-		return p_obj;
+	onStart(): void {
+		this.trimestreForm.onStart();
+		this.trimestreForm.addEvent(
+			TrimestreForm.EVENT_ITEM_CHANGE
+			, (evt: Event, {id}: ITrimestre) => {
+				this.trimestreLancamentoAtividadeForm.getByIdTrimestre(id);
+				this.trimestreDataLivreForm.getByIdTrimestre(id)
+			}
+		);
+		this.trimestreLancamentoAtividadeForm.onStart();
+		this.trimestreDataLivreForm.onStart();
 	}
 }

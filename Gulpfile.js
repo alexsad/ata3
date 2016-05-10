@@ -80,7 +80,7 @@ gulp.task('convert_template2IDOM',function(){
     .pipe(rename({
         extname: ".js"
     }))
-    .pipe(replace("function description (data) {","define(['idom/incremental-dom-min'],function(_IDOM){return function($data){"))   
+    .pipe(replace("function description (data) {","define(['idom/incremental-dom-min'],function(_IDOM){return function($this){"))   
     .pipe(replace(/\}$/g,"}});"))
     .pipe(replace(/(elementOpen)/g,'_IDOM.$1'))
     .pipe(replace(/(elementVoid)/g,'_IDOM.$1'))
@@ -90,16 +90,10 @@ gulp.task('convert_template2IDOM',function(){
     .pipe(gulp.dest(destPackagePathAppView));
 });
 
-
-gulp.task('replace_relative_path', function(){
-  gulp.src(destPackagePathAppView+"**/*.js")
-    .pipe(replace(/(templateResource):(['"])([^!"']+)*/g,"$1:$2"+destPackagePathFullView+"$3.js?cache="+compileVersion))
-    .pipe(gulp.dest(destPackagePathAppView));
-});
-
 gulp.task('set_compile_revision', function(){
   gulp.src(appDestPathView+"/js/*.template.js")
     .pipe(replace(/(\$\{compile\-version\})/g,compileVersion))
+    .pipe(replace(/(\$\{relative\-path\-package\})/g,destPackagePathFullView.replace(appDestPathView+"/","")))
     .pipe(rename(function (p_path) {        
         p_path.basename = p_path.basename.replace(".template","");        
     }))
@@ -140,31 +134,6 @@ gulp.task('ts_view',function(){
                 rootPath+"/src/lib/jquery/jquery2.d.ts",
                 rootPath+"/src/lib/jqueryui/jqueryui.d.ts"
             ]
-        }))
-        .pipe(replace(/(['"]?templateResource|itemViewResource['"]?\s?):\s?(['"])([^!"]+)*/g,"$1:$2"+destPackagePathFullView.replace(appDestPathView+"/","")+"/$3.js?cache="+compileVersion))
-        .pipe(replace(/["']?styleResource["']?\s?:\s?\[((\s|['".?=&,#-:]|\/|\!|\d|\w|\n)*)?\]/g,function(p_founded_regx){
-            var regexStyleResource =  /["']?styleResource["']?\s?:\s?\[((\s|['".?=&,#-:]|\/|\!|\d|\w|\n)*)?\]/g;
-            var listStyleResource = p_founded_regx.match(regexStyleResource);
-            var nStyleResource = listStyleResource[0].replace(/"/g,"'").replace(/\s/g,"").replace(/'?styleResource'?:\[/g,"").replace("]","");
-            nStyleResource = nStyleResource.replace("'","").replace(/'$/g,"")
-            var nlistStyleResource = nStyleResource.split("','");        
-            var nlist = [];
-            var initCount = 0;
-            var countFound = 0;
-            nlistStyleResource.forEach(function(itemStyle){
-                if(itemStyle.indexOf("!") != 0){
-                    itemStyle = destPackagePathFullView.replace(appDestPathView+"/","")+"/"+itemStyle+".css?cache="+compileVersion;
-                    //console.log(itemStyle);
-                    countFound++;
-                }
-                nlist.push(itemStyle);      
-            });   
-            if(initCount!=countFound){
-                var concatList = "styleResource:['"+nlist.join("','")+"']";
-                return p_founded_regx.replace(regexStyleResource,concatList);            
-            }
-            return p_founded_regx;    
-            //return p_founded_regx.replace(/(styleResource:\["|')/g,"$1"+destPackagePathFullView.replace(appDestPathView+"/","")+"/").replace(/(["']\])$/g,".css?cache="+compileVersion+"$1"); 
         }))
         //.pipe(uglify())
         .pipe(gulp.dest(destPackagePathAppView));   

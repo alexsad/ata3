@@ -1,9 +1,9 @@
-import {NotifyPool, ENotifyType, ENotifyPoolType} from "lib/underas/controller";
+//import {NotifyPool, ENotifyType, ENotifyPoolType} from "lib/underas/controller";
 import {$http} from "lib/underas/http";
 import {IPerfil, IMenu, IItemMenu, IPerfilNotificacao} from "../model/IPerfil";
 import {IUsuarioPerfil} from "../../usuario/model/IUsuario";
 import MenuAdm = require("../../menu/view/MenuAdm");
-
+import {ICustomComponent} from "lib/underas/core";
 
 declare var require: any;
 
@@ -12,7 +12,7 @@ class PerfilBoxStatic {
 	idUsuario: number;
 	idPerfil: number;
 	private login: string;
-	_notificacoes: NotifyPool;	
+	//_notificacoes: NotifyPool;	
 	private _idbox: string;
 	constructor(){}
 	setIdPerfil(p_idPerfil: number): void {
@@ -30,8 +30,8 @@ class PerfilBoxStatic {
 	getPerfisByIdUsuario(p_idUsuario: number): void {
 		this.idUsuario = p_idUsuario;
 		MenuAdm.idUsuario = p_idUsuario;
-		MenuAdm.appendTo("#main_menu_adm");
-		MenuAdm.onChangePerfil = this.setIdPerfil.bind(this);
+		//MenuAdm.appendTo("#main_menu_adm");
+		(<ICustomComponent>MenuAdm).addEvent(MenuAdm.EVENT_CHANGE_PERFIL, (evt: Event, idPerfil: number) => this.setIdPerfil(idPerfil));
 		MenuAdm.getPerfisUsuarioByIdUsuario(p_idUsuario);
 		MenuAdm.loginUsuario = this.login;
 	}

@@ -1,15 +1,10 @@
-import {ModWindow,WebContainer} from "lib/underas/container";
-import {Select, TextInput, TextArea, NumericStepper, DatePicker} from "lib/underas/controller";
-import {ListView} from "lib/underas/listview";
-import {ToolBar} from "lib/underas/net";
+import {Select, TextInput, TextArea, NumericStepper} from "lib/underas/input";
+import {CRUDForm} from "../../form/view/CRUDForm";
 import {$http, IRequestConfig} from "lib/underas/http";
 import {IDiscurso} from "../model/IDiscurso";
 import {IMembro} from "../../organizacao/model/IMembro";
 
-@WebContainer({
-	itemViewResource: "reuniao/view/assets/html/discursante"
-})
-export class Discursante extends ModWindow{
+export class Discursante extends CRUDForm<IDiscurso>{
 	itIdDiscurso:TextInput;
 	itIdMembro:Select;
 	itIdReuniao:Select;
@@ -17,25 +12,23 @@ export class Discursante extends ModWindow{
 	itTema:TextInput;
 	itFonte:TextArea;
 	itLinkFonte:TextInput;
-	mainList:ListView<IDiscurso>;
-	mainTb:ToolBar;
-	
 	constructor(){
-		super("*discursantes da reuniao");		
+		super({
+			"domain": "discurso" 
+		});		
 		this.setSize(8);
 
-		this.mainTb = new ToolBar({"domain":"discurso"});
-		this.append(this.mainTb);
+		this.buildToolBar();
 
 		this.itIdDiscurso = new TextInput("");
-		this.itIdDiscurso.setColumn("$id");
+		this.itIdDiscurso.setName("$id");
 		this.itIdDiscurso.setLabel("cod.");
 		this.itIdDiscurso.setEnable(false);
 		this.itIdDiscurso.setSize(2);
 		this.append(this.itIdDiscurso);
 
 		this.itIdMembro = new Select("selecione um discursante");
-		this.itIdMembro.setColumn("@idMembro");
+		this.itIdMembro.setName("@idMembro");
 		this.itIdMembro.setLabel("membro");
 		this.itIdMembro.setValueField("id");
 		this.itIdMembro.setLabelField("nome");
@@ -43,7 +36,7 @@ export class Discursante extends ModWindow{
 		this.append(this.itIdMembro);
 
 		this.itIdReuniao = new Select("reuniao");
-		this.itIdReuniao.setColumn("!idReuniao");
+		this.itIdReuniao.setName("!idReuniao");
 		this.itIdReuniao.setLabel("reuniao");
 		this.itIdReuniao.setValueField("id");
 		this.itIdReuniao.setLabelField("dsData");
@@ -51,7 +44,7 @@ export class Discursante extends ModWindow{
 		this.append(this.itIdReuniao);
 
 		this.itTempo = new NumericStepper(5);
-		this.itTempo.setColumn("@tempo");
+		this.itTempo.setName("@tempo");
 		this.itTempo.setLabel("tempo");
 		this.itTempo.setSize(3);
 	    this.itTempo.setMin(5);
@@ -61,26 +54,25 @@ export class Discursante extends ModWindow{
 		this.append(this.itTempo);
 
 		this.itTema = new TextInput("");
-		this.itTema.setColumn("@tema");
+		this.itTema.setName("@tema");
 		this.itTema.setLabel("tema");
 		this.itTema.setSize(12);
 		this.append(this.itTema);
 
 		this.itFonte = new TextArea("alia. pg.");
-		this.itFonte.setColumn("@fonte");
+		this.itFonte.setName("@fonte");
 		this.itFonte.setLabel("ajuda");
 		this.itFonte.setSize(12);
 		this.itFonte.setMaxLength(25);
 		this.append(this.itFonte);
 
 		this.itLinkFonte = new TextInput("");
-		this.itLinkFonte.setColumn("@linkFonte");
+		this.itLinkFonte.setName("@linkFonte");
 		this.itLinkFonte.setLabel("link");
 		this.itLinkFonte.setSize(12);
 		this.append(this.itLinkFonte);
 
-		this.mainList = new ListView<IDiscurso>("Discurso");
-		this.append(this.mainList);
+		this.buildTileList({ itemViewResource: "reuniao/view/assets/html/discursante" });
 	}
 	onStart():void{
 		this.itIdMembro.fromService({
@@ -89,7 +81,6 @@ export class Discursante extends ModWindow{
 		this.itIdReuniao.fromService({
 			url:"reuniao"
 		});
-
 	}
 	getByIdReuniao(p_idReuniao:number): void {
 		this.itIdReuniao.setValue(p_idReuniao+"");

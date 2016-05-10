@@ -1,28 +1,18 @@
 {
-    "version": "1.5.0",
     "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs",
-        "declaration": false,
-        "noImplicitAny": false,
-        "removeComments": true,
-        "noLib": false,
-        "emitDecoratorMetadata": true,
-        "sourceMap": false,
-        "outDir": "deploy/app",
-        "experimentalDecorators": true,
-        "isolatedModules": false,
-        "noEmitHelpers": false,
-        "noResolve": true
+        "target": "es5"
+        ,"module": "amd"
+        ,"moduleResolution": "classic"
+        ,"outDir": "./build"
+        ,"experimentalDecorators": true
     },
-    "compileOnSave": false,
-    "filesGlob": [
-        "./src/lib/sequelize.d.ts",
-        "./src/config/sequelizedb.ts",
-        "./src/br/**/*.ts",
-        "./src/lib/**/*.ts",
-        "!./node_modules/**/*.ts",
-        "!./deploy/node_modules/**/*.ts"
+    "exclude": [
+        "node_modules"
+        ,"src/def"
+        ,"bower_components"
+        ,"build"
+        ,"docassets"
+        ,"docs"
     ],
-    "files": []
+    "compileOnSave": false
 }

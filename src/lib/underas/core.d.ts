@@ -1,4 +1,3 @@
-export { System } from "./coremods/coremod";
-export { WebElement, IWebElementClass } from "./coremods/WebElement";
-export { IComponent } from "./coremods/IComponent";
-export { WebComponent } from "./coremods/WebComponent";
+export { SystemApplication } from "./core_mod/SystemApplication";
+export { ICustomComponent } from "./core_mod/interface/ICustomComponent";
+export { Render } from "./core_mod/decorator/Render";

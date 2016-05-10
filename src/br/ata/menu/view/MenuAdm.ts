@@ -1,17 +1,16 @@
-import {WebElement,IWebElementClass,System} from "lib/underas/core";
+import {Render,ICustomComponent} from "lib/underas/core";
 import {$http} from "lib/underas/http";
-import {ModView,ModWindow} from "lib/underas/container";
 import {IMenu, IItemMenu} from "../../perfil/model/IPerfil";
 import {IUsuarioPerfil} from "../../usuario/model/IUsuario";
 import {UsuarioUploadAvatar} from "../../usuario/view/UsuarioUploadAvatar";
+import {Form} from "lib/underas/container";
 
-
-@WebElement({
+@Render({
 	templateResource:"menu/view/assets/html/menu_adm"
 	, styleResource: ["menu/view/assets/css/menu_adm"]
 	//,noAutoRenderRefresh:true
 })
-class MenuAdmStatic implements IWebElementClass{
+class MenuAdmStatic implements ICustomComponent{
 	private menus: IMenu[];
 	private menu_selected: number;
 	private usuarioPerfis: IUsuarioPerfil[];
@@ -20,9 +19,10 @@ class MenuAdmStatic implements IWebElementClass{
 	public loginUsuario: string;
 	private perfisVisibles: boolean;
 	private showMenus: boolean;
-	public onChangePerfil: (p_idPerfil:number) => void;
 	private _setAvatar: UsuarioUploadAvatar;
 	private _avatarcache: number;
+	public EVENT_CHANGE_PERFIL: string = "perfil:change";
+	public EVENT_SELECT_MODULE: string = "module:click";
 	constructor(){
 		this.menu_selected = 0;
 		this.menus = [];		
@@ -37,44 +37,27 @@ class MenuAdmStatic implements IWebElementClass{
 	private showMenu(p_on:boolean):void{
 		this.showMenus = p_on;
 	}
-	appendTo(p_target:string):void{	
-		(<IWebElementClass><any>this).renderTo(p_target);
-	}
-	setMenuIndex(p_index:number):void{
+	private setMenuIndex(p_index:number):void{
 		this.perfisVisibles = false;
 		this.menu_selected = p_index;
 		this.showMenu(true);		
 	}
-	togleShowMenu():void{
+	private togleShowMenu():void{
 		this.showMenus = !this.showMenus;
 	}
-	loadModule(p_module: string, p_title: string, p_icon: string,p_action:string):void{
-		this.showMenu(false);
-		var nextload: boolean = true;
-		var moduleToLoad: string = p_module;
-		var varModuleToLoadTmpM: string[] = moduleToLoad.split(".");
-		var varModuleToLoadTmp: string = varModuleToLoadTmpM[varModuleToLoadTmpM.length - 1];
-		var varModuleToLoadTmpCapt: string = varModuleToLoadTmp;
-		varModuleToLoadTmp = varModuleToLoadTmp.toLowerCase();
-		if (nextload) {				
-			var urlModuleLoad: string = moduleToLoad;
-			System.loadModules([urlModuleLoad.replace(/\./g, "/")]
-				, function( _modwindow: any) {
-					var tmp_modwindow:ModWindow = new _modwindow[varModuleToLoadTmpCapt]();
-					tmp_modwindow.setRevision("1.0.0");
-					tmp_modwindow.setUrlModule(p_module);
-					var mdw_tmp = new ModView(p_title);
-					mdw_tmp.setIcon(p_icon);
-					mdw_tmp.show(true);
-					mdw_tmp.append(tmp_modwindow);
-					if (p_action) {
-						tmp_modwindow[p_action]();
-					};
-				}
-			);
+	private loadModule(p_module: string, p_title: string, p_icon: string,p_action:string):void{
+		this.showMenu(false);				
+		let tmpMod:IItemMenu = {
+			label: p_title
+			,funcao: p_action
+			,tela: p_module
+			,icone: p_icon
+			,ordem: 0
+			,idMenu: 0
 		};
+		(<ICustomComponent>this).fireEvent(this.EVENT_SELECT_MODULE,tmpMod);
 	}
-	setMenu(p_menu:IMenu[]):void{
+	private setMenu(p_menu:IMenu[]):void{
 		this.menus = p_menu;
 		this.menu_selected = 0;
 	}
@@ -89,10 +72,8 @@ class MenuAdmStatic implements IWebElementClass{
 	}
 	setIdPerfil(p_idPerfil:number): void {
 		this.idPerfilSelected = p_idPerfil;
-		this.getMenusByIdPerfil(p_idPerfil);
-		if(this.onChangePerfil){
-			this.onChangePerfil(p_idPerfil);
-		}		
+		this.getMenusByIdPerfil(p_idPerfil);	
+		(<ICustomComponent>this).fireEvent(this.EVENT_CHANGE_PERFIL,p_idPerfil);
 	}
 	getPerfisUsuarioByIdUsuario(p_idUsuario: number): void {		
 		$http
@@ -112,18 +93,16 @@ class MenuAdmStatic implements IWebElementClass{
 	private setAvatar(): void {
 		if (!this._setAvatar) {
 			this._setAvatar = new UsuarioUploadAvatar(this.idUsuario);
-			$("body").append(this._setAvatar.$);
-			this._setAvatar.$.on("avatarchanged",this.onChangeAvatar.bind(this));
+			//$("body").append(this._setAvatar.$);
+			//this._setAvatar.$.on("avatarchanged",this.onChangeAvatar.bind(this));
 		};
-		this._setAvatar.show(true);
+		//this._setAvatar.show(true);
 	}
 	private onChangeAvatar():void{
-		this._setAvatar.show(false);
+		//this._setAvatar.show(false);
 		this._avatarcache = new Date().getTime();
-	}
-	
+	}	
 }
-
 
 var MenuAdm: MenuAdmStatic = new MenuAdmStatic();
 export = MenuAdm;

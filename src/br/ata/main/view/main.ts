@@ -1,20 +1,18 @@
-import {System} from "lib/underas/core";
-import {ModView} from "lib/underas/container";
+import {SystemApplication} from "lib/underas/core";
 import {$http} from "lib/underas/http";
-import Login =require("../../usuario/view/Login");
+import ViewAuthentication = require("../../viewauthentication/view/ViewAuthentication");
+import ViewApp = require("../../viewapp/view/ViewApp");
 
-$http.rootUrl= System.getDomain()+":8330/";
 
-var mdw: ModView = new ModView("cadastro de teste!!!");
-mdw.$.addClass("mdwLogin");
-mdw.setIcon("key");
-mdw.show(true);
-mdw.append(Login);
-Login.autoLogin();
-/*
-var mdw: ModView = new ModView("cadastro de teste!!!");
-mdw.$.addClass("mdwLogin");
-mdw.setIcon("key");
-mdw.show(true);
-//mdw.append(teste);
-*/
+$http.rootUrl= SystemApplication.getDomain()+":8330/";
+
+ViewAuthentication.appendTo('body:first');
+ViewAuthentication.init();
+
+ViewAuthentication.addEvent(ViewAuthentication.EVENT_AUTHENTICATION_SUCCESS, 
+	(evt:Event) => { 
+		ViewAuthentication.show(false);
+		ViewApp.appendTo('body:first');
+		ViewApp.init();
+		ViewApp.show(true); 
+});

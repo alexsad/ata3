@@ -22,12 +22,13 @@ requirejs.config({
 		,waitSeconds:15
 });
 
-requirejs(['jquery','cookies','bootstrap-datepicker'],function($jq,_cookie){
+requirejs(['jquery','cookies','lib/underas/core','bootstrap-datepicker'],function($jq,_cookie,_sist){
 		window.$ = window.jQuery = $jq;
 		window.Cookies = _cookie;
+		_sist.SystemApplication.relativePathPackage = "${relative-path-package}";
+		_sist.SystemApplication.setProjectVersion("3.0.1_${compile-version}");
 		$jq(function(){
-				requirejs(['lib/underas/core','br/ata/main/view/main','bootstrap-datepicker-locale-pt-BR','farbtastic'],function(_sist){
-						_sist.System.setProjectVersion("3.0.1_${compile-version}");
+				requirejs(['br/ata/main/view/main','bootstrap-datepicker-locale-pt-BR','farbtastic'],function(){
 						//console.log(_sist.System.getProjectVersion());
 						//_sist.System.setProjectRevision("3.0.1_${compile-version}");
 				}

@@ -1,18 +1,17 @@
-import {System} from "lib/underas/core";
-import {ModWindow,WebContainer} from "lib/underas/container";
-import {TimeInput, Button, TextArea, NumericStepper, DatePicker, Select, AlertMsg, CheckBox, TextInput} from "lib/underas/controller";
-import {ListView} from "lib/underas/listview";
-import {SimpleToolBar} from "lib/underas/net";
+import {SystemApplication} from "lib/underas/core";
+import {EBasicColorStatus} from "lib/underas/component";
+import {Form,ToolBar} from "lib/underas/container";
+import {TimeInput, TextArea, NumericStepper, DatePickerInput, Select, CheckBox, TextInput} from "lib/underas/input";
+import {TileList} from "lib/underas/widget_mod/TileList";
+import {Button} from "lib/underas/button";
+import {Alert} from "lib/underas/widget";
 import {$http, IRequestConfig} from "lib/underas/http";
 import {IAtividade, EAtividadeStatus} from "../model/ITrimestre";
 import PerfilBox = require("../../perfil/view/PerfilBox");
 import {jsPDF} from "lib/jspdf/jsPDF";
 import {IReportTemplate, IReportTemplateItem} from "lib/jspdf/ijspdf";
 
-@WebContainer({
-	itemViewResource: "trimestre/view/assets/html/evento"
-})
-export class AtividadeAutorizacao extends ModWindow {
+export class AtividadeAutorizacao extends Form {
 	itIdEvento: TextInput;
 	itIdTrimestre: TextInput;
 	itSnEditavel: CheckBox;
@@ -29,45 +28,45 @@ export class AtividadeAutorizacao extends ModWindow {
 	itProposito: TextInput;
 	itIdStatus: Select;
 	itIdPerfil: Select;
-	itDsObservacao: AlertMsg;
+	itDsObservacao: Alert;
 	itVestuario: TextInput;
-	mainTb: SimpleToolBar;
-	mainList: ListView<IAtividade>;
+	mainTb:ToolBar;
+	mainList: TileList<IAtividade>;
 	btPrintAta: Button;
 	btSubmeter: Button;
 	btCancelar: Button;
 	btReload: Button;
 	_idStatus: EAtividadeStatus;
 	constructor() {
-		super("Atividades");
+		super();
 		this.setSize(12);
 
-		this.mainTb = new SimpleToolBar();
+		this.mainTb = new ToolBar();
 		this.append(this.mainTb);
 
-		this.itDsObservacao = new AlertMsg("Autorizacao de atividade...");
-		this.itDsObservacao.setColumn("#dsObservacao");
+		this.itDsObservacao = new Alert("Autorizacao de atividade...");
+		//this.itDsObservacao.setName("#dsObservacao");
 		this.itDsObservacao.setSize(12);
-		this.itDsObservacao.setType(AlertMsg.TP_WARNING);
+		this.itDsObservacao.setColor(EBasicColorStatus.WARNING);
 		this.append(this.itDsObservacao);
 
 
 		this.itIdEvento = new TextInput("");
-		this.itIdEvento.setColumn("$id");
+		this.itIdEvento.setName("$id");
 		this.itIdEvento.setLabel("cod.");
 		this.itIdEvento.setEnable(false);
 		this.itIdEvento.setSize(2);
 		this.append(this.itIdEvento);
 
 		this.itIdTrimestre = new TextInput("");
-		this.itIdTrimestre.setColumn("!idTrimestre");
+		this.itIdTrimestre.setName("!idTrimestre");
 		this.itIdTrimestre.setLabel("tri.");
 		this.itIdTrimestre.setEnable(false);
 		this.itIdTrimestre.setSize(2);
 		this.append(this.itIdTrimestre);
 
 		this.itCodRefMLS = new TextInput("");
-		this.itCodRefMLS.setColumn("#codRefMLS");
+		this.itCodRefMLS.setName("#codRefMLS");
 		this.itCodRefMLS.setLabel("ref. MLS");
 		this.itCodRefMLS.setPlaceHolder("cod. ref. MLS");
 		this.itCodRefMLS.setSize(3);
@@ -75,7 +74,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itCodRefMLS);
 
 		this.itIdStatus = new Select("Status");
-		this.itIdStatus.setColumn("@idStatus");
+		this.itIdStatus.setName("@idStatus");
 		this.itIdStatus.setLabel("Status");
 		this.itIdStatus.setValueField("idStatus");
 		this.itIdStatus.setLabelField("descricao");
@@ -84,7 +83,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itIdStatus);
 
 		this.itSnEditavel = new CheckBox("Editavel?", "Sim");
-		this.itSnEditavel.setColumn("@snEditavel");
+		this.itSnEditavel.setName("@snEditavel");
 		this.itSnEditavel.setCheckedValue("S");
 		this.itSnEditavel.setUnCheckedValue("N");
 		this.itSnEditavel.setLabel("Editavel");
@@ -93,7 +92,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itSnEditavel);
 
 		this.itDescricao = new TextInput("");
-		this.itDescricao.setColumn("@descricao");
+		this.itDescricao.setName("@descricao");
 		this.itDescricao.setLabel("descricao");
 		this.itDescricao.setPlaceHolder("digite a descricao da atividade");
 		this.itDescricao.setSize(12);
@@ -103,7 +102,7 @@ export class AtividadeAutorizacao extends ModWindow {
 
 		this.itMomento = new TextInput("data");
 		this.itMomento.setIcon("calendar");
-		this.itMomento.setColumn("@datalivre.dsData");
+		this.itMomento.setName("@datalivre.dsData");
 		this.itMomento.setPlaceHolder("ex. 31-12-2015");
 		this.itMomento.setLabel("data");
 		this.itMomento.setEnable(false);
@@ -114,7 +113,7 @@ export class AtividadeAutorizacao extends ModWindow {
 
 
 		this.itHora = new TimeInput("19:00");
-		this.itHora.setColumn("@hora");
+		this.itHora.setName("@hora");
 		this.itHora.setPlaceHolder("hora da atividade ex. 19:00");
 		this.itHora.setLabel("hora");
 		this.itHora.setSize(3);
@@ -122,7 +121,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itHora);
 
 		this.itLocal = new TextInput("capela");
-		this.itLocal.setColumn("@local");
+		this.itLocal.setName("@local");
 		this.itLocal.setLabel("local");
 		this.itLocal.setPlaceHolder("local da atividade");
 		this.itLocal.setSize(5);
@@ -130,7 +129,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itLocal);
 
 		this.itIdPerfil = new Select("selecione uma pefil");
-		this.itIdPerfil.setColumn("@idPerfil");
+		this.itIdPerfil.setName("@idPerfil");
 		this.itIdPerfil.setLabel("perfil:");
 		this.itIdPerfil.setValueField("id");
 		this.itIdPerfil.setLabelField("descricao");
@@ -139,7 +138,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itIdPerfil);
 
 		this.itIdOrganizacao = new Select("organizacao");
-		this.itIdOrganizacao.setColumn("@idOrganizacao");
+		this.itIdOrganizacao.setName("@idOrganizacao");
 		this.itIdOrganizacao.setLabel("organizacao:");
 		this.itIdOrganizacao.setValueField("id");
 		this.itIdOrganizacao.setLabelField("descricao");
@@ -148,7 +147,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itIdOrganizacao);
 
 		this.itIdResponsavel = new Select("responsavel");
-		this.itIdResponsavel.setColumn("@idResponsavel");
+		this.itIdResponsavel.setName("@idResponsavel");
 		this.itIdResponsavel.setLabel("responsavel");
 		this.itIdResponsavel.setValueField("id");
 		this.itIdResponsavel.setLabelField("nome");
@@ -157,7 +156,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itIdResponsavel);
 
 		this.itOrcamento = new NumericStepper(0);
-		this.itOrcamento.setColumn("@orcamento");
+		this.itOrcamento.setName("@orcamento");
 		this.itOrcamento.setLabel("orcamento");
 		this.itOrcamento.setMin(0);
 		this.itOrcamento.setMax(0);
@@ -167,7 +166,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itOrcamento);
 
 		this.itPublicoAlvo = new TextInput("");
-		this.itPublicoAlvo.setColumn("@publicoAlvo");
+		this.itPublicoAlvo.setName("@publicoAlvo");
 		this.itPublicoAlvo.setLabel("publico alvo");
 		this.itPublicoAlvo.setPlaceHolder("digite o publico da atividade ex. toda a ala");
 		this.itPublicoAlvo.setSize(6);
@@ -176,7 +175,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itPublicoAlvo);
 
 		this.itVestuario = new TextInput("no padrao");
-		this.itVestuario.setColumn("@vestuario");
+		this.itVestuario.setName("@vestuario");
 		this.itVestuario.setLabel("vestuario");
 		this.itVestuario.setPlaceHolder("digite o vestuario da atividade ex. no esporte fino");
 		this.itVestuario.setSize(6);
@@ -185,7 +184,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itVestuario);
 
 		this.itProposito = new TextInput("");
-		this.itProposito.setColumn("@proposito");
+		this.itProposito.setName("@proposito");
 		this.itProposito.setPlaceHolder("digite o proposito da atividade");
 		this.itProposito.setLabel("proposito");
 		this.itProposito.setSize(12);
@@ -194,7 +193,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.append(this.itProposito);
 
 		this.itDetalhes = new TextArea("");
-		this.itDetalhes.setColumn("@detalhes");
+		this.itDetalhes.setName("@detalhes");
 		this.itDetalhes.setLabel("detalhes");
 		this.itDetalhes.setPlaceHolder("digite os detalhes da atividade");
 		this.itDetalhes.setSize(12);
@@ -207,28 +206,29 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.btSubmeter.setIcon("check");
 		this.btSubmeter.addEvent('click', this.submeter.bind(this));
 		this.btSubmeter.setEnable(false);
-		this.mainTb.addButton(this.btSubmeter,true);
+		this.mainTb.append(this.btSubmeter,true);
 
 		this.btCancelar = new Button("Pendente");
 		this.btCancelar.$.removeClass("btn-default").addClass("btn-warning");
 		this.btCancelar.setIcon("circle-arrow-down");
 		this.btCancelar.addEvent('click', this.cancelar.bind(this));
 		this.btCancelar.setEnable(false);
-		this.mainTb.addButton(this.btCancelar);
+		this.mainTb.append(this.btCancelar);
 
 		this.btReload = new Button("Reload");
 		this.btReload.setIcon("refresh");
 		this.btReload.addEvent('click', this.Atualizar.bind(this));
 		this.btReload.setEnable(true);
-		this.mainTb.addButton(this.btReload);
+		this.mainTb.append(this.btReload);
 
 		this.btPrintAta = new Button("Ata");
 		this.btPrintAta.setIcon("print");
 		//this.btPrintAta.setEnable(false);
 		this.btPrintAta.addEvent('click', this.printAta.bind(this));
-		this.mainTb.addButton(this.btPrintAta);
+		this.mainTb.append(this.btPrintAta);
 
-		this.mainList = new ListView<IAtividade>("Evento");
+		this.mainList = new TileList<IAtividade>("Evento");
+		this.mainList.setItemViewResource("trimestre/view/assets/html/evento");
 		this.append(this.mainList);
 	}
 	onStart(): void {
@@ -261,7 +261,7 @@ export class AtividadeAutorizacao extends ModWindow {
 	}
 	printAta():void{
 		$http
-			.get("assets/reports/ata_atividade2.json?rev=" + System.getProjectVersion(), { rootUrl: System.getLocation()})
+			.get("assets/reports/ata_atividade2.json?rev=" + SystemApplication.getProjectVersion(), { rootUrl: SystemApplication.getLocation()})
 			.done((reporttemplate: IReportTemplate) => this.onReportReady(reporttemplate));
 	}
 	getByIdStatus(p_idStatus:EAtividadeStatus):void{
@@ -277,7 +277,7 @@ export class AtividadeAutorizacao extends ModWindow {
 		this.getByIdStatus(EAtividadeStatus.ENVIADA);
 	}
 	getAtividadesAprovadas(): void {
-		this.itCodRefMLS.setColumn("@codRefMLS");
+		this.itCodRefMLS.setName("@codRefMLS");
 		this.getByIdStatus(EAtividadeStatus.APROVADA);
 	}
 
@@ -309,7 +309,7 @@ export class AtividadeAutorizacao extends ModWindow {
 	}
 	private onCancel(rt_save: boolean): void {
 		this.itDsObservacao.setText("Atividade cancelada!");
-		this.itDsObservacao.setType(AlertMsg.TP_WARNING);
+		this.itDsObservacao.setColor(EBasicColorStatus.WARNING);
 	}
 	cancelar(): void {
 		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
@@ -325,16 +325,16 @@ export class AtividadeAutorizacao extends ModWindow {
 	private onUpdateAtividade(rt_atividade: IAtividade): void {
 		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
 		var tmpStatus: string = EAtividadeStatus[rt_atividade.idStatus].toLowerCase();
-		if (rt_atividade.idStatus == EAtividadeStatus.LIBERADA || rt_atividade.idStatus == EAtividadeStatus.APROVADA) {
+		if(rt_atividade.idStatus == EAtividadeStatus.LIBERADA || rt_atividade.idStatus == EAtividadeStatus.APROVADA) {
 			//tmpStatus = "aprovada";
 			//tmpItemAtiv.codRefMLS = rt_atividade.codRefMLS;
 			tmpItemAtiv.dsObservacao = "Atividade enviada com sucesso, em breve sua atividade sera analisada e se tudo estiver correto ela sera " + tmpStatus + "!";
 			this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
-			this.itDsObservacao.setType(AlertMsg.TP_INFO);
-		} else {
+			this.itDsObservacao.setColor(EBasicColorStatus.INFO);
+		}else{
 			tmpItemAtiv.dsObservacao = "A atividade nao pode ser " + tmpStatus + ", entre em contato com o bispado em caso de duvidas!";
 			this.itDsObservacao.setText(tmpItemAtiv.dsObservacao);
-			this.itDsObservacao.setType(AlertMsg.TP_ERROR);
+			this.itDsObservacao.setColor(EBasicColorStatus.DANGER);
 		}
 	}
 	submeter(): void {

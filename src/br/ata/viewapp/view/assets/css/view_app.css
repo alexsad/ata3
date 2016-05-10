@@ -1,0 +1,24 @@
+.ViewApp{
+	padding:0px;
+}
+.ViewApp > .Tab{
+	/*background-color: #234;*/
+}
+
+.ViewApp > .Tab > ul .LinkButton{
+	padding-bottom: 4px;
+	padding-left: 4px;
+	box-shadow:none;	
+}
+
+.ViewApp > .Tab > ul .LinkButton a{
+	box-shadow:none;
+	border-bottom:2px solid transparent;
+	color: #ccc;
+	font-weight: bolder;
+}
+
+.ViewApp > .Tab > ul .LinkButton.active a{
+	color:#fff;
+	border-bottom-color:#fff;
+}

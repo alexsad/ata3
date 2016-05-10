@@ -1,18 +1,15 @@
-import {WebContainer, ModWindow} from "lib/underas/container";
-import {Button,DatePartType, Select} from "lib/underas/controller";
-import {ListView} from "lib/underas/listview";
-import {SimpleToolBar} from "lib/underas/net";
+import {Form,ToolBar} from "lib/underas/container";
+import {Select} from "lib/underas/input";
+import {Button} from "lib/underas/button";
+import {TileList} from "lib/underas/widget_mod/TileList";
 import {$http, IRequestConfig} from "lib/underas/http";
 import {ITrimestre, ITremestreQuery} from "../model/ITrimestre";
 import {jsPDF} from "lib/jspdf/jsPDF";
 import {IReportTemplate, IReportTemplateItem} from "lib/jspdf/ijspdf";
 
-@WebContainer({
-	itemViewResource: "trimestre/view/assets/html/atividadetrimestreporperiodo"
-})
-export class AtividadePorPeriodo extends ModWindow{
-	mainTb: SimpleToolBar;
-	mainList: ListView<ITrimestre>;
+export class AtividadePorPeriodo extends Form{
+	mainTb:ToolBar;
+	mainList: TileList<ITrimestre>;
 	btPesquisar: Button;
 	btLimpar: Button;
 	btPrintAta: Button;
@@ -20,16 +17,16 @@ export class AtividadePorPeriodo extends ModWindow{
 	itTrimestreF: Select;
 
 	constructor(){
-	    super("Calendario da Ala");
+	    super();
 		this.setSize(12);		
 		
-		this.mainTb = new SimpleToolBar();
+		this.mainTb = new ToolBar();
 		this.append(this.mainTb);
 		
 	    this.btPesquisar = new Button("Pesquisar");
 	    this.btPesquisar.addEvent('click',this.pesquisar.bind(this));
 	    this.btPesquisar.setIcon("search");
-		this.mainTb.addButton(this.btPesquisar);
+		this.mainTb.append(this.btPesquisar);
 	    
 	    this.btLimpar = new Button("Limpar");
 		this.btLimpar.setIcon("remove");
@@ -37,14 +34,13 @@ export class AtividadePorPeriodo extends ModWindow{
 			this.itTrimestreI.setValue("");
 			this.itTrimestreF.setValue("");
 	    }.bind(this));
-		this.mainTb.addButton(this.btLimpar);
-	    
+		this.mainTb.append(this.btLimpar);	    
 		
 		this.btPrintAta = new Button("Ata");
 		this.btPrintAta.setIcon("print");
 		this.btPrintAta.addEvent('click',this.printAta.bind(this));
 		this.btPrintAta.setEnable(false);
-		this.mainTb.addButton(this.btPrintAta);
+		this.mainTb.append(this.btPrintAta);
 	    
 		this.itTrimestreI = new Select("escolha um trimestre");
 		this.itTrimestreI.setLabel("trimestre inicio:");
@@ -61,7 +57,8 @@ export class AtividadePorPeriodo extends ModWindow{
 		this.itTrimestreF.setLabelField("dsTrimestre");
 		this.append(this.itTrimestreF);
 
-		this.mainList = new ListView<ITrimestre>("Evento");	    
+		this.mainList = new TileList<ITrimestre>("Evento");	    
+		this.mainList.setItemViewResource("trimestre/view/assets/html/atividadetrimestreporperiodo");
 	    this.append(this.mainList);
 	}
 	onStart():void{

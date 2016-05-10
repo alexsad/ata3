@@ -1,12 +1,11 @@
-import {WebElement, IWebElementClass} from "lib/underas/core";
+import {Render, ICustomComponent} from "lib/underas/core";
 import {IReuniao} from "../model/IReuniao";
 import {IDiscurso} from "../model/IDiscurso";
 
-
-@WebElement({
+@Render({
 	templateResource:"reuniao/view/assets/html/reuniaoporperiodo"
 })
-export class ReuniaoPeriodoList implements IWebElementClass{
+export class ReuniaoPeriodoList implements ICustomComponent{
 	public reuniao: IReuniao[];
 	private _selectedDiscurso: number;
 	private _selectedReuniao: number;
@@ -26,11 +25,8 @@ export class ReuniaoPeriodoList implements IWebElementClass{
 		this._selectedDiscurso = p_iddisc;
 		this._selectedReuniao = p_idreuniao;
 		if (this.onChangeDiscurso) {
-
 			var indexReuniao: number = 0;
 			var indexDisc: number = 0;
-
-
 
 			this.reuniao.every(function(p_reuniao: IReuniao,p_indx:number) {
 				if (p_reuniao.id == p_idreuniao) {

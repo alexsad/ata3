@@ -1,21 +1,21 @@
-import {WebElement, IWebElementClass} from "lib/underas/core";
+import {Render, ICustomComponent} from "lib/underas/core";
 
-@WebElement({
+@Render({
 	templateResource: "usuario/view/assets/html/banner_login"
 	,styleResource: ["usuario/view/assets/css/banner_login"]
 	,noAutoRenderRefresh:true
 })
-class BannerLoginStatic implements IWebElementClass{
-	private visible: boolean;
+class BannerLoginStatic implements ICustomComponent{
+	private _visible: boolean;
 	constructor() {
-		this.visible = true;
+		this._visible = true;
 	}
-	appendTo(p_target: string): void {
-		(<IWebElementClass><any>this).renderTo(p_target);
+	set visible(p_on: boolean){
+		this._visible = p_on;
+		(<ICustomComponent><any>this).refreshRender();
 	}
-	show(p_on:boolean):void{
-		this.visible = p_on;
-		(<IWebElementClass><any>this).refreshRender();
+	get visible():boolean{
+		return this._visible;
 	}
 	onRender(p_ele:string):void{}
 }

@@ -1,4 +1,4 @@
-<div each="itrimestre in $data" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-12 col-md-12">
+<div each="itrimestre in $this" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-12 col-md-12">
 	<h5>{itrimestre.nrTrimestre} º trimestre de {itrimestre.ano}</h5>
 	<p class="list-group-item-text">Saldo: {itrimestre.vtSaldo},00R$ / {itrimestre.vtTotalLancado},00R$</p>
 </div>

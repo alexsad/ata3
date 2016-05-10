@@ -1,21 +1,19 @@
-import {ModWindow, WebContainer} from "lib/underas/container";
-import {DatePicker, NumericStepper, TextInput, Select} from "lib/underas/controller";
-import {ListView} from "lib/underas/listview";
-import {ToolBar} from "lib/underas/net";
+import {Form} from "lib/underas/container";
+import {DatePickerInput, NumericStepper, TextInput, Select} from "lib/underas/input";
+import {TileList} from "lib/underas/widget_mod/TileList";
 import {IRequestConfig, $http} from "lib/underas/http";
-import {System} from "lib/underas/core";
+import {SystemApplication} from "lib/underas/core";
 import {IPerfilNotificacao, IModulo, IModuloAcao} from "../model/IPerfil";
+import {CRUDToolBar} from "../../toolbar/view/CRUDToolBar";
 
-@WebContainer({
-	itemViewResource: "perfil/view/assets/html/perfilnotificacao"
-})
-export class PerfilNotificacao extends ModWindow {
+
+export class PerfilNotificacao extends Form{
 	itIdPerfilNotificacao: TextInput;
 	itIdPerfil: Select;
 	itDescricao: TextInput;
 	itMascara: TextInput;
-	itDtInicial: DatePicker;
-	itDtFinal: DatePicker;
+	itDtInicial: DatePickerInput;
+	itDtFinal: DatePickerInput;
 	itLimiteMax: NumericStepper;
 	itLimiteMin: NumericStepper;
 	itModulo: Select;
@@ -24,18 +22,25 @@ export class PerfilNotificacao extends ModWindow {
 	itTpNotificacao: Select;
 	itIcone: Select;
 	itModuloIcone: Select;
-	mainTb: ToolBar;
-	mainList: ListView<IPerfilNotificacao>;
+	mainTb: CRUDToolBar;
+	mainList: TileList<IPerfilNotificacao>;
 
 	constructor() {
-		super("Nofificacoes do Perfil");
+		super();
 		this.setSize(8);
 
-		this.mainTb = new ToolBar({ "domain": "perfilnotificacao" });
+		this.mainList = new TileList<IPerfilNotificacao>("ItemMenu");
+
+
+		this.mainTb = new CRUDToolBar({
+			"domain": "perfilnotificacao"
+			,"list":this.mainList
+			,"form":this
+		});
 		this.append(this.mainTb);
 
 		this.itIdPerfilNotificacao = new TextInput("");
-		this.itIdPerfilNotificacao.setColumn("$id");
+		this.itIdPerfilNotificacao.setName("$id");
 		this.itIdPerfilNotificacao.setLabel("cod.");
 		this.itIdPerfilNotificacao.setEnable(false);
 		this.itIdPerfilNotificacao.setSize(2);
@@ -43,13 +48,13 @@ export class PerfilNotificacao extends ModWindow {
 
 
 		this.itDescricao = new TextInput("");
-		this.itDescricao.setColumn("@descricao");
+		this.itDescricao.setName("@descricao");
 		this.itDescricao.setLabel("descricao");
 		this.itDescricao.setSize(6);
 		this.append(this.itDescricao);
 
 		this.itIdPerfil = new Select("pefil");
-		this.itIdPerfil.setColumn("!idPerfil");
+		this.itIdPerfil.setName("!idPerfil");
 		this.itIdPerfil.setLabel("perfil:");
 		this.itIdPerfil.setValueField("id");
 		this.itIdPerfil.setLabelField("descricao");
@@ -58,7 +63,7 @@ export class PerfilNotificacao extends ModWindow {
 		this.append(this.itIdPerfil);
 
 		this.itMascara = new TextInput("");
-		this.itMascara.setColumn("@mascara");
+		this.itMascara.setName("@mascara");
 		this.itMascara.setLabel("mascara");
 		this.itMascara.setSize(6);
 		this.itMascara.setEnable(true);
@@ -66,7 +71,7 @@ export class PerfilNotificacao extends ModWindow {
 
 		this.itIcone = new Select("icone");
 		this.itIcone.setLabel("icone");
-		this.itIcone.setColumn("@icone");
+		this.itIcone.setName("@icone");
 		this.itIcone.setSize(3);
 		this.itIcone.setValueField("icon");
 		this.itIcone.setLabelField("desc");
@@ -74,21 +79,21 @@ export class PerfilNotificacao extends ModWindow {
 
 		this.itTpNotificacao = new Select("tipo de notificacao");
 		this.itTpNotificacao.setLabel("tipo de notificacao");
-		this.itTpNotificacao.setColumn("@tpNotificacao");
+		this.itTpNotificacao.setName("@tpNotificacao");
 		this.itTpNotificacao.setSize(3);
 		this.itTpNotificacao.setValueField("id");
 		this.itTpNotificacao.setLabelField("descricao");
 		this.append(this.itTpNotificacao);
 
 		this.itServicoContagem = new TextInput("");
-		this.itServicoContagem.setColumn("@servicoContagem");
+		this.itServicoContagem.setName("@servicoContagem");
 		this.itServicoContagem.setLabel("servico de contagem");
 		this.itServicoContagem.setSize(12);
 		this.append(this.itServicoContagem);
 
 		this.itModulo = new Select("selecione uma tela");
 		this.itModulo.setLabel("tela");
-		this.itModulo.setColumn("@modulo");
+		this.itModulo.setName("@modulo");
 		this.itModulo.setSize(5);
 		this.itModulo.setValueField("modulo");
 		this.itModulo.setLabelField("descricao");
@@ -97,7 +102,7 @@ export class PerfilNotificacao extends ModWindow {
 
 		this.itModuloAcao = new Select("acao do modulo:");
 		this.itModuloAcao.setLabel("acao da tela");
-		this.itModuloAcao.setColumn("#moduloAcao");
+		this.itModuloAcao.setName("#moduloAcao");
 		this.itModuloAcao.setSize(4);
 		this.itModuloAcao.setValueField("comando");
 		this.itModuloAcao.setLabelField("descricao");
@@ -106,7 +111,7 @@ export class PerfilNotificacao extends ModWindow {
 
 		this.itModuloIcone = new Select("icone");
 		this.itModuloIcone.setLabel("icone da tela");
-		this.itModuloIcone.setColumn("@moduloIcone");
+		this.itModuloIcone.setName("@moduloIcone");
 		this.itModuloIcone.setSize(3);
 		this.itModuloIcone.setValueField("icon");
 		this.itModuloIcone.setLabelField("desc");
@@ -119,7 +124,7 @@ export class PerfilNotificacao extends ModWindow {
 		this.itLimiteMin.setMin(0);
 		this.itLimiteMin.setMax(100);
 		this.itLimiteMin.setStep(1);
-		this.itLimiteMin.setColumn("@limiteMin");
+		this.itLimiteMin.setName("@limiteMin");
 		this.append(this.itLimiteMin);
 
 		this.itLimiteMax = new NumericStepper(5);
@@ -129,31 +134,31 @@ export class PerfilNotificacao extends ModWindow {
 		this.itLimiteMax.setMin(1);
 		this.itLimiteMax.setMax(100);
 		this.itLimiteMax.setStep(1);
-		this.itLimiteMax.setColumn("@limiteMax");
+		this.itLimiteMax.setName("@limiteMax");
 		this.append(this.itLimiteMax);
 
-		this.itDtInicial = new DatePicker();
+		this.itDtInicial = new DatePickerInput();
 		this.itDtInicial.setLabel("Inicio");
-		this.itDtInicial.setColumn("@dtInicial");
+		this.itDtInicial.setName("@dtInicial");
 		this.itDtInicial.setEnable(false);
 		this.itDtInicial.setSize(3);
 		this.append(this.itDtInicial);
 
-		this.itDtFinal = new DatePicker();
+		this.itDtFinal = new DatePickerInput();
 		this.itDtFinal.setLabel("Inicio");
-		this.itDtFinal.setColumn("@dtFinal");
+		this.itDtFinal.setName("@dtFinal");
 		this.itDtFinal.setEnable(false);
 		this.itDtFinal.setSize(3);
 		this.append(this.itDtFinal);
 
-		this.mainList = new ListView<IPerfilNotificacao>("ItemMenu");
+		this.mainList.setItemViewResource("perfil/view/assets/html/perfilnotificacao");
 		this.append(this.mainList);
 	}
 	onStart(): void {
-		var tmpUrl: string = System.getLocation();
+		var tmpUrl: string = SystemApplication.getLocation();
 		this.itModulo.fromService({
 			rootUrl: tmpUrl
-			, url: "assets/modulo.json?rev=" + System.getProjectVersion()
+			, url: "assets/modulo.json?rev=" + SystemApplication.getProjectVersion()
 		});
 		this.itTpNotificacao.fromService({
 			url: "perfilnotificacao/tiposnotificaco"
@@ -163,11 +168,11 @@ export class PerfilNotificacao extends ModWindow {
 		});
 		this.itIcone.fromService({
 			rootUrl: tmpUrl
-			, url: "assets/icons.json?rev=" + System.getProjectVersion()
+			, url: "assets/icons.json?rev=" + SystemApplication.getProjectVersion()
 		});
 		this.itModuloIcone.fromService({
 			rootUrl: tmpUrl
-			, url: "assets/icons.json?rev=" + System.getProjectVersion()
+			, url: "assets/icons.json?rev=" + SystemApplication.getProjectVersion()
 		});
 	}
 	private onReceiveAcoes(dta: IModulo[]): void {
@@ -188,8 +193,8 @@ export class PerfilNotificacao extends ModWindow {
 		this.itModuloAcao.setDataProvider([]);
 		this.itModuloAcao.setValue("");
 		$http
-			.get("assets/modulo.json?rev=" + this.getRevision(), {
-				rootUrl: System.getLocation()				
+			.get("assets/modulo.json?rev=" + SystemApplication.getProjectVersion(), {
+				rootUrl: SystemApplication.getLocation()				
 			})
 			.done((dta: IModulo[]) => this.onReceiveAcoes(dta));
 	}

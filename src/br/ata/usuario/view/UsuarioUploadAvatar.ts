@@ -1,13 +1,15 @@
-import {AlertWindow} from "lib/underas/container";
-import {FileInput, AlertMsg,Button} from "lib/underas/controller";
+import {Form} from "lib/underas/container";
+import {FileInput} from "lib/underas/input";
 import {$http} from "lib/underas/http";
+import {Button} from "lib/underas/button";
+import {Alert} from "lib/underas/widget";
 
-export class UsuarioUploadAvatar extends AlertWindow{
+export class UsuarioUploadAvatar extends Form{
 	private idUsuario: number;
 	itFile: FileInput;
 	btSubmit: Button;
 	constructor(p_idUsuario:number){
-		super("Escolha uma foto!","");
+		super();
 		this.idUsuario = p_idUsuario;
 		this.itFile = new FileInput("Escolha uma foto!");
 		this.itFile.setLabel("escolha uma foto!");
@@ -22,7 +24,7 @@ export class UsuarioUploadAvatar extends AlertWindow{
 		this.btSubmit.setEnable(false);
 		this.btSubmit.addEvent('click', this.enviarAvatarFile.bind(this));
 
-		this.addButton(this.btSubmit);
+		this.append(this.btSubmit);
 
 		this.$.find("form").on("submit", function(event:Event) {
 			event.stopPropagation();

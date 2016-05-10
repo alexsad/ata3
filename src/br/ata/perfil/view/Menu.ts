@@ -1,63 +1,51 @@
-import {ModWindow,WebContainer} from "lib/underas/container";
-import {NumericStepper,TextInput,Select} from "lib/underas/controller";
-import {ListView} from "lib/underas/listview";
-import {ToolBar} from "lib/underas/net";
+import {IconPickerInput,NumericStepper,TextInput,Select} from "lib/underas/input";
+import {CRUDForm} from "../../form/view/CRUDForm";
 import {IRequestConfig,$http} from "lib/underas/http";
-import {IconChoose} from "lib/underas/iconchoose";
-import {System} from "lib/underas/core";
+import {SystemApplication} from "lib/underas/core";
 import {IMenu} from "../model/IPerfil";
-import {ItemMenu} from "./ItemMenu";
 
-@WebContainer({
-	itemViewResource: "perfil/view/assets/html/menu"
-})
-export class Menu extends ModWindow{
+export class Menu extends CRUDForm<IMenu>{
 	itIdMenu: TextInput;
 	itIdPerfil: TextInput;
 	itLabel: TextInput;
-	itIcone: IconChoose;
+	itIcone: IconPickerInput;
 	itOrdem: NumericStepper;
-	mainTb:ToolBar;
-	mainList:ListView<IMenu>;
-	_items: ItemMenu;
 	constructor(){
-		super("Menus do Perfil");		
+		super({ "domain": "menu" });		
 		this.setSize(5);
 
-		this.mainTb = new ToolBar({"domain":"menu"});
-		this.append(this.mainTb);
+		this.buildToolBar();
 
 		this.itIdMenu = new TextInput("");
-		this.itIdMenu.setColumn("$id");
+		this.itIdMenu.setName("$id");
 		this.itIdMenu.setLabel("cod.");
 		this.itIdMenu.setEnable(false);
 		this.itIdMenu.setSize(2);
 		this.append(this.itIdMenu);
 
 		this.itIdPerfil = new TextInput("");
-		this.itIdPerfil.setColumn("!idPerfil");
+		this.itIdPerfil.setName("!idPerfil");
 		this.itIdPerfil.setLabel("perf.");
 		this.itIdPerfil.setEnable(false);
 		this.itIdPerfil.setSize(1);
 		this.append(this.itIdPerfil);
 
-
-		this.itIcone = new IconChoose();
+		this.itIcone = new IconPickerInput();
 		this.itIcone.setLabel("icone");
-		this.itIcone.setColumn("@icone");
+		this.itIcone.setName("@icone");
 		this.itIcone.setSize(2);
 		this.itIcone.setValueField("icon");
 		this.itIcone.setLabelField("desc");
 		this.append(this.itIcone);
 
 		this.itLabel = new TextInput("");
-		this.itLabel.setColumn("@label");
+		this.itLabel.setName("@label");
 		this.itLabel.setLabel("label");
 		this.itLabel.setSize(4);
 		this.append(this.itLabel);
 
 		this.itOrdem = new NumericStepper(0);
-		this.itOrdem.setColumn("@ordem");
+		this.itOrdem.setName("@ordem");
 		this.itOrdem.setLabel("ordem");
 		this.itOrdem.setSize(3);
 		this.itOrdem.setMin(1);
@@ -66,47 +54,33 @@ export class Menu extends ModWindow{
 		this.itOrdem.setEnable(false,2);
 		this.append(this.itOrdem);
 
-
-
-
-		this.mainList = new ListView<IMenu>("Menu");
-		this.append(this.mainList);
+		this.buildTileList({ itemViewResource: "perfil/view/assets/html/menu" });
 	}
 	onStart():void{
-		this._items = new ItemMenu(this);
-		this.getModView().append(this._items);
 		this.itIcone.fromService({
-			rootUrl: System.getLocation()
-			, url: "assets/icons.json?rev_" + System.getProjectVersion()
+			rootUrl: SystemApplication.getLocation()
+			, url: "assets/icons.json?rev_" + SystemApplication.getProjectVersion()
 		});
 	}
 	getByIdPerfil(p_idPerfil:number):void{
 		this.itIdPerfil.setValue(p_idPerfil+"");
-		this._items.mainList.setDataProvider([]);
 		$http
 			.get("menu/getbyidperfil/" + p_idPerfil)
 			.done((dta: IMenu[]) => this.mainList.setDataProvider(dta));
 	}
-	onChangeItem(p_obj:IMenu):IMenu{
-		this._items.getByIdMenu(p_obj.id);
-		return p_obj;
-	}
-	beforeInsert(p_req_obj: IRequestConfig): IRequestConfig{
+	beforeInsert(evt:Event,p_req_obj: IRequestConfig):void{
 		if (!this.itIdPerfil.getValue()) {
-			return null;
+			evt.preventDefault();
 		};
-		return p_req_obj;
 	}
-	beforeUpdate(p_req_new_obj: IRequestConfig, p_old_obj: IMenu): IRequestConfig{
+	beforeUpdate(evt: Event,p_req_new_obj: IRequestConfig, p_old_obj: IMenu):void {
 		if (!this.itIdPerfil.getValue()) {
-			return null;
+			evt.preventDefault();
 		};
-		return p_req_new_obj;
 	}
-	beforeDelete(p_req_delete: IRequestConfig, p_old_obj: IMenu): IRequestConfig{
+	beforeDelete(evt: Event, p_req_delete: IRequestConfig, p_old_obj: IMenu): void {
 		if (!this.itIdPerfil.getValue()) {
-			return null;
+			evt.preventDefault();
 		};
-		return p_req_delete;
 	}
 }

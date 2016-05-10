@@ -1,49 +1,46 @@
-import {ModWindow,WebContainer} from "lib/underas/container";
-import {TextInput,DatePicker} from "lib/underas/controller";
-import {ToolBar} from "lib/underas/net";
-import {ListView} from "lib/underas/listview";
+import {TextInput,DatePickerInput} from "lib/underas/input";
+import {CRUDForm} from "../../form/view/CRUDForm";
 import {ICertificado} from "../model/ICertificado";
 
-@WebContainer({
-	itemViewResource: "certificado/view/assets/html/certificado"
-})
-export class Certificado extends ModWindow{
+export class Certificado extends CRUDForm<ICertificado>{
 	itIdCertificado:TextInput;
-	itValidade:DatePicker;
+	itValidade: DatePickerInput;
 	itPin:TextInput;
-	mainTb:ToolBar;
-	mainList:ListView<ICertificado>;
 	constructor(){
-		super("Certificado 2");		
-
-		this.mainTb = new ToolBar({"domain":"certificado"});
-		this.append(this.mainTb);
-		this.showTitle(false);
-
+		super({
+			"domain": "certificado"
+		});	
+		this.buildToolBar();
+		
 		this.itIdCertificado = new TextInput("");
-		this.itIdCertificado.setColumn("$id");
+		this.itIdCertificado.setName("$id");
 		this.itIdCertificado.setLabel("cod.");
 		this.itIdCertificado.setEnable(false);
 		this.itIdCertificado.setSize(2);
 		this.append(this.itIdCertificado);
 
 		this.itPin = new TextInput("");
-		this.itPin.setColumn("@pin");
+		this.itPin.setName("@pin");
 		this.itPin.setLabel("pin");
 		this.itPin.setSize(8);
 		this.append(this.itPin);
 
-		this.itValidade = new DatePicker();
-		this.itValidade.setColumn("@validade");
+		this.itValidade = new DatePickerInput();
+		this.itValidade.setName("@validade");
 		this.itValidade.setLabel("validade");
 		this.itValidade.setSize(2);
 		this.append(this.itValidade);
 
-		this.mainList = new ListView<ICertificado>("Certificado");
-		//this.setMainList("mainList");
-		this.append(this.mainList);
+		this.buildTileList({ itemViewResource: "certificado/view/assets/html/certificado" });
 	}
-	onStart():void{
-		this.mainTb.reloadItens();
+	onStart():void{		
+		this.addEvent(CRUDForm.EVENT_BEFORE_SAVE, (evt: Event, p_cert: ICertificado) => {
+			//console.log(p_cert.pin);
+			p_cert.pin = p_cert.pin + " alterado por mim";
+			if (p_cert.pin.indexOf("2007") > 0) {
+				evt.preventDefault();
+			}
+		});
+		this.reloadItens();
 	}
 }
