@@ -56,8 +56,7 @@ export class CRUDForm<T> extends Form {
 
 		this.btDel = new Button("Excluir");
 		this.btDel.setIcon("glyphicon glyphicon-trash");
-		this.btDel.removeStyleName("btn-default");
-		this.addStyleName("btn-primary");
+		this.btDel.removeStyleName("btn-default");		
 		this.btDel.addEvent('click', this.deleteItem.bind(this));
 		this.mainTb.append(this.btDel);
 
