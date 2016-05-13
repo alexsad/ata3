@@ -9,6 +9,7 @@ var runSequence = require('run-sequence');
 var connect = require('gulp-connect');
 var superviewsjs = require('gulp-superviewsjs');
 var bower = require('gulp-bower');
+var proxy = require('http-proxy-middleware');
 
 var projectName = "ata";
 var projectVersion = "3.0";
@@ -193,7 +194,7 @@ gulp.task('default',function(){
 });
 
 
-
+/*
 gulp.task('connect', function() {
   connect.server({
     root: appDestPathView,
@@ -201,6 +202,27 @@ gulp.task('connect', function() {
     livereload: true
   });
 });
+*/
+
+gulp.task('connect', function() {
+  connect.server({
+    root: rootPath,
+    port: 9000,
+    livereload: true,
+    middleware: function(connect, opt) {
+        //http://127.0.0.1:8299/dist/ws/backoffice/module
+        var apiProxy = proxy('/public/ws', {
+            target: 'http://localhost:8330'
+            ,changeOrigin: true   // for vhosted sites
+            ,pathRewrite: {
+                '^/public/ws' : '/ws'           
+            }
+        });
+        return [apiProxy];
+    }
+  });
+});
+
 
 gulp.task('reload_browser', function () {
   gulp.src([
