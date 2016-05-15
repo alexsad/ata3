@@ -29,6 +29,5 @@ export class Trimestre extends Box {
 			}
 		);
 		this.trimestreLancamentoAtividadeForm.onStart();
-		this.trimestreDataLivreForm.onStart();
 	}
 }

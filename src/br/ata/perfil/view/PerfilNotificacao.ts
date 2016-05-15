@@ -1,13 +1,10 @@
-import {Form} from "lib/underas/container";
 import {DatePickerInput, NumericStepper, TextInput, Select} from "lib/underas/input";
-import {TileList} from "lib/underas/widget_mod/TileList";
 import {IRequestConfig, $http} from "lib/underas/http";
 import {SystemApplication} from "lib/underas/core";
 import {IPerfilNotificacao, IModulo, IModuloAcao} from "../model/IPerfil";
-import {CRUDToolBar} from "../../toolbar/view/CRUDToolBar";
+import {CRUDForm} from "../../form/view/CRUDForm";
 
-
-export class PerfilNotificacao extends Form{
+export class PerfilNotificacao extends CRUDForm<IPerfilNotificacao>{
 	itIdPerfilNotificacao: TextInput;
 	itIdPerfil: Select;
 	itDescricao: TextInput;
@@ -22,22 +19,12 @@ export class PerfilNotificacao extends Form{
 	itTpNotificacao: Select;
 	itIcone: Select;
 	itModuloIcone: Select;
-	mainTb: CRUDToolBar;
-	mainList: TileList<IPerfilNotificacao>;
 
 	constructor() {
-		super();
+		super({ "domain": "perfilnotificacao" });
 		this.setSize(8);
 
-		this.mainList = new TileList<IPerfilNotificacao>("ItemMenu");
-
-
-		this.mainTb = new CRUDToolBar({
-			"domain": "perfilnotificacao"
-			,"list":this.mainList
-			,"form":this
-		});
-		this.append(this.mainTb);
+		this.buildToolBar();
 
 		this.itIdPerfilNotificacao = new TextInput("");
 		this.itIdPerfilNotificacao.setName("$id");
@@ -151,8 +138,7 @@ export class PerfilNotificacao extends Form{
 		this.itDtFinal.setSize(3);
 		this.append(this.itDtFinal);
 
-		this.mainList.setItemViewResource("perfil/view/assets/html/perfilnotificacao");
-		this.append(this.mainList);
+		this.buildTileList({ itemViewResource: "perfil/view/assets/html/perfilnotificacao" });
 	}
 	onStart(): void {
 		var tmpUrl: string = SystemApplication.getLocation();
@@ -174,6 +160,10 @@ export class PerfilNotificacao extends Form{
 			rootUrl: tmpUrl
 			, url: "assets/icons.json?rev=" + SystemApplication.getProjectVersion()
 		});
+
+		this.addEvent(PerfilNotificacao.EVENT_BEFORE_INSERT,(evt:Event)=>this.checkPerfilNotificacao(evt))
+		this.addEvent(PerfilNotificacao.EVENT_BEFORE_UPDATE, (evt: Event) => this.checkPerfilNotificacao(evt))
+		this.addEvent(PerfilNotificacao.EVENT_BEFORE_DELETE, (evt: Event) => this.checkPerfilNotificacao(evt))
 	}
 	private onReceiveAcoes(dta: IModulo[]): void {
 		var tmpIdModule: string = this.itModulo.getValue();
@@ -188,7 +178,7 @@ export class PerfilNotificacao extends Form{
 			return true;
 		}.bind(this));
 	}
-	getAcoes(evt: Event): void {
+	private getAcoes(evt: Event): void {
 		this.itModuloAcao.setEnable(false);
 		this.itModuloAcao.setDataProvider([]);
 		this.itModuloAcao.setValue("");
@@ -204,22 +194,9 @@ export class PerfilNotificacao extends Form{
 			.get("perfilnotificacao/getbyidperfil/" + p_idPerfil)
 			.done((dta: IPerfilNotificacao[]) => this.mainList.setDataProvider(dta));
 	}
-	beforeInsert(p_req_obj: IRequestConfig): IRequestConfig {
+	private checkPerfilNotificacao(evt:Event):void{
 		if (!this.itIdPerfil.getValue()) {
-			return null;
+			evt.preventDefault();
 		};
-		return p_req_obj;
-	}
-	beforeUpdate(p_req_new_obj: IRequestConfig, p_old_obj: IPerfilNotificacao): IRequestConfig {
-		if (!this.itIdPerfil.getValue()) {
-			return null;
-		};
-		return p_req_new_obj;
-	}
-	beforeDelete(p_req_delete: IRequestConfig, p_old_obj: IPerfilNotificacao): IRequestConfig {
-		if (!this.itIdPerfil.getValue()) {
-			return null;
-		};
-		return p_req_delete;
 	}
 }

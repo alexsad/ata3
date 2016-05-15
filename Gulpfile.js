@@ -81,13 +81,13 @@ gulp.task('convert_template2IDOM',function(){
     .pipe(rename({
         extname: ".js"
     }))
-    .pipe(replace("function description (data) {","define(['idom/incremental-dom-min'],function(_IDOM){return function($this){"))   
-    .pipe(replace(/\}$/g,"}});"))
+    .pipe(replace(";(function","define(['idom/incremental-dom-min'],function(_IDOM){return (function")) 
+    .pipe(replace("function description (data) {","function($this){")) 
     .pipe(replace(/(elementOpen)/g,'_IDOM.$1'))
     .pipe(replace(/(elementVoid)/g,'_IDOM.$1'))
     .pipe(replace(/(elementClose)/g,'_IDOM.$1'))
     .pipe(replace(/(text)\(/g,'_IDOM.$1('))
-    //.pipe(uglify({mangle:false}))
+    .pipe(replace(/\}\)\(\)$/g,"})()});"))
     .pipe(gulp.dest(destPackagePathAppView));
 });
 
@@ -114,6 +114,7 @@ gulp.task('ts_view',function(){
     return gulp.src([
         appSourcePath+'/**/view/*.ts'
         ,appSourcePath+'/**/model/*.ts'
+        ,rootPath+"/src/lib/jquery/jquery.d.ts"
         ])
         .pipe(ts({
             noImplicitAny: true,            
@@ -125,16 +126,7 @@ gulp.task('ts_view',function(){
             removeComments:true,
             experimentalDecorators:true,
             noEmitHelpers:true, 
-            suppressImplicitAnyIndexErrors: true,            
-            references: [
-                rootPath+"/src/lib/underas/**/*.d.ts",
-                rootPath+"/src/lib/underas/*.d.ts",
-                rootPath+"/src/lib/jspdf/*.ts",
-                rootPath+"/src/lib/moment/*.d.ts",
-                rootPath+"/src/lib/cookies/*.ts",
-                rootPath+"/src/lib/jquery/jquery2.d.ts",
-                rootPath+"/src/lib/jqueryui/jqueryui.d.ts"
-            ]
+            suppressImplicitAnyIndexErrors: true
         }))
         //.pipe(uglify())
         .pipe(gulp.dest(destPackagePathAppView));   
@@ -156,16 +148,7 @@ gulp.task('ts_server',function(){
             experimentalDecorators:true,
             noEmitHelpers:true,
             suppressImplicitAnyIndexErrors: true, 
-            moduleResolution: "classic",
-            references: [
-                rootPath+"/src/config/sequelizedb.ts",
-                rootPath+"/src/lib/restify/restify.d.ts",
-                //rootPath+"/src/restify2.d.ts",
-                //rootPath+"/src/restify.ts",
-                rootPath+"/src/lib/router/router.d.ts",
-                rootPath+"/src/lib/node/node.d.ts",
-                rootPath+"/src/lib/sequelize/sequelize.d.ts"
-            ]
+            moduleResolution: "classic"
         }))
         .pipe(uglify({
             mangle:false
@@ -194,17 +177,17 @@ gulp.task('default',function(){
 });
 
 
-/*
+
 gulp.task('connect', function() {
   connect.server({
-    root: appDestPathView,
+    root: rootPath,
     port: 9000,
     livereload: true
   });
 });
-*/
 
-gulp.task('connect', function() {
+
+gulp.task('connect_proxy', function() {
   connect.server({
     root: rootPath,
     port: 9000,

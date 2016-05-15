@@ -25,11 +25,11 @@ export class AtividadePorPeriodo extends Form{
 		
 	    this.btPesquisar = new Button("Pesquisar");
 	    this.btPesquisar.addEvent('click',this.pesquisar.bind(this));
-	    this.btPesquisar.setIcon("search");
+		this.btPesquisar.setIcon("glyphicon glyphicon-search");
 		this.mainTb.append(this.btPesquisar);
 	    
 	    this.btLimpar = new Button("Limpar");
-		this.btLimpar.setIcon("remove");
+		this.btLimpar.setIcon("glyphicon glyphicon-remove");
 	    this.btLimpar.addEvent('click',function(){
 			this.itTrimestreI.setValue("");
 			this.itTrimestreF.setValue("");

@@ -88,6 +88,9 @@ export class ItemMenu extends CRUDForm<IItemMenu>{
 			rootUrl: tmpUrl
 			, url: "assets/modulo.json?rev="+ SystemApplication.getProjectVersion()
 		});
+		this.addEvent(ItemMenu.EVENT_BEFORE_INSERT, (evt: Event) => this.check(evt));
+		this.addEvent(ItemMenu.EVENT_BEFORE_UPDATE, (evt: Event) => this.check(evt));
+		this.addEvent(ItemMenu.EVENT_BEFORE_DELETE, (evt: Event) => this.check(evt));
 	}
 	private onReceiveAcoes(dta: IModulo[]): void {
 		var tmpIdModule: string = this.itTela.getValue();
@@ -119,22 +122,9 @@ export class ItemMenu extends CRUDForm<IItemMenu>{
 			.get("itemmenu/getbyidmenu/" + p_idMenu)
 			.done((dta: IItemMenu[]) => this.mainList.setDataProvider(dta));
 	}
-	beforeInsert(p_req_obj: IRequestConfig): IRequestConfig {
+	private check(evt: Event): void {
 		if (!this.itIdMenu.getValue()) {
-			return null;
+			evt.preventDefault();
 		};
-		return p_req_obj;
-	}
-	beforeUpdate(p_req_new_obj: IRequestConfig, p_old_obj: IItemMenu): IRequestConfig {
-		if (!this.itIdMenu.getValue()) {
-			return null;
-		};
-		return p_req_new_obj;
-	}
-	beforeDelete(p_req_delete: IRequestConfig, p_old_obj: IItemMenu): IRequestConfig {
-		if (!this.itIdMenu.getValue()) {
-			return null;
-		};
-		return p_req_delete;
 	}
 }

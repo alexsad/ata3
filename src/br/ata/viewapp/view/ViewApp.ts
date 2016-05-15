@@ -21,7 +21,11 @@ class ViewAppStatic extends ViewPager {
 		this.append(MenuAdm);
 		
 		this.tabApps = new Tab();
-		this.tabApps.addStyleName("bg-primary");
+		this.tabApps.navTab.addStyleName("bg-primary");
+		this.tabApps.setCssProperties({
+			padding:"0px"
+		});
+		this.tabApps.setSize(12);
 		this.append(this.tabApps);
 
 		(<ICustomComponent>MenuAdm).addEvent(MenuAdm.EVENT_SELECT_MODULE,(evt:Event,p_mod:IItemMenu)=>this.loadModule(p_mod))
@@ -38,7 +42,7 @@ class ViewAppStatic extends ViewPager {
 			var urlModuleLoad: string = moduleToLoad;
 			SystemApplication.loadModules([urlModuleLoad.replace(/\./g, "/")]
 				,(_Form: any)=>{
-					let tmp_Form:Box = new _Form[varModuleToLoadTmpCapt]();
+					let tmp_Form:Form = new _Form[varModuleToLoadTmpCapt]();
 					let tmpLink: LinkButton = new LinkButton(label);
 					tmpLink.setIcon("glyphicon glyphicon-remove-sign");
 					

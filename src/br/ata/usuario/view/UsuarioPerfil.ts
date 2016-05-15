@@ -50,7 +50,7 @@ export class UsuarioPerfil extends CRUDForm<IUsuarioPerfil>{
 		this.itPerfil.fromService({
 			"url": "perfil/getbysnativo/S"
 		});
-		this.addEvent(CRUDForm.EVENT_AFTER_SAVE, (evt: Event, p_obj: IUsuarioPerfil) => this.afterSave(p_obj));
+		this.addEvent(UsuarioPerfil.EVENT_AFTER_SAVE, (evt: Event, p_obj: IUsuarioPerfil) => this.afterSave(p_obj));
 	}
 	private afterSave(p_obj: IUsuarioPerfil):void {
 		if(!p_obj.perfil){

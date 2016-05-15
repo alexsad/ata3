@@ -1,37 +1,25 @@
-import {Form} from "lib/underas/container";
 import {EBasicColorStatus} from "lib/underas/component";
 import {TextInput, CheckBox, Select} from "lib/underas/input";
 import {Button} from "lib/underas/button";
 import {Alert} from "lib/underas/widget";
-import {TileList} from "lib/underas/widget_mod/TileList";
-import {CRUDToolBar} from "../../toolbar/view/CRUDToolBar";
+import {CRUDForm} from "../../form/view/CRUDForm";
 import {$http, IRequestConfig} from "lib/underas/http";
 import {IPerfil} from "../model/IPerfil";
 import {IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfilAutorizacao";
 import {PerfilView} from "./PerfilView";
 
-export class PerfilAutorizacao extends Form {
+export class PerfilAutorizacao extends CRUDForm<IPerfilAutorizacao>{
 	itPerfil: Select;
 	itIdPerfilAutorizacao: TextInput;
 	itTpAutorizacao: CheckBox;
 	itPerfilAlvo: Select;
 	aviso: Alert;
-	mainTb: CRUDToolBar;
-	mainList: TileList<IPerfilAutorizacao>;
 	constructor() {
-		super();		
+		super({"domain": "perfilautorizacao"});		
 		this.setSize(8);
 
-		this.mainList = new TileList<IPerfilAutorizacao>("perfis");
-		this.mainList.setItemViewResource("perfil/view/assets/html/perfilautorizacao");
-
-		this.mainTb = new CRUDToolBar({
-		 "domain": "perfilautorizacao" 
-		 ,"list":this.mainList
-		 ,"form":this
-		});
-		this.append(this.mainTb);
-
+		this.buildToolBar();
+		
 		this.aviso = new Alert("Cadastro");
 		this.aviso.setColor(EBasicColorStatus.PRIMARY);
 		this.aviso.show(true);
@@ -69,7 +57,11 @@ export class PerfilAutorizacao extends Form {
 		this.itTpAutorizacao.setSize(12);
 		this.append(this.itTpAutorizacao);
 
-		this.append(this.mainList);
+		this.buildTileList({ itemViewResource: "perfil/view/assets/html/perfilautorizacao" });
+	
+		this.addEvent("module:start",()=>this.onStart());
+
+		this.addEvent(PerfilAutorizacao.EVENT_AFTER_SAVE, (evt: Event, p_obj: IPerfilAutorizacao) => this.afterSave(p_obj));
 	}
 	onStart(): void {
 		this.itPerfil.fromService({
@@ -85,13 +77,12 @@ export class PerfilAutorizacao extends Form {
 			.get("perfilautorizacao/getbyidperfil/" + p_idPerfil)
 			.done((dta: IPerfilAutorizacao[]) => this.mainList.setDataProvider(dta));
 	}	
-	afterSave(p_obj: IPerfilAutorizacao): IPerfilAutorizacao {	
+	afterSave(p_obj: IPerfilAutorizacao): void {	
 		if(!p_obj.perfil){
 			p_obj.perfil = <IPerfil>{};
 		};	
 		p_obj.perfil.id = p_obj.idPerfilAlvo;
 		p_obj.perfil.descricao = this.itPerfilAlvo.getText();
 		p_obj.perfil.snAtivo = 'S';
-		return p_obj;
 	}
 }

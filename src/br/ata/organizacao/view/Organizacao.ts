@@ -16,6 +16,7 @@ export class Organizacao extends Box{
 	}
 	onStart():void{
 		this.organizacaoForm.onStart();
+		this.membroForm.onStart();
 		this.organizacaoForm.addEvent(
 			OrganizacaoForm.EVENT_ITEM_CHANGE
 			, (evt: Event, {id}: IOrganizacao) => this.membroForm.getByIdOrganizacao(id)

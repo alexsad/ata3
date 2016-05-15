@@ -11,14 +11,14 @@
 	box-shadow:none;	
 }
 
-.ViewApp > .Tab > ul .LinkButton a{
+.ViewApp > .Tab > ul .LinkButton a,.ViewApp > .Tab > ul .LinkButton a:hover{
 	box-shadow:none;
 	border-bottom:2px solid transparent;
 	color: #ccc;
 	font-weight: bolder;
 }
 
-.ViewApp > .Tab > ul .LinkButton.active a{
+.ViewApp > .Tab > ul .LinkButton.active a,.ViewApp > .Tab > ul .LinkButton.active a:hover{
 	color:#fff;
 	border-bottom-color:#fff;
 }

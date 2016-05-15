@@ -23,6 +23,9 @@ class ViewAuthenticationStatic extends ViewPager{
 		this.append(this.boxLogin);
 
 		Login.addEvent(Login.EVENT_LOGIN_SUCCESS, (evt:Event) => this.onAuthentication(evt));
+	
+		Login.init();
+		Login.autoLogin();
 	}
 	private onAuthentication(evt:Event):void{
 		this.fireEvent(this.EVENT_AUTHENTICATION_SUCCESS);

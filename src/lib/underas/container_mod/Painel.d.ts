@@ -12,7 +12,7 @@ export declare class Painel extends AContainer {
     getTitle(): string;
     setColor(p_basic_color: EBasicColorStatus): void;
     private appendElement(p_childtoappend, p_type_append?);
-    prepend(p_childtoappend: Form | Dialog | Tab): void;
-    append(p_childtoappend: Form | Dialog | Tab): void;
+    prepend(p_childtoappend: Form | Dialog | Tab | Painel): void;
+    append(p_childtoappend: Form | Dialog | Tab | Painel): void;
     blockContainer: IBlockContainer;
 }

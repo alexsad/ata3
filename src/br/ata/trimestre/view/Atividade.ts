@@ -223,6 +223,11 @@ export class Atividade extends CRUDForm<IAtividade>{
 			"url": "organizacao"
 		});
 		this.itDtDisponivel.getInput().on("change", this.setDtEvento.bind(this));
+		this.addEvent(Atividade.EVENT_BEFORE_DELETE, (evt: Event) => evt.preventDefault());
+		this.addEvent(Atividade.EVENT_BEFORE_UPDATE, this.beforeUpdate.bind(this));
+		this.addEvent(Atividade.EVENT_BEFORE_INSERT, this.beforeInsert.bind(this));
+		this.addEvent(Atividade.EVENT_BEFORE_SAVE, this.beforeSave.bind(this));
+		this.addEvent(Atividade.EVENT_AFTER_INSERT, this.afterInsert.bind(this));
 	}
 	private onReceiveDatasDisponiveis(tmpDatasDiponiveis: Atividade[]): void {
 		this.itDtDisponivel.setDataProvider(tmpDatasDiponiveis);
@@ -304,16 +309,6 @@ export class Atividade extends CRUDForm<IAtividade>{
 	private setDtEvento(evt:Event):void{
 		this.itIdData.setValue(this.itDtDisponivel.getValue());
 	}
-	private beforeSave(p_obj:IAtividade):IAtividade{
-		if (p_obj.local == "") {
-			p_obj.local = "capela";
-		};
-		if (p_obj.vestuario == "") {
-			p_obj.vestuario = "no padrao";
-		};
-		this.itOrcamento.setMax(p_obj.orcamento);
-		return p_obj;
-	}
 	private getIcone(p_idStatus:number):string{
 		var tpAlert: string = "info";
 		if (p_idStatus == EAtividadeStatus.PENDENTE) {
@@ -324,27 +319,6 @@ export class Atividade extends CRUDForm<IAtividade>{
 			tpAlert = "success";
 		};
 		return tpAlert;
-	}
-	private beforeInsert(p_req_obj:IRequestConfig): void{
-		p_req_obj.body.idStatus = EAtividadeStatus.ELABORADA;
-		p_req_obj.body.iconStatus = "info";
-	}
-	private afterInsert(p_obj: IAtividade):void{		
-		p_obj.datalivre = {
-			id:p_obj.idData
-			,snDisponivel:"N"
-			,idTrimestre:p_obj.idTrimestre
-			,momento:""
-		}
-	}
-	private beforeUpdate(evt:Event,p_req_obj: IRequestConfig, p_old_obj:IAtividade):void {
-		if(p_old_obj.snEditavel=="N"){
-			evt.preventDefault();
-		};
-		p_old_obj.iconStatus = this.getIcone(p_old_obj.idStatus);
-	}
-	private beforeDelete(evt: Event, p_req: IRequestConfig, p_old_obj: IAtividade): void {
-		evt.preventDefault();
 	}
 	private onUpdateAtividade(rt_save: boolean): void {
 		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
@@ -362,16 +336,42 @@ export class Atividade extends CRUDForm<IAtividade>{
 			this.itDsObservacao.setColor(EBasicColorStatus.DANGER);
 		}
 	}
-	private submeter():void{
+	private submeter(): void {
 		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
-		if(tmpItemAtiv.snEditavel=="S"){
-			tmpItemAtiv.snEditavel = "N";			
-			tmpItemAtiv.idStatus = EAtividadeStatus.ENVIADA;			
+		if (tmpItemAtiv.snEditavel == "S") {
+			tmpItemAtiv.snEditavel = "N";
+			tmpItemAtiv.idStatus = EAtividadeStatus.ENVIADA;
 			$http
 				.put("atividade")
 				.body(tmpItemAtiv)
 				.done((res: boolean) => this.onUpdateAtividade(res));
 		};
 	}
-
+	private beforeSave(evt: Event,p_obj: IAtividade): void {
+		if (p_obj.local == "") {
+			p_obj.local = "capela";
+		};
+		if (p_obj.vestuario == "") {
+			p_obj.vestuario = "no padrao";
+		};
+		this.itOrcamento.setMax(p_obj.orcamento);
+	}
+	private beforeInsert(evt: Event,p_req_obj: IRequestConfig): void{
+		p_req_obj.body.idStatus = EAtividadeStatus.ELABORADA;
+		p_req_obj.body.iconStatus = "info";
+	}
+	private afterInsert(evt: Event,p_obj: IAtividade): void {		
+		p_obj.datalivre = {
+			id:p_obj.idData
+			,snDisponivel:"N"
+			,idTrimestre:p_obj.idTrimestre
+			,momento:""
+		}
+	}
+	private beforeUpdate(evt:Event,p_req_obj: IRequestConfig, p_old_obj:IAtividade):void {
+		if(p_old_obj.snEditavel=="N"){
+			evt.preventDefault();
+		};
+		p_old_obj.iconStatus = this.getIcone(p_old_obj.idStatus);
+	}
 }

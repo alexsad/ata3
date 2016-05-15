@@ -10,7 +10,6 @@ import { IBlockContainer } from "./interface/IBlockContainer";
 export declare class Form extends AContainer {
     private config;
     private _isforms;
-    onStart(): void;
     constructor();
     prepend(p_childtoappend: IChart | IWidget | IButton | IInput | IButton | ToolBar | ICustomComponent): void;
     append(p_childtoappend: IChart | IWidget | IButton | IInput | IButton | ToolBar | ICustomComponent): void;

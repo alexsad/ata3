@@ -59,9 +59,9 @@ class LoginStatic extends Form {
 		this.append(this.btBaixarAplicativo);
 
 	}
-	onStart(): void {
+	init(): void {
 		//this.autoLogin();		
-		if (Cookies.get("clogin")) {
+		if (Cookies.get("clogin")){
 			this.chlembrar.setValue("S");
 			this.itlogin.setValue(Cookies.get("clogin"));
 		};
@@ -87,7 +87,7 @@ class LoginStatic extends Form {
 			//_gaq.push(['_trackEvent', 'usuario.business.UsuarioBLL.logar', 'invalido']);
 		}
 	}
-	logar(): void {
+	private logar(): void {
 		if (!this.itlogin.isValid()) {
 			this.itlogin.setValid(false);
 			this.amAviso.setText("Login invalido!");
@@ -125,7 +125,7 @@ class LoginStatic extends Form {
 			//this.getModView().show(false).showNav(false);
 		}
 	}
-	getDados(): void {
+	private getDados(): void {
 		$http
 		.get("usuario/getbylogin/" + this.itlogin.getValue())
 		.done((dta: IUsuario) => this.onReceiveDados(dta));

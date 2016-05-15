@@ -1,4 +1,3 @@
-/// <reference path="../../jquery/jquery2.d.ts" />
 export declare class SystemApplicationStatic {
     private _uid;
     private _projectVersion;

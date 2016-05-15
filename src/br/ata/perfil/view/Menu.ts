@@ -61,6 +61,9 @@ export class Menu extends CRUDForm<IMenu>{
 			rootUrl: SystemApplication.getLocation()
 			, url: "assets/icons.json?rev_" + SystemApplication.getProjectVersion()
 		});
+		this.addEvent(Menu.EVENT_BEFORE_INSERT, (evt: Event) => this.check(evt));
+		this.addEvent(Menu.EVENT_BEFORE_UPDATE, (evt: Event) => this.check(evt));
+		this.addEvent(Menu.EVENT_BEFORE_DELETE, (evt: Event) => this.check(evt));
 	}
 	getByIdPerfil(p_idPerfil:number):void{
 		this.itIdPerfil.setValue(p_idPerfil+"");
@@ -68,17 +71,7 @@ export class Menu extends CRUDForm<IMenu>{
 			.get("menu/getbyidperfil/" + p_idPerfil)
 			.done((dta: IMenu[]) => this.mainList.setDataProvider(dta));
 	}
-	beforeInsert(evt:Event,p_req_obj: IRequestConfig):void{
-		if (!this.itIdPerfil.getValue()) {
-			evt.preventDefault();
-		};
-	}
-	beforeUpdate(evt: Event,p_req_new_obj: IRequestConfig, p_old_obj: IMenu):void {
-		if (!this.itIdPerfil.getValue()) {
-			evt.preventDefault();
-		};
-	}
-	beforeDelete(evt: Event, p_req_delete: IRequestConfig, p_old_obj: IMenu): void {
+	private check(evt: Event): void {
 		if (!this.itIdPerfil.getValue()) {
 			evt.preventDefault();
 		};

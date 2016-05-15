@@ -1,13 +1,10 @@
-import {Form} from "lib/underas/container";
 import {TimeInput,TextArea, NumericStepper, Select, CheckBox, TextInput} from "lib/underas/input";
-import {CRUDToolBar} from "../../toolbar/view/CRUDToolBar";
-import {TileList} from "lib/underas/widget_mod/TileList";
+import {CRUDForm} from "../../form/view/CRUDForm";
 import {IAtividade,EAtividadeStatus} from "../model/ITrimestre";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import PerfilBox = require("../../perfil/view/PerfilBox");
-import {TrimestreView} from "./TrimestreView";
 
-export class AtividadeEdicao extends Form {
+export class AtividadeEdicao extends CRUDForm<IAtividade> {
 	itIdEvento: TextInput;
 	itIdTrimestre: Select;
 	itSnEditavel: CheckBox;
@@ -25,20 +22,11 @@ export class AtividadeEdicao extends Form {
 	itIdStatus: Select;
 	itIdPerfil: Select;
 	itVestuario: TextInput;
-	mainTb:CRUDToolBar;
-	mainList: TileList<IAtividade>;
 	constructor() {
-		super();		
+		super({ "domain": "atividade" });		
 		this.setSize(12);
 
-		this.mainList = new TileList<IAtividade>("Evento");
-
-		this.mainTb = new CRUDToolBar({
-			"domain": "atividade" 
-			,"form":this
-			,"list":this.mainList
-		});
-		this.append(this.mainTb);
+		this.buildToolBar();
 
 		this.itIdEvento = new TextInput("");
 		this.itIdEvento.setName("$id");
@@ -174,8 +162,7 @@ export class AtividadeEdicao extends Form {
 		this.itDetalhes.setMaxLength(300);
 		this.append(this.itDetalhes);
 
-		this.mainList.setItemViewResource("trimestre/view/assets/html/evento");
-		this.append(this.mainList);
+		this.buildTileList({ itemViewResource: "trimestre/view/assets/html/evento" });
 	}
 	onStart():void{
 		this.itIdResponsavel.fromService({
@@ -194,15 +181,15 @@ export class AtividadeEdicao extends Form {
 			"url":"trimestredatalivre"
 		});
 		this.itIdTrimestre.fromService({ "url": "trimestre" });
-		this.mainTb.reloadItens();
+		this.reloadItens();
+		this.addEvent(AtividadeEdicao.EVENT_AFTER_INSERT, (evt: Event, p_obj: IAtividade) => this.afterInsert(evt, p_obj))
 	}
-	afterInsert(p_obj: IAtividade): IAtividade {		
+	afterInsert(evt:Event,p_obj: IAtividade): void {		
 		p_obj.datalivre = {
 			id:p_obj.idData
 			,snDisponivel:"N"
 			,idTrimestre:p_obj.idTrimestre
 			,momento:""
 		}
-		return p_obj;
 	}
 }

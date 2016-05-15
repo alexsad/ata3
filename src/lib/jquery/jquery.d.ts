@@ -85,7 +85,7 @@ interface JQueryCallback {
     add(...callbacks: any[]): any;
     disable(): any;
     empty(): any;
-    fire(...arguments: any[]): any;
+    fire(...args: any[]): any;
     fired(): boolean;
     fireWith(context: any, ...args: any[]): any;
     has(callback: any): boolean;
@@ -458,6 +458,7 @@ interface JQueryStatic {
     type(obj: any): string;
 
     unique(arr: any[]): any[];
+   
 }
 
 
@@ -804,7 +805,7 @@ interface JQuery {
     context: Element;
     jquery: string;
     pushStack(elements: any[]): JQuery;
-    pushStack(elements: any[], name: any, arguments: any): JQuery;
+    pushStack(elements: any[], name: any, args: any): JQuery;
 
     // Manipulation
     after(func: (index: any) => any): JQuery;
@@ -953,7 +954,16 @@ interface JQuery {
     droppable(methodName: string): any;
 
     datepicker(options:any):JQuery;
+    
+    farbtastic(handler:Function):JQuery;
 }
 
-declare var jQuery: JQueryStatic;
-declare var $: JQueryStatic;
+
+
+
+
+declare module 'jquery'{
+    var jQuery: JQueryStatic;
+    //declare var $: JQueryStatic;
+    export = jQuery;
+}

@@ -1,6 +1,6 @@
-<div class="row clearfix top_adm_menu bg-primary">
+<div class="top_adm_menu bg-primary col-xs-12">
   <div onclick="{$this.showMenu(true)}" class="col-xs-1 col-sm-1 column pull-left">
-    <span style="font-size:20px;margin-top:5px;margin-bottom:10px;margin-left:5px" class="glyphicon glyphicon-th-list pull-left"></span> 
+    <span style="font-size:20px;margin-top:5px;margin-bottom:10px" class="glyphicon glyphicon-th-list pull-left"></span> 
   </div>
   <div class="col-xs-11 col-sm-11 column menu_main">
     <ul if="(!$this.showMenus)" class="nav nav-pills menu_adm">
@@ -18,23 +18,18 @@
             <span class="{'imgI glyphicon iconeinput '+(iusuarioPerfil.idPerfil==$this.idPerfilSelected?'glyphicon-ok':'')}"></span>
             <span>{' '+iusuarioPerfil.perfil.descricao.toUpperCase()}</span>
           </a>
-        </li>
-        <li class="navitem">
-          <a class="btnmenu" href="#" onclick="{$this.setAvatar()}">
-            <span class="imgI glyphicon iconeinput glyphicon-picture"></span>
-            <span>Trocar Foto</span>
-          </a>
         </li>        
       </ul>
     </div>
   </div>
 </div>
-<div if="$this.showMenus" id="sidebar2" class="bg-primary">
+<div class="{($this.showMenus)?'is-visible':'is-hidden'}" id="sidebar2" class="bg-primary">
   <ul class="nav nav-pills bg-primary">
-    <li class="navitem pull-right">
-      <a style="padding: 4px 0px 5px 2px" class="btnmenu" href="#">
-        <img style="border:2px solid #04dd90;border-radius:30%;margin:0px 2px 0px 0px;max-width:30px;width:30px;height:30px;" alt="Photo" src="{'assets/avatars/avatar_' + $this.idUsuario + '.png?cache_picture='+$this._avatarcache}" class="nav-user-photo"/>
-        <span> {$this.loginUsuario}</span>
+    <li style="margin-left:2px;margin-bottom: 20px;margin-top: 6px" class="navitem">
+      <a style="padding:4px 0px 14px 8px;" class="btnmenu" href="#">
+        <img style="border:none;margin:0px 2px 0px 0px;width:50px;height:50px;float:left" alt="Photo" src="{'assets/avatars/avatar_' + $this.idUsuario + '.png?cache_picture='+$this._avatarcache}" class="nav-user-photo"/>
+        <span style="color:#fff;font-weight:normal;float:left;width:175px"> {$this.loginUsuario}</span>
+        <span onclick="{$this.setAvatar()}">Trocar Foto</span>
       </a>
     </li>
     <li each="menu in $this.menus" class="navitem">

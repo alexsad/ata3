@@ -1,4 +1,6 @@
 import {Render,ICustomComponent} from "lib/underas/core";
+import {ViewPager,Dialog} from "lib/underas/container";
+
 import {$http} from "lib/underas/http";
 import {IMenu, IItemMenu} from "../../perfil/model/IPerfil";
 import {IUsuarioPerfil} from "../../usuario/model/IUsuario";
@@ -19,8 +21,8 @@ class MenuAdmStatic implements ICustomComponent{
 	public loginUsuario: string;
 	private perfisVisibles: boolean;
 	private showMenus: boolean;
-	private _setAvatar: UsuarioUploadAvatar;
 	private _avatarcache: number;
+	private _dialogAvatar: Dialog;
 	public EVENT_CHANGE_PERFIL: string = "perfil:change";
 	public EVENT_SELECT_MODULE: string = "module:click";
 	constructor(){
@@ -90,17 +92,22 @@ class MenuAdmStatic implements ICustomComponent{
 		this.perfisVisibles = !this.perfisVisibles;
 	}
 	onRender(p_ele:string):void{}
+
 	private setAvatar(): void {
-		if (!this._setAvatar) {
-			this._setAvatar = new UsuarioUploadAvatar(this.idUsuario);
-			//$("body").append(this._setAvatar.$);
-			//this._setAvatar.$.on("avatarchanged",this.onChangeAvatar.bind(this));
+		if (!this._dialogAvatar) {
+			this._dialogAvatar = new Dialog("Escolha uma foto!", "");
+			let _setAvatar = new UsuarioUploadAvatar(this.idUsuario);
+			_setAvatar.addEvent(UsuarioUploadAvatar.EVENT_UPLOAD_SUCCESS,()=>{
+				this._dialogAvatar.show(false);
+				this._avatarcache = new Date().getTime();
+			});
+			this._dialogAvatar.append(_setAvatar);
+			this.getViewPager().append(this._dialogAvatar);
 		};
-		//this._setAvatar.show(true);
+		this._dialogAvatar.show(true);
 	}
-	private onChangeAvatar():void{
-		//this._setAvatar.show(false);
-		this._avatarcache = new Date().getTime();
+	private getViewPager():ViewPager {
+		return require("../../viewapp/view/ViewApp");
 	}	
 }
 

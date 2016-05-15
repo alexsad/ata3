@@ -4,6 +4,7 @@ import {Button} from "lib/underas/button";
 import {TextInput} from "lib/underas/input";
 import {EViewSize} from "lib/underas/component";
 import {$http, IRequestConfig, IErrorResponse} from "lib/underas/http";
+import jQuery = require("jquery");
 
 export interface ICRUDFormConfig {
 	domain: string;
@@ -104,8 +105,8 @@ export class CRUDForm<T> extends Form {
 		this.successOperation();
 	}
 	updateItem(p_objToUpdate: {}): void {
-		var req_objToUpdate: IRequestConfig = <IRequestConfig>$.extend(this.getDefaultRequest("", "put"), { "body": p_objToUpdate });
-		req_objToUpdate = <IRequestConfig>$.extend(true, { "body": this.getList().getSelectedItem() }, req_objToUpdate);
+		var req_objToUpdate: IRequestConfig = <IRequestConfig>jQuery.extend(this.getDefaultRequest("", "put"), { "body": p_objToUpdate });
+		req_objToUpdate = <IRequestConfig>jQuery.extend(true, { "body": this.getList().getSelectedItem() }, req_objToUpdate);
 		let evtBeforeUpdate = this.fireEvent(CRUDForm.EVENT_BEFORE_UPDATE, req_objToUpdate, this.getList().getSelectedItem());
 		if (!evtBeforeUpdate.isDefaultPrevented()) {
 			this.getForm().setEnable(false);
@@ -133,7 +134,7 @@ export class CRUDForm<T> extends Form {
 	}
 	insertItem(p_objToInsert: {}): void {
 		var modTmp: Form = this.getForm();
-		var req_objToInsert: IRequestConfig = <IRequestConfig>$.extend(this.getDefaultRequest("", "post"), { "body": p_objToInsert });
+		var req_objToInsert: IRequestConfig = <IRequestConfig>jQuery.extend(this.getDefaultRequest("", "post"), { "body": p_objToInsert });
 		var tfield1: string = modTmp.getIdField();
 		var tcolumn1: string = modTmp[tfield1].getName();
 		delete req_objToInsert["body"][tcolumn1];
@@ -209,7 +210,7 @@ export class CRUDForm<T> extends Form {
 		if (event) {
 			event.preventDefault();
 		};
-		var p_req_reload: IRequestConfig = <IRequestConfig>$.extend(this.getDefaultRequest("", "get"), {});
+		var p_req_reload: IRequestConfig = <IRequestConfig>jQuery.extend(this.getDefaultRequest("", "get"), {});
 		let evtBeforeReload = this.fireEvent(CRUDForm.EVENT_BEFORE_RELOAD, p_req_reload);
 		if (!evtBeforeReload.isDefaultPrevented()) {
 			this.getForm().setEnable(false);

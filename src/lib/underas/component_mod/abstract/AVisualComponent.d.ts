@@ -14,6 +14,7 @@ export declare abstract class AVisualComponent implements IVisualComponent {
     static EVENT_BEFORE_DESTROY: string;
     constructor(tagh: string, tagc: string);
     $: JQuery;
+    getUID(): string;
     setCssProperties(p_properties: {
         [s: string]: string;
     }): void;

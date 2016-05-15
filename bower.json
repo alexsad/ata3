@@ -9,7 +9,7 @@
     ,"jquery": "~1.11.3"
     ,"jquery-ui":"~1.10.4"
     ,"requirejs":"~2.1.8"
-    ,"underas":"https://github.com/alexsad/underas.git"
+    ,"underas":"https://github.com/alexsad/underas.git#develop"
     ,"bootstrap-datepicker":"https://github.com/eternicode/bootstrap-datepicker.git"
     ,"moment": "^2.12.0"
   }

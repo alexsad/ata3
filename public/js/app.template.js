@@ -7,7 +7,7 @@ requirejs.config({
 			,'lib/jspdf/jsPDF':'lib/jspdf/jspdf.debug'
 			,'jspdfreport':'lib/jspdf/jspdfreport'
 			,'cookies':'lib/cookies-js/dist/cookies.min'
-			,"idom":"lib/idom"
+			,'idom':'../../node_modules/incremental-dom/dist'
 			,'bootstrap-datepicker':'lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min'
 			,'bootstrap-datepicker-locale-pt-BR':'lib/bootstrap-datepicker/dist/locales/bootstrap-datepicker.pt-BR.min'
 			,'farbtastic':'lib/farbtastic/farbtastic'
