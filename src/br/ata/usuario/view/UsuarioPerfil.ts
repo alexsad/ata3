@@ -1,4 +1,4 @@
-import {EBasicColorStatus} from "lib/underas/component";
+import {EBasicColorStatus,EViewSize} from "lib/underas/component";
 import {TextInput, Select} from "lib/underas/input";
 import {CRUDForm} from "../../form/view/CRUDForm";
 import {Alert} from "lib/underas/widget";
@@ -14,6 +14,7 @@ export class UsuarioPerfil extends CRUDForm<IUsuarioPerfil>{
 	constructor(){
 		super({ "domain": "usuarioperfil" });		
 		this.setSize(4);
+		this.setSize(5, EViewSize.EXTRA_SMALL);
 
 		this.buildToolBar();
 

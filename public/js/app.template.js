@@ -11,7 +11,7 @@ requirejs.config({
 			,'bootstrap-datepicker':'lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min'
 			,'bootstrap-datepicker-locale-pt-BR':'lib/bootstrap-datepicker/dist/locales/bootstrap-datepicker.pt-BR.min'
 			,'farbtastic':'lib/farbtastic/farbtastic'
-            ,'moment':'lib/moment/min/moment.min'
+            ,'moment':'../../node_modules/moment/min/moment.min'
 		}
 		,shim: {
 	        //"jspdf" : { exports : "jsPDF" }	   

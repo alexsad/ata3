@@ -61,6 +61,40 @@ export class Trimestre{
 		});
 	}
 
+	
+
+	@Get("/getaprovadaseliberadasbyidtrimestre/:idtrimestre")
+	getAprovadasLiberadasByIdTrimestre(req: server.Request, res: server.Response): void {
+		let idTrimestre: number = req.params.idtrimestre;
+		TrimestreDAO.findAll({
+			include: [{
+				all: true
+				, nested: false
+				, model: AtividadeDAO
+				, required: true
+				, where: {
+					"id_status": { $in: [EAtividadeStatus.LIBERADA, EAtividadeStatus.APROVADA] }
+				}
+				, include: [
+					{ model: TrimestreDataLivreDAO, as: 'datalivre' }
+				]
+			}]
+			, order: [
+				["id", "asc"]
+			]
+			, where: {
+				"id": idTrimestre
+			}
+		}).then(
+			function(dta: ITrimestre[]) {
+				res.json(dta);
+			}
+			).catch(function(err: any) {
+				res.status(400);
+				res.json(err);
+			});
+	}
+
 	@Get("/getaprovadaseliberadasbyperiodo")
 	getAprovadasLiberadasByPeriodo(req: server.Request, res: server.Response): void {
 		var queryParams:ITremestreQuery = req.query;

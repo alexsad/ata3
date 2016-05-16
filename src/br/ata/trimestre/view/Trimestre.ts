@@ -1,23 +1,27 @@
-import {Box} from "lib/underas/container";
+import {Tab} from "lib/underas/container";
+import {LinkButton} from "lib/underas/button";
 import {TrimestreForm} from "./TrimestreForm";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import {TrimestreDataLivre} from "./TrimestreDataLivre";
 import {ITrimestre} from "../model/ITrimestre";
 
-export class Trimestre extends Box {
+export class Trimestre extends Tab{
 	private trimestreForm: TrimestreForm;
 	private trimestreLancamentoAtividadeForm: TrimestreLancamentoAtividade;
 	private trimestreDataLivreForm: TrimestreDataLivre;
 	constructor() {
 		super();
+		this.setSize(12);
+		
 		this.trimestreForm = new TrimestreForm();
-		this.append(this.trimestreForm);
+
+		this.append(new LinkButton("Trimestre"),this.trimestreForm);
 
 		this.trimestreLancamentoAtividadeForm = new TrimestreLancamentoAtividade();
-		this.append(this.trimestreLancamentoAtividadeForm);
+		this.append(new LinkButton("Lancamentos"), this.trimestreLancamentoAtividadeForm);
 
 		this.trimestreDataLivreForm = new TrimestreDataLivre();
-		this.append(this.trimestreDataLivreForm);
+		this.append(new LinkButton("Datas Disponiveis"), this.trimestreDataLivreForm);
 	}
 	onStart(): void {
 		this.trimestreForm.onStart();

@@ -1,21 +1,20 @@
-<div class="top_adm_menu bg-primary col-xs-12">
-  <div onclick="{$this.showMenu(true)}" class="col-xs-1 col-sm-1 column pull-left">
-    <span style="font-size:20px;margin-top:5px;margin-bottom:10px" class="glyphicon glyphicon-th-list pull-left"></span> 
+<div if="$this.usuarioPerfis.length > 0" class="top_adm_menu bg-primary col-xs-12">
+  <div class="col-xs-2 col-sm-2 column pull-left">
+    <span onclick="{$this.showMenu(true)}" style="font-size:20px;margin-top:5px;margin-bottom:10px" class="glyphicon glyphicon-th-list pull-left"></span> 
+    <span style="font-size:20px;margin-left:5px;margin-top:5px;margin-bottom:10px" class="glyphicon glyphicon-leaf pull-left"></span> 
   </div>
-  <div class="col-xs-11 col-sm-11 column menu_main">
-    <ul if="(!$this.showMenus)" class="nav nav-pills menu_adm">
+  <div class="col-xs-10 col-sm-10 column menu_main">
+    <ul class="nav nav-pills menu_adm">
       <li class="navitem pull-right">
         <a onclick="{$this.showPerfis()}" style="padding: 1px 0px 2px 2px" class="btnmenu" href="#">
-          <img style="border:2px solid #04dd90;border-radius:30%;margin:0px 2px 0px 0px;max-width:30px;width:30px;height:30px;" alt="Photo" src="{'assets/avatars/avatar_' + $this.idUsuario + '.png?cache_picture='+$this._avatarcache}" class="nav-user-photo"/>
-          <span class="hidden-xs">{$this.loginUsuario}</span>
+          <span>{$this.usuarioPerfis[$this.indPerfil].perfil.descricao.toUpperCase()}</span>
         </a>
       </li>
     </ul>
     <div class="tab-content tab_content_menu" style="padding:0px">
-      <ul if="($this.perfisVisibles && !$this.showMenus)" class="{'menu_adm_item pull-right nav nav-pills'}">
+      <ul if="$this.perfisVisibles" class="{'menu_adm_item pull-right nav nav-pills'}">
         <li each="iusuarioPerfil in $this.usuarioPerfis" class="navitem">
-          <a class="btnmenu" href="{'#'+$index}" onclick="{$this.setIdPerfil(iusuarioPerfil.idPerfil)}">
-            <span class="{'imgI glyphicon iconeinput '+(iusuarioPerfil.idPerfil==$this.idPerfilSelected?'glyphicon-ok':'')}"></span>
+          <a if="$index!=$this.indPerfil" class="btnmenu" href="{'#'+$index}" onclick="{$this.setPerfil($index)}">
             <span>{' '+iusuarioPerfil.perfil.descricao.toUpperCase()}</span>
           </a>
         </li>        
@@ -23,7 +22,7 @@
     </div>
   </div>
 </div>
-<div class="{($this.showMenus)?'is-visible':'is-hidden'}" id="sidebar2" class="bg-primary">
+<div class="{'bg-primary menu-app-adm '+($this.showMenus?'is-visible':'is-hidden')}">
   <ul class="nav nav-pills bg-primary">
     <li style="margin-left:2px;margin-bottom: 20px;margin-top: 6px" class="navitem">
       <a style="padding:4px 0px 14px 8px;" class="btnmenu" href="#">

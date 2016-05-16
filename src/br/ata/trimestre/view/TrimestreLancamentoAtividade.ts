@@ -10,7 +10,7 @@ export class TrimestreLancamentoAtividade extends CRUDForm <ITrimestreLancamento
 	itValor:NumericStepper;
 	constructor() {
 		super({"domain": "trimestrelancamentoatividade" });		
-		this.setSize(4);
+		this.setSize(12);
 
 		this.buildToolBar();
 		

@@ -1,4 +1,4 @@
-#sidebar2{
+.menu-app-adm{
   width: 250px;
   height: 100%;
   display: block;
@@ -6,20 +6,20 @@
   top: 0px;
   z-index:999;
 }
-#sidebar2.is-hidden{
+.menu-app-adm.is-hidden{
   left:-250px;
 }
-#sidebar2.is-visible{
+.menu-app-adm.is-visible{
   left:0px;
   transition:left 0.3s linear;
 }
 
-#sidebar2 ul{
+.menu-app-adm ul{
   margin: 0;
   padding: 0;
 }
 
-#sidebar2 ul li a {
+.menu-app-adm ul li a {
   border-bottom: 1px solid #ddd;
   display: block;
   width: 240px;
@@ -27,15 +27,15 @@
   text-decoration: none;
 }
 
-#sidebar2 ul > li > a:hover
-,#sidebar2 ul > li > a:focus
-,#sidebar2 ul > li.menu_adm_active > a:hover
-,#sidebar2 ul > li.menu_adm_active > a:focus
-,#sidebar2 ul > li.menu_adm_active a.active{
+.menu-app-adm ul > li > a:hover
+,.menu-app-adm ul > li > a:focus
+,.menu-app-adm ul > li.menu_adm_active > a:hover
+,.menu-app-adm ul > li.menu_adm_active > a:focus
+,.menu-app-adm ul > li.menu_adm_active a.active{
 	background: rgba(255, 234, 213, 0.1) none repeat scroll 0% 0%;
 }
 
-#sidebar2 ul.menu_adm_item li a{
+.menu-app-adm ul.menu_adm_item li a{
 	text-indent:15px;
 	border-bottom: 1px solid transparent;
 }

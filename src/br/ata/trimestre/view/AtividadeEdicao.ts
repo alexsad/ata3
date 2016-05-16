@@ -3,6 +3,7 @@ import {CRUDForm} from "../../form/view/CRUDForm";
 import {IAtividade,EAtividadeStatus} from "../model/ITrimestre";
 import {TrimestreLancamentoAtividade} from "./TrimestreLancamentoAtividade";
 import PerfilBox = require("../../perfil/view/PerfilBox");
+import {EViewSize} from "lib/underas/component";
 
 export class AtividadeEdicao extends CRUDForm<IAtividade> {
 	itIdEvento: TextInput;
@@ -33,6 +34,7 @@ export class AtividadeEdicao extends CRUDForm<IAtividade> {
 		this.itIdEvento.setLabel("cod.");
 		this.itIdEvento.setEnable(false);
 		this.itIdEvento.setSize(1);
+		this.itIdEvento.setSize(3,EViewSize.EXTRA_SMALL);
 		this.append(this.itIdEvento);
 
 		this.itIdTrimestre = new Select();
@@ -41,13 +43,15 @@ export class AtividadeEdicao extends CRUDForm<IAtividade> {
 		this.itIdTrimestre.setValueField("id");
 		this.itIdTrimestre.setLabelField("dsTrimestre");
 		this.itIdTrimestre.setSize(2);
+		this.itIdTrimestre.setSize(5,EViewSize.EXTRA_SMALL);
 		this.append(this.itIdTrimestre);
 
 		this.itCodRefMLS = new TextInput("");
 		this.itCodRefMLS.setName("#codRefMLS");
 		this.itCodRefMLS.setLabel("ref. MLS");
 		this.itCodRefMLS.setPlaceHolder("cod. ref. MLS");
-		this.itCodRefMLS.setSize(1);		
+		this.itCodRefMLS.setSize(1);
+		this.itCodRefMLS.setSize(4,EViewSize.EXTRA_SMALL);		
 		this.append(this.itCodRefMLS);
 
 		this.itIdData = new Select("data");
@@ -57,6 +61,7 @@ export class AtividadeEdicao extends CRUDForm<IAtividade> {
 		this.itIdData.setLabelField("dsData");
 		this.itIdData.setLabel("data");
 		this.itIdData.setSize(3);
+		this.itIdData.setSize(5,EViewSize.EXTRA_SMALL);
 		this.append(this.itIdData);
 
 		this.itHora = new TimeInput("19:00");
@@ -64,6 +69,7 @@ export class AtividadeEdicao extends CRUDForm<IAtividade> {
 		this.itHora.setPlaceHolder("hora da atividade ex. 19:00");
 		this.itHora.setLabel("hora");
 		this.itHora.setSize(1);
+		this.itHora.setSize(3,EViewSize.EXTRA_SMALL);
 		this.append(this.itHora);
 
 
@@ -73,6 +79,7 @@ export class AtividadeEdicao extends CRUDForm<IAtividade> {
 		this.itIdStatus.setValueField("idStatus");
 		this.itIdStatus.setLabelField("descricao");
 		this.itIdStatus.setSize(2);
+		this.itIdStatus.setSize(4,EViewSize.EXTRA_SMALL);
 		this.append(this.itIdStatus);
 
 		this.itSnEditavel = new CheckBox("Editavel?", "Sim");
@@ -80,15 +87,25 @@ export class AtividadeEdicao extends CRUDForm<IAtividade> {
 		this.itSnEditavel.setCheckedValue("S");
 		this.itSnEditavel.setUnCheckedValue("N");
 		this.itSnEditavel.setLabel("Editavel");
-		this.itSnEditavel.setSize(2);		
+		this.itSnEditavel.setSize(2);
+		this.itSnEditavel.setSize(12,EViewSize.EXTRA_SMALL);		
 		this.append(this.itSnEditavel);
 
 		this.itDescricao = new TextInput("");
 		this.itDescricao.setName("@descricao");
 		this.itDescricao.setLabel("descricao");
 		this.itDescricao.setPlaceHolder("digite a descricao da atividade");
-		this.itDescricao.setSize(12);
+		this.itDescricao.setSize(8);
 		this.append(this.itDescricao);
+
+		this.itOrcamento = new NumericStepper(0);
+		this.itOrcamento.setName("@orcamento");
+		this.itOrcamento.setLabel("orcamento");
+		this.itOrcamento.setMin(0);
+		this.itOrcamento.setMax(0);
+		this.itOrcamento.setStep(5);
+		this.itOrcamento.setSize(4);
+		this.append(this.itOrcamento);
 
 		this.itLocal = new TextInput("capela");
 		this.itLocal.setName("@local");
@@ -102,7 +119,7 @@ export class AtividadeEdicao extends CRUDForm<IAtividade> {
 		this.itIdPerfil.setLabel("perfil:");
 		this.itIdPerfil.setValueField("id");
 		this.itIdPerfil.setLabelField("descricao");
-		this.itIdPerfil.setSize(3);		
+		this.itIdPerfil.setSize(4);		
 		this.append(this.itIdPerfil);
 
 		this.itIdOrganizacao = new Select("organizacao");
@@ -110,7 +127,7 @@ export class AtividadeEdicao extends CRUDForm<IAtividade> {
 		this.itIdOrganizacao.setLabel("organizacao:");
 		this.itIdOrganizacao.setValueField("id");
 		this.itIdOrganizacao.setLabelField("descricao");
-		this.itIdOrganizacao.setSize(3);		
+		this.itIdOrganizacao.setSize(4);		
 		this.append(this.itIdOrganizacao);		
 
 		this.itIdResponsavel = new Select("responsavel");
@@ -118,17 +135,9 @@ export class AtividadeEdicao extends CRUDForm<IAtividade> {
 		this.itIdResponsavel.setLabel("responsavel");
 		this.itIdResponsavel.setValueField("id");
 		this.itIdResponsavel.setLabelField("nome");
-		this.itIdResponsavel.setSize(3);
+		this.itIdResponsavel.setSize(4);
 		this.append(this.itIdResponsavel);
 
-		this.itOrcamento = new NumericStepper(0);
-		this.itOrcamento.setName("@orcamento");
-		this.itOrcamento.setLabel("orcamento");
-		this.itOrcamento.setMin(0);
-		this.itOrcamento.setMax(0);
-		this.itOrcamento.setStep(5);
-		this.itOrcamento.setSize(3);
-		this.append(this.itOrcamento);
 
 		this.itPublicoAlvo = new TextInput("");
 		this.itPublicoAlvo.setName("@publicoAlvo");

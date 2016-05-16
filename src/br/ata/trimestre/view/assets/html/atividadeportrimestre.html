@@ -1,0 +1,10 @@
+<div each="atividade in $this.atividades" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-4 col-md-4 col-lg-3">
+	<div style="font-size:18px" class="row-fluid">
+		<span class="{'label label-'+atividade.iconStatus}" data-indconv="{atividade.id}">{atividade.codRefMLS}</span>
+		<span> - {atividade.descricao}</span>
+	</div>
+	<p class="list-group-item-text">DATA:{atividade.datalivre.dsData} {atividade.hora}Hs</p>
+	<p class="list-group-item-text">PROPOSITO:{atividade.proposito}</p>
+	<p class="list-group-item-text">LOCAL:{atividade.local} - {atividade.vestuario}</p>	
+	<p class="list-group-item-text">PARA:{atividade.publicoAlvo}</p>
+</div>

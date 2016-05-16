@@ -1,5 +1,5 @@
 import {SystemApplication} from "lib/underas/core";
-import {EBasicColorStatus} from "lib/underas/component";
+import {EBasicColorStatus,EViewSize} from "lib/underas/component";
 import {Form,ToolBar} from "lib/underas/container";
 import {TimeInput, TextArea, NumericStepper, DatePickerInput, Select, CheckBox, TextInput} from "lib/underas/input";
 import {TileList} from "lib/underas/widget_mod/TileList";
@@ -95,9 +95,22 @@ export class AtividadeAutorizacao extends Form {
 		this.itDescricao.setName("@descricao");
 		this.itDescricao.setLabel("descricao");
 		this.itDescricao.setPlaceHolder("digite a descricao da atividade");
-		this.itDescricao.setSize(12);
+		this.itDescricao.setSize(8);
+		this.itDescricao.setSize(7,EViewSize.EXTRA_SMALL)
 		this.itDescricao.setEnable(false);
 		this.append(this.itDescricao);
+
+
+		this.itOrcamento = new NumericStepper(0);
+		this.itOrcamento.setName("@orcamento");
+		this.itOrcamento.setLabel("orcamento");
+		this.itOrcamento.setMin(0);
+		this.itOrcamento.setMax(0);
+		this.itOrcamento.setStep(5);
+		this.itOrcamento.setEnable(false);
+		this.itOrcamento.setSize(4);
+		this.itOrcamento.setSize(5, EViewSize.EXTRA_SMALL);
+		this.append(this.itOrcamento);
 
 
 		this.itMomento = new TextInput("data");
@@ -133,7 +146,7 @@ export class AtividadeAutorizacao extends Form {
 		this.itIdPerfil.setLabel("perfil:");
 		this.itIdPerfil.setValueField("id");
 		this.itIdPerfil.setLabelField("descricao");
-		this.itIdPerfil.setSize(3);
+		this.itIdPerfil.setSize(4);
 		this.itIdPerfil.setEnable(false);
 		this.append(this.itIdPerfil);
 
@@ -142,7 +155,7 @@ export class AtividadeAutorizacao extends Form {
 		this.itIdOrganizacao.setLabel("organizacao:");
 		this.itIdOrganizacao.setValueField("id");
 		this.itIdOrganizacao.setLabelField("descricao");
-		this.itIdOrganizacao.setSize(3);
+		this.itIdOrganizacao.setSize(4);
 		this.itIdOrganizacao.setEnable(false);
 		this.append(this.itIdOrganizacao);
 
@@ -151,19 +164,10 @@ export class AtividadeAutorizacao extends Form {
 		this.itIdResponsavel.setLabel("responsavel");
 		this.itIdResponsavel.setValueField("id");
 		this.itIdResponsavel.setLabelField("nome");
-		this.itIdResponsavel.setSize(3);
+		this.itIdResponsavel.setSize(4);
 		this.itIdResponsavel.setEnable(false);
 		this.append(this.itIdResponsavel);
 
-		this.itOrcamento = new NumericStepper(0);
-		this.itOrcamento.setName("@orcamento");
-		this.itOrcamento.setLabel("orcamento");
-		this.itOrcamento.setMin(0);
-		this.itOrcamento.setMax(0);
-		this.itOrcamento.setStep(5);
-		this.itOrcamento.setEnable(false);
-		this.itOrcamento.setSize(3);
-		this.append(this.itOrcamento);
 
 		this.itPublicoAlvo = new TextInput("");
 		this.itPublicoAlvo.setName("@publicoAlvo");
@@ -202,27 +206,27 @@ export class AtividadeAutorizacao extends Form {
 		this.append(this.itDetalhes);
 
 		this.btSubmeter = new Button("Autorizar");
-		this.btSubmeter.$.removeClass("btn-default").addClass("btn-info");
-		this.btSubmeter.setIcon("check");
+		this.btSubmeter.setColor(EBasicColorStatus.INFO);
+		this.btSubmeter.setIcon("glyphicon glyphicon-check");
 		this.btSubmeter.addEvent('click', this.submeter.bind(this));
 		this.btSubmeter.setEnable(false);
 		this.mainTb.append(this.btSubmeter,true);
 
 		this.btCancelar = new Button("Pendente");
-		this.btCancelar.$.removeClass("btn-default").addClass("btn-warning");
-		this.btCancelar.setIcon("circle-arrow-down");
+		this.btSubmeter.setColor(EBasicColorStatus.WARNING);
+		this.btCancelar.setIcon("glyphicon glyphicon-circle-arrow-down");
 		this.btCancelar.addEvent('click', this.cancelar.bind(this));
 		this.btCancelar.setEnable(false);
 		this.mainTb.append(this.btCancelar);
 
 		this.btReload = new Button("Reload");
-		this.btReload.setIcon("refresh");
+		this.btReload.setIcon("glyphicon glyphicon-refresh");
 		this.btReload.addEvent('click', this.Atualizar.bind(this));
 		this.btReload.setEnable(true);
 		this.mainTb.append(this.btReload);
 
 		this.btPrintAta = new Button("Ata");
-		this.btPrintAta.setIcon("print");
+		this.btPrintAta.setIcon("glyphicon glyphicon-print");
 		//this.btPrintAta.setEnable(false);
 		this.btPrintAta.addEvent('click', this.printAta.bind(this));
 		this.mainTb.append(this.btPrintAta);
@@ -230,6 +234,8 @@ export class AtividadeAutorizacao extends Form {
 		this.mainList = new TileList<IAtividade>("Evento");
 		this.mainList.setItemViewResource("trimestre/view/assets/html/evento");
 		this.append(this.mainList);
+
+		this.mainList.addEvent(TileList.EVENT_ITEM_CHANGE,this.onChangeItem.bind(this));
 	}
 	onStart(): void {
 		this.itIdResponsavel.fromService({
@@ -281,7 +287,7 @@ export class AtividadeAutorizacao extends Form {
 		this.getByIdStatus(EAtividadeStatus.APROVADA);
 	}
 
-	onChangeItem(p_item: IAtividade): IAtividade {
+	private onChangeItem(evt:Event,p_item: IAtividade): void {
 		var on = (p_item.idStatus == this._idStatus);
 		this.habilitarCampos(on);
 		this.setFormItem(p_item);
@@ -290,7 +296,6 @@ export class AtividadeAutorizacao extends Form {
 			"url": "trimestredatalivre/getbyidtrimestre/" + p_item.idTrimestre
 		});
 		*/
-		return p_item;
 	}
 	habilitarCampos(on: boolean): void {
 		this.itCodRefMLS.setEnable(on);
@@ -337,7 +342,7 @@ export class AtividadeAutorizacao extends Form {
 			this.itDsObservacao.setColor(EBasicColorStatus.DANGER);
 		}
 	}
-	submeter(): void {
+	private submeter(): void {
 		var tmpItemAtiv: IAtividade = this.mainList.getSelectedItem();
 		if (tmpItemAtiv.idStatus == this._idStatus) {
 			//tmpItemAtiv.snEditavel = "N";

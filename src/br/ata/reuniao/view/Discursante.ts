@@ -1,5 +1,6 @@
 import {Select, TextInput, TextArea, NumericStepper} from "lib/underas/input";
 import {CRUDForm} from "../../form/view/CRUDForm";
+import {EViewSize} from "lib/underas/component";
 import {$http, IRequestConfig} from "lib/underas/http";
 import {IDiscurso} from "../model/IDiscurso";
 import {IMembro} from "../../organizacao/model/IMembro";
@@ -25,6 +26,7 @@ export class Discursante extends CRUDForm<IDiscurso>{
 		this.itIdDiscurso.setLabel("cod.");
 		this.itIdDiscurso.setEnable(false);
 		this.itIdDiscurso.setSize(2);
+		this.itIdDiscurso.setSize(4,EViewSize.EXTRA_SMALL);
 		this.append(this.itIdDiscurso);
 
 		this.itIdMembro = new Select("selecione um discursante");
@@ -33,6 +35,7 @@ export class Discursante extends CRUDForm<IDiscurso>{
 		this.itIdMembro.setValueField("id");
 		this.itIdMembro.setLabelField("nome");
 		this.itIdMembro.setSize(4);
+		this.itIdMembro.setSize(8,EViewSize.EXTRA_SMALL);
 		this.append(this.itIdMembro);
 
 		this.itIdReuniao = new Select("reuniao");
@@ -41,16 +44,18 @@ export class Discursante extends CRUDForm<IDiscurso>{
 		this.itIdReuniao.setValueField("id");
 		this.itIdReuniao.setLabelField("dsData");
 		this.itIdReuniao.setSize(3);
+		this.itIdReuniao.setSize(8,EViewSize.EXTRA_SMALL);
 		this.append(this.itIdReuniao);
 
 		this.itTempo = new NumericStepper(5);
 		this.itTempo.setName("@tempo");
-		this.itTempo.setLabel("tempo");
-		this.itTempo.setSize(3);
+		this.itTempo.setLabel("tempo");		
 	    this.itTempo.setMin(5);
 	    this.itTempo.setMax(15);
 	    this.itTempo.setStep(5);
 	    this.itTempo.setEnable(false,2);
+		this.itTempo.setSize(3);
+		this.itTempo.setSize(4,EViewSize.EXTRA_SMALL);
 		this.append(this.itTempo);
 
 		this.itTema = new TextInput("");

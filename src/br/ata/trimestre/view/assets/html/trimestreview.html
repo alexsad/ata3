@@ -1,4 +1,11 @@
-<div each="itrimestre in $this" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-12 col-md-12">
-	<h5>{itrimestre.nrTrimestre} º trimestre de {itrimestre.ano}</h5>
-	<p class="list-group-item-text">Saldo: {itrimestre.vtSaldo},00R$ / {itrimestre.vtTotalLancado},00R$</p>
-</div>
+<if condition="$this.visible">
+	<div each="itrimestre in $this.trimestrelist" data-indx="{$index}" class="tilecell list-group-item col-xs-12 col-sm-12 col-md-12">
+		<div class="col-xs-10">
+			<h5 style="margin-top:0px" onclick="{$this.setTrimestre($index)}">{itrimestre.nrTrimestre} º trimestre de {itrimestre.ano}</h5>
+			<p class="list-group-item-text">Saldo: {itrimestre.vtSaldo},00R$ / {itrimestre.vtTotalLancado},00R$</p>
+		</div>
+		<div class="col-xs-2">
+			<button onclick="{$this.addAtividade($index)}" type="button" class="pull-right btn btn-primary btn-lg btn-round"><span class="glyphicon glyphicon-plus"></span></button>
+		</div>
+	</div>
+</if>

@@ -54,9 +54,11 @@ class LoginStatic extends Form {
 		this.btBaixarAplicativo.setSize(4);
 		this.btBaixarAplicativo.setSize(8, EViewSize.EXTRA_SMALL);
 		this.btBaixarAplicativo.addStyleName("pull-right visible-xs");
+		//this.btBaixarAplicativo.show(false);
 		this.btBaixarAplicativo.setColor(EBasicColorStatus.PRIMARY);
-		this.btBaixarAplicativo.$.attr("href", "assets/bin/nav4.1.apk");
+		this.btBaixarAplicativo.$.attr("href", "assets/bin/nav4.2.apk");
 		this.append(this.btBaixarAplicativo);
+		
 
 	}
 	init(): void {
@@ -76,10 +78,8 @@ class LoginStatic extends Form {
 				Cookies.set("clogin", this.itlogin.getValue(), { expires: Infinity });
 			};
 			this.amAviso.show(false);
-			(<LoginStatic>this).getDados();
+			this.getDados();
 			//$("#logo_menu").addClass("hidden-xs");
-			this.fireEvent(this.EVENT_LOGIN_SUCCESS);
-
 		} else {
 			this.amAviso.setText("Login ou senha invalidos!");
 			this.amAviso.setColor(EBasicColorStatus.DANGER);
@@ -122,7 +122,7 @@ class LoginStatic extends Form {
 		if (dta) {
 			PerfilBox.setLogin(dta.login);
 			PerfilBox.getPerfisByIdUsuario(dta.id);
-			//this.getModView().show(false).showNav(false);
+			this.fireEvent(this.EVENT_LOGIN_SUCCESS,dta);
 		}
 	}
 	private getDados(): void {

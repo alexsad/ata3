@@ -16,20 +16,20 @@ class MenuAdmStatic implements ICustomComponent{
 	private menus: IMenu[];
 	private menu_selected: number;
 	private usuarioPerfis: IUsuarioPerfil[];
-	private idPerfilSelected: number;	
-	public idUsuario: number;
-	public loginUsuario: string;
+	private indPerfil: number;	
 	private perfisVisibles: boolean;
 	private showMenus: boolean;
 	private _avatarcache: number;
 	private _dialogAvatar: Dialog;
+	public idUsuario: number;
+	public loginUsuario: string;
 	public EVENT_CHANGE_PERFIL: string = "perfil:change";
 	public EVENT_SELECT_MODULE: string = "module:click";
 	constructor(){
 		this.menu_selected = 0;
 		this.menus = [];		
 		this.usuarioPerfis = [];
-		this.idPerfilSelected = 0;
+		this.indPerfil = 0;
 		this.idUsuario=1;
 		this.loginUsuario="alex.query";
 		this.perfisVisibles = false;
@@ -65,15 +65,19 @@ class MenuAdmStatic implements ICustomComponent{
 	}
 	private setUsuarioPerfis(p_usuarioPerfis: IUsuarioPerfil[]): void {
 		this.usuarioPerfis = p_usuarioPerfis;
-		this.idPerfilSelected = 0;		
+		this.indPerfil = 0;	
 		if(this.usuarioPerfis.length > 0){
 			this.setIdPerfil(this.usuarioPerfis[0].idPerfil);
 			this.getMenusByIdPerfil(this.usuarioPerfis[0].idPerfil);
 		}
 		//console.log(this.perfis);
 	}
-	setIdPerfil(p_idPerfil:number): void {
-		this.idPerfilSelected = p_idPerfil;
+	private setPerfil(p_index:number):void{
+		this.indPerfil = p_index;
+		this.setIdPerfil(this.usuarioPerfis[p_index].idPerfil);
+		this.perfisVisibles = false;
+	}
+	private setIdPerfil(p_idPerfil:number): void {
 		this.getMenusByIdPerfil(p_idPerfil);	
 		(<ICustomComponent>this).fireEvent(this.EVENT_CHANGE_PERFIL,p_idPerfil);
 	}

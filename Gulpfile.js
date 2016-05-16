@@ -88,6 +88,7 @@ gulp.task('convert_template2IDOM',function(){
     .pipe(replace(/(elementClose)/g,'_IDOM.$1'))
     .pipe(replace(/(text)\(/g,'_IDOM.$1('))
     .pipe(replace(/\}\)\(\)$/g,"})()});"))
+    .pipe(uglify())
     .pipe(gulp.dest(destPackagePathAppView));
 });
 
@@ -128,7 +129,7 @@ gulp.task('ts_view',function(){
             noEmitHelpers:true, 
             suppressImplicitAnyIndexErrors: true
         }))
-        //.pipe(uglify())
+        .pipe(uglify())
         .pipe(gulp.dest(destPackagePathAppView));   
 });
 

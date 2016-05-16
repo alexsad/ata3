@@ -1,0 +1,31 @@
+<if condition="$this.visible">
+	<div each="ievento in $this.atividades" data-indx="{$index}" class="tilecell atividade_list list-group-item col-xs-12 col-sm-4 col-md-4">
+		<div class="col-xs-10">
+			<h5>
+				<span> {ievento.descricao}</span>
+			</h5>
+			<p class="list-group-item-text">{ievento.datalivre.dsData} {ievento.hora}Hs</p>
+			<p class="list-group-item-text">PROPOSITO:{ievento.proposito}</p>
+			<p class="list-group-item-text">LOCAL:{ievento.local} - {ievento.vestuario}</p>	
+			<p class="list-group-item-text">ORCAMENTO:{ievento.orcamento},00R$</p>
+			<p class="list-group-item-text">PARA:{ievento.publicoAlvo}</p>
+		</div>
+		<div class="col-xs-2 actions">
+			<button 
+				if="ievento.idStatus===2" 
+				type="button" 
+				class="{'pull-right btn btn-primary btn-lg btn-round'}"><span 
+					class="{'glyphicon glyphicon-time'}"></span></button>
+			<button 
+				onclick="{$this.edit($index)}" 
+				if="ievento.idStatus===1" 
+				type="button" 
+				class="{'pull-right btn btn-warning btn-lg btn-round'}"><span class="{'glyphicon glyphicon-pencil'}"></span></button>
+			<button 
+				onclick="{$this.send($index)}"
+				if="ievento.idStatus===1" 
+				type="button" 
+				class="{'pull-right btn btn-success btn-lg btn-round'}"><span class="{'glyphicon glyphicon-send'}"></span></button>
+		</div>
+	</div>
+</if>

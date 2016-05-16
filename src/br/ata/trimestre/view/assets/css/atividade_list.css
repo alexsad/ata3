@@ -1,0 +1,17 @@
+.AtividadeForm > div.box-actions > .Button{
+	margin-left:10px;
+}
+.AtividadeForm > div.box-actions > .Button .btnLabel{
+	display:none;
+}
+
+.AtividadeList{
+	margin-top: 10px;
+}
+.AtividadeList > .atividade_list > div.actions button{
+	margin-bottom:4px;
+}
+
+.AtividadeList > .atividade_list > div > h5{
+	margin:0px;
+}

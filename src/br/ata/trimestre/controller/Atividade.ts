@@ -46,7 +46,39 @@ export class Atividade {
 		);
 	}
 
-
+	@Get("/getaprovadaseliberadasbyidtrimestre/:idtrimestre")
+	getAprovadasLiberadasByIdTrimestre(req: server.Request, res: server.Response): void {
+		let idTrimestre: number = req.params.idtrimestre;
+		AtividadeDAO.findAllAssoc({
+			where: {
+				"id_trimestre": idTrimestre
+				,"id_status": { $in: [EAtividadeStatus.LIBERADA, EAtividadeStatus.APROVADA] }
+			}
+		})
+		.then((dta: IAtividade[]) => res.json(dta))
+		.catch((err: any)=>{
+			res.status(400);
+			res.json(err);
+		});
+	}
+	@Get("/getrascunhosenviadasbyidtrimestreidperfil/:idtrimestre/:idperfil")
+	getRascunhosEnviadasByIdTrimestreIdPerfil(req: server.Request, res: server.Response): void {
+		AtividadeDAO.findAll({
+			include: [{
+				all: true
+				, nested: false
+				, model: TrimestreDataLivreDAO
+				, required: false
+			}]
+			, where: {
+				idTrimestre: req.params.idtrimestre
+				, idPerfil: req.params.idperfil
+				, "id_status": { $in: [EAtividadeStatus.ENVIADA, EAtividadeStatus.ELABORADA] }
+			}
+		})
+			.then((dta: IAtividade[]) => res.json(dta))
+			.catch((error: any) => (res.status(400), res.json(error)));
+	}
 	@Get("/getbyidtrimestreidperfil/:idtrimestre/:idperfil")
 	getByIdTrimestreIdPerfil(req: server.Request, res: server.Response): void {
 		AtividadeDAO.findAll({
@@ -60,9 +92,8 @@ export class Atividade {
 				idTrimestre: req.params.idtrimestre
 				, idPerfil: req.params.idperfil
 			}
-		}).then(function(dta: IAtividade[]) {
-			res.json(dta);
 		})
+		.then((dta: IAtividade[]) => res.json(dta))
 		.catch((error: any) => (res.status(400), res.json(error)));
 	}
 	@Get("/gettotalbyidstatus/:idstatus")
@@ -105,9 +136,8 @@ export class Atividade {
 							$in: perfisAlvos
 						}
 					}
-				}).then(function(dta: IAtividade[]) {
-					res.json(dta);
 				})
+				.then((dta: IAtividade[]) => res.json(dta))
 				.catch((error: any) => (res.status(400), res.json(error)));
 			}
 		})

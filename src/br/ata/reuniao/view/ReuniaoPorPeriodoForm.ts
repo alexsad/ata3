@@ -6,6 +6,7 @@ import {IReuniao} from "../model/IReuniao";
 import {IDiscurso} from "../model/IDiscurso";
 import {ReuniaoPeriodoList} from "./ReuniaoPeriodoList";
 import { ICustomComponent} from "lib/underas/core";
+import {EViewSize} from "lib/underas/component";
 
 export class ReuniaoPorPeriodoForm extends Form {
 	itIdDiscurso: TextInput;
@@ -24,7 +25,7 @@ export class ReuniaoPorPeriodoForm extends Form {
 	reuniaoPeriodoList: ReuniaoPeriodoList;
 	constructor() {
 		super();
-		this.setSize(8);
+		this.setSize(12);
 
 		this.mainTb = new ToolBar();
 		this.append(this.mainTb);
@@ -77,16 +78,18 @@ export class ReuniaoPorPeriodoForm extends Form {
 		this.itIdMembro.setValueField("id");
 		this.itIdMembro.setLabelField("nome");
 		this.itIdMembro.setSize(8);
+		this.itIdMembro.setSize(7,EViewSize.EXTRA_SMALL);
 		this.append(this.itIdMembro);
 
 		this.itTempo = new NumericStepper(5);
 		this.itTempo.setName("@tempo");
-		this.itTempo.setLabel("tempo");
-		this.itTempo.setSize(2);
+		this.itTempo.setLabel("tempo");		
 		this.itTempo.setMin(5);
 		this.itTempo.setMax(15);
 		this.itTempo.setStep(5);
 		this.itTempo.setEnable(false, 2);
+		this.itTempo.setSize(2);
+		this.itTempo.setSize(3,EViewSize.EXTRA_SMALL);
 		this.append(this.itTempo);
 
 		this.itTema = new TextInput("");

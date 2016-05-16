@@ -10,7 +10,7 @@ export class TrimestreDataLivre extends CRUDForm<ITrimestreDataLivre>{
 	itSnDisponivel:CheckBox;
 	constructor(){
 		super({ "domain": "trimestredatalivre" });		
-		this.setSize(3);
+		this.setSize(12);
 
 		this.buildToolBar();
 
