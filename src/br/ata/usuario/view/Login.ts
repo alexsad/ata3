@@ -21,6 +21,7 @@ class LoginStatic extends Form {
 	constructor() {
 		super();
 		this.setSize(12);
+		this.addStyleName("FormLogin");
 		
 		this.amAviso = new Alert("");
 		this.amAviso.show(false);

@@ -44,17 +44,13 @@ class ViewAppStatic extends ViewPager {
 	}
 	private buildAtividades():void{
 		this.atividades = new AtividadePorTrimestre();
-		let tmplinkatividade: LinkButton = new LinkButton("ATIVIDADES DA ALA");
+		let tmplinkatividade: LinkButton = new LinkButton("Atividades");
 		tmplinkatividade.setIcon("glyphicon glyphicon-globe");
-
 		this.tabApps.append(tmplinkatividade,this.atividades,true);
-		
-		
-
 	}
 	private buildTrimestre(): void {
 		this.trimestreView = new TrimestreView();
-		let tmplinktrimestre: LinkButton = new LinkButton("MINHAS ATIVIDADES");
+		let tmplinktrimestre: LinkButton = new LinkButton("Meus Rascunhos");
 		tmplinktrimestre.setIcon("glyphicon glyphicon-star");
 
 		this.tabApps.append(tmplinktrimestre, this.trimestreView, false);

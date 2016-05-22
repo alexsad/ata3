@@ -12,7 +12,8 @@
     "restify": "^4.0.4",
     "sequelize": "^3.19.3",
     "sqlite3": "^3.1.1",
-    "incremental-dom": "0.4.1"
+    "incremental-dom": "0.4.1",
+    "moment": "2.13.0"
   },
   "devDependencies": {
     "bower": "^1.4.0",
@@ -28,14 +29,12 @@
     "nodemon": "^1.9.0",
     "rimraf": "^2.5.2",
     "run-sequence": "^1.1.5",
-    "superviews.js": "0.0.8",
     "through-gulp": "^0.5.0",
     "typedoc": "^0.3.12",
     "http-proxy": "^1.13.2",
     "http-proxy-middleware": "^0.14.0",
     "is-glob": "^2.0.1",
     "lodash": "^4.11.2",
-    "micromatch": "^2.3.8",
-    "moment": "2.13.0"
+    "micromatch": "^2.3.8"
   }
 }

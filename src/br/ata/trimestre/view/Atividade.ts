@@ -1,11 +1,13 @@
 import {EBasicColorStatus,EViewSize} from "lib/underas/component";
 import {Form,ToolBar,Box} from "lib/underas/container";
 import {Button} from "lib/underas/button";
-import {TimeInput, TextArea, NumericStepper, Select, CheckBox, TextInput} from "lib/underas/input";
+import {Text,TimeInput, TextArea, NumericStepper, Select, CheckBox, TextInput} from "lib/underas/input";
 import {$http, IRequestConfig} from "lib/underas/http";
 import {IAtividade,EAtividadeStatus} from "../model/ITrimestre";
 
 export class Atividade extends Form{
+
+	title:Text;
 	itIdAtividade: TextInput;
 	itIdTrimestre: TextInput;
 	itCodRefMLS: TextInput;
@@ -33,6 +35,10 @@ export class Atividade extends Form{
 		super();		
 		this.setSize(12);
 		this.addStyleName("AtividadeForm");
+
+		this.title = new Text("");
+		this.title.addStyleName("h4");
+		this.append(this.title);
 
 		this.itIdAtividade = new TextInput();
 		this.itIdAtividade.setLabel("cod.");
@@ -69,7 +75,8 @@ export class Atividade extends Form{
 		this.itDescricao.setLabel("descricao");
 		this.itDescricao.setPlaceHolder("digite a descricao da atividade");
 		this.itDescricao.setSize(8);
-		this.itDescricao.setSize(7,EViewSize.EXTRA_SMALL);
+		this.itDescricao.setSize(7, EViewSize.SMALL);
+		this.itDescricao.setSize(12,EViewSize.EXTRA_SMALL);
 		this.append(this.itDescricao);
 
 		this.itOrcamento = new NumericStepper(0);
@@ -82,7 +89,8 @@ export class Atividade extends Form{
 		this.itOrcamento.setEnable(false, 1);
 		this.itOrcamento.setEnable(false, 3);
 		this.itOrcamento.setSize(4);
-		this.itOrcamento.setSize(5,EViewSize.EXTRA_SMALL)
+		this.itOrcamento.setSize(5, EViewSize.SMALL);
+		this.itOrcamento.setSize(12, EViewSize.EXTRA_SMALL);
 		this.append(this.itOrcamento);
 
 		this.itDtDisponivel = new Select("datas disponiveis");
@@ -91,10 +99,11 @@ export class Atividade extends Form{
 		this.itDtDisponivel.setLabelField("dsData");
 		this.itDtDisponivel.setEnable(false,1);
 		this.itDtDisponivel.setSize(5);
-		this.itDtDisponivel.setSize(6, EViewSize.EXTRA_SMALL);
+		this.itDtDisponivel.setSize(6, EViewSize.SMALL);
+		this.itDtDisponivel.setSize(12, EViewSize.EXTRA_SMALL);
+		this.itDtDisponivel.addEvent("change", this.setDtEvento.bind(this));
 		this.append(this.itDtDisponivel);
-		this.itDtDisponivel.getInput().on("change", this.setDtEvento.bind(this));
-
+		
 		this.itIdData = new Select("data");
 		this.itIdData.setName("@idData");
 		this.itIdData.setPlaceHolder("ex. 31-12-2015");
@@ -103,7 +112,8 @@ export class Atividade extends Form{
 		this.itIdData.setLabel("data");
 		this.itIdData.setEnable(false);
 		this.itIdData.setSize(4);
-		this.itIdData.setSize(6, EViewSize.EXTRA_SMALL);
+		this.itIdData.setSize(6, EViewSize.SMALL);
+		this.itIdData.setSize(12, EViewSize.EXTRA_SMALL);
 		this.append(this.itIdData);		
 
 		this.itHora = new TimeInput("19:00");
@@ -111,7 +121,8 @@ export class Atividade extends Form{
 		this.itHora.setPlaceHolder("hora da atividade ex. 19:00");
 		this.itHora.setLabel("hora");
 		this.itHora.setSize(3);
-		this.itHora.setSize(6,EViewSize.EXTRA_SMALL);
+		this.itHora.setSize(6, EViewSize.SMALL);
+		this.itHora.setSize(12,EViewSize.EXTRA_SMALL);
 		this.append(this.itHora);
 
 		this.itLocal = new TextInput("capela");
@@ -119,23 +130,26 @@ export class Atividade extends Form{
 		this.itLocal.setLabel("local");
 		this.itLocal.setPlaceHolder("local da atividade");
 		this.itLocal.setSize(12);
-		this.itLocal.setSize(6, EViewSize.EXTRA_SMALL);
+		this.itLocal.setSize(6, EViewSize.SMALL);
+		this.itLocal.setSize(12, EViewSize.EXTRA_SMALL);
 		this.append(this.itLocal);
 
 		this.itPublicoAlvo = new TextInput("");
 		this.itPublicoAlvo.setName("@publicoAlvo");
 		this.itPublicoAlvo.setLabel("publico alvo");
 		this.itPublicoAlvo.setPlaceHolder("digite o publico da atividade ex. toda a ala");
-		this.itPublicoAlvo.setSize(6);
 		this.itPublicoAlvo.setMaxLength(220);
+		this.itPublicoAlvo.setSize(6);
+		this.itPublicoAlvo.setSize(12, EViewSize.EXTRA_SMALL);
 		this.append(this.itPublicoAlvo);
 
 		this.itVestuario = new TextInput("no padrao");
 		this.itVestuario.setName("@vestuario");
 		this.itVestuario.setLabel("vestuario");
 		this.itVestuario.setPlaceHolder("digite o vestuario da atividade ex. no esporte fino");
-		this.itVestuario.setSize(6);
 		this.itVestuario.setMaxLength(150);
+		this.itVestuario.setSize(6);
+		this.itVestuario.setSize(12, EViewSize.EXTRA_SMALL);
 		this.append(this.itVestuario);
 
 		this.itIdOrganizacao = new Select("organizacao");
@@ -144,6 +158,7 @@ export class Atividade extends Form{
 		this.itIdOrganizacao.setValueField("id");
 		this.itIdOrganizacao.setLabelField("descricao");
 		this.itIdOrganizacao.setSize(5);
+		this.itIdOrganizacao.setSize(12,EViewSize.EXTRA_SMALL);
 		this.append(this.itIdOrganizacao);	
 
 		this.itIdResponsavel = new Select("responsavel");
@@ -152,22 +167,23 @@ export class Atividade extends Form{
 		this.itIdResponsavel.setValueField("id");
 		this.itIdResponsavel.setLabelField("nome");
 		this.itIdResponsavel.setSize(7);
+		this.itIdResponsavel.setSize(12,EViewSize.EXTRA_SMALL);
 		this.append(this.itIdResponsavel);
 
 		this.itProposito = new TextInput("");
 		this.itProposito.setName("@proposito");
 		this.itProposito.setPlaceHolder("digite o proposito da atividade");
-		this.itProposito.setLabel("proposito");
-		this.itProposito.setSize(12);
+		this.itProposito.setLabel("proposito");		
 		this.itProposito.setMaxLength(300);
+		this.itProposito.setSize(12);
 		this.append(this.itProposito);
 
 		this.itDetalhes = new TextArea("");
 		this.itDetalhes.setName("@detalhes");
 		this.itDetalhes.setLabel("detalhes");
 		this.itDetalhes.setPlaceHolder("digite os detalhes da atividade");
-		this.itDetalhes.setSize(12);
 		this.itDetalhes.setMaxLength(300);
+		this.itDetalhes.setSize(12);
 		this.append(this.itDetalhes);
 
 		let toolbar = new Box();
@@ -209,6 +225,11 @@ export class Atividade extends Form{
 	}
 	setAtividade(p_atividade:IAtividade):void{
 		this.setFormItem(p_atividade);
+		if(p_atividade.id){
+			this.title.setText("Alterar Rascunho!");
+		}else{
+			this.title.setText("Adicionar Rascunho!");
+		}
 	}
 	setIdTrimestreIdPerfilSaldo(p_idTrimestre:number,p_idPerfil:number,p_saldo:number):void{
         this.clearFormItem();		

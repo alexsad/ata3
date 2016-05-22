@@ -8,10 +8,10 @@ requirejs.config({
 			,'jspdfreport':'lib/jspdf/jspdfreport'
 			,'cookies':'lib/cookies-js/dist/cookies.min'
 			,'idom':'../../node_modules/incremental-dom/dist'
+			,'moment':'../../node_modules/moment/min/moment.min'
 			,'bootstrap-datepicker':'lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min'
 			,'bootstrap-datepicker-locale-pt-BR':'lib/bootstrap-datepicker/dist/locales/bootstrap-datepicker.pt-BR.min'
-			,'farbtastic':'lib/farbtastic/farbtastic'
-            ,'moment':'../../node_modules/moment/min/moment.min'
+			,'farbtastic':'lib/farbtastic/farbtastic'            
 		}
 		,shim: {
 	        //"jspdf" : { exports : "jsPDF" }	   

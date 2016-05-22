@@ -1,5 +1,5 @@
 .menu-app-adm{
-  width: 250px;
+  width: 290px;
   height: 100%;
   display: block;
   position: absolute;
@@ -7,7 +7,7 @@
   z-index:999;
 }
 .menu-app-adm.is-hidden{
-  left:-250px;
+  left:-290px;
 }
 .menu-app-adm.is-visible{
   left:0px;
@@ -22,7 +22,7 @@
 .menu-app-adm ul li a {
   border-bottom: 1px solid #ddd;
   display: block;
-  width: 240px;
+  width: 285px;
   padding: 10px;
   text-decoration: none;
 }
