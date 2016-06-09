@@ -38,11 +38,11 @@ export class Certificado extends CRUDForm<ICertificado>{
 		this.buildTileList({ itemViewResource: "certificado/view/assets/html/certificado" });
 	}
 	onStart():void{		
-		this.addEvent(CRUDForm.EVENT_BEFORE_SAVE, (evt: Event, p_cert: ICertificado) => {
+		this.onBeforeSave.subscribe((p_cert: ICertificado) => {
 			//console.log(p_cert.pin);
 			p_cert.pin = p_cert.pin + " alterado por mim";
-			if (p_cert.pin.indexOf("2007") > 0) {
-				evt.preventDefault();
+			if (p_cert.pin.indexOf("2007") > 0){
+				this.onBeforeSave.cancel();
 			}
 		});
 		this.reloadItens();

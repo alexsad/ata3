@@ -15,7 +15,7 @@ export declare class Tab extends AContainer {
     private showTab(evt);
     private onClickTab(evt);
     private onCloseTab(evt);
-    private setActiveIndex();
+    setActiveTab(p_index: number): void;
     prepend(p_button: LinkButton, p_childtoappend: Box | Painel | Form, p_show_on_append?: boolean): void;
     append(p_button: LinkButton, p_childtoappend: Box | Painel | Form, p_show_on_append?: boolean): void;
     private appendElement(p_button, p_childtoappend, p_type_append, p_show_on_append);

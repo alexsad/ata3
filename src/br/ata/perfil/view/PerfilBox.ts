@@ -5,12 +5,10 @@ import {IUsuarioPerfil} from "../../usuario/model/IUsuario";
 import MenuAdm = require("../../menu/view/MenuAdm");
 import {ICustomComponent} from "lib/underas/core";
 
-declare var require: any;
-
 class PerfilBoxStatic {
-	_perfilSelected: string;
-	idUsuario: number;
-	idPerfil: number;
+	private _perfilSelected: string;
+	public idUsuario: number;
+	public idPerfil: number;
 	private login: string;
 	//_notificacoes: NotifyPool;	
 	private _idbox: string;
@@ -31,7 +29,7 @@ class PerfilBoxStatic {
 		this.idUsuario = p_idUsuario;
 		MenuAdm.idUsuario = p_idUsuario;
 		//MenuAdm.appendTo("#main_menu_adm");
-		(<ICustomComponent>MenuAdm).addEvent(MenuAdm.EVENT_CHANGE_PERFIL, (evt: Event, idPerfil: number) => this.setIdPerfil(idPerfil));
+		MenuAdm.onChangePerfil.subscribe((idPerfil: number) => this.setIdPerfil(idPerfil));
 		MenuAdm.getPerfisUsuarioByIdUsuario(p_idUsuario);
 		MenuAdm.loginUsuario = this.login;
 	}

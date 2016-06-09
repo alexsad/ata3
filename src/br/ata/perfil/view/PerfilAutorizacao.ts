@@ -9,11 +9,11 @@ import {IPerfilAutorizacao, EPerfilAutorizacaoTP} from "../model/IPerfilAutoriza
 import {PerfilView} from "./PerfilView";
 
 export class PerfilAutorizacao extends CRUDForm<IPerfilAutorizacao>{
-	itPerfil: Select;
-	itIdPerfilAutorizacao: TextInput;
-	itTpAutorizacao: CheckBox;
-	itPerfilAlvo: Select;
-	aviso: Alert;
+	private itPerfil: Select;
+	private itIdPerfilAutorizacao: TextInput;
+	private itTpAutorizacao: CheckBox;
+	private itPerfilAlvo: Select;
+	private aviso: Alert;
 	constructor() {
 		super({"domain": "perfilautorizacao"});		
 		this.setSize(8);
@@ -61,7 +61,7 @@ export class PerfilAutorizacao extends CRUDForm<IPerfilAutorizacao>{
 	
 		this.addEvent("module:start",()=>this.onStart());
 
-		this.addEvent(PerfilAutorizacao.EVENT_AFTER_SAVE, (evt: Event, p_obj: IPerfilAutorizacao) => this.afterSave(p_obj));
+		this.onAfterSave.subscribe((p_obj: IPerfilAutorizacao) => this.afterSave(p_obj));
 	}
 	onStart(): void {
 		this.itPerfil.fromService({

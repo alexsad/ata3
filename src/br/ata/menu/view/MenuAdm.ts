@@ -1,4 +1,4 @@
-import {Render,ICustomComponent} from "lib/underas/core";
+import {Render,ICustomComponent,EventEmitter} from "lib/underas/core";
 import {ViewPager,Dialog} from "lib/underas/container";
 
 import {$http} from "lib/underas/http";
@@ -23,8 +23,8 @@ class MenuAdmStatic implements ICustomComponent{
 	private _dialogAvatar: Dialog;
 	public idUsuario: number;
 	public loginUsuario: string;
-	public EVENT_CHANGE_PERFIL: string = "perfil:change";
-	public EVENT_SELECT_MODULE: string = "module:click";
+	public onChangeModule: EventEmitter<IItemMenu> = new EventEmitter();
+	public onChangePerfil: EventEmitter<number> = new EventEmitter();
 	constructor(){
 		this.menu_selected = 0;
 		this.menus = [];		
@@ -57,7 +57,7 @@ class MenuAdmStatic implements ICustomComponent{
 			,ordem: 0
 			,idMenu: 0
 		};
-		(<ICustomComponent>this).fireEvent(this.EVENT_SELECT_MODULE,tmpMod);
+		this.onChangeModule.emit(tmpMod);
 	}
 	private setMenu(p_menu:IMenu[]):void{
 		this.menus = p_menu;
@@ -79,7 +79,7 @@ class MenuAdmStatic implements ICustomComponent{
 	}
 	private setIdPerfil(p_idPerfil:number): void {
 		this.getMenusByIdPerfil(p_idPerfil);	
-		(<ICustomComponent>this).fireEvent(this.EVENT_CHANGE_PERFIL,p_idPerfil);
+		this.onChangePerfil.emit(p_idPerfil);
 	}
 	getPerfisUsuarioByIdUsuario(p_idUsuario: number): void {		
 		$http

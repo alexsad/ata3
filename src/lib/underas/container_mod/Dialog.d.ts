@@ -1,6 +1,5 @@
 import { AContainer } from "./abstract/AContainer";
 import { Form } from "./Form";
-import { IBlockContainer } from "./interface/IBlockContainer";
 export declare class Dialog extends AContainer {
     private _title;
     private _urlModule;
@@ -13,5 +12,4 @@ export declare class Dialog extends AContainer {
     setTitle(p_title: string): void;
     setMsg(p_msg: string): void;
     setUrlModule(p_url_m: string): void;
-    blockContainer: IBlockContainer;
 }

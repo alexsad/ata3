@@ -1,18 +1,17 @@
 import {IconPickerInput,NumericStepper, TextInput, Select} from "lib/underas/input";
 import {CRUDForm} from "../../form/view/CRUDForm";
 import {IRequestConfig, $http} from "lib/underas/http";
-import {SystemApplication} from "lib/underas/core";
+import {SystemApplication,EventEmitter} from "lib/underas/core";
 import {IItemMenu, IModulo} from "../model/IPerfil";
 
 export class ItemMenu extends CRUDForm<IItemMenu>{
-	itIdItemMenu: TextInput;
-	itIdMenu: TextInput;
-	itLabel: TextInput;
-	itFuncao: Select;
-	itTela: Select;
-	itIcone: IconPickerInput;
-	itOrdem: NumericStepper;
-
+	private itIdItemMenu: TextInput;
+	private itIdMenu: TextInput;
+	private itLabel: TextInput;
+	private itFuncao: Select;
+	private itTela: Select;
+	private itIcone: IconPickerInput;
+	private itOrdem: NumericStepper;
 	constructor() {
 		super({ "domain": "itemmenu" });
 		this.setSize(3);
@@ -88,9 +87,9 @@ export class ItemMenu extends CRUDForm<IItemMenu>{
 			rootUrl: tmpUrl
 			, url: "assets/modulo.json?rev="+ SystemApplication.getProjectVersion()
 		});
-		this.addEvent(ItemMenu.EVENT_BEFORE_INSERT, (evt: Event) => this.check(evt));
-		this.addEvent(ItemMenu.EVENT_BEFORE_UPDATE, (evt: Event) => this.check(evt));
-		this.addEvent(ItemMenu.EVENT_BEFORE_DELETE, (evt: Event) => this.check(evt));
+		this.onBeforeInsert.subscribe(() => this.check(this.onBeforeInsert));
+		this.onBeforeUpdate.subscribe(() => this.check(this.onBeforeUpdate));
+		this.onBeforeDelete.subscribe(() => this.check(this.onBeforeDelete));
 	}
 	private onReceiveAcoes(dta: IModulo[]): void {
 		var tmpIdModule: string = this.itTela.getValue();
@@ -122,9 +121,9 @@ export class ItemMenu extends CRUDForm<IItemMenu>{
 			.get("itemmenu/getbyidmenu/" + p_idMenu)
 			.done((dta: IItemMenu[]) => this.mainList.setDataProvider(dta));
 	}
-	private check(evt: Event): void {
+	private check(evt: EventEmitter<IRequestConfig>): void {
 		if (!this.itIdMenu.getValue()) {
-			evt.preventDefault();
+			evt.cancel();
 		};
 	}
 }

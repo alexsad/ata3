@@ -30,6 +30,7 @@ export declare abstract class AVisualComponent implements IVisualComponent {
     setSize(p_size: number, ...p_views: EViewSize[]): void;
     setOffSet(p_size: number, ...p_views: EViewSize[]): void;
     show(p_show: boolean): void;
+    isVisible(): boolean;
     addEvent(p_on: string, p_event_fn: Function): void;
     fireEvent(p_event: string, ...p_params: any[]): IEvent;
     removeEvent(p_event?: string, p_function?: Function): void;

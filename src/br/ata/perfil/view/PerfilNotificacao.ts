@@ -5,10 +5,10 @@ import {IPerfilNotificacao, IModulo, IModuloAcao} from "../model/IPerfil";
 import {CRUDForm} from "../../form/view/CRUDForm";
 
 export class PerfilNotificacao extends CRUDForm<IPerfilNotificacao>{
-	itIdPerfilNotificacao: TextInput;
-	itIdPerfil: Select;
-	itDescricao: TextInput;
-	itMascara: TextInput;
+	private itIdPerfilNotificacao: TextInput;
+	private itIdPerfil: Select;
+	private itDescricao: TextInput;
+	private itMascara: TextInput;
 	itDtInicial: DatePickerInput;
 	itDtFinal: DatePickerInput;
 	itLimiteMax: NumericStepper;

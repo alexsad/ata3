@@ -1,15 +1,15 @@
 import {IconPickerInput,NumericStepper,TextInput,Select} from "lib/underas/input";
 import {CRUDForm} from "../../form/view/CRUDForm";
 import {IRequestConfig,$http} from "lib/underas/http";
-import {SystemApplication} from "lib/underas/core";
+import {SystemApplication,EventEmitter} from "lib/underas/core";
 import {IMenu} from "../model/IPerfil";
 
 export class Menu extends CRUDForm<IMenu>{
-	itIdMenu: TextInput;
-	itIdPerfil: TextInput;
-	itLabel: TextInput;
-	itIcone: IconPickerInput;
-	itOrdem: NumericStepper;
+	private itIdMenu: TextInput;
+	private itIdPerfil: TextInput;
+	private itLabel: TextInput;
+	private itIcone: IconPickerInput;
+	private itOrdem: NumericStepper;
 	constructor(){
 		super({ "domain": "menu" });		
 		this.setSize(5);
@@ -61,9 +61,9 @@ export class Menu extends CRUDForm<IMenu>{
 			rootUrl: SystemApplication.getLocation()
 			, url: "assets/icons.json?rev_" + SystemApplication.getProjectVersion()
 		});
-		this.addEvent(Menu.EVENT_BEFORE_INSERT, (evt: Event) => this.check(evt));
-		this.addEvent(Menu.EVENT_BEFORE_UPDATE, (evt: Event) => this.check(evt));
-		this.addEvent(Menu.EVENT_BEFORE_DELETE, (evt: Event) => this.check(evt));
+		this.onBeforeInsert.subscribe((evt: IRequestConfig) => this.check(this.onBeforeInsert));
+		this.onBeforeUpdate.subscribe((evt: IRequestConfig) => this.check(this.onBeforeUpdate));
+		this.onBeforeDelete.subscribe((evt: IRequestConfig) => this.check(this.onBeforeDelete));
 	}
 	getByIdPerfil(p_idPerfil:number):void{
 		this.itIdPerfil.setValue(p_idPerfil+"");
@@ -71,9 +71,9 @@ export class Menu extends CRUDForm<IMenu>{
 			.get("menu/getbyidperfil/" + p_idPerfil)
 			.done((dta: IMenu[]) => this.mainList.setDataProvider(dta));
 	}
-	private check(evt: Event): void {
+	private check(evt: EventEmitter<IRequestConfig>): void {
 		if (!this.itIdPerfil.getValue()) {
-			evt.preventDefault();
+			evt.cancel();
 		};
 	}
 }

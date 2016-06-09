@@ -3,7 +3,6 @@ import { Form } from "./Form";
 import { Dialog } from "./Dialog";
 import { Tab } from "./Tab";
 import { EBasicColorStatus } from "../core_mod/enum/EBasicColorStatus";
-import { IBlockContainer } from "./interface/IBlockContainer";
 export declare class Painel extends AContainer {
     title: string;
     constructor(p_subtitle: string);
@@ -14,5 +13,4 @@ export declare class Painel extends AContainer {
     private appendElement(p_childtoappend, p_type_append?);
     prepend(p_childtoappend: Form | Dialog | Tab | Painel): void;
     append(p_childtoappend: Form | Dialog | Tab | Painel): void;
-    blockContainer: IBlockContainer;
 }

@@ -17,20 +17,16 @@ export class Perfil extends Box {
 		this.append(this.menuForm);
 
 		this.itemMenuForm = new ItemMenu();
-		this.append(this.itemMenuForm);
-
-		
+		this.append(this.itemMenuForm);		
 	}
 	onStart(): void {
 		this.perfilForm.onStart();
-		this.perfilForm.addEvent(
-			PerfilForm.EVENT_ITEM_CHANGE
-			, (evt: Event, {id}: IPerfil) => this.menuForm.getByIdPerfil(id)
+		this.perfilForm.onItemChange.subscribe(
+			({id}:IPerfil) => this.menuForm.getByIdPerfil(id)
 		);
 		this.menuForm.onStart();
-		this.menuForm.addEvent(
-			Menu.EVENT_ITEM_CHANGE
-			, (evt: Event, {id}: IMenu) => this.itemMenuForm.getByIdMenu(id)
+		this.menuForm.onItemChange.subscribe(
+			({id}:IMenu) => this.itemMenuForm.getByIdMenu(id)
 		);
 		this.itemMenuForm.onStart();
 	}

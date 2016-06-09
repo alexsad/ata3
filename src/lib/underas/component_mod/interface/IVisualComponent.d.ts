@@ -11,6 +11,7 @@ export interface IVisualComponent {
     addStyleName(p_class_names: string): void;
     removeStyleName(p_class_names: string): void;
     setStyleName(p_class_names: string): void;
+    isVisible(): boolean;
 }
 export interface IViewSize {
     col: string;

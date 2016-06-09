@@ -3,10 +3,10 @@ import {CRUDForm} from "../../form/view/CRUDForm";
 import {IPerfil} from "../model/IPerfil";
 
 export class PerfilForm extends CRUDForm<IPerfil>{
-	itIdPerfil:TextInput;	 
-	itNome:TextInput;	 
-	itComentario:TextInput;
-	itSnAtivo:CheckBox;	 
+	private itIdPerfil:TextInput;	 
+	private itNome:TextInput;	 
+	private itComentario:TextInput;
+	private itSnAtivo:CheckBox;	 
 	constructor(){
 		super({ "domain": "perfil" });			
 		this.setSize(4);

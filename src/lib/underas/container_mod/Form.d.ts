@@ -6,7 +6,6 @@ import { IButton } from "../button_mod/interface/IButton";
 import { ToolBar } from "./ToolBar";
 import { IInput } from "../input_mod/interface/IInput";
 import { ICustomComponent } from "../core_mod/interface/ICustomComponent";
-import { IBlockContainer } from "./interface/IBlockContainer";
 export declare class Form extends AContainer {
     private config;
     private _isforms;
@@ -22,5 +21,4 @@ export declare class Form extends AContainer {
     getIdField(): string;
     private getFieldDescByName(desc);
     getColumns(): IFormColumn[];
-    blockContainer: IBlockContainer;
 }
